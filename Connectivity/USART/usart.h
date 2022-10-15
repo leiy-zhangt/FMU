@@ -14,17 +14,17 @@
 
 //不使用某个串口时要禁止此串口，以减少编译量
 #define EN_USART1 			1		//使能（1）/禁止（0）串口1
-#define EN_USART2 			1		//使能（1）/禁止（0）串口2
-#define EN_USART3 			1		//使能（1）/禁止（0）串口3
+#define EN_USART2 			0		//使能（1）/禁止（0）串口2
+#define EN_USART3 			0		//使能（1）/禁止（0）串口3
 
 	  	
 extern uint8_t  USART1_RX_BUF[USART1_REC_LEN]; //接收缓冲,最大USART_REC_LEN个字节.末字节为换行符 
 extern uint8_t  USART2_RX_BUF[USART2_REC_LEN]; //接收缓冲,最大USART_REC_LEN个字节.末字节为换行符
 extern uint8_t  USART3_RX_BUF[USART3_REC_LEN]; //接收缓冲,最大USART_REC_LEN个字节.末字节为换行符
  
-extern u16 USART1_RX_STA;         		//接收状态标记	
-extern u16 USART2_RX_STA;         		//接收状态标记	
-extern u16 USART3_RX_STA;         		//接收状态标记	
+extern uint16_t USART1_RX_STA;         		//接收状态标记	
+extern uint16_t USART2_RX_STA;         		//接收状态标记	
+extern uint16_t USART3_RX_STA;         		//接收状态标记	
 
 //函数声明
 void USART1_Configuration(uint32_t bound,FunctionalState ITStatus);//串口1初始化并启动
@@ -33,6 +33,6 @@ void USART3_Configuration(uint32_t bound,FunctionalState ITStatus);//串口3初�
 void USART1_printf(char* fmt,...); //串口1的专用printf函数
 void USART2_printf(char* fmt,...); //串口2的专用printf函数
 void USART3_printf(char* fmt,...); //串口3的专用printf函数
-void Command_Execute(USART_TypeDef* USARTx);
+
 #endif
 

@@ -1,9 +1,10 @@
 #ifndef __LED_H
 #define __LED_H	 
-#include "sys.h" 
+#include "sys.h"
+#include "delay.h" 
 
-#define LED PAout(0) //PA0
+#define LED PAout(11) //PA11
 
-void LED_Init(void);	//IO³õÊ¼»¯
+void LED_Init(void);	//LEDåˆå§‹åŒ–å‡½æ•°
 
 #endif

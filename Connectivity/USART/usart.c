@@ -32,7 +32,7 @@ uint8_t USART1_RX_BUF[USART1_REC_LEN];     //接收缓冲,最大USART_REC_LEN个
 //bit15，	接收完成标志
 //bit14，	接收到0x0d
 //bit13~0，	接收到的有效字节数目
-u16 USART1_RX_STA=0;       //接收状态标记	  
+uint16_t USART1_RX_STA=0;       //接收状态标记	  
 
 /*
 USART1专用的printf函数
@@ -123,7 +123,7 @@ uint8_t USART2_RX_BUF[USART2_REC_LEN];     //接收缓冲,最大USART_REC_LEN个
 //bit15，	接收完成标志
 //bit14，	接收到0x0d
 //bit13~0，	接收到的有效字节数目
-u16 USART2_RX_STA=0;       //接收状态标记	  
+uint16_t USART2_RX_STA=0;       //接收状态标记	  
 
 /*
 USART2专用的printf函数
@@ -223,7 +223,7 @@ uint8_t USART3_RX_BUF[USART3_REC_LEN];     //接收缓冲,最大USART_REC_LEN个
 //bit15，	接收完成标志
 //bit14，	接收到0x0d
 //bit13~0，	接收到的有效字节数目
-u16 USART3_RX_STA=0;       //接收状态标记	  
+uint16_t USART3_RX_STA=0;       //接收状态标记	  
 
 /*
 USART3专用的printf函数

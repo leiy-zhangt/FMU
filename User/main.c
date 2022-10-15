@@ -24,7 +24,10 @@ int main(void)
   //    LED = 1;
     while(1)
     {
-      //注释删除测试
+      LED = 1;
+      delay_ms(1000);
+      LED = 0;
+      delay_ms(1000);
     }
 }
 

@@ -66,25 +66,25 @@ void I2C2_Configuration(void)
 
 void I2C_SendByte(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t WriteAddr,uint8_t Data)
 {
-    I2C_GenerateSTART(I2C,ENABLE);
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT));
-    I2C_Send7bitAddress(I2C,SlaveAddr,I2C_Direction_Transmitter);
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-    I2C_SendData(I2C,WriteAddr);
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_TRANSMITTED));    
-    I2C_SendData(I2C,Data);
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-    I2C_GenerateSTOP(I2C,ENABLE);
+  I2C_GenerateSTART(I2C,ENABLE);
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT));
+  I2C_Send7bitAddress(I2C,SlaveAddr,I2C_Direction_Transmitter);
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+  I2C_SendData(I2C,WriteAddr);
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_TRANSMITTED));    
+  I2C_SendData(I2C,Data);
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  I2C_GenerateSTOP(I2C,ENABLE);
 }
 
-void I2C_SendBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t WriteAddr,uint8_t *buffer,u16 length)
+void I2C_SendBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t WriteAddr,uint8_t *buffer,uint16_t length)
 {
-    while(I2C_GetFlagStatus(I2C,I2C_FLAG_BUSY));
-    I2C_GenerateSTART(I2C,ENABLE);
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT));	//清除 EV5
+  while(I2C_GetFlagStatus(I2C,I2C_FLAG_BUSY));
+  I2C_GenerateSTART(I2C,ENABLE);
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT));	//清除 EV5
 	I2C_Send7bitAddress(I2C,SlaveAddr, I2C_Direction_Transmitter); //写入器件地址
 	while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));//清除 EV6
-    I2C_SendData(I2C,WriteAddr); //内部功能地址
+  I2C_SendData(I2C,WriteAddr); //内部功能地址
 	while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_TRANSMITTED));//移位寄存器非空，数据寄存器已空，产生EV8，发送数据到DR既清除该事件
 	while(length--){ //循环发送数据	
 		I2C_SendData(I2C,*buffer); //发送数据
@@ -96,7 +96,7 @@ void I2C_SendBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t WriteAddr,uint8_t
 
 uint8_t I2C_ReadByte(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t ReadAddr)      //I2C读取一个字节
 { 
-    uint8_t res;
+  uint8_t res;
 	while(I2C_GetFlagStatus(I2C,I2C_FLAG_BUSY));
 	I2C_GenerateSTART(I2C,ENABLE);
 	while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT));
@@ -110,37 +110,38 @@ uint8_t I2C_ReadByte(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t ReadAddr)      /
 	while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
 	I2C_AcknowledgeConfig(I2C,DISABLE); //最后有一个数据时关闭应答位
 	I2C_GenerateSTOP(I2C,ENABLE);	//最后一个数据时使能停止位
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_RECEIVED));
-    res = I2C_ReceiveData(I2C);
-    I2C_AcknowledgeConfig(I2C,ENABLE);
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_RECEIVED));
+  res = I2C_ReceiveData(I2C);
+  I2C_AcknowledgeConfig(I2C,ENABLE);
 	return res;
 }
 
-void I2C_ReadBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t ReadAddr,uint8_t* buffer,u16 length)
+void I2C_ReadBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t ReadAddr,uint8_t* buffer,uint16_t length)
 { //I2C读取数据串（器件地址，寄存器，内部地址，数量）
-    while(I2C_GetFlagStatus(I2C,I2C_FLAG_BUSY));
-    I2C_GenerateSTART(I2C,ENABLE);//开启信号
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT));	//清除 EV5
-    I2C_Send7bitAddress(I2C,SlaveAddr,I2C_Direction_Transmitter); //写入器件地址
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));//清除 EV6
-    //	I2C_Cmd(I2C,ENABLE);
-    I2C_SendData(I2C,ReadAddr); //发送读的地址
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_TRANSMITTED)); //清除 EV8
-    I2C_GenerateSTART(I2C,ENABLE); //开启信号
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT)); //清除 EV5
-    I2C_Send7bitAddress(I2C,SlaveAddr,I2C_Direction_Receiver); //将器件地址传出，主机为读
-    while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED)); //清除EV6
-    while(length){
-        if(length == 1){ //只剩下最后一个数据时进入 if 语句
-            I2C_AcknowledgeConfig(I2C,DISABLE); //最后有一个数据时关闭应答位
-            I2C_GenerateSTOP(I2C,ENABLE);	//最后一个数据时使能停止位
-        }
-        if(I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_RECEIVED)){ //读取数据
-            *buffer = I2C_ReceiveData(I2C);//调用库函数将数据取出到 pBuffer
-            buffer++; //指针移位
-            length--; //字节数减 1 
-        }
+  while(I2C_GetFlagStatus(I2C,I2C_FLAG_BUSY));
+  I2C_GenerateSTART(I2C,ENABLE);//开启信号
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT));	//清除 EV5
+  I2C_Send7bitAddress(I2C,SlaveAddr,I2C_Direction_Transmitter); //写入器件地址
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));//清除 EV6
+  //	I2C_Cmd(I2C,ENABLE);
+  I2C_SendData(I2C,ReadAddr); //发送读的地址
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_TRANSMITTED)); //清除 EV8
+  I2C_GenerateSTART(I2C,ENABLE); //开启信号
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_MODE_SELECT)); //清除 EV5
+  I2C_Send7bitAddress(I2C,SlaveAddr,I2C_Direction_Receiver); //将器件地址传出，主机为读
+  while(!I2C_CheckEvent(I2C,I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED)); //清除EV6
+  while(length)
+  {
+    if(length == 1){ //只剩下最后一个数据时进入 if 语句
+      I2C_AcknowledgeConfig(I2C,DISABLE); //最后有一个数据时关闭应答位
+      I2C_GenerateSTOP(I2C,ENABLE);	//最后一个数据时使能停止位
     }
-    I2C_AcknowledgeConfig(I2C,ENABLE);
+    if(I2C_CheckEvent(I2C,I2C_EVENT_MASTER_BYTE_RECEIVED)){ //读取数据
+      *buffer = I2C_ReceiveData(I2C);//调用库函数将数据取出到 pBuffer
+      buffer++; //指针移位
+      length--; //字节数减 1 
+    }
+  }
+  I2C_AcknowledgeConfig(I2C,ENABLE);
 }
 

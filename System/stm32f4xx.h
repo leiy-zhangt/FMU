@@ -491,17 +491,17 @@ typedef __I int32_t vsc32;  /*!< Read Only */
 typedef __I int16_t vsc16;  /*!< Read Only */
 typedef __I int8_t vsc8;   /*!< Read Only */
 
-typedef uint32_t  uint32_t;
+typedef uint32_t  u32;
 typedef uint16_t u16;
-typedef uint8_t  uint8_t;
+typedef uint8_t  u8;
 
 typedef const uint32_t uc32;  /*!< Read Only */
 typedef const uint16_t uc16;  /*!< Read Only */
 typedef const uint8_t uc8;   /*!< Read Only */
 
-typedef __IO uint32_t  vuint32_t;
+typedef __IO uint32_t  vu32;
 typedef __IO uint16_t vu16;
-typedef __IO uint8_t  vuint8_t;
+typedef __IO uint8_t  vu8;
 
 typedef __I uint32_t vuc32;  /*!< Read Only */
 typedef __I uint16_t vuc16;  /*!< Read Only */

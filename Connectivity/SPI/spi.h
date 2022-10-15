@@ -25,7 +25,7 @@
 
 void SPI1_Configuration(void);			//初始化SPI1 
 void SPI2_Configuration(void);          //初始化SPI2 
-u16 SPI_ReadWriteByte(SPI_TypeDef* SPI, u16 Data);//SPI1总线读写一个字节
+uint16_t SPI_ReadWriteByte(SPI_TypeDef* SPI, uint16_t Data);//SPI1总线读写一个字节
 		 
 #endif
 

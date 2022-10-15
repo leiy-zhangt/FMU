@@ -25,9 +25,9 @@ void I2C1_Configuration(void);
 void I2C2_Configuration(void);
 
 void I2C_SendByte(I2C_TypeDef* I2C,uint8_t SlaverAddr,uint8_t WriteAddr,uint8_t Data);
-void I2C_SendBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t WriteAddr,uint8_t *buffer,u16 length);
+void I2C_SendBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t WriteAddr,uint8_t *buffer,uint16_t length);
 uint8_t I2C_ReadByte(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t ReadAddr);
-void I2C_ReadBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t ReadAddr,uint8_t* buffer,u16 length);
+void I2C_ReadBuffer(I2C_TypeDef* I2C,uint8_t SlaveAddr,uint8_t ReadAddr,uint8_t* buffer,uint16_t length);
 
 #endif
 
