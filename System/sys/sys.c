@@ -35,7 +35,7 @@ __asm void MSR_MSP(u32 addr)
 //设置中断分组
 void NVIC_Configuration(void)  
 { 
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);	
 }
 
 void RCC_Configuration(void)

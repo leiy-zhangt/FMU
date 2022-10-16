@@ -1,7 +1,7 @@
 #include "led.h"
 
 
-void LED_Init(void)
+void LED_Configuration(void)
 {
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);//开启时钟
   GPIO_InitTypeDef  GPIO_InitStructure;

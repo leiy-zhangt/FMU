@@ -5,6 +5,6 @@
 
 #define LED PAout(11) //PA11
 
-void LED_Init(void);	//LED初始化函数
+void LED_Configuration(void);	//LED初始化函数
 
 #endif
