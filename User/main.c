@@ -30,12 +30,13 @@ int main(void)
     {
 //      BMM150_SendData(0x4C,0x2B);
       BMM150_MeasureGet(&BMM150_Data);
+      printf("x:%d   y:%d   z:%d   c:%d\r\n",BMM150_Data.data_x_int,BMM150_Data.data_y_int,BMM150_Data.data_z_int,BMM150_Data.data_rhall_uint);
       printf("x:%0.4f   y:%0.4f   z:%0.4f\r\n",BMM150_Data.data_x,BMM150_Data.data_y,BMM150_Data.data_z);
 //      BMM150_Trim_Get(&BMM150_Trim);
 //      BMM150_ReadBuffer(0x4E,buffer,1);
 //      printf("%c\r\n",res);
       LED = !LED;
-      delay_ms(500);
+      delay_ms(50);
     }
 }
 

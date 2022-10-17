@@ -1266,7 +1266,7 @@ I (..\Basic\inc\stm32f4xx_can.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_dac.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x6349846C)
-F (..\Connectivity\SPI\spi.c)(0x634A099B)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\spi.o --omf_browse .\objects\spi.crf --depend .\objects\spi.d)
+F (..\Connectivity\SPI\spi.c)(0x634CC172)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\spi.o --omf_browse .\objects\spi.crf --depend .\objects\spi.d)
 I (..\Connectivity\SPI\spi.h)(0x634A1E7E)
 I (..\System\sys\sys.h)(0x634A2227)
 I (..\System\stm32f4xx.h)(0x6349847D)
@@ -1344,8 +1344,8 @@ I (..\Basic\inc\stm32f4xx_can.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_dac.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x6349846C)
-F (..\HardWare\BMM150\bmm150.c)(0x634BEEDD)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\bmm150.o --omf_browse .\objects\bmm150.crf --depend .\objects\bmm150.d)
-I (..\HardWare\BMM150\bmm150.h)(0x634BCFF5)
+F (..\HardWare\BMM150\bmm150.c)(0x634CD5A7)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\bmm150.o --omf_browse .\objects\bmm150.crf --depend .\objects\bmm150.d)
+I (..\HardWare\BMM150\bmm150.h)(0x634CD5A7)
 I (..\System\sys\sys.h)(0x634A2227)
 I (..\System\stm32f4xx.h)(0x6349847D)
 I (..\CMSIS\core_cm4.h)(0x634193F3)
@@ -1602,7 +1602,7 @@ I (..\Basic\inc\stm32f4xx_can.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_dac.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x6349846C)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x6349846C)
-F (..\User\main.c)(0x634BF1A6)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\User\main.c)(0x634CD1EF)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\System\sys\sys.h)(0x634A2227)
 I (..\System\stm32f4xx.h)(0x6349847D)
 I (..\CMSIS\core_cm4.h)(0x634193F3)
@@ -1646,4 +1646,4 @@ I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\Connectivity\SPI\spi.h)(0x634A1E7E)
 I (..\HardWare\LED\led.h)(0x634A2855)
-I (..\HardWare\BMM150\bmm150.h)(0x634BCFF5)
+I (..\HardWare\BMM150\bmm150.h)(0x634CD5A7)
