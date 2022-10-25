@@ -43,4 +43,7 @@
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\Connectivity\SPI\spi.h
 .\objects\main.o: ..\HardWare\LED\led.h
+.\objects\main.o: ..\HardWare\SERVE\serve.h
+.\objects\main.o: ..\HardWare\BUZZER\buzzer.h
 .\objects\main.o: ..\HardWare\BMM150\bmm150.h
+.\objects\main.o: ..\HardWare\BMI055\bmi055.h

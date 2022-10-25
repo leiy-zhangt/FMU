@@ -3,7 +3,7 @@
 
 #include "sys.h"
 
-#define BUZZER PAout(1)
+#define BUZZER PBout(8)
 void BUZZER_Configuration(void);
 
 #endif

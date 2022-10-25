@@ -20,17 +20,17 @@ void BMM150_Configuration(void)
   GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化
   BMM_CS = 1;
   delay_us(1);
-  BMM150_SendData(0x4B,0x82);//软件复位
-  BMM150_SendData(0x4B,0x01);//退出待机模式，进入睡眠模式
-//  BMM150_SendData(0x4E,0x38);//使能输出通道
+  BMM150_WriteData(0x4B,0x82);//软件复位
+  BMM150_WriteData(0x4B,0x01);//退出待机模式，进入睡眠模式
+//  BMM150_WriteData(0x4E,0x38);//使能输出通道
   BMM150_Trim_Get(&BMM150_Trim);
-  BMM150_SendData(0x51,23);//设置nXY = 1+2*23;
-  BMM150_SendData(0x52,82);//设置nXY = 1+82
-//  BMM150_SendData(0x4C,0x2B);//配置为强制模式
+  BMM150_WriteData(0x51,23);//设置nXY = 1+2*23;
+  BMM150_WriteData(0x52,82);//设置nXY = 1+82
+//  BMM150_WriteData(0x4C,0x2B);//配置为强制模式
   delay_ms(100);
 }
 
-void BMM150_SendData(uint8_t addr,uint8_t data)
+void BMM150_WriteData(uint8_t addr,uint8_t data)
 {
   BMM_CS = 0;
   delay_us(1);
@@ -69,7 +69,7 @@ void BMM150_ReadBuffer(uint8_t addr,uint8_t *buffer,uint8_t length)
 void BMM150_MeasureGet(BMM150_DataStruct *BMM150_Data)
 {
   uint8_t status;
-  BMM150_SendData(0x4C,0x2B);
+  BMM150_WriteData(0x4C,0x2B);
   while(1) 
   {
     status = BMM150_ReadData(0x4C);

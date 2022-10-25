@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System</IncludePath>
+              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI055;..\HardWare\SERVE</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -605,6 +605,16 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HardWare\LED\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>serve.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\SERVE\serve.c</FilePath>
+            </File>
+            <File>
+              <FileName>bmi055.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\BMI055\bmi055.c</FilePath>
             </File>
           </Files>
         </Group>

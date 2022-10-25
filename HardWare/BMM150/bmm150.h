@@ -56,7 +56,7 @@ extern BMM150_DataStruct BMM150_Data;
 extern BMM150_TrimStruct BMM150_Trim;
 
 void BMM150_Configuration(void);//BMM150初始化函数
-void BMM150_SendData(uint8_t addr,uint8_t data);//BMM150单字节发送函数
+void BMM150_WriteData(uint8_t addr,uint8_t data);//BMM150单字节发送函数
 uint8_t BMM150_ReadData(uint8_t addr);//BMM150单字节接收函数
 void BMM150_ReadBuffer(uint8_t addr,uint8_t *buffer,uint8_t length);//BMM150多字节接收函数
 void BMM150_MeasureGet(BMM150_DataStruct *BMM150_Data);
