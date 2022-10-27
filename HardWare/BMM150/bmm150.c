@@ -10,23 +10,15 @@ BMM150_TrimStruct BMM150_Trim;
 
 void BMM150_Configuration(void)
 {
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);//开启时钟
-  GPIO_InitTypeDef  GPIO_InitStructure;
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0; //配置引脚
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//配置为输出
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//开漏输出
-  GPIO_InitStructure.GPIO_Speed = GPIO_High_Speed;//慢速输出
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
-  GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化
-  BMM_CS = 1;
   delay_us(1);
   BMM150_WriteData(0x4B,0x82);//软件复位
+  delay_ms(10);
   BMM150_WriteData(0x4B,0x01);//退出待机模式，进入睡眠模式
-//  BMM150_WriteData(0x4E,0x38);//使能输出通道
+  BMM150_WriteData(0x4E,0x38);//使能输出通道
   BMM150_Trim_Get(&BMM150_Trim);
   BMM150_WriteData(0x51,23);//设置nXY = 1+2*23;
   BMM150_WriteData(0x52,82);//设置nXY = 1+82
-//  BMM150_WriteData(0x4C,0x2B);//配置为强制模式
+  BMM150_WriteData(0x4C,0x2B);//配置为强制模式
   delay_ms(100);
 }
 
@@ -66,7 +58,7 @@ void BMM150_ReadBuffer(uint8_t addr,uint8_t *buffer,uint8_t length)
   delay_us(10);
 }
 
-void BMM150_MeasureGet(BMM150_DataStruct *BMM150_Data)
+void BMM150_Measure(BMM150_DataStruct *BMM150_Data)
 {
   uint8_t status;
   BMM150_WriteData(0x4C,0x2B);

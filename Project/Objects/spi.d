@@ -36,3 +36,8 @@
 .\objects\spi.o: ..\Basic\inc\stm32f4xx_dac.h
 .\objects\spi.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\spi.o: ..\Basic\inc\stm32f4xx_fsmc.h
+.\objects\spi.o: ..\HardWare\ADXL357\adxl357.h
+.\objects\spi.o: ..\System\delay\delay.h
+.\objects\spi.o: ..\Connectivity\SPI\spi.h
+.\objects\spi.o: ..\HardWare\BMM150\bmm150.h
+.\objects\spi.o: ..\HardWare\BMI088\bmi088.h

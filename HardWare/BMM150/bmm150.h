@@ -59,7 +59,7 @@ void BMM150_Configuration(void);//BMM150初始化函数
 void BMM150_WriteData(uint8_t addr,uint8_t data);//BMM150单字节发送函数
 uint8_t BMM150_ReadData(uint8_t addr);//BMM150单字节接收函数
 void BMM150_ReadBuffer(uint8_t addr,uint8_t *buffer,uint8_t length);//BMM150多字节接收函数
-void BMM150_MeasureGet(BMM150_DataStruct *BMM150_Data);
+void BMM150_Measure(BMM150_DataStruct *BMM150_Data);
 void BMM150_Trim_Get(BMM150_TrimStruct *BMM150_Trim);//获得校准系数
 //double BMM150_CompensateX(BMM150_DataStruct *BMM150_Data,BMM150_TrimStruct *BMM150_Trim);//x通道补偿
 //double BMM150_CompensateY(BMM150_DataStruct *BMM150_Data,BMM150_TrimStruct *BMM150_Trim);//y通道补偿

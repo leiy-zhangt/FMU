@@ -38,3 +38,7 @@
 .\objects\bmi055.o: ..\Basic\inc\stm32f4xx_fsmc.h
 .\objects\bmi055.o: ..\System\delay\delay.h
 .\objects\bmi055.o: ..\Connectivity\SPI\spi.h
+.\objects\bmi055.o: ..\HardWare\ADXL357\adxl357.h
+.\objects\bmi055.o: ..\Connectivity\SPI\spi.h
+.\objects\bmi055.o: ..\HardWare\BMI055\bmi055.h
+.\objects\bmi055.o: ..\HardWare\BMM150\bmm150.h

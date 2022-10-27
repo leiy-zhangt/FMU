@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI055;..\HardWare\SERVE</IncludePath>
+              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI088;..\HardWare\SERVE;..\HardWare\ADXL357</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -612,9 +612,14 @@
               <FilePath>..\HardWare\SERVE\serve.c</FilePath>
             </File>
             <File>
-              <FileName>bmi055.c</FileName>
+              <FileName>adxl357.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HardWare\BMI055\bmi055.c</FilePath>
+              <FilePath>..\HardWare\ADXL357\adxl357.c</FilePath>
+            </File>
+            <File>
+              <FileName>bmi088.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\BMI088\bmi088.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,6 +1,9 @@
 #ifndef __SPI_H
 #define __SPI_H
 #include "sys.h"
+#include "adxl357.h"
+#include "bmm150.h"
+#include "bmi088.h"
 
 #define EN_SPI1 1
 #define EN_SPI2 0
@@ -26,6 +29,7 @@
 void SPI1_Configuration(void);			//初始化SPI1 
 void SPI2_Configuration(void);          //初始化SPI2 
 uint16_t SPI_ReadWriteByte(SPI_TypeDef* SPI, uint16_t Data);//SPI1总线读写一个字节
-		 
+void SPI_CS_Configuration(void);
+
 #endif
 
