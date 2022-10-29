@@ -4,6 +4,7 @@
 #include "adxl357.h"
 #include "bmm150.h"
 #include "bmi088.h"
+#include "bmp388.h"
 
 #define EN_SPI1 1
 #define EN_SPI2 0

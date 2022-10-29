@@ -37,7 +37,7 @@ void SPI1_Configuration(void)
   
   SPI_Cmd(SPI1, ENABLE); //使能SPI外设
 
-	 SPI_CS_Configuration();//初始化片选引脚
+	SPI_CS_Configuration();//初始化片选引脚
 }   
 //SPI1速度设置函数
 //SPI速度=fAPB2/分频系数
@@ -100,6 +100,7 @@ void SPI_CS_Configuration(void)
 {
   GPIO_InitTypeDef  GPIO_InitStructure;
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
   
    //配置ADXL357片选引脚
   GPIO_InitStructure.GPIO_Pin = ADXL_CS_Pin; 
@@ -118,15 +119,31 @@ void SPI_CS_Configuration(void)
   ACC_CS = 1;
   GYR_CS = 1;
   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_12|GPIO_Pin_1; 
+  //配置BMP388片选引脚为推挽输出
+  GPIO_InitStructure.GPIO_Pin = BMP_CS_Pin; 
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; //普通输出模式
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//片选引脚配置为推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100M
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//下拉
+  GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化片选引脚
+  BMP_CS = 1;
+  
+  //配置BMM150片选引脚
+  GPIO_InitStructure.GPIO_Pin = BMM_CS_Pin; 
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; //普通输出模式
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//片选引脚配置为推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100M
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化片选引脚
+  BMM_CS = 1;
+  
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12; 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100M
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOC, &GPIO_InitStructure);
-  PCout(1) = 1;
-  PCout(12) = 1;
-  BMM_CS = 1;
-  
+  PCout(12) = 1; 
+
 }
 
 

@@ -46,6 +46,8 @@
 .\objects\main.o: ..\Connectivity\SPI\spi.h
 .\objects\main.o: ..\HardWare\BMM150\bmm150.h
 .\objects\main.o: ..\HardWare\BMI088\bmi088.h
+.\objects\main.o: ..\HardWare\BMP388\bmp388.h
+.\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\main.o: ..\HardWare\LED\led.h
 .\objects\main.o: ..\HardWare\SERVE\serve.h
 .\objects\main.o: ..\HardWare\BUZZER\buzzer.h

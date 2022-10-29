@@ -1,11 +1,12 @@
 #ifndef __BMM150_H
 #define __BMM150_H
-
 #include "sys.h"
 #include "spi.h"
 #include "delay.h"
 
+#define BMM150_Cal 0
 #define BMM_CS PCout(0)
+#define BMM_CS_Pin GPIO_Pin_0
 
 //校准寄存器宏定义
 #define BMM150_DIG_X1                             UINT8_C(0x5D)
@@ -59,11 +60,11 @@ void BMM150_Configuration(void);//BMM150初始化函数
 void BMM150_WriteData(uint8_t addr,uint8_t data);//BMM150单字节发送函数
 uint8_t BMM150_ReadData(uint8_t addr);//BMM150单字节接收函数
 void BMM150_ReadBuffer(uint8_t addr,uint8_t *buffer,uint8_t length);//BMM150多字节接收函数
-void BMM150_Measure(BMM150_DataStruct *BMM150_Data);
+void BMM150_Measure(BMM150_DataStruct *BMM150_Data);//返回三轴磁强计，单位为uT
 void BMM150_Trim_Get(BMM150_TrimStruct *BMM150_Trim);//获得校准系数
-//double BMM150_CompensateX(BMM150_DataStruct *BMM150_Data,BMM150_TrimStruct *BMM150_Trim);//x通道补偿
-//double BMM150_CompensateY(BMM150_DataStruct *BMM150_Data,BMM150_TrimStruct *BMM150_Trim);//y通道补偿
-//double BMM150_CompensateZ(BMM150_DataStruct *BMM150_Data,BMM150_TrimStruct *BMM150_Trim);//z通道补偿
+double BMM150_CompensateX(BMM150_DataStruct *BMM150_Data,BMM150_TrimStruct *BMM150_Trim);//x通道补偿
+double BMM150_CompensateY(BMM150_DataStruct *BMM150_Data,BMM150_TrimStruct *BMM150_Trim);//y通道补偿
+double BMM150_CompensateZ(BMM150_DataStruct *BMM150_Data,BMM150_TrimStruct *BMM150_Trim);//z通道补偿
 
 #endif 
 

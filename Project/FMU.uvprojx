@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI088;..\HardWare\SERVE;..\HardWare\ADXL357</IncludePath>
+              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI088;..\HardWare\SERVE;..\HardWare\ADXL357;..\HardWare\ATGM336H;..\HardWare\BMP388;..\HardWare\FUSE;..\HardWare\Lora;..\HardWare\VOLTAGE;..\HardWare\W25N</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -620,6 +620,36 @@
               <FileName>bmi088.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HardWare\BMI088\bmi088.c</FilePath>
+            </File>
+            <File>
+              <FileName>atgm336h.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\ATGM336H\atgm336h.c</FilePath>
+            </File>
+            <File>
+              <FileName>bmp388.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\BMP388\bmp388.c</FilePath>
+            </File>
+            <File>
+              <FileName>fuse.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\FUSE\fuse.c</FilePath>
+            </File>
+            <File>
+              <FileName>lora.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\Lora\lora.c</FilePath>
+            </File>
+            <File>
+              <FileName>voltage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\VOLTAGE\voltage.c</FilePath>
+            </File>
+            <File>
+              <FileName>w25n.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HardWare\W25N\w25n.c</FilePath>
             </File>
           </Files>
         </Group>

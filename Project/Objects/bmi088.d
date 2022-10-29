@@ -42,3 +42,5 @@
 .\objects\bmi088.o: ..\Connectivity\SPI\spi.h
 .\objects\bmi088.o: ..\HardWare\BMM150\bmm150.h
 .\objects\bmi088.o: ..\HardWare\BMI088\bmi088.h
+.\objects\bmi088.o: ..\HardWare\BMP388\bmp388.h
+.\objects\bmi088.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
