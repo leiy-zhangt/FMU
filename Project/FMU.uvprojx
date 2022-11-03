@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI088;..\HardWare\SERVE;..\HardWare\ADXL357;..\HardWare\ATGM336H;..\HardWare\BMP388;..\HardWare\FUSE;..\HardWare\Lora;..\HardWare\VOLTAGE;..\HardWare\W25N</IncludePath>
+              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI088;..\HardWare\SERVE;..\HardWare\ADXL357;..\HardWare\ATGM336H;..\HardWare\BMP388;..\HardWare\FUSE;..\HardWare\Lora;..\HardWare\VOLTAGE;..\HardWare\W25Q</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -647,9 +647,9 @@
               <FilePath>..\HardWare\VOLTAGE\voltage.c</FilePath>
             </File>
             <File>
-              <FileName>w25n.c</FileName>
+              <FileName>w25q.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HardWare\W25N\w25n.c</FilePath>
+              <FilePath>..\HardWare\W25Q\w25q.c</FilePath>
             </File>
           </Files>
         </Group>

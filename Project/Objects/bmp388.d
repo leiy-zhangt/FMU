@@ -37,10 +37,12 @@
 .\objects\bmp388.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\bmp388.o: ..\Basic\inc\stm32f4xx_fsmc.h
 .\objects\bmp388.o: ..\System\delay\delay.h
+.\objects\bmp388.o: ..\System\sys\sys.h
 .\objects\bmp388.o: ..\Connectivity\SPI\spi.h
 .\objects\bmp388.o: ..\HardWare\ADXL357\adxl357.h
 .\objects\bmp388.o: ..\Connectivity\SPI\spi.h
 .\objects\bmp388.o: ..\HardWare\BMM150\bmm150.h
 .\objects\bmp388.o: ..\HardWare\BMI088\bmi088.h
 .\objects\bmp388.o: ..\HardWare\BMP388\bmp388.h
+.\objects\bmp388.o: ..\HardWare\W25Q\w25q.h
 .\objects\bmp388.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h

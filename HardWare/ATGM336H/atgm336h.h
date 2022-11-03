@@ -5,9 +5,8 @@
 #include "delay.h"
 #include "usart.h"
 
-#define ATGM336H_PWR PCout(13)
-#define ATGM336H_RST PCout(14)
-#define ATGM336H_PPS PCin(15)
+#define ATGM336H_PWR PAout(4)
+#define ATGM336H_NRST PCout(15)
 
-void ATGM336H_Configuration(void);
+void ATGM336H_Configuration(FunctionalState ATGM_State);
 #endif

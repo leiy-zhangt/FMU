@@ -37,6 +37,7 @@
 .\objects\bmi088.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\bmi088.o: ..\Basic\inc\stm32f4xx_fsmc.h
 .\objects\bmi088.o: ..\System\delay\delay.h
+.\objects\bmi088.o: ..\System\sys\sys.h
 .\objects\bmi088.o: ..\Connectivity\SPI\spi.h
 .\objects\bmi088.o: ..\HardWare\ADXL357\adxl357.h
 .\objects\bmi088.o: ..\Connectivity\SPI\spi.h
@@ -44,3 +45,4 @@
 .\objects\bmi088.o: ..\HardWare\BMI088\bmi088.h
 .\objects\bmi088.o: ..\HardWare\BMP388\bmp388.h
 .\objects\bmi088.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\bmi088.o: ..\HardWare\W25Q\w25q.h

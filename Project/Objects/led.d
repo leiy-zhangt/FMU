@@ -37,3 +37,4 @@
 .\objects\led.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\led.o: ..\Basic\inc\stm32f4xx_fsmc.h
 .\objects\led.o: ..\System\delay\delay.h
+.\objects\led.o: ..\System\sys\sys.h

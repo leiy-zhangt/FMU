@@ -37,6 +37,7 @@
 .\objects\atgm336h.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\atgm336h.o: ..\Basic\inc\stm32f4xx_fsmc.h
 .\objects\atgm336h.o: ..\System\delay\delay.h
+.\objects\atgm336h.o: ..\System\sys\sys.h
 .\objects\atgm336h.o: ..\Connectivity\USART\usart.h
 .\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h

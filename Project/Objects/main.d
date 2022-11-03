@@ -36,6 +36,7 @@
 .\objects\main.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\main.o: ..\Basic\inc\stm32f4xx_fsmc.h
 .\objects\main.o: ..\System\delay\delay.h
+.\objects\main.o: ..\System\sys\sys.h
 .\objects\main.o: ..\Connectivity\USART\usart.h
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
@@ -48,6 +49,10 @@
 .\objects\main.o: ..\HardWare\BMI088\bmi088.h
 .\objects\main.o: ..\HardWare\BMP388\bmp388.h
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\main.o: ..\HardWare\W25Q\w25q.h
 .\objects\main.o: ..\HardWare\LED\led.h
 .\objects\main.o: ..\HardWare\SERVE\serve.h
 .\objects\main.o: ..\HardWare\BUZZER\buzzer.h
+.\objects\main.o: ..\HardWare\FUSE\fuse.h
+.\objects\main.o: ..\HardWare\Lora\lora.h
+.\objects\main.o: ..\HardWare\ATGM336H\atgm336h.h

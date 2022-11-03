@@ -16,7 +16,7 @@ void _sys_exit(int x){
 //重定义fputc函数 
 int fputc(int ch, FILE *f){      
 	while((USART_n->SR&0X40)==0);//循环发送,直到发送完毕   
-    USART_n->DR = (uint8_t) ch;      
+    USART_n->DR = (u8) ch;      
 	return ch;
 }
 #endif 
@@ -164,8 +164,8 @@ void USART2_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	GPIO_Init(GPIOA,&GPIO_InitStructure); 
   //Usart1 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3 ;//抢占优先级3
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=8 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
   //USART 初始化设置
@@ -207,13 +207,11 @@ void USART2_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 //} 
 
 void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名不能修改）	
-    uint8_t Res;
+  uint8_t Res;
 	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
-        USART_ClearITPendingBit(USART2, USART_IT_RXNE);
-		Res=USART_ReceiveData(USART2);
-        USART_ITConfig(USART2, USART_IT_RXNE,DISABLE);
-        USART_SendData(USART1,Res);
-        USART_ITConfig(USART2, USART_IT_RXNE,ENABLE);
+    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+    Res=USART_ReceiveData(USART2); 
+    USART_SendData(USART3,Res);
 	} 
 } 
 
@@ -240,8 +238,8 @@ void USART3_printf (char *fmt, ...){
 	va_start(arg_ptr, fmt);  
 	vsnprintf(buffer, USART3_REC_LEN+1, fmt, arg_ptr);
 	while ((i < USART3_REC_LEN) && (i < strlen(buffer))){
-    USART_SendData(USART3, (uint8_t) buffer[i++]);
-    while (USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET); 
+        USART_SendData(USART3, (uint8_t) buffer[i++]);
+        while (USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET); 
 	}
 	va_end(arg_ptr);
 }
@@ -252,19 +250,21 @@ void USART3_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	USART_InitTypeDef USART_InitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;	 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3,ENABLE);	//使能USART1时钟
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC,ENABLE);  
-	GPIO_PinAFConfig(GPIOC,GPIO_PinSource10,GPIO_AF_USART3); //GPIOC10复用为USART1
-	GPIO_PinAFConfig(GPIOC,GPIO_PinSource11,GPIO_AF_USART3); //GPIOC13复用为USART1
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11; //GPIOC10与GPIOC11
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,ENABLE);  
+  
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource10,GPIO_AF_USART3); //GPIOB10复用为USART3
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource11,GPIO_AF_USART3); //GPIOB11复用为USART3
+  
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11; //选中GPIOB10与GPIOB11
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;//复用功能
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;	//速度50MHz
+	GPIO_InitStructure.GPIO_Speed = GPIO_High_Speed;	//速度50MHz
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP; //推挽复用输出
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP; //上拉
-	GPIO_Init(GPIOC,&GPIO_InitStructure); 
-  //Usart1 NVIC 配置
+	GPIO_Init(GPIOB,&GPIO_InitStructure); //初始化PB10，PB11
+  //Usart3 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3 ;//抢占优先级3
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=5 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
   //USART 初始化设置
@@ -273,38 +273,49 @@ void USART3_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;//一个停止位
 	USART_InitStructure.USART_Parity = USART_Parity_No;//无奇偶校验位
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;//无硬件数据流控制
-	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	//收发模式
+	USART_InitStructure.USART_Mode = USART_Mode_Rx|USART_Mode_Tx;	//收发模式
+  
   USART_Init(USART3, &USART_InitStructure); //初始化串口
   USART_ITConfig(USART3, USART_IT_RXNE, ITStatus);//开启ENABLE/关闭DISABLE中断
   USART_Cmd(USART3, ENABLE);                    //使能串口 
 }
 
 //串口3中断服务程序（固定的函数名不能修改）
+//void USART3_IRQHandler(void){ 	
+//  uint8_t Res;
+//	if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)		
+//		Res=USART_ReceiveData(USART3);//读取接收到的数据
+//		printf("%c",Res); //把收到的数据发送回电脑
+//    if((USART3_RX_STA&0x8000)==0)//接收未完成
+//		{
+//			if(USART3_RX_STA&0x4000)//接收到了0x0d
+//			{
+//				if(Res!=0x0a)USART3_RX_STA=0;//接收错误,重新开始
+//				else USART3_RX_STA|=0x8000;	//接收完成了 
+//			}
+//			else //还没收到0X0D
+//			{	
+//				if(Res==0x0d)USART3_RX_STA|=0x4000;
+//				else
+//				{
+//					USART3_RX_BUF[USART3_RX_STA&0X3FFF]=Res ;
+//					USART3_RX_STA++;
+//					if(USART3_RX_STA>(USART3_REC_LEN-1))USART3_RX_STA=0;//接收数据错误,重新开始接收	  
+//				}		 
+//			}
+//		}   	
+//	} 
+//} 
+
 void USART3_IRQHandler(void){ 	
   uint8_t Res;
-	if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)		
+	if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
 		Res=USART_ReceiveData(USART3);//读取接收到的数据
 		printf("%c",Res); //把收到的数据发送回电脑
-    if((USART3_RX_STA&0x8000)==0)//接收未完成
-		{
-			if(USART3_RX_STA&0x4000)//接收到了0x0d
-			{
-				if(Res!=0x0a)USART3_RX_STA=0;//接收错误,重新开始
-				else USART3_RX_STA|=0x8000;	//接收完成了 
-			}
-			else //还没收到0X0D
-			{	
-				if(Res==0x0d)USART3_RX_STA|=0x4000;
-				else
-				{
-					USART3_RX_BUF[USART3_RX_STA&0X3FFF]=Res ;
-					USART3_RX_STA++;
-					if(USART3_RX_STA>(USART3_REC_LEN-1))USART3_RX_STA=0;//接收数据错误,重新开始接收	  
-				}		 
-			}
-		}   	
+    USART_ClearITPendingBit(USART3, USART_IT_RXNE);  	
 	} 
 } 
+
 #endif	
 
 /*

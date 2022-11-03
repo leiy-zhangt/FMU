@@ -36,3 +36,5 @@
 .\objects\buzzer.o: ..\Basic\inc\stm32f4xx_dac.h
 .\objects\buzzer.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\buzzer.o: ..\Basic\inc\stm32f4xx_fsmc.h
+.\objects\buzzer.o: ..\System\delay\delay.h
+.\objects\buzzer.o: ..\System\sys\sys.h

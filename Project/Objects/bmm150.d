@@ -36,11 +36,13 @@
 .\objects\bmm150.o: ..\Basic\inc\stm32f4xx_dac.h
 .\objects\bmm150.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\bmm150.o: ..\Basic\inc\stm32f4xx_fsmc.h
+.\objects\bmm150.o: ..\System\delay\delay.h
+.\objects\bmm150.o: ..\System\sys\sys.h
 .\objects\bmm150.o: ..\Connectivity\SPI\spi.h
 .\objects\bmm150.o: ..\HardWare\ADXL357\adxl357.h
-.\objects\bmm150.o: ..\System\delay\delay.h
 .\objects\bmm150.o: ..\Connectivity\SPI\spi.h
 .\objects\bmm150.o: ..\HardWare\BMM150\bmm150.h
 .\objects\bmm150.o: ..\HardWare\BMI088\bmi088.h
 .\objects\bmm150.o: ..\HardWare\BMP388\bmp388.h
 .\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\bmm150.o: ..\HardWare\W25Q\w25q.h

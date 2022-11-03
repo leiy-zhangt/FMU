@@ -36,3 +36,5 @@
 .\objects\serve.o: ..\Basic\inc\stm32f4xx_dac.h
 .\objects\serve.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\serve.o: ..\Basic\inc\stm32f4xx_fsmc.h
+.\objects\serve.o: ..\System\delay\delay.h
+.\objects\serve.o: ..\System\sys\sys.h

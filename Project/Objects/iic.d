@@ -36,3 +36,5 @@
 .\objects\iic.o: ..\Basic\inc\stm32f4xx_dac.h
 .\objects\iic.o: ..\Basic\inc\stm32f4xx_dcmi.h
 .\objects\iic.o: ..\Basic\inc\stm32f4xx_fsmc.h
+.\objects\iic.o: ..\System\delay\delay.h
+.\objects\iic.o: ..\System\sys\sys.h

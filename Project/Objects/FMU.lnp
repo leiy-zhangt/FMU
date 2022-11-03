@@ -49,7 +49,7 @@
 ".\objects\fuse.o"
 ".\objects\lora.o"
 ".\objects\voltage.o"
-".\objects\w25n.o"
+".\objects\w25q.o"
 ".\objects\delay.o"
 ".\objects\stm32f4xx_it.o"
 ".\objects\sys.o"

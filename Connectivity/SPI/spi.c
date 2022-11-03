@@ -137,13 +137,13 @@ void SPI_CS_Configuration(void)
   GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化片选引脚
   BMM_CS = 1;
   
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12; 
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100M
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
-  PCout(12) = 1; 
-
+  GPIO_InitStructure.GPIO_Pin = W25Q_CS_Pin;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//输出
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽输出
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100MHz
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
+  GPIO_Init(W25Q_Port,&GPIO_InitStructure);//初始化
+  W25Q_CS = 1;
 }
 
 
