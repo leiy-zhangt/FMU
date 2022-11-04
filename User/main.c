@@ -17,8 +17,6 @@
 #include "lora.h"
 #include "atgm336h.h"
 
-double acc_max = 0,velocity = 0;
-
 int main(void)
 { 
   RCC_Configuration();
@@ -38,11 +36,19 @@ int main(void)
   ATGM336H_Configuration(DISABLE);
   LORA_Configuration(0x5252,38400);
   delay_ms(100);
-  acc_max = acc_max/50;
   while(1)
   {
-//    BMP388_TemperatureGet(&BMP388_Data);
-//    printf("height:%0.6f  pressure:%0.6f  temperature:%0.6f\r\n",BMP388_HeightGet(),BMP388_Data.pre,BMP388_Data.tem);
+    uint16_t i;
+    W25Q_ChipErase();
+    W25Q_DataReceive(0x00000000,W25Q_buffer,1500);
+    for(i=0;i<256;i++)
+    {
+      W25Q_buffer[i]=i;
+    }
+    W25Q_DataStorage(0,W25Q_buffer,256);
+    W25Q_DataStorage(400,W25Q_buffer,256);
+    W25Q_DataStorage(1000,W25Q_buffer,256);
+    W25Q_DataReceive(0x00000000,W25Q_buffer,1500);
     printf("height:%0.6f  pressure:%0.6f\r\n",BMP388_HeightGet(),BMP388_Data.pre);
     LED =! LED;
     delay_ms(100);

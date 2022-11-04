@@ -46,3 +46,4 @@
 .\objects\bmi088.o: ..\HardWare\BMP388\bmp388.h
 .\objects\bmi088.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\bmi088.o: ..\HardWare\W25Q\w25q.h
+.\objects\bmi088.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h

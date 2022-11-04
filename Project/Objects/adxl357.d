@@ -46,3 +46,4 @@
 .\objects\adxl357.o: ..\HardWare\BMP388\bmp388.h
 .\objects\adxl357.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\adxl357.o: ..\HardWare\W25Q\w25q.h
+.\objects\adxl357.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
