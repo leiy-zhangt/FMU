@@ -16,6 +16,7 @@
 #include "w25q.h"
 #include "lora.h"
 #include "atgm336h.h"
+#include "command.h"
 
 int main(void)
 { 
@@ -24,9 +25,9 @@ int main(void)
   FUSE_Configuration();
   SPI1_Configuration();
   LED_Configuration();
-  BUZZER_Configuration();
-  SERVE_Configuration();
-  USART1_Configuration(115200,DISABLE);
+  BUZZER_Configuration(DISABLE);
+  SERVE_Configuration(DISABLE);
+  USART1_Configuration(115200,ENABLE);
   delay_ms(10);//等待芯片完成上电复位
   ADXL357_Configuration(ADXL_Range_10g);
   BMM150_Configuration();
@@ -35,23 +36,18 @@ int main(void)
   W25Q_Configuration();
   ATGM336H_Configuration(DISABLE);
   LORA_Configuration(0x5252,38400);
+  SampleFrequency_Configuration(Frequency_100Hz);
   delay_ms(100);
+  printf("\r\nData Logger is ready!\r\n");
   while(1)
   {
-    uint16_t i;
-    W25Q_ChipErase();
-    W25Q_DataReceive(0x00000000,W25Q_buffer,1500);
-    for(i=0;i<256;i++)
-    {
-      W25Q_buffer[i]=i;
-    }
-    W25Q_DataStorage(0,W25Q_buffer,256);
-    W25Q_DataStorage(400,W25Q_buffer,256);
-    W25Q_DataStorage(1000,W25Q_buffer,256);
-    W25Q_DataReceive(0x00000000,W25Q_buffer,1500);
-    printf("height:%0.6f  pressure:%0.6f\r\n",BMP388_HeightGet(),BMP388_Data.pre);
-    LED =! LED;
-    delay_ms(100);
+//    if(sample_state == 0)
+//    {
+//      if(Command_State == AttitudeSolution_TEST)
+//      {
+//        AttitudeSolution();
+//      }
+//    }
   }
 }
 

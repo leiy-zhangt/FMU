@@ -2,7 +2,6 @@
 
 const float g = 9.80665;//重力加速度
 int16_t ACC_Range,GYR_Range;//惯导量程选择
-float dt;//积分时间步长
 BMI088_DataStruct BMI088_Data;//BMI088数据结构体
 
 void BMI088_Configuration(ACC_Range_Choose acc_range,GYR_Range_Choose gyr_range)

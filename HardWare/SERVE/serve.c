@@ -1,6 +1,6 @@
 #include "serve.h"
 
-void SERVE_Configuration(void)
+void SERVE_Configuration(FunctionalState status)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
@@ -16,7 +16,7 @@ void SERVE_Configuration(void)
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;    
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;      
 	GPIO_Init(GPIOB,&GPIO_InitStructure);  
-  SERVE_PWR = 1;
+  SERVE_PWR = status;
   
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7|GPIO_Pin_8|GPIO_Pin_9;           
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;       
@@ -30,7 +30,7 @@ void SERVE_Configuration(void)
   GPIO_PinAFConfig(GPIOC,GPIO_PinSource8,GPIO_AF_TIM3);
   GPIO_PinAFConfig(GPIOC,GPIO_PinSource9,GPIO_AF_TIM3);
   
-  TIM_TimeBaseStructure.TIM_Prescaler=2099;  
+  TIM_TimeBaseStructure.TIM_Prescaler=8199;  
   TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; 
   TIM_TimeBaseStructure.TIM_Period=9999;   
   TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 	

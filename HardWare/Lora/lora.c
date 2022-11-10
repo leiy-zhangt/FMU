@@ -20,7 +20,7 @@ void LORA_Configuration(uint16_t lora_addr,int32_t bound)
   LORA_M0 = 0;
   LORA_M1 = 0;
   delay_ms(100);
-  USART3_Configuration(9600,ENABLE);
+  USART3_Configuration(9600,DISABLE);
   while(LORA_Status == 0);
   LORA_M0 = 0;
   LORA_M1 = 1;

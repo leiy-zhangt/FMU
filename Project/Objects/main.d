@@ -42,6 +42,13 @@
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: ..\Solution\command\command.h
+.\objects\main.o: ..\Solution\computation\computation.h
+.\objects\main.o: ..\Solution\command\command.h
+.\objects\main.o: ..\HardWare\LED\led.h
+.\objects\main.o: ..\HardWare\SERVE\serve.h
+.\objects\main.o: ..\HardWare\BUZZER\buzzer.h
+.\objects\main.o: ..\HardWare\BMM150\bmm150.h
 .\objects\main.o: ..\Connectivity\SPI\spi.h
 .\objects\main.o: ..\HardWare\ADXL357\adxl357.h
 .\objects\main.o: ..\Connectivity\SPI\spi.h
@@ -50,9 +57,7 @@
 .\objects\main.o: ..\HardWare\BMP388\bmp388.h
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\main.o: ..\HardWare\W25Q\w25q.h
-.\objects\main.o: ..\HardWare\LED\led.h
-.\objects\main.o: ..\HardWare\SERVE\serve.h
-.\objects\main.o: ..\HardWare\BUZZER\buzzer.h
 .\objects\main.o: ..\HardWare\FUSE\fuse.h
 .\objects\main.o: ..\HardWare\Lora\lora.h
+.\objects\main.o: ..\Connectivity\USART\usart.h
 .\objects\main.o: ..\HardWare\ATGM336H\atgm336h.h

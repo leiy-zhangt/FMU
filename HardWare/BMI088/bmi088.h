@@ -57,7 +57,6 @@ typedef enum {GYR_Range_125 = 0X04,GYR_Range_250 = 0X03,GYR_Range_500 = 0X02,GYR
 
 extern const float g;//重力加速度
 extern int16_t ACC_Range,GYR_Range;//惯导量程选择
-extern float dt;//积分时间步长
 extern BMI088_DataStruct BMI088_Data;
 
 void BMI088_Configuration(ACC_Range_Choose acc_range,GYR_Range_Choose gyr_range); 
