@@ -27,7 +27,16 @@ Project File Date:  11/04/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\ProgramFile\Keil5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-".\Objects\FMU.axf" - 0 Error(s), 0 Warning(s).
+compiling computation.c...
+..\Solution\computation\computation.c(91): warning:  #513-D: a value of type "double *" cannot be assigned to an entity of type "uint8_t *"
+    tran = data;
+..\Solution\computation\computation.c(158): warning:  #513-D: a value of type "uint8_t *" cannot be assigned to an entity of type "double *"
+    tran = W25Q_buffer;
+..\Solution\computation\computation.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=32612 RO-data=1364 RW-data=72 ZI-data=6904  
+FromELF: creating hex file...
+".\Objects\FMU.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -41,7 +50,7 @@ Package Vendor: Keil
   D:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

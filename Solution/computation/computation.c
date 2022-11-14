@@ -145,8 +145,7 @@ void MotionOffset_Init(void)
   data[8] = MotionOffset.adxl_z_offset;
   for(uint8_t i = 0;i<72;i++)
   {
-    W25Q_buffer[i] =  *tran;
-    tran++;
+    W25Q_buffer[i] =  *tran++;
   }
   W25Q_DataStorage(0x00,W25Q_buffer,72);
   printf("FMU offset has finished!\r\n");

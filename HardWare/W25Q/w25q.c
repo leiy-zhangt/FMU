@@ -49,7 +49,7 @@ void W25Q_WaitBusy(void)
   W25Q_CS = 0;
   delay_us(1);
   SPI_ReadWriteByte(SPI1,0x05);
-  while(SPI_ReadWriteByte(SPI1,0X00)&0X01);
+  while(SPI_ReadWriteByte(SPI1,0x00)&0x01);
   W25Q_CS = 1;
   delay_us(1);
 }
@@ -64,6 +64,7 @@ void W25Q_Reset(void)
 void W25Q_SectorErase(uint32_t sector)
 {
   uint32_t addr = sector*4096;
+  W25Q_WaitBusy();
   W25Q_WriteEnable();
   W25Q_CS = 0;
   delay_us(1);
@@ -73,12 +74,14 @@ void W25Q_SectorErase(uint32_t sector)
   SPI_ReadWriteByte(SPI1,addr>>8);
   SPI_ReadWriteByte(SPI1,addr);
   W25Q_CS = 1;
+  delay_us(1);
   W25Q_WaitBusy();
 }
 
 void W25Q_BlockErase(uint32_t block)
 {
   uint32_t addr = block*65536;
+  W25Q_WaitBusy();
   W25Q_WriteEnable();
   W25Q_CS = 0;
   delay_us(1);
@@ -88,11 +91,13 @@ void W25Q_BlockErase(uint32_t block)
   SPI_ReadWriteByte(SPI1,addr>>8);
   SPI_ReadWriteByte(SPI1,addr);
   W25Q_CS = 1;
+  delay_us(1);
   W25Q_WaitBusy();
 }
 
 void W25Q_ChipErase(void)
 {
+  W25Q_WaitBusy();
   W25Q_WriteEnable();
   W25Q_CS = 0;
   delay_us(1);
