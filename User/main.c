@@ -37,17 +37,19 @@ int main(void)
   ATGM336H_Configuration(DISABLE);
   LORA_Configuration(0x5252,38400);
   SampleFrequency_Configuration(Frequency_100Hz);
+  MotionOffset_Get();
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   while(1)
   {
-//    if(sample_state == 0)
-//    {
-//      if(Command_State == AttitudeSolution_TEST)
-//      {
-//        AttitudeSolution();
-//      }
-//    }
+    if(sample_state == 0)
+    {
+      if(Command_State == AttitudeSolution_TEST)
+      {
+        AttitudeSolution();
+        printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+      }
+    }
   }
 }
 

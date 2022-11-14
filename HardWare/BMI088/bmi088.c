@@ -98,11 +98,11 @@ void BMI088_Measure(BMI088_DataStruct *BMI088_Data)
   BMI088_Data->gyr_x_int = (((int16_t)BMI088_Data->buffer[1])<<8)|BMI088_Data->buffer[0];
   BMI088_Data->gyr_y_int = (((int16_t)BMI088_Data->buffer[3])<<8)|BMI088_Data->buffer[2];
   BMI088_Data->gyr_z_int = (((int16_t)BMI088_Data->buffer[5])<<8)|BMI088_Data->buffer[4];
-  BMI088_Data->acc_x = BMI088_Data->acc_x_int / 65535.0 * ACC_Range * g;
-  BMI088_Data->acc_y = BMI088_Data->acc_y_int / 65535.0 * ACC_Range * g;
-  BMI088_Data->acc_z = BMI088_Data->acc_z_int / 65535.0 * ACC_Range * g;
-  BMI088_Data->gyr_x = BMI088_Data->gyr_x_int / 65535.0 * GYR_Range;
-  BMI088_Data->gyr_y = BMI088_Data->gyr_y_int / 65535.0 * GYR_Range;
-  BMI088_Data->gyr_z = BMI088_Data->gyr_z_int / 65535.0 * GYR_Range;
+  BMI088_Data->acc_x = BMI088_Data->acc_x_int / 65535.0 * ACC_Range * g - MotionOffset.acc_x_offset;
+  BMI088_Data->acc_y = BMI088_Data->acc_y_int / 65535.0 * ACC_Range * g - MotionOffset.acc_y_offset;
+  BMI088_Data->acc_z = BMI088_Data->acc_z_int / 65535.0 * ACC_Range * g - MotionOffset.acc_z_offset;
+  BMI088_Data->gyr_x = BMI088_Data->gyr_x_int / 65535.0 * GYR_Range - MotionOffset.gyr_x_offset;
+  BMI088_Data->gyr_y = BMI088_Data->gyr_y_int / 65535.0 * GYR_Range - MotionOffset.gyr_y_offset;
+  BMI088_Data->gyr_z = BMI088_Data->gyr_z_int / 65535.0 * GYR_Range - MotionOffset.gyr_z_offset;
 }
 

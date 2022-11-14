@@ -18,14 +18,30 @@ typedef struct
   double pressure,height;
 }MotionDataStruct;
 
+typedef struct
+{
+  double acc_x_offset;
+  double acc_y_offset;
+  double acc_z_offset;
+  double gyr_x_offset;
+  double gyr_y_offset;
+  double gyr_z_offset;
+  double adxl_x_offset;
+  double adxl_y_offset;
+  double adxl_z_offset;
+}MotionOffsetStruct;
+
 extern uint8_t sample_state;
 extern float dt;
 extern MotionDataStruct MotionData;
+extern MotionOffsetStruct MotionOffset;
 extern double sample_time;
-extern double dq[4],q[4];
+extern double q[4];
 
 void SampleFrequency_Configuration(SampleFrequency frequency);
-void AttitudeSolution(void);
+void AttitudeSolution(void);//得到弧度制姿态角
+void MotionOffset_Init(void);//向第0扇区写入偏差量缓存
+void MotionOffset_Get(void);//从第0扇区得到偏差量
 
 #endif
 

@@ -50,6 +50,7 @@
 .\objects\computation.o: ..\Connectivity\SPI\spi.h
 .\objects\computation.o: ..\HardWare\BMM150\bmm150.h
 .\objects\computation.o: ..\HardWare\BMI088\bmi088.h
+.\objects\computation.o: ..\Solution\command\command.h
 .\objects\computation.o: ..\HardWare\BMP388\bmp388.h
 .\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\computation.o: ..\HardWare\W25Q\w25q.h
@@ -59,5 +60,4 @@
 .\objects\computation.o: ..\Connectivity\USART\usart.h
 .\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\computation.o: ..\Solution\command\command.h
 .\objects\computation.o: ..\HardWare\ATGM336H\atgm336h.h

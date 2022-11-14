@@ -13,6 +13,7 @@ BMI088操作逻辑：
 #include "sys.h"
 #include "delay.h"
 #include "spi.h"
+#include "command.h"
 
 #define ACC_CS PCout(2)
 #define GYR_CS PCout(4) 

@@ -1,15 +1,16 @@
 #include "w25q.h"    
 /*
-W25QÒ»Ò³Îª256byte,Ò»¸öÉÈÇøÎª16Kbyte
+W25Qä¸€é¡µä¸º256byte,ä¸€ä¸ªæ‰‡åŒºä¸º64Kbyte
 */
 
 uint8_t W25Q_buffer[4096];
+uint32_t W25Q_DataAddress[64];
 
 void W25Q_Configuration(void)
 { 
-  //W25Q³õÊ¼»¯ÅäÖÃ
-  W25Q_WriteInstruction(0xB7);//Ê¹ÄÜ32Î»µØÖ·
-  W25Q_WriteInstruction(0x98);//½âËøËùÓĞĞ¾Æ¬·Ö¿é
+  //W25Qé…ç½®
+  W25Q_WriteInstruction(0xB7);//ä½¿ç”¨32ä½åœ°å€æ¨¡å¼
+  W25Q_WriteInstruction(0x98);//å…¨éƒ¨å—è§£é”
 }  
 
 void W25Q_WriteEnable(void)

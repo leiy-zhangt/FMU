@@ -4,28 +4,29 @@
 #include "spi.h"
 #include "stdio.h"
 #include "delay.h"	
+#include "computation.h"
 
-#define Start_Page 65 //Êı¾İ³õÊ¼±£´æÒ³
 
 #define W25Q_Port  GPIOC
 #define W25Q_CS_Pin  GPIO_Pin_12
 
-#define	W25Q_CS PCout(12)  	//W25QµÄÆ¬Ñ¡ĞÅºÅ
+#define	W25Q_CS PCout(12)  	//W25Qç‰‡é€‰å¼•è„š
 
 extern uint8_t W25Q_buffer[4096];
+extern uint32_t W25Q_DataAddress[64];
 
 
 void W25Q_Configuration(void);
-void W25Q_WriteEnable(void);  //Ğ´Ê¹ÄÜ
-FlagStatus W25Q_CheckBusy(void); //¼ì²éBUSYÎ»
-void W25Q_WaitBusy(void);  //µÈ´ıBUSYÎ»
-void W25Q_SectorErase(uint32_t sector);//²Á³ı0~16384¿é
-void W25Q_BlockErase(uint32_t block); //²Á³ı0~1023¿é 
-void W25Q_ChipErase(void); //²Á³ıÕû¸öĞ¾Æ¬
-void W25Q_DataStorage(uint32_t addr,uint8_t *buffer,uint16_t length); //ÏòÉÈÇøĞ´ÈëÊı¾İ
-void W25Q_WriteInstruction(uint8_t instuction); //Ïò¼Ä´æÆ÷Ğ´ÈëÊı¾İ
-void  W25Q_DataReceive(uint32_t addr,uint8_t *buffer,uint32_t length); //´ÓPageÖĞ¶ÁÈ¡Êı¾İ
-void W25Q_WriteSatusRegister(uint8_t reg,uint8_t data);//Ïò×´Ì¬¼Ä´æÆ÷Ğ´ÈëÊı¾İ
+void W25Q_WriteEnable(void);  //å†™ä½¿èƒ½
+FlagStatus W25Q_CheckBusy(void); //æ£€æŸ¥BUSYæ ‡å¿—ä½
+void W25Q_WaitBusy(void);  //ç­‰å¾…W25QBUSYæ ‡å¿—ä½æ¸…é›¶
+void W25Q_SectorErase(uint32_t sector);//æ“¦é™¤æ‰‡åŒºï¼ŒèŒƒå›´ä¸º0~16384
+void W25Q_BlockErase(uint32_t block); //æ“¦é™¤å—ï¼ŒèŒƒå›´ä¸º0~1023
+void W25Q_ChipErase(void); //W25Qæ•´å—æ“¦é™¤
+void W25Q_DataStorage(uint32_t addr,uint8_t *buffer,uint16_t length); //W25QæŒ‰é¡µå†™å…¥ï¼Œæ•°æ®é‡ä¸å¾—è¶…è¿‡256Byte
+void W25Q_WriteInstruction(uint8_t instuction); //å‘W25Qå‘é€æŒ‡ä»¤
+void W25Q_DataReceive(uint32_t addr,uint8_t *buffer,uint32_t length); //ä»åœ°å€ä¸­è¯»å‡ºæ•°æ®
+void W25Q_WriteSatusRegister(uint8_t reg,uint8_t data);//å‘çŠ¶æ€å¯„å­˜å™¨å†™å…¥æ•°æ®
 #endif
 
 

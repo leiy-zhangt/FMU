@@ -72,8 +72,8 @@ void ADXL357_Measure(ADXL357_DataStruct *ADXL357_Data)
   ADXL357_Data->acc_x_int = ((((int32_t)ADXL357_Data->buffer[2])<<24)|(((int32_t)ADXL357_Data->buffer[3])<<16)|(((int32_t)ADXL357_Data->buffer[4])<<8))>>12;
   ADXL357_Data->acc_y_int = ((((int32_t)ADXL357_Data->buffer[5])<<24)|(((int32_t)ADXL357_Data->buffer[6])<<16)|(((int32_t)ADXL357_Data->buffer[7])<<8))>>12;
   ADXL357_Data->acc_z_int = ((((int32_t)ADXL357_Data->buffer[8])<<24)|(((int32_t)ADXL357_Data->buffer[9])<<16)|(((int32_t)ADXL357_Data->buffer[10])<<8))>>12;
-  ADXL357_Data->acc_x = (ADXL357_Data->acc_x_int) / 1048575.0 * ADXL_Range * g;
-  ADXL357_Data->acc_y = (ADXL357_Data->acc_y_int) / 1048575.0 * ADXL_Range * g;
-  ADXL357_Data->acc_z = (ADXL357_Data->acc_z_int) / 1048575.0 * ADXL_Range * g;
+  ADXL357_Data->acc_x = (ADXL357_Data->acc_x_int) / 1048575.0 * ADXL_Range * g - MotionOffset.adxl_x_offset;
+  ADXL357_Data->acc_y = (ADXL357_Data->acc_y_int) / 1048575.0 * ADXL_Range * g - MotionOffset.adxl_y_offset;
+  ADXL357_Data->acc_z = (ADXL357_Data->acc_z_int) / 1048575.0 * ADXL_Range * g - MotionOffset.adxl_z_offset;
 }
 
