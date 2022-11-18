@@ -56,7 +56,7 @@ typedef enum {ACC_Choose=0,GYR_Choose=1}IMU_Choose;//IMU选择
 typedef enum {ACC_Range_3g = 0x00,ACC_Range_6g = 0x01,ACC_Range_12g = 0x02,ACC_Range_24g = 0x03}ACC_Range_Choose;//加速度计量程选择
 typedef enum {GYR_Range_125 = 0X04,GYR_Range_250 = 0X03,GYR_Range_500 = 0X02,GYR_Range_1000 = 0X01,GYR_Range_2000 = 0X00}GYR_Range_Choose;//陀螺仪量程原则
 
-extern const float g;//重力加速度
+extern const double g;//重力加速度
 extern int16_t ACC_Range,GYR_Range;//惯导量程选择
 extern BMI088_DataStruct BMI088_Data;
 

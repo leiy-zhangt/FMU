@@ -1,6 +1,6 @@
 #include "bmi088.h"
 
-const float g = 9.80665;//重力加速度
+const double g = 9.80665;//重力加速度
 int16_t ACC_Range,GYR_Range;//惯导量程选择
 BMI088_DataStruct BMI088_Data;//BMI088数据结构体
 

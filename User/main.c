@@ -42,12 +42,54 @@ int main(void)
   printf("\r\nData Logger is ready!\r\n");
   while(1)
   {
-    if(sample_state == 0)
+    
+    //测试代码开始
+    
+    
+    //测试代码结束
+    
+    if(sample_state == 0)//执行采样后操作
     {
-      if(Command_State == AttitudeSolution_TEST)
+      switch(Command_State)
       {
-        AttitudeSolution();
-        printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+        case 0:
+          break;
+        case BMI_START:
+          printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",BMI088_Data.gyr_x,BMI088_Data.gyr_y,BMI088_Data.gyr_z,BMI088_Data.acc_x,BMI088_Data.acc_y,BMI088_Data.acc_z);
+          sample_state = 1;
+          break;
+        case AttitudeSolution_TEST:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+          printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+          sample_state = 1;
+          break;
+        case AccelerationSolution_TEST:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+//          AccelerationSolution(BMI088_Data.acc_x,BMI088_Data.acc_y,BMI088_Data.acc_z);
+          AccelerationSolution(ADXL357_Data.acc_x,ADXL357_Data.acc_y,ADXL357_Data.acc_z);
+          printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.acc_x,MotionData.acc_y,MotionData.acc_z);
+          sample_state = 1;
+          break;
+        case VelocitySolution_TEST:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+          AccelerationSolution(ADXL357_Data.acc_x,ADXL357_Data.acc_y,ADXL357_Data.acc_z);
+          VelocitySolution();
+          printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.velocity_x,MotionData.velocity_y,MotionData.velocity_z);
+          sample_state = 1;
+          break;
+        case PositionSolution_TEST:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+          AccelerationSolution(ADXL357_Data.acc_x,ADXL357_Data.acc_y,ADXL357_Data.acc_z);
+          VelocitySolution();
+          PositionSolution();
+          printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.position_x,MotionData.position_y,MotionData.position_z);
+          sample_state = 1;
+          break;
+        case DATASTORAGE:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+          DataStorage();
+          sample_state = 1;
+          break;
       }
     }
   }

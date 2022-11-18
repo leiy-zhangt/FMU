@@ -3,8 +3,9 @@
 W25Q一页为256byte,一个扇区为64Kbyte
 */
 
-uint8_t W25Q_buffer[4096];
-uint32_t W25Q_DataAddress[64];
+uint8_t W25Q_buffer[4096];//W25Q缓冲数组
+uint32_t W25Q_DataAddress[64];//保存数据量的地址
+uint8_t W25Q_DataNumber;//已经保存的数据量
 
 void W25Q_Configuration(void)
 { 

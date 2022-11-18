@@ -4,8 +4,6 @@
 #include "sys.h"
 #include "command.h"
 
-#define PI 3.141592654
-
 typedef enum{Frequency_1Hz = 999999,Frequency_10Hz = 99999,Frequency_50Hz = 19999,Frequency_100Hz = 9999,Frequency_200Hz = 4999}SampleFrequency;
 
 typedef struct
@@ -14,7 +12,7 @@ typedef struct
   double gyr_x,gyr_y,gyr_z;
   double pitch,yaw,roll;
   double velocity_x,velocity_y,velocity_z;
-  double postion_x,position_y,position_z;
+  double position_x,position_y,position_z;
   double pressure,height;
 }MotionDataStruct;
 
@@ -31,17 +29,20 @@ typedef struct
   double adxl_z_offset;
 }MotionOffsetStruct;
 
+extern const double PI;
 extern uint8_t sample_state;
 extern float dt;
 extern MotionDataStruct MotionData;
 extern MotionOffsetStruct MotionOffset;
 extern double sample_time;
 extern double q[4];
+extern double T_11,T_12,T_13,T_21,T_22,T_23,T_31,T_32,T_33;//坐标准换矩阵
 
 void SampleFrequency_Configuration(SampleFrequency frequency);
-void AttitudeSolution(void);//得到弧度制姿态角
-void MotionOffset_Init(void);//向第0扇区写入偏差量缓存
-void MotionOffset_Get(void);//从第0扇区得到偏差量
+void AttitudeSolution(double gyr_x,double gyr_y,double gyr_z);//得到弧度制姿态角,输入为弹体坐标系下的角速度
+void AccelerationSolution(double acc_x,double acc_y,double acc_z);//得到惯性坐标系下的加速度
+void VelocitySolution(void);//得到惯性坐标系下的速度
+void PositionSolution(void);//得到惯性坐标系下的位置
 
 #endif
 

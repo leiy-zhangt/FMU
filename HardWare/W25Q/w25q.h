@@ -14,6 +14,7 @@
 
 extern uint8_t W25Q_buffer[4096];
 extern uint32_t W25Q_DataAddress[64];
+extern uint8_t W25Q_DataNumber;
 
 
 void W25Q_Configuration(void);
