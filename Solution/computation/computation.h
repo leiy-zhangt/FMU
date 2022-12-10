@@ -14,6 +14,7 @@ typedef struct
   double velocity_x,velocity_y,velocity_z;
   double position_x,position_y,position_z;
   double pressure,height;
+  double serve[2];
 }MotionDataStruct;
 
 typedef struct
@@ -35,14 +36,17 @@ extern float dt;
 extern MotionDataStruct MotionData;
 extern MotionOffsetStruct MotionOffset;
 extern double sample_time;
+extern uint32_t sample_number;
 extern double q[4];
 extern double T_11,T_12,T_13,T_21,T_22,T_23,T_31,T_32,T_33;//坐标准换矩阵
 
 void SampleFrequency_Configuration(SampleFrequency frequency);
 void AttitudeSolution(double gyr_x,double gyr_y,double gyr_z);//得到弧度制姿态角,输入为弹体坐标系下的角速度
 void AccelerationSolution(double acc_x,double acc_y,double acc_z);//得到惯性坐标系下的加速度
+double AttitudeCompensation(void);//对姿态进行补偿
 void VelocitySolution(void);//得到惯性坐标系下的速度
 void PositionSolution(void);//得到惯性坐标系下的位置
+void GPS_Solution(uint8_t *buffer);//通过GPS解算位置与速度
 
 #endif
 

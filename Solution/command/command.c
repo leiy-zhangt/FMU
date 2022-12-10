@@ -122,9 +122,11 @@ void Sample_Start(void)
 {
   LED_EN;
   sample_time = 0;
+  sample_number = 0;
   TIM_ClearITPendingBit(TIM2, TIM_FLAG_Update);
   TIM_SetCounter(TIM2,0);
   sample_state = 1;
+  Storage_Number = 0;
   TIM_Cmd(TIM2,ENABLE);
 }
 
@@ -182,102 +184,161 @@ ErrorStatus NumberChoose(uint8_t *buffer)
   return SUCCESS;
 }
 
+//void DataRead(uint32_t addr)//数据读取函数
+//{
+//  double *tran,data[10];
+//  uint32_t *number,r;
+//  printf("Data is sending!\r\n");
+//  printf("number  acc_x  acc_y  acc_z  gyr_x  gyr_y  gyr_z  yaw  pitch  roll  height\r\n");
+//  while(Command_State == DATAREAD)
+//  {
+//    W25Q_DataReceive(addr,W25Q_buffer,256);
+//    number = W25Q_buffer;
+//    if(*number == 0xFFFFFFFF) break;
+//    else
+//    {
+//      for(uint8_t n=0;n<3;n++)
+//      {
+//        tran = W25Q_buffer + 8 +84*n;
+//        number = W25Q_buffer + 4 +84*n;
+//        for(uint8_t i=0;i<10;i++)
+//        {
+//          data[i] = *tran++;
+//          if(i>5 && i<9) data[i] = data[i]*180/PI;
+//        }
+//        r = *number;
+//        printf("%u  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",r,data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9]);
+//      }
+//    }
+//    addr += 256;
+//  }
+//  printf("Data has been sended!\r\n");
+//}
+
 void DataRead(uint32_t addr)//数据读取函数
 {
-  double *tran,data[10];
-  uint32_t *number,r;
+  double *tran,data[16];
+  uint32_t *number,i;
   printf("Data is sending!\r\n");
-  printf("number  acc_x  acc_y  acc_z  gyr_x  gyr_y  gyr_z  yaw  pitch  roll  height\r\n");
+  printf("number:p_x p_y p_z v_e v_n a_x a_y a_z g_x g_y g_z pitch roll yaw s_1 s_2\r\n");
   while(Command_State == DATAREAD)
   {
-    W25Q_DataReceive(addr,W25Q_buffer,256);
+    W25Q_DataReceive(addr,W25Q_buffer,128);
     number = W25Q_buffer;
     if(*number == 0xFFFFFFFF) break;
     else
     {
-      for(uint8_t n=0;n<3;n++)
+      printf("%u:",i);
+      tran = W25Q_buffer;
+      for(uint8_t n=0;n<16;n++)
       {
-        tran = W25Q_buffer + 8 +84*n;
-        number = W25Q_buffer + 4 +84*n;
-        for(uint8_t i=0;i<10;i++)
-        {
-          data[i] = *tran++;
-          if(i>5 && i<9) data[i] = data[i]*180/PI;
-        }
-        r = *number;
-        printf("%u  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",r,data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9]);
+        printf("% 0.4f",*tran);
+        tran++;
       }
+      printf("\r\n");
     }
-    addr += 256;
+    addr += 128;
+    i++;
   }
   printf("Data has been sended!\r\n");
 }
 
+//void DataStorage(void)
+//{
+//  uint8_t *tran,i,offset;
+//  double data[10];
+//  for(i=0;i<10;i++)
+//  {
+//    switch(i)
+//    {
+//      case 0:
+//        data[i] = MotionData.acc_x;
+//        break;
+//      case 1:
+//        data[i] = MotionData.acc_y;
+//        break;
+//      case 2:
+//        data[i] = MotionData.acc_z;
+//        break;
+//      case 3:
+//        data[i] = MotionData.gyr_x;
+//        break;
+//      case 4:
+//        data[i] = MotionData.gyr_y;
+//        break;
+//      case 5:
+//        data[i] = MotionData.gyr_z;
+//        break;
+//      case 6:
+//        data[i] = MotionData.yaw;
+//        break;
+//      case 7:
+//        data[i] = MotionData.pitch;
+//        break;
+//      case 8:
+//        data[i] = MotionData.roll;
+//        break;
+//      case 9:
+//        data[i] = MotionData.height;
+//        break;
+//    }
+//  }
+//  offset = (Storage_Number%3)*84 + 4;
+//  for(i = 0;i<84;i++)
+//  {
+//    if(i==0) tran = &Storage_Number;
+//    else if(i==4) tran = data;
+//    *(&W25Q_buffer[0]+i+offset) = *tran++;
+//  }
+////  if(Storage_Number == 0) for(uint8_t i=0;i<4;i++) W25Q_buffer[i] = 0x00;
+////  else for(uint8_t i=0;i<4;i++) W25Q_buffer[i] = 0x00;
+//  
+//  if((Storage_Number%3 == 2)) 
+//  {
+//    if(Storage_Number == 0) 
+//    {
+//      for(i=0;i<4;i++) W25Q_buffer[i] = 0x00;
+//    }
+//    else 
+//    { 
+//      for(i=0;i<4;i++) W25Q_buffer[i] = 0x00;
+//      W25Q_DataStorage(Storage_Addr,W25Q_buffer,256);
+//      Storage_Addr += 256;
+//    }
+//  }
+//  Storage_Number++;
+//  if(sample_time >= 7500.0) Sample_Stop();
+//}
+
 void DataStorage(void)
 {
-  uint8_t *tran,i,offset;
-  double data[10];
-  for(i=0;i<10;i++)
+  static uint16_t i=0;
+  double data[16];
+  uint8_t *tran = data;
+  data[0] = MotionData.position_x;
+  data[1] = MotionData.position_y;
+  data[2] = GPS_Data.height;
+  data[3] = GPS_Data.velocity_e;
+  data[4] = GPS_Data.velocity_n;
+  data[5] = MotionData.acc_x;
+  data[6] = MotionData.acc_y;
+  data[7] = MotionData.acc_z;
+  data[8] = MotionData.gyr_x;
+  data[9] = MotionData.gyr_y;
+  data[10] = MotionData.gyr_z;
+  data[11] = MotionData.pitch;
+  data[12] = MotionData.roll;
+  data[13] = MotionData.yaw;
+  data[14] = MotionData.serve[0];
+  data[15] = MotionData.serve[1];;
+  tran = data;
+  for(i=(Storage_Number%2)*128;i<(Storage_Number%2+1)*128;i++) W25Q_buffer[i] = *tran++;
+  if((Storage_Number%2 == 0)&&(Storage_Number!=0))
   {
-    switch(i)
-    {
-      case 0:
-        data[i] = MotionData.acc_x;
-        break;
-      case 1:
-        data[i] = MotionData.acc_y;
-        break;
-      case 2:
-        data[i] = MotionData.acc_z;
-        break;
-      case 3:
-        data[i] = MotionData.gyr_x;
-        break;
-      case 4:
-        data[i] = MotionData.gyr_y;
-        break;
-      case 5:
-        data[i] = MotionData.gyr_z;
-        break;
-      case 6:
-        data[i] = MotionData.yaw;
-        break;
-      case 7:
-        data[i] = MotionData.pitch;
-        break;
-      case 8:
-        data[i] = MotionData.roll;
-        break;
-      case 9:
-        data[i] = MotionData.height;
-        break;
-    }
-  }
-  offset = (Storage_Number%3)*84 + 4;
-  for(i = 0;i<84;i++)
-  {
-    if(i==0) tran = &Storage_Number;
-    else if(i==4) tran = data;
-    *(&W25Q_buffer[0]+i+offset) = *tran++;
-  }
-//  if(Storage_Number == 0) for(uint8_t i=0;i<4;i++) W25Q_buffer[i] = 0x00;
-//  else for(uint8_t i=0;i<4;i++) W25Q_buffer[i] = 0x00;
-  
-  if((Storage_Number%3 == 2)) 
-  {
-    if(Storage_Number == 0) 
-    {
-      for(i=0;i<4;i++) W25Q_buffer[i] = 0x00;
-    }
-    else 
-    { 
-      for(i=0;i<4;i++) W25Q_buffer[i] = 0x00;
-      W25Q_DataStorage(Storage_Addr,W25Q_buffer,256);
-      Storage_Addr += 256;
-    }
+    W25Q_DataStorage(Storage_Addr,W25Q_buffer,256);
+    Storage_Addr = Storage_Addr + 256;
   }
   Storage_Number++;
-  if(sample_time >= 7500.0) Sample_Stop();
 }
 
 void DataStorage_Init(void)

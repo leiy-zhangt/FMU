@@ -57,5 +57,6 @@
 ".\objects\main.o"
 ".\objects\command.o"
 ".\objects\computation.o"
+".\objects\control.o"
 --strict --scatter ".\Objects\FMU.sct"
 --summary_stderr --info summarysizes -o .\Objects\FMU.axf

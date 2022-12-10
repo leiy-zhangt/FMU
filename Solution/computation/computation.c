@@ -6,6 +6,7 @@ float dt;//采样时间间隔
 MotionDataStruct MotionData;
 MotionOffsetStruct MotionOffset;
 double sample_time = 0;
+uint32_t sample_number;
 double q[4];
 double T_11,T_12,T_13,T_21,T_22,T_23,T_31,T_32,T_33;//坐标准换矩阵
 
@@ -55,6 +56,7 @@ void TIM2_IRQHandler(void)
     MotionData.pressure = BMP388_Data.pre;
     sample_state = 0;
     sample_time += dt;
+    sample_number++;
 	}
 }
 
@@ -92,6 +94,36 @@ void AttitudeSolution(double gyr_x,double gyr_y,double gyr_z)  //对角速度进
   T_33 = cos(MotionData.roll)*cos(MotionData.pitch);
 }
 
+double AttitudeCompensation(void)
+{
+  const float coefficient = 0.05;
+  double acc_norm;
+  acc_norm = sqrt(pow(MotionData.acc_x,2)+pow(MotionData.acc_y,2)+pow(MotionData.acc_z,2));
+  if((acc_norm>9.6)&&(acc_norm<10))
+  {
+    MotionData.pitch = asin(MotionData.acc_y/acc_norm)*coefficient + MotionData.pitch*(1-coefficient);
+    MotionData.roll = atan2(-MotionData.acc_x,MotionData.acc_z)*coefficient + MotionData.roll*(1-coefficient);
+    T_11 = cos(MotionData.roll)*cos(MotionData.yaw)-sin(MotionData.roll)*sin(MotionData.pitch)*sin(MotionData.yaw);
+    T_21 = cos(MotionData.roll)*sin(MotionData.yaw)+sin(MotionData.roll)*sin(MotionData.pitch)*cos(MotionData.yaw);
+    T_31 = -sin(MotionData.roll)*cos(MotionData.pitch);
+    T_12 = -cos(MotionData.pitch)*sin(MotionData.yaw);
+    T_22 = cos(MotionData.pitch)*cos(MotionData.yaw);
+    T_32 = sin(MotionData.pitch);
+    T_13 = sin(MotionData.roll)*cos(MotionData.yaw)+cos(MotionData.roll)*sin(MotionData.pitch)*sin(MotionData.yaw);
+    T_23 = sin(MotionData.roll)*sin(MotionData.yaw)-cos(MotionData.roll)*sin(MotionData.pitch)*cos(MotionData.yaw);
+    T_33 = cos(MotionData.roll)*cos(MotionData.pitch);
+    q[0] = 0.5*sqrt(1+T_11+T_22+T_33);
+    q[1] = 0.5*sqrt(1+T_11-T_22-T_33);
+    q[2] = 0.5*sqrt(1-T_11+T_22-T_33);
+    q[3] = 0.5*sqrt(1-T_11-T_22+T_33);
+    if((T_32 - T_23)<0) q[1] = -q[1];
+    if((T_13 - T_31)<0) q[2] = -q[2];
+    if((T_21 - T_12)<0) q[3] = -q[3];
+  }
+//  printf("%0.6f\r\n",acc_norm);
+  return acc_norm;
+}
+
 void AccelerationSolution(double acc_x,double acc_y,double acc_z)
 {
   MotionData.acc_x = acc_x*T_11+acc_y*T_12+acc_z*T_13;
@@ -111,6 +143,173 @@ void PositionSolution(void)
   MotionData.position_x += MotionData.velocity_x*dt;
   MotionData.position_y += MotionData.velocity_y*dt;
   MotionData.position_z += MotionData.velocity_z*dt;
+}
+
+void GPS_Solution(uint8_t *buffer)
+{
+  volatile uint8_t i,j = 0,k;
+  volatile double lat,lon,height;//经纬度
+  volatile double velocity,degree;
+  volatile double point;
+  if(buffer[0] == 0x24)
+  {
+    if((buffer[3] == 'R')&&(buffer[4] == 'M')&&(buffer[5] == 'C'))
+    {
+//      LED=!LED;
+      for(i = 1;i<200;i++)
+      {
+        if(buffer[i] == ',') 
+        {
+          j++;
+          if(j>14) break;
+          if(j == 2) 
+          {
+            if(buffer[i+1]=='A') 
+            {
+              GPS_status = 1;
+            }
+            else if(buffer[i+1]=='V')
+            {
+              GPS_status = 2;
+              break;
+            }
+          }
+          else if(j == 3)//get lat
+          {
+            k=i+1;
+            if(buffer[k]==',') continue;
+            while(1)
+            {
+              lat = (buffer[k++]-0x30)*10;
+              lat = lat + (buffer[k++]-0x30);
+              lat = lat + (buffer[k++]-0x30)/6.0;
+              lat = lat + (buffer[k++]-0x30)/60.0;
+              k++;
+              point = 0.1f;
+              while(1)
+              {
+                lat=lat + (buffer[k++]-0x30)*point/60;
+                point = 0.1f*point;
+                if(buffer[k] == ',') break;
+              }
+              if(buffer[k+1] == 'S') lat = -lat;
+              break;
+            }
+          }
+          else if(j == 5)//get lon
+          {
+            k=i+1;
+            if(buffer[k]==',') continue;
+            while(1)
+            {
+              lon = (buffer[k++]-0x30)*100;
+              lon = lon + (buffer[k++]-0x30)*10;
+              lon = lon + (buffer[k++]-0x30);
+              lon = lon + (buffer[k++]-0x30)/6.0;
+              lon = lon + (buffer[k++]-0x30)/60.0;
+              k++;
+              point = 0.1f;
+              while(1)
+              {
+                lon = lon + (buffer[k++]-0x30)*point/60;
+                point = 0.1f*point;
+                if(buffer[k] == ',') break;
+              }
+              if(buffer[k+1] == 'W') lon = -lon;
+              break;
+            }
+          }
+          else if(j == 7)//get velocity
+          {
+            if(buffer[i+1]==',') continue;
+            for(k=i+1;k<200;k++) 
+            {
+              if(buffer[k] == '.') 
+              {
+                velocity = 0;
+                for(i++;i<k;i++) velocity += (buffer[i]-0x30)*pow(10,k-i-1);
+                point = 0.1f;
+                i++;
+                while(1)
+                {
+                  velocity += (buffer[i++]-0x30)*point;
+                  if(buffer[i]==',') break;
+                  point *= 0.1f;
+                }
+                break;
+              }
+            }
+            if(buffer[i+1]==',') continue;
+            for(k=i+1;k<200;k++) 
+            {
+              if(buffer[k] == '.') 
+              {
+                degree = 0;
+                for(i++;i<k;i++) degree += (buffer[i]-0x30)*pow(10,k-i-1);
+                point = 0.1f;
+                i++;
+                while(1)
+                {
+                  degree += (buffer[i++]-0x30)*point;
+                  if(buffer[i]==',') break;
+                  point *= 0.1f;
+                }
+                break;
+              }
+            }
+            GPS_Data.velocity_n = velocity*0.514*cos(degree/180*PI);
+            GPS_Data.velocity_e = velocity*0.514*sin(degree/180*PI);
+          }
+        }
+      }
+      if((GPS_init == 0)&&(GPS_status == 1)) 
+      {
+        GPS_init = 1;
+        GPS_Data.lat_init = lat;
+        GPS_Data.lon_init = lon;
+      }
+      else if(GPS_init&&(GPS_status == 1))
+      {
+        GPS_Data.lat = lat;
+        GPS_Data.lon = lon;
+        Coordinate2Position();
+        GPS_init = 1;
+      }
+    }
+    else if((buffer[3] == 'G')&&(buffer[4] == 'G')&&(buffer[5] == 'A')&&(GPS_status == 1))
+    {
+      for(i = 1;i<200;i++)
+      {
+        if(buffer[i] == ',') 
+        {
+          j++;
+          if(j == 9)//get height
+          {
+            if(buffer[i+1]==',') continue;
+            for(k=i+1;k<200;k++) 
+            {
+              if(buffer[k] == '.') 
+              {
+                height = 0;
+                for(i++;i<k;i++) height += (buffer[i]-0x30)*pow(10,k-i-1);
+                point = 0.1f;
+                k++;
+                while(1)
+                {
+                  height += (buffer[k++]-0x30)*point;
+                  if(buffer[k]==',') break;
+                  point *= 0.1f;
+                }
+                GPS_Data.height = height;
+                MotionData.position_z = height;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 

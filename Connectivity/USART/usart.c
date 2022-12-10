@@ -82,7 +82,7 @@ void USART1_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	GPIO_Init(GPIOA,&GPIO_InitStructure); //初始化PA9，PA10
   //Usart1 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=4 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//抢占优先级3
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
@@ -215,14 +215,53 @@ void USART2_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 //	} 
 //} 
 
-void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名不能修改）	
-  uint8_t Res;
-	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
-    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
-    Res=USART_ReceiveData(USART2); 
-    USART_SendData(USART3,Res);
-	} 
-} 
+//void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名不能修改）	
+//  uint8_t Res;
+//	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
+//    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+//    Res=USART_ReceiveData(USART2); 
+//    USART_SendData(USART1,Res);
+//	} 
+//} 
+
+void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名不能修改）
+	uint8_t Res;
+	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)   //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
+  { 
+		Res=USART_ReceiveData(USART2);//读取接收到的数据
+//		printf("%c",Res); //把收到的数据发送回电脑
+    if((USART2_RX_STA&0x8000)==0)//接收未完成
+		{
+			if(USART2_RX_STA&0x4000)//接收到了0x0d
+			{
+				if(Res!=0x0A)USART2_RX_STA=0;//接收错误,重新开始
+				else USART2_RX_STA|=0x8000;	//接收完成了 
+			}
+			else //还没收到0X0D
+			{	
+				if(Res==0x0D)USART2_RX_STA|=0x4000;
+				else
+				{
+					USART2_RX_BUF[USART2_RX_STA&0x3FFF]=Res ;
+					USART2_RX_STA++;
+					if(USART2_RX_STA>(USART2_REC_LEN-1))USART2_RX_STA=0;//接收数据错误,重新开始接收	  
+				}		 
+			}
+		} 
+    if((USART2_RX_STA&0x8000))
+    {
+      if(GPS_status)
+      {
+        USART2_RX_STA = 0;
+        if(USART2_RX_BUF[0]==0x24)
+        {
+          if(GPS_status) GPS_Solution(USART2_RX_BUF);
+        }
+      }
+    }
+	}
+  USART_ClearITPendingBit(USART2, USART_IT_RXNE);  
+}
 
 #endif	
 
