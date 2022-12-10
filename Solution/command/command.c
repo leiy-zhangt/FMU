@@ -232,7 +232,7 @@ void DataRead(uint32_t addr)//数据读取函数
       tran = W25Q_buffer;
       for(uint8_t n=0;n<16;n++)
       {
-        printf("% 0.4f",*tran);
+        printf("  %+0.4f",*tran);
         tran++;
       }
       printf("\r\n");

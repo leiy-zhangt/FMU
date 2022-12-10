@@ -10,8 +10,8 @@ void guidace(MotionDataStruct MotionData)      //制导函数
 {
 	int IPI_x = 5000;         //目标点位置
 	int IPI_y = 300;
-  Sreve_1_Set(MotionData.pitch);
-  Sreve_2_Set(MotionData.roll);
+  Sreve_1_Set(MotionData.pitch*57);
+  Sreve_2_Set(MotionData.roll*57);
 }
 
 void Sreve_1_Set(double angle)
