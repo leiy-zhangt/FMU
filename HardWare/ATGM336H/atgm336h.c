@@ -10,7 +10,7 @@ void ATGM336H_Configuration(FunctionalState ATGM_State)
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
   
-  USART2_Configuration(19200,DISABLE);
+  USART2_Configuration(9600,DISABLE);
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4; 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//100M

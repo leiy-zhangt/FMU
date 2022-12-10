@@ -93,7 +93,7 @@ int main(void)
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
           guidace(MotionData);
-          if(sample_number%10 == 0)DataStorage();
+          if(sample_number%10 == 0) DataStorage();
           sample_state = 1;
           break;
       }
