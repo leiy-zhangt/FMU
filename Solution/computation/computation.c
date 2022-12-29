@@ -174,7 +174,7 @@ void GPS_Solution(uint8_t *buffer)
               break;
             }
           }
-          else if(j == 3)//get lat
+          else if(j == 3)//get lat（维度）
           {
             k=i+1;
             if(buffer[k]==',') continue;
@@ -196,7 +196,7 @@ void GPS_Solution(uint8_t *buffer)
               break;
             }
           }
-          else if(j == 5)//get lon
+          else if(j == 5)//get lon（经度）
           {
             k=i+1;
             if(buffer[k]==',') continue;
@@ -259,6 +259,8 @@ void GPS_Solution(uint8_t *buffer)
             }
             GPS_Data.velocity_n = velocity*0.514*cos(degree/180*PI);
             GPS_Data.velocity_e = velocity*0.514*sin(degree/180*PI);
+            MotionData.velocity_x = GPS_Data.velocity_e;
+            MotionData.velocity_y = GPS_Data.velocity_n;
           }
         }
       }

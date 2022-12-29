@@ -5,7 +5,7 @@
 #include "serve.h"
 
 void guidace(MotionDataStruct MotionData);
-void Sreve_1_Set(double angle);
-void Sreve_2_Set(double angle);
+void Serve_1_Set(double angle);
+void Serve_2_Set(double angle);
 
 #endif

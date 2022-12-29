@@ -4,18 +4,18 @@ void LORA_Configuration(uint16_t lora_addr,int32_t bound)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_6; //ÅäÖÃÒı½Å
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//ÅäÖÃÎªÊä³ö
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//¿ªÂ©Êä³ö
-  GPIO_InitStructure.GPIO_Speed = GPIO_Low_Speed;//ÂıËÙÊä³ö
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//ÉÏÀ­
-  GPIO_Init(GPIOB, &GPIO_InitStructure);//³õÊ¼»¯
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_6; //é…ç½®å¼•è„š
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//é…ç½®ä¸ºè¾“å‡º
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//å¼€æ¼è¾“å‡º
+  GPIO_InitStructure.GPIO_Speed = GPIO_Low_Speed;//æ…¢é€Ÿè¾“å‡º
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//ä¸Šæ‹‰
+  GPIO_Init(GPIOB, &GPIO_InitStructure);//åˆå§‹åŒ–
  
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5; //ÅäÖÃÒı½Å
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;//ÅäÖÃÎªÊä³ö
-  GPIO_InitStructure.GPIO_Speed = GPIO_Low_Speed;//ÂıËÙÊä³ö
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//ÉÏÀ­
-  GPIO_Init(GPIOB, &GPIO_InitStructure);//³õÊ¼»¯
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5; //é…ç½®å¼•è„š
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;//é…ç½®ä¸ºè¾“å‡º
+  GPIO_InitStructure.GPIO_Speed = GPIO_Low_Speed;//æ…¢é€Ÿè¾“å‡º
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//ä¸Šæ‹‰
+  GPIO_Init(GPIOB, &GPIO_InitStructure);//åˆå§‹åŒ–
   LORA_NRST = 1;
   LORA_M0 = 0;
   LORA_M1 = 0;
@@ -26,17 +26,17 @@ void LORA_Configuration(uint16_t lora_addr,int32_t bound)
   LORA_M1 = 1;
   delay_ms(10);
   while(LORA_Status == 0);
-  //½øÈëÅäÖÃÄ£Ê½
+  //è¿›å…¥é…ç½®æ¨¡å¼
   LORA_WriteCmd(0x00,lora_addr>>8);
   delay_ms(50);
-  LORA_WriteCmd(0x01,lora_addr);//ÅäÖÃµØÖ·
+  LORA_WriteCmd(0x01,lora_addr);//é…ç½®åœ°å€
   delay_ms(50);
-  LORA_WriteCmd(0x03,0xA7);//ÅäÖÃ²¨ÌØÂÊÓëËÙ¶È
+  LORA_WriteCmd(0x03,0xA7);//é…ç½®æ³¢ç‰¹ç‡ä¸é€Ÿåº¦
   delay_ms(50);
-  LORA_WriteCmd(0x04,0x00);//ÅäÖÃĞÅµÀ
-  delay_ms(50);//³öÅäÖÃÄ£Ê½
-  LORA_WriteCmd(0x05,Lora_channel);//ÅäÖÃĞÅµÀ
-  delay_ms(50);//³öÅäÖÃÄ£Ê½
+  LORA_WriteCmd(0x04,0x00);//é…ç½®åˆ†åŒ…
+  delay_ms(50);//å‡ºé…ç½®æ¨¡å¼
+  LORA_WriteCmd(0x05,Lora_channel);//é…ç½®ä¿¡é“
+  delay_ms(50);//å‡ºé…ç½®æ¨¡å¼
   while(LORA_Status == 0);
   LORA_M0 = 0;
   LORA_M1 = 0;

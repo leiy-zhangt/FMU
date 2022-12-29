@@ -330,7 +330,7 @@ void DataStorage(void)
   data[12] = MotionData.roll;
   data[13] = MotionData.yaw;
   data[14] = MotionData.serve[0];
-  data[15] = MotionData.serve[1];;
+  data[15] = MotionData.serve[1];
   tran = data;
   for(i=(Storage_Number%2)*128;i<(Storage_Number%2+1)*128;i++) W25Q_buffer[i] = *tran++;
   if((Storage_Number%2 == 0)&&(Storage_Number!=0))

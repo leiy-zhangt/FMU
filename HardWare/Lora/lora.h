@@ -4,7 +4,7 @@
 #include "sys.h"
 #include "usart.h"
 
-#define Lora_channel 0x25
+#define Lora_channel 0x00
 
 #define LORA_M0 PBout(0)
 #define LORA_M1 PBout(1)
