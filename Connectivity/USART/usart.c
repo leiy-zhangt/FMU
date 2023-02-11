@@ -320,7 +320,7 @@ void USART3_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	GPIO_Init(GPIOB,&GPIO_InitStructure); //初始化PB10，PB11
   //Usart3 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=5 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级3
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
@@ -357,12 +357,37 @@ void USART3_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 //	} 
 //} 
 
-void USART3_IRQHandler(void){ 	
-  uint8_t Res;
-	if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
+void USART3_IRQHandler(void){ //串口1中断服务程序（固定的函数名不能修改）	
+	uint8_t Res;
+	if(USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)   //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
+  { 
+    USART_ClearITPendingBit(USART3, USART_IT_RXNE);
 		Res=USART_ReceiveData(USART3);//读取接收到的数据
-		printf("%c",Res); //把收到的数据发送回电脑
-    USART_ClearITPendingBit(USART3, USART_IT_RXNE);  	
+//		printf("%c",Res); //把收到的数据发送回电脑
+    if((USART3_RX_STA&0x8000)==0)//接收未完成
+		{
+			if(USART3_RX_STA&0x4000)//接收到了0x0d
+			{
+				if(Res!=0x0A)USART3_RX_STA=0;//接收错误,重新开始
+				else USART3_RX_STA|=0x8000;	//接收完成了 
+			}
+			else //还没收到0X0D
+			{	
+				if(Res==0x0D)USART3_RX_STA|=0x4000;
+				else
+				{
+					USART3_RX_BUF[USART3_RX_STA&0x3FFF]=Res ;
+					USART3_RX_STA++;
+					if(USART3_RX_STA>(USART3_REC_LEN-1))USART3_RX_STA=0;//接收数据错误,重新开始接收	  
+				}		 
+			}
+		} 
+    if((USART3_RX_STA&0x8000))
+    {
+      USART3_RX_BUF[USART3_RX_STA&0x3FFF] = 0;
+      USART3_RX_STA = 0;
+      Command_Receive(USART3_RX_BUF);
+    }
 	} 
 } 
 

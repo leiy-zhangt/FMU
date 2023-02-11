@@ -1,21 +1,3 @@
-/*
-指令分区：
-0~9：BMI088模块
-10~19：ADXL357模块
-20~29:BMP388模块
-30~39:BMI150模块
-40~49:W25Q模块
-50~59:Lora模块
-60~69:GPS模块
-70~99：测试部分
-100~：工作部分
-
-W25Q存储分区：
-第0块：用于存放系统参数
-  第0扇区：0~71Byte存放传感器稳态偏移量，72以后待定。
-  第1扇区及以后，存放已经保存的数据量及页数。
-
-*/
 #include "command.h"
 
 uint8_t Command_State = 0;//指令状态
@@ -26,7 +8,7 @@ uint32_t Storage_Addr = 0x10000;//变量存储地址
 void Command_Receive(uint8_t *buffer)
 {
   if(strcmp(buffer,"BMI_START") == 0) {Command_State = BMI_START;Sample_Start();}
-  else if(strcmp(buffer,"BMI_STOP") == 0) {Command_State = BMI_STOP;Sample_Stop();}
+  else if(strcmp(buffer,"Sample_STOP") == 0) Sample_Stop();
   else if(strcmp(buffer,"W25Q_DataConsult") == 0) W25Q_DataConsult();
   else if(strcmp(buffer,"W25Q_DataClear") == 0) W25Q_DataClear();
   else if(strcmp(buffer,"W25Q_ChipErase") == 0) {LED_EN;W25Q_ChipErase();LED_DIS;}
@@ -37,9 +19,11 @@ void Command_Receive(uint8_t *buffer)
   else if(strcmp(buffer,"PositionSolution_TEST") == 0) {Command_State = PositionSolution_TEST;PositionSolution_Test();}
   else if(strcmp(buffer,"MotionOffset_INIT") == 0) MotionOffset_Init();
   else if(strcmp(buffer,"MotionOffset_DEINIT") == 0) MotionOffset_DeInit();
-  else if(strcmp(buffer,"DataStorage") == 0) {Command_State = DATASTORAGE;DataStorage_Init();}
-  else if(strcmp(buffer,"DataRead") == 0) {Command_State = DATAREAD;DataRead(0x10000);}
-//  else if(NumberChoose(buffer)) DataRead(DataNumber);
+  else if(strcmp(buffer,"DataStorage") == 0) {Command_State = Data_STORAGE;DataStorage_Init();}
+  else if(strcmp(buffer,"DataRead") == 0) {Command_State = Data_READ;DataRead(0x10000);}
+  else if(strcmp(buffer,"Height_TEST") == 0) {Command_State = Height_TEST;Height_Test();}
+  else if(strcmp(buffer,"Position_INIT") == 0) Position_Init();
+  else if(strcmp(buffer,"Position_DEINIT") == 0) Position_DeInit();
   else Command_State = 0;
 }
 
@@ -136,7 +120,8 @@ void Sample_Stop(void)
   sample_state = 1;
   LED_DIS;
   printf("FMU stop working!\r\n");
-  if(Command_State == DATASTORAGE) printf("%u points have been storaged!\r\n",Storage_Number);
+  if(Command_State == Data_STORAGE) printf("%u points have been storaged!\r\n",Storage_Number);
+  Command_State = Sample_STOP;
 }
 
 
@@ -190,7 +175,7 @@ ErrorStatus NumberChoose(uint8_t *buffer)
 //  uint32_t *number,r;
 //  printf("Data is sending!\r\n");
 //  printf("number  acc_x  acc_y  acc_z  gyr_x  gyr_y  gyr_z  yaw  pitch  roll  height\r\n");
-//  while(Command_State == DATAREAD)
+//  while(Command_State == Data_READ)
 //  {
 //    W25Q_DataReceive(addr,W25Q_buffer,256);
 //    number = W25Q_buffer;
@@ -221,7 +206,7 @@ void DataRead(uint32_t addr)//数据读取函数
   uint32_t *number,i;
   printf("Data is sending!\r\n");
   printf("number:p_x p_y p_z v_e v_n a_x a_y a_z g_x g_y g_z pitch roll yaw s_1 s_2\r\n");
-  while(Command_State == DATAREAD)
+  while(Command_State == Data_READ)
   {
     W25Q_DataReceive(addr,W25Q_buffer,128);
     number = W25Q_buffer;
@@ -310,14 +295,14 @@ void DataRead(uint32_t addr)//数据读取函数
 //  if(sample_time >= 7500.0) Sample_Stop();
 //}
 
-void DataStorage(void)
+ void DataStorage(void)
 {
   static uint16_t i=0;
   double data[16];
   uint8_t *tran = data;
   data[0] = MotionData.position_x;
   data[1] = MotionData.position_y;
-  data[2] = GPS_Data.height;
+  data[2] = MotionData.position_z;
   data[3] = GPS_Data.velocity_e;
   data[4] = GPS_Data.velocity_n;
   data[5] = MotionData.acc_x;
@@ -347,6 +332,7 @@ void DataStorage_Init(void)
   Storage_Number=0;
   Storage_Addr = 0x10000;
   printf("Data is storaging!\r\n");
+  USART3_printf("Data is storaging!\r\n");
   Sample_Start();
 }
 
@@ -430,6 +416,7 @@ void MotionOffset_DeInit(void)
   MotionOffset.adxl_y_offset = 0;
   MotionOffset.adxl_z_offset = 0;
   printf("FMU offset has cleared!\r\n");
+  USART3_printf("FMU offset has cleared!\r\n");
 }
 
 void MotionOffset_Get(void)
@@ -447,3 +434,38 @@ void MotionOffset_Get(void)
   MotionOffset.adxl_y_offset = *tran++;
   MotionOffset.adxl_z_offset = *tran;
 }
+
+void Height_Test(void)
+{
+  Sample_Start();
+}
+
+void Position_DeInit(void)
+{
+  height_init = 0;
+  GPS_Data.lat_init=0;
+  GPS_Data.lon_init=0;
+}
+
+void Position_Init(void)
+{
+  uint8_t i;
+  double height_avg[100];
+  LED_EN;
+  Position_DeInit();
+  MotionData.height = BMP388_HeightGet();
+  for(i=0;i<100;i++) 
+  {
+    MotionData.height = BMP388_HeightCalibration();
+    height_avg[i] =  MotionData.height;
+    delay_ms(10);
+  }
+  for(i=0;i<100;i++) height_init += height_avg[i];
+  height_init = height_init/100;
+  GPS_Data.lat_init = GPS_Data.lat;
+  GPS_Data.lon_init = GPS_Data.lon;
+  printf("PositionInit has finished!\r\n");
+  USART3_printf("PositionInit has finished!\r\n");
+  LED_DIS;
+}
+

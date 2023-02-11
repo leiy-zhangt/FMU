@@ -1,3 +1,22 @@
+/*
+指令分区：
+0~9:BMI088模块
+10~19:ADXL357模块
+20~29:BMP388模块
+30~39:BMI150模块
+40~49:W25Q模块
+50~59:Lora模块
+60~69:GPS模块
+70~99测试部分
+100~：工作部分
+
+W25Q存储分区：
+第0块：用于存放系统参数
+第0扇区：0~71Byte存放传感器稳态偏移量，72以后待定。
+第1扇区及以后，存放已经保存的数据量及页数。
+
+*/
+
 #ifndef __COMMAND_H
 #define __COMMAND_H
 
@@ -19,13 +38,15 @@
 #define BMI_START 1
 #define BMI_STOP 2
 
+#define Height_TEST 20
+
 #define AttitudeSolution_TEST 70
 #define Sample_STOP 71
 #define AccelerationSolution_TEST 72
 #define VelocitySolution_TEST 73
 #define PositionSolution_TEST 74
-#define DATASTORAGE 100
-#define DATAREAD 101
+#define Data_STORAGE 100
+#define Data_READ 101
 
 extern uint8_t Command_State;
 extern uint8_t DataNumber;
@@ -48,6 +69,9 @@ void PositionSolution_Test(void);
 void MotionOffset_Init(void);//向第0扇区写入偏差量缓存
 void MotionOffset_DeInit(void);//将偏差量重置为0
 void MotionOffset_Get(void);//从第0扇区得到偏差量
+void Height_Test(void);//气压计测试程序
+void Position_DeInit(void);//位置参数清楚初始化
+void Position_Init(void);//位置参数初始化
 
 #endif
 

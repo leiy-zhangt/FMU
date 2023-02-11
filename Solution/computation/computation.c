@@ -52,7 +52,7 @@ void TIM2_IRQHandler(void)
     MotionData.gyr_x = BMI088_Data.gyr_x;
     MotionData.gyr_y = BMI088_Data.gyr_y;
     MotionData.gyr_z = BMI088_Data.gyr_z;
-    MotionData.height = BMP388_HeightGet();
+    MotionData.height = BMP388_HeightCalibration();
     MotionData.pressure = BMP388_Data.pre;
     sample_state = 0;
     sample_time += dt;

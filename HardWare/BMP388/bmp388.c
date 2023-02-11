@@ -1,7 +1,7 @@
 #include "bmp388.h"
 
-//×î¸ßÎ»Îª0£ºĞ´  ×î¸ßÎ»Îª1£º¶Á
-//ÆøÑ¹µÄÊı¾İĞèÒªÎÂ¶È½øĞĞĞŞÕı£¬Òò´ËÔÚ²âÁ¿ÆøÑ¹Ö®Ç°ĞèÒªÏÈ²âÁ¿ÎÂ¶È
+//æœ€é«˜ä½ä¸º0ï¼šå†™  æœ€é«˜ä½ä¸º1ï¼šè¯»
+//æ°”å‹çš„æ•°æ®éœ€è¦æ¸©åº¦è¿›è¡Œä¿®æ­£ï¼Œå› æ­¤åœ¨æµ‹é‡æ°”å‹ä¹‹å‰éœ€è¦å…ˆæµ‹é‡æ¸©åº¦
 
 double height_init = 0;
 
@@ -11,14 +11,14 @@ BMP388_DataStruct BMP388_Data;
 
 void BMP388_Configuration(void)
 {
-  BMP388_Calibration(&BMP388_Calibration_Data,&BMP388_Calibration_QuantizedData);//»ñÈ¡Ğ£ÕıÏµÊı
-  //BMP388¹¤×÷Ä£Ê½ÅäÖÃ
-  BMP388_WriteData(0x7E,0xB6);//¸´Î»    
+  BMP388_Calibration(&BMP388_Calibration_Data,&BMP388_Calibration_QuantizedData);//è·å–æ ¡æ­£ç³»æ•°
+  //BMP388å·¥ä½œæ¨¡å¼é…ç½®
+  BMP388_WriteData(0x7E,0xB6);//å¤ä½    
   delay_ms(1);
-  BMP388_WriteData(0x1C,0x01);//ÅäÖÃ¹ı²ÉÑù
-  BMP388_WriteData(0x1D,0x01);//ÅäÖÃÊä³öËÙÂÊÎª100Hz
-  BMP388_WriteData(0x1F,0x02);//ÅäÖÃÂË²¨IIRÂË²¨Æ÷Îª1
-  BMP388_WriteData(0x1B,0x33);//ÅäÖÃ¹¤×÷Ä£Ê½ÎªÕı³£¹¤×÷
+  BMP388_WriteData(0x1C,0x01);//é…ç½®è¿‡é‡‡æ ·
+  BMP388_WriteData(0x1D,0x01);//é…ç½®è¾“å‡ºé€Ÿç‡ä¸º100Hz
+  BMP388_WriteData(0x1F,0x02);//é…ç½®æ»¤æ³¢IIRæ»¤æ³¢å™¨ä¸º1
+  BMP388_WriteData(0x1B,0x33);//é…ç½®å·¥ä½œæ¨¡å¼ä¸ºæ­£å¸¸å·¥ä½œ
   delay_ms(20);
   height_init = 0;
   height_init = BMP388_HeightGet();
@@ -117,6 +117,14 @@ double BMP388_HeightGet(void)
   return 288.15*(1-pow(BMP388_Data.pre/101325,0.0065*287.05287/g))/0.0065 - height_init;
 //  return 288.15*(1-pow(BMP388_Data.pre/101325,0.0065*287.05287/g))/0.0065;
 }
+
+double BMP388_HeightCalibration()
+{
+  double T = 0.01, tau = 0.1;
+  double alpha = T / (T + tau);
+  return alpha*BMP388_HeightGet()+(1-alpha)*MotionData.height;
+}
+
 
 void BMP388_Calibration(BMP388_Calibration_DataStruct *data_int,BMP388_Calibration_QuantizedDataStruct *data_float)
 {

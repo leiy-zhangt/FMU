@@ -60,15 +60,15 @@ extern BMP388_Calibration_QuantizedDataStruct BMP388_Calibration_QuantizedData;
 extern BMP388_DataStruct BMP388_Data;
 extern double height_init;
 
-
-void BMP388_Configuration(void);//³õÊ¼»¯º¯Êı
-void BMP388_WriteData(uint8_t addr,uint8_t data);//BMP388·¢ËÍÊı¾İº¯Êı
-uint8_t BMP388_ReadData(uint8_t addr);//BMP388¶ÁÊı¾İº¯Êı
+void BMP388_Configuration(void);//åˆå§‹åŒ–å‡½æ•°
+void BMP388_WriteData(uint8_t addr,uint8_t data);//BMP388å‘é€æ•°æ®å‡½æ•°
+uint8_t BMP388_ReadData(uint8_t addr);//BMP388è¯»æ•°æ®å‡½æ•°
 void BMP388_ReadBuffer(uint8_t addr,uint8_t *buffer,uint8_t length);
-uint8_t BMP388_StatusGet(void);//BMP388×´Ì¬»ñÈ¡º¯Êı
-void BMP388_Calibration(BMP388_Calibration_DataStruct *data_int,BMP388_Calibration_QuantizedDataStruct *data_float);//BMP388Ğ£ÕıÏµÊı»ñÈ¡
-void BMP388_TemperatureGet(BMP388_DataStruct *BMP388_Data);//BMP388ÎÂ¶ÈÖµ»ñÈ¡,µ¥Î»Îª¡ã/C
-void BMP388_PressureGet(BMP388_DataStruct *BMP388_Data);//BMP388ÆøÑ¹Öµ»ñÈ¡,µ¥Î»ÎªPa
-double BMP388_HeightGet(void);//»ñÈ¡µ±Ç°º£°Î¸ß¶È£¬µ¥Î»Îªm
+uint8_t BMP388_StatusGet(void);//BMP388çŠ¶æ€è·å–å‡½æ•°
+void BMP388_Calibration(BMP388_Calibration_DataStruct *data_int,BMP388_Calibration_QuantizedDataStruct *data_float);//BMP388æ ¡æ­£ç³»æ•°è·å–
+void BMP388_TemperatureGet(BMP388_DataStruct *BMP388_Data);//BMP388æ¸©åº¦å€¼è·å–,å•ä½ä¸ºÂ°/C
+void BMP388_PressureGet(BMP388_DataStruct *BMP388_Data);//BMP388æ°”å‹å€¼è·å–,å•ä½ä¸ºPa
+double BMP388_HeightGet(void);//è·å–å½“å‰æµ·æ‹”é«˜åº¦ï¼Œå•ä½ä¸ºm
+double BMP388_HeightCalibration(void);//BMP388æ ¡å‡†å…¬å¼
 #endif
 
