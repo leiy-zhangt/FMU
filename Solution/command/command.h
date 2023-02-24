@@ -58,6 +58,7 @@ extern uint8_t Command_State;
 extern uint8_t DataNumber;
 extern uint32_t Storage_Number;
 extern uint32_t Storage_Addr;//变量存储地址
+extern uint32_t Fuse_State;
 
 void Command_Receive(uint8_t *buffer);
 void AttitudeSolution_Ttst(void);

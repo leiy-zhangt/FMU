@@ -18,5 +18,5 @@ void FUSE_Configuration(void)
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;//配置为输出
   GPIO_InitStructure.GPIO_Speed = GPIO_Fast_Speed;//慢速输出
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉
-  GPIO_Init(TRIGGER_Port, &GPIO_InitStructure);//初始化
+  GPIO_Init(GPIOA, &GPIO_InitStructure);//初始化
 }

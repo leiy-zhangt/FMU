@@ -4,6 +4,7 @@ uint8_t Command_State = 0;//指令状态
 uint8_t DataNumber = 255;//读取数据量
 uint32_t Storage_Number = 0;
 uint32_t Storage_Addr = 0x10000;//变量存储地址
+uint32_t Fuse_State = 1;//开伞状态
 
 void Command_Receive(uint8_t *buffer)
 {
@@ -13,14 +14,13 @@ void Command_Receive(uint8_t *buffer)
   else if(strcmp(buffer,"W25Q_DataClear") == 0) W25Q_DataClear();
   else if(strcmp(buffer,"W25Q_ChipErase") == 0) {LED_EN;W25Q_ChipErase();LED_DIS;}
   else if(strcmp(buffer,"AttitudeSolution_TEST") == 0) {Command_State = AttitudeSolution_TEST;AttitudeSolution_Ttst();}
-  else if(strcmp(buffer,"Sample_STOP") == 0) Sample_Stop();
   else if(strcmp(buffer,"AccelerationSolution_TEST") == 0) {Command_State = AccelerationSolution_TEST;AccelerationSolution_Test();}
   else if(strcmp(buffer,"VelocitySolution_TEST") == 0) {Command_State = VelocitySolution_TEST;VelocitySolution_Test();}
   else if(strcmp(buffer,"PositionSolution_TEST") == 0) {Command_State = PositionSolution_TEST;PositionSolution_Test();}
   else if(strcmp(buffer,"MotionOffset_INIT") == 0) MotionOffset_Init();
   else if(strcmp(buffer,"MotionOffset_DEINIT") == 0) MotionOffset_DeInit();
-  else if(strcmp(buffer,"DataStorage") == 0) {Command_State = Data_STORAGE;DataStorage_Init();}
-  else if(strcmp(buffer,"DataRead") == 0) {Command_State = Data_READ;DataRead(0x10000);}
+  else if(strcmp(buffer,"Data_STORAGE") == 0) {Command_State = Data_STORAGE;DataStorage_Init();}
+  else if(strcmp(buffer,"Data_READ") == 0) {Command_State = Data_READ;DataRead(0x10000);}
   else if(strcmp(buffer,"Height_TEST") == 0) {Command_State = Height_TEST;Height_Test();}
   else if(strcmp(buffer,"Position_INIT") == 0) Position_Init();
   else if(strcmp(buffer,"Position_DEINIT") == 0) Position_DeInit();
@@ -108,7 +108,7 @@ void PositionSolution_Test(void)
 
 void Sample_Start(void)
 {
-  LED_EN;
+  LED_DIS;
   sample_time = 0;
   sample_number = 0;
   TIM_ClearITPendingBit(TIM2, TIM_FLAG_Update);
@@ -122,8 +122,10 @@ void Sample_Stop(void)
 {
   TIM_Cmd(TIM2,DISABLE);
   sample_state = 1;
-  LED_DIS;
+//  LED_DIS;
+  FUSE1 = 0;
   printf("FMU stop working!\r\n");
+  USART3_printf("FMU stop working!\r\n");
   if(Command_State == Data_STORAGE) printf("%u points have been storaged!\r\n",Storage_Number);
   Command_State = Sample_STOP;
 }
@@ -152,6 +154,7 @@ void W25Q_DataClear(void)//清除已经保存的数据及地址表
   uint32_t i,*res;
 //  W25Q_DataConsult();
   printf("Data is clearing!\r\n");
+  USART3_printf("Data is clearing!\r\n");
   LED_EN;
   for(i = 1;i<16;i++) W25Q_SectorErase(i);
   for(i=16;i<16384;i++)
@@ -164,6 +167,7 @@ void W25Q_DataClear(void)//清除已经保存的数据及地址表
   W25Q_DataNumber = 0;
   LED_DIS;
   printf("Data has been cleared!\r\n");
+  USART3_printf("Data has been cleared!\r\n");
 }
 
 ErrorStatus NumberChoose(uint8_t *buffer)
@@ -335,6 +339,7 @@ void DataStorage_Init(void)
   Q_Init();
   Storage_Number=0;
   Storage_Addr = 0x10000;
+  Fuse_State = 0;
   printf("Data is storaging!\r\n");
   USART3_printf("Data is storaging!\r\n");
   Sample_Start();

@@ -35,26 +35,24 @@ int main(void)
   BMI088_Configuration(ACC_Range_3g,GYR_Range_250);
   BMP388_Configuration();
   W25Q_Configuration();
-//  ATGM336H_Configuration(ENABLE);
   LORA_Configuration(0x1234,38400);
+//  ATGM336H_Configuration(ENABLE);
   SampleFrequency_Configuration(Frequency_100Hz);
   MotionOffset_Get();
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
   LED_DIS;
-  sample_state=1;
+  sample_state=0;
   while(1)
   {
-    static u32 FUSE_STATE=0;
     //测试代码开始
-//    USART3_printf("Hello,world!\r\n");
-//    LED =!LED;
-//    delay_ms(100);
+//    if(TRIGGER) LED_EN;
+//    else LED_DIS;
     //测试代码结束
     if(sample_state == 0)//执行采样后操作
     {
-      LED_EN;
+//      LED_EN;
       sample_state = Command_State;
       switch(Command_State)
       {
@@ -67,8 +65,8 @@ int main(void)
         case AttitudeSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
-//          if(sample_number%10 == 0) USART3_printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
-          printf("%pitch=%+0.4f,yaw=%+0.4f,roll=%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+          if(sample_number%10 == 0) printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+//          printf("pitch=%+0.4f,yaw=%+0.4f,roll=%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
           break;
         case AccelerationSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
@@ -93,11 +91,20 @@ int main(void)
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
           DataStorage();
-          if(TRIGGER==0&&FUSE_STATE==0) FUSE_STATE=sample_number;
-          if(FUSE_STATE!=0) 
+          if(sample_number%100==0) USART3_printf("height:%0.2f\r\n",MotionData.height);
+          if(TRIGGER==1&&Fuse_State==0) Fuse_State=sample_number;
+          if(Fuse_State!=0) 
           {
-            if((sample_number-FUSE_STATE)>=300&&(sample_number-FUSE_STATE)<=300) FUSE1 = 1;
-            else FUSE1 = 0;
+            if((sample_number-Fuse_State)<=350) 
+            {
+              FUSE1 = 0;
+              LED_DIS;
+            }
+            else 
+            {
+              FUSE1 = 1;
+              LED_EN;
+            }
           }
           break;
         case Height_TEST:
@@ -114,7 +121,7 @@ int main(void)
           }
           break;
       }
-      LED_DIS;
+//      LED_DIS;
     }
   }
 }
