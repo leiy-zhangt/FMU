@@ -34,9 +34,10 @@ W25Q存储分区：
 #include "w25q.h"
 #include "lora.h"
 #include "atgm336h.h"
+#include "control.h"
 
 #define BMI_START 1
-#define BMI_STOP 2
+#define Sample_STOP 2
 
 #define Height_TEST 20
 
@@ -47,6 +48,11 @@ W25Q存储分区：
 #define PositionSolution_TEST 74
 #define Data_STORAGE 100
 #define Data_READ 101
+#define Control_START 102
+#define Control_EMERGENCY 103
+#define MotorCal_START 104
+#define MotorCal_STOP 105
+
 
 extern uint8_t Command_State;
 extern uint8_t DataNumber;
@@ -72,6 +78,10 @@ void MotionOffset_Get(void);//从第0扇区得到偏差量
 void Height_Test(void);//气压计测试程序
 void Position_DeInit(void);//位置参数清楚初始化
 void Position_Init(void);//位置参数初始化
+void Control_Start(void);//控制初始化函数
+void Control_Emergency(void);//紧急停止
+void MotorCal_Start(void);//电机校准启动
+void MotorCal_Stop(void);//电机校准结束
 
 #endif
 

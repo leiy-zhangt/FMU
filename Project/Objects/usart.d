@@ -61,3 +61,4 @@
 .\objects\usart.o: ..\HardWare\Lora\lora.h
 .\objects\usart.o: ..\Connectivity\USART\usart.h
 .\objects\usart.o: ..\HardWare\ATGM336H\atgm336h.h
+.\objects\usart.o: ..\Solution\control\control.h

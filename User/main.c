@@ -46,6 +46,7 @@ int main(void)
   sample_state=1;
   while(1)
   {
+    static u32 FUSE_STATE=0;
     //测试代码开始
 //    USART3_printf("Hello,world!\r\n");
 //    LED =!LED;
@@ -66,8 +67,8 @@ int main(void)
         case AttitudeSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
-          if(sample_number%10 == 0) USART3_printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
-//          printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",acc,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+//          if(sample_number%10 == 0) USART3_printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+          printf("%pitch=%+0.4f,yaw=%+0.4f,roll=%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
           break;
         case AccelerationSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
@@ -91,10 +92,27 @@ int main(void)
         case Data_STORAGE:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
-          if(sample_number%10 == 0) DataStorage();
+          DataStorage();
+          if(TRIGGER==0&&FUSE_STATE==0) FUSE_STATE=sample_number;
+          if(FUSE_STATE!=0) 
+          {
+            if((sample_number-FUSE_STATE)>=300&&(sample_number-FUSE_STATE)<=300) FUSE1 = 1;
+            else FUSE1 = 0;
+          }
           break;
         case Height_TEST:
           if(sample_number%10 == 0) USART3_printf("pre=%0.4f,height=%0.4f\r\n",MotionData.pressure,MotionData.height);
+          break;
+        case Control_START:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+          Control();
+          if(sample_number%20 == 0) 
+          {
+//            USART3_printf("height=%0.2f,f1=%0.2f,f2=%0.2f,f3=%0.2f,f4=%0.2f\r\n",MotionData.height,f1,f2,f3,f4);
+//            USART3_printf("pitch=%0.2f,roll=%0.2f,yaw=%0.2f\r\n",MotionData.pitch*57.3,MotionData.roll*57.3,MotionData.yaw*57.3);
+            USART3_printf("height=%0.2f,U1=%0.2f,U2=%0.2f,U3=%0.2f\r\n",MotionData.height,U1,U2,U3);
+          }
+          break;
       }
       LED_DIS;
     }

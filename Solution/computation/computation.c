@@ -16,7 +16,7 @@ void SampleFrequency_Configuration(SampleFrequency frequency)
   NVIC_InitTypeDef NVIC_InitStructure; 
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE); 
   
-  TIM_TimeBaseStructure.TIM_Prescaler=81;  
+  TIM_TimeBaseStructure.TIM_Prescaler=83;  
   TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; 
   TIM_TimeBaseStructure.TIM_Period=frequency;   
   TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 	

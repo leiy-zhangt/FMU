@@ -24,6 +24,10 @@ void Command_Receive(uint8_t *buffer)
   else if(strcmp(buffer,"Height_TEST") == 0) {Command_State = Height_TEST;Height_Test();}
   else if(strcmp(buffer,"Position_INIT") == 0) Position_Init();
   else if(strcmp(buffer,"Position_DEINIT") == 0) Position_DeInit();
+  else if(strcmp(buffer,"Control_START") == 0) {Command_State = Control_START;Control_Start();}
+  else if(strcmp(buffer,"Control_EMERGENCY") == 0) Control_Emergency();
+  else if(strcmp(buffer,"MotorCal_START") == 0) MotorCal_Start();
+  else if(strcmp(buffer,"MotorCal_STOP") == 0) MotorCal_Stop();
   else Command_State = 0;
 }
 
@@ -302,7 +306,7 @@ void DataRead(uint32_t addr)//数据读取函数
   uint8_t *tran = data;
   data[0] = MotionData.position_x;
   data[1] = MotionData.position_y;
-  data[2] = MotionData.position_z;
+  data[2] = MotionData.height;
   data[3] = GPS_Data.velocity_e;
   data[4] = GPS_Data.velocity_n;
   data[5] = MotionData.acc_x;
@@ -462,6 +466,7 @@ void Position_Init(void)
   }
   for(i=0;i<100;i++) height_init += height_avg[i];
   height_init = height_init/100;
+  MotionData.height = 0;
   GPS_Data.lat_init = GPS_Data.lat;
   GPS_Data.lon_init = GPS_Data.lon;
   printf("PositionInit has finished!\r\n");
@@ -469,3 +474,36 @@ void Position_Init(void)
   LED_DIS;
 }
 
+void Control_Start(void)
+{
+  ze_p = 0;
+  pe_p = 0;
+  re_p = 0;
+  Q_Init();
+  Sample_Start();
+}
+
+void Control_Emergency(void)
+{
+  Sample_Stop();
+  TIM_SetCompare1(TIM3,1000);
+  TIM_SetCompare2(TIM3,1000);
+  TIM_SetCompare3(TIM3,1000);
+  TIM_SetCompare4(TIM3,1000);
+}
+
+void MotorCal_Start(void)
+{
+  TIM_SetCompare1(TIM3,2000);
+  TIM_SetCompare2(TIM3,2000);
+  TIM_SetCompare3(TIM3,2000);
+  TIM_SetCompare4(TIM3,2000);
+}
+
+void MotorCal_Stop(void)
+{
+  TIM_SetCompare1(TIM3,1000);
+  TIM_SetCompare2(TIM3,1000);
+  TIM_SetCompare3(TIM3,1000);
+  TIM_SetCompare4(TIM3,1000);
+}
