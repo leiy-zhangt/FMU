@@ -42,6 +42,7 @@ int main(void)
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
+  USART4_Configuration(100000,ENABLE);
   LED_DIS;
   sample_state=0;
   while(1)
@@ -90,21 +91,10 @@ int main(void)
         case Data_STORAGE:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
-          DataStorage();
-          if(sample_number%100==0) USART3_printf("height:%0.2f\r\n",MotionData.height);
-          if(TRIGGER==1&&Fuse_State==0) Fuse_State=sample_number;
-          if(Fuse_State!=0) 
+          if(sample_number%50==0) 
           {
-            if((sample_number-Fuse_State)<=350) 
-            {
-              FUSE1 = 0;
-              LED_DIS;
-            }
-            else 
-            {
-              FUSE1 = 1;
-              LED_EN;
-            }
+            DataStorage();
+            USART3_printf("height:%0.2f\r\n",MotionData.height);
           }
           break;
         case Height_TEST:

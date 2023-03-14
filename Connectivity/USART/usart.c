@@ -393,6 +393,117 @@ void USART3_IRQHandler(void){ //串口1中断服务程序（固定的函数名�
 
 #endif	
 
+#if EN_USART4   //如果使能了接收
+uint8_t USART4_RX_BUF[USART4_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
+//接收状态
+//bit15，	接收完成标志
+//bit14，	接收到0x0d
+//bit13~0，	接收到的有效字节数目
+uint16_t USART4_RX_STA=0;       //接收状态标记	  
+
+/*
+USART3专用的printf函数
+当同时开启2个以上串口时，printf函数只能用于其中之一，其他串口要自创独立的printf函数
+调用方法：USART3_printf("123"); //向USART3发送字符123
+*/
+void USART4_printf (char *fmt, ...){ 
+	char buffer[USART4_REC_LEN+1];  // 数据长度
+	uint8_t i = 0;	
+	va_list arg_ptr;
+	va_start(arg_ptr, fmt);  
+	vsnprintf(buffer, USART4_REC_LEN+1, fmt, arg_ptr);
+	while ((i < USART4_REC_LEN) && (i < strlen(buffer))){
+        USART_SendData(UART4, (uint8_t) buffer[i++]);
+        while (USART_GetFlagStatus(UART4, USART_FLAG_TC) == RESET); 
+	}
+	va_end(arg_ptr);
+}
+
+void USART4_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初始化并启动
+  //GPIO端口设置
+  GPIO_InitTypeDef GPIO_InitStructure;
+	USART_InitTypeDef USART_InitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;	 
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART4,ENABLE);	//使能USART1时钟
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC,ENABLE);  
+  
+  USART_InitStructure.USART_BaudRate = bound;//一般设置为9600;
+	USART_InitStructure.USART_WordLength = USART_WordLength_8b;//字长为8位数据格式
+	USART_InitStructure.USART_StopBits = USART_StopBits_2;//二个停止位
+	USART_InitStructure.USART_Parity = USART_Parity_Even;//偶校验位
+	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;//无硬件数据流控制
+	USART_InitStructure.USART_Mode = USART_Mode_Rx|USART_Mode_Tx;	//收发模式
+  USART_ITConfig(UART4, USART_IT_RXNE, ITStatus);//开启ENABLE/关闭DISABLE中断
+  USART_Init(UART4, &USART_InitStructure); //初始化串口
+  
+	GPIO_PinAFConfig(GPIOC,GPIO_PinSource10,GPIO_AF_UART4); //GPIOB10复用为USART3
+	GPIO_PinAFConfig(GPIOC,GPIO_PinSource11,GPIO_AF_UART4); //GPIOB11复用为USART3
+  
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11; //选中GPIOB10与GPIOB11
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;//复用功能
+	GPIO_InitStructure.GPIO_Speed = GPIO_High_Speed;	//速度50MHz
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP; //推挽复用输出
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP; //上拉
+	GPIO_Init(GPIOC,&GPIO_InitStructure); //初始化PB10，PB11
+  //Usart3 NVIC 配置
+  NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=5 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
+	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
+  //USART 初始化设置
+	
+  USART_ITConfig(UART4, USART_IT_RXNE, ITStatus);//开启ENABLE/关闭DISABLE中断
+  USART_Cmd(UART4, ENABLE);                    //使能串口 
+}
+
+void UART4_IRQHandler(void){ //串口1中断服务程序（固定的函数名不能修改）
+  static uint8_t number;
+	uint8_t Res;
+  uint16_t CH[18];
+	if(USART_GetITStatus(UART4, USART_IT_RXNE) != RESET)   //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
+  { 
+    USART_ClearITPendingBit(UART4, USART_IT_RXNE);
+		Res=USART_ReceiveData(UART4);//读取接收到的数据
+		if(Res == 0X0F) number = 0;
+    else 
+    {
+      if(number != 22) 
+      {
+        USART4_RX_BUF[number] = Res;
+        number++;
+      }
+      else
+      {
+        CH[ 0] = ((int16_t)USART4_RX_BUF[ 0] >> 0 | ((int16_t)USART4_RX_BUF[ 1] << 8 )) & 0x07FF;
+        CH[ 1] = ((int16_t)USART4_RX_BUF[ 1] >> 3 | ((int16_t)USART4_RX_BUF[ 2] << 5 )) & 0x07FF;
+        CH[ 2] = ((int16_t)USART4_RX_BUF[ 2] >> 6 | ((int16_t)USART4_RX_BUF[ 3] << 2 )  | (int16_t)USART4_RX_BUF[ 4] << 10 ) & 0x07FF;
+        CH[ 3] = ((int16_t)USART4_RX_BUF[ 4] >> 1 | ((int16_t)USART4_RX_BUF[ 5] << 7 )) & 0x07FF;
+        CH[ 4] = ((int16_t)USART4_RX_BUF[ 5] >> 4 | ((int16_t)USART4_RX_BUF[ 6] << 4 )) & 0x07FF;
+        CH[ 5] = ((int16_t)USART4_RX_BUF[ 6] >> 7 | ((int16_t)USART4_RX_BUF[ 7] << 1 )  | (int16_t)USART4_RX_BUF[8] <<  9 ) & 0x07FF;
+        CH[ 6] = ((int16_t)USART4_RX_BUF[8] >> 2 | ((int16_t)USART4_RX_BUF[9] << 6 )) & 0x07FF;
+        CH[ 7] = ((int16_t)USART4_RX_BUF[9] >> 5 | ((int16_t)USART4_RX_BUF[10] << 3 )) & 0x07FF;
+
+        CH[ 8] = ((int16_t)USART4_RX_BUF[11] << 0 | ((int16_t)USART4_RX_BUF[12] << 8 )) & 0x07FF;
+        CH[ 9] = ((int16_t)USART4_RX_BUF[12] >> 3 | ((int16_t)USART4_RX_BUF[13] << 5 )) & 0x07FF;
+        CH[10] = ((int16_t)USART4_RX_BUF[13] >> 6 | ((int16_t)USART4_RX_BUF[14] << 2 )  | (int16_t)USART4_RX_BUF[15] << 10 ) & 0x07FF;
+        CH[11] = ((int16_t)USART4_RX_BUF[15] >> 1 | ((int16_t)USART4_RX_BUF[16] << 7 )) & 0x07FF;
+        CH[12] = ((int16_t)USART4_RX_BUF[16] >> 4 | ((int16_t)USART4_RX_BUF[17] << 4 )) & 0x07FF;
+        CH[13] = ((int16_t)USART4_RX_BUF[17] >> 7 | ((int16_t)USART4_RX_BUF[18] << 1 )  | (int16_t)USART4_RX_BUF[19] <<  9 ) & 0x07FF;
+        CH[14] = ((int16_t)USART4_RX_BUF[19] >> 2 | ((int16_t)USART4_RX_BUF[20] << 6 )) & 0x07FF;
+        CH[15] = ((int16_t)USART4_RX_BUF[20] >> 5 | ((int16_t)USART4_RX_BUF[21] << 3 )) & 0x07FF;
+        for(number = 0;number<4;number++) 
+        {
+          printf("%d  ",CH[number]);
+          if(number == 3) printf("\r\n");
+        }
+      }
+    }
+  }
+} 
+
+#endif	
+
 /*
 a符号的作用：
 %d 十进制有符号整数
