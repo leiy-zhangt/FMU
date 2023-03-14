@@ -2,21 +2,21 @@
 
 void FUSE_Configuration(void)
 {
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);//¿ªÆôÊ±ÖÓ
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);//¿ªÆôÊ±ÖÓ
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);//å¼€å¯æ—¶é’Ÿ
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);//å¼€å¯æ—¶é’Ÿ
   GPIO_InitTypeDef  GPIO_InitStructure;
-  GPIO_InitStructure.GPIO_Pin = FUSE1_Pin|FUSE2_Pin; //ÅäÖÃÒı½Å
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//ÅäÖÃÎªÊä³ö
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//¿ªÂ©Êä³ö
-  GPIO_InitStructure.GPIO_Speed = GPIO_Fast_Speed;//ÂıËÙÊä³ö
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;//ÉÏÀ­
-  GPIO_Init(FUSE_Port, &GPIO_InitStructure);//³õÊ¼»¯
+  GPIO_InitStructure.GPIO_Pin = FUSE1_Pin|FUSE2_Pin; //é…ç½®å¼•è„š
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;//é…ç½®ä¸ºè¾“å‡º
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//å¼€æ¼è¾“å‡º
+  GPIO_InitStructure.GPIO_Speed = GPIO_Fast_Speed;//æ…¢é€Ÿè¾“å‡º
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;//ä¸Šæ‹‰
+  GPIO_Init(FUSE_Port, &GPIO_InitStructure);//åˆå§‹åŒ–
   FUSE1 = 0;
   FUSE2 = 0;
   
-  GPIO_InitStructure.GPIO_Pin = TRIGGER_Pin; //ÅäÖÃÒı½Å
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;//ÅäÖÃÎªÊä³ö
-  GPIO_InitStructure.GPIO_Speed = GPIO_Fast_Speed;//ÂıËÙÊä³ö
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//ÉÏÀ­
-  GPIO_Init(TRIGGER_Port, &GPIO_InitStructure);//³õÊ¼»¯
+  GPIO_InitStructure.GPIO_Pin = TRIGGER_Pin; //é…ç½®å¼•è„š
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;//é…ç½®ä¸ºè¾“å‡º
+  GPIO_InitStructure.GPIO_Speed = GPIO_Fast_Speed;//æ…¢é€Ÿè¾“å‡º
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//ä¸Šæ‹‰
+  GPIO_Init(GPIOA, &GPIO_InitStructure);//åˆå§‹åŒ–
 }

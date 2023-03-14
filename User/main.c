@@ -35,25 +35,25 @@ int main(void)
   BMI088_Configuration(ACC_Range_3g,GYR_Range_250);
   BMP388_Configuration();
   W25Q_Configuration();
-//  ATGM336H_Configuration(ENABLE);
   LORA_Configuration(0x1234,38400);
+//  ATGM336H_Configuration(ENABLE);
   SampleFrequency_Configuration(Frequency_100Hz);
   MotionOffset_Get();
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
+  USART4_Configuration(100000,ENABLE);
   LED_DIS;
-  sample_state=1;
+  sample_state=0;
   while(1)
   {
     //测试代码开始
-//    USART3_printf("Hello,world!\r\n");
-//    LED =!LED;
-//    delay_ms(100);
+//    if(TRIGGER) LED_EN;
+//    else LED_DIS;
     //测试代码结束
     if(sample_state == 0)//执行采样后操作
     {
-      LED_EN;
+//      LED_EN;
       sample_state = Command_State;
       switch(Command_State)
       {
@@ -66,8 +66,8 @@ int main(void)
         case AttitudeSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
-          if(sample_number%10 == 0) USART3_printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
-//          printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",acc,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+          if(sample_number%10 == 0) printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+//          printf("pitch=%+0.4f,yaw=%+0.4f,roll=%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
           break;
         case AccelerationSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
@@ -91,12 +91,27 @@ int main(void)
         case Data_STORAGE:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
-          if(sample_number%10 == 0) DataStorage();
+          if(sample_number%50==0) 
+          {
+            DataStorage();
+            USART3_printf("height:%0.2f\r\n",MotionData.height);
+          }
           break;
         case Height_TEST:
           if(sample_number%10 == 0) USART3_printf("pre=%0.4f,height=%0.4f\r\n",MotionData.pressure,MotionData.height);
+          break;
+        case Control_START:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+          Control();
+          if(sample_number%20 == 0) 
+          {
+//            USART3_printf("height=%0.2f,f1=%0.2f,f2=%0.2f,f3=%0.2f,f4=%0.2f\r\n",MotionData.height,f1,f2,f3,f4);
+//            USART3_printf("pitch=%0.2f,roll=%0.2f,yaw=%0.2f\r\n",MotionData.pitch*57.3,MotionData.roll*57.3,MotionData.yaw*57.3);
+            USART3_printf("height=%0.2f,U1=%0.2f,U2=%0.2f,U3=%0.2f\r\n",MotionData.height,U1,U2,U3);
+          }
+          break;
       }
-      LED_DIS;
+//      LED_DIS;
     }
   }
 }
