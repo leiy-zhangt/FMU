@@ -4,7 +4,7 @@
 #include "spi.h"
 #include "delay.h"
 
-#define BMM150_Cal 0
+#define BMM150_Cal 1 //BMI150校准
 #define BMM_CS PCout(0)
 #define BMM_CS_Pin GPIO_Pin_0
 

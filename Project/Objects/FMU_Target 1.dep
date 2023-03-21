@@ -1306,10 +1306,10 @@ I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
@@ -1320,12 +1320,12 @@ I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
-F (..\Connectivity\USART\usart.c)(0x63E653E0)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\usart.o --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+F (..\Connectivity\USART\usart.c)(0x6410415D)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\usart.o --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -1366,12 +1366,12 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
@@ -1381,8 +1381,8 @@ I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
-F (..\HardWare\BMM150\bmm150.c)(0x635B87AB)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\bmm150.o --omf_browse .\objects\bmm150.crf --depend .\objects\bmm150.d)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+F (..\HardWare\BMM150\bmm150.c)(0x641926BE)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\bmm150.o --omf_browse .\objects\bmm150.crf --depend .\objects\bmm150.d)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
 I (..\CMSIS\core_cm4.h)(0x5710F38D)
@@ -1422,8 +1422,8 @@ I (..\System\delay\delay.h)(0x63495F29)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
@@ -1434,7 +1434,7 @@ I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
@@ -1514,7 +1514,7 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-F (..\HardWare\SERVE\serve.c)(0x63948859)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\serve.o --omf_browse .\objects\serve.crf --depend .\objects\serve.d)
+F (..\HardWare\SERVE\serve.c)(0x6410415D)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\serve.o --omf_browse .\objects\serve.crf --depend .\objects\serve.d)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
@@ -1591,10 +1591,10 @@ I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
@@ -1605,7 +1605,7 @@ I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
@@ -1649,24 +1649,24 @@ I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\HardWare\BMP388\bmp388.h)(0x63E64DDF)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
-I (..\Solution\computation\computation.h)(0x63948F2B)
-I (..\Solution\command\command.h)(0x63E627C6)
+I (..\Solution\computation\computation.h)(0x6413341D)
+I (..\Solution\command\command.h)(0x6413067B)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
-F (..\HardWare\ATGM336H\atgm336h.c)(0x63949C0C)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\atgm336h.o --omf_browse .\objects\atgm336h.crf --depend .\objects\atgm336h.d)
+F (..\HardWare\ATGM336H\atgm336h.c)(0x6410415D)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\atgm336h.o --omf_browse .\objects\atgm336h.crf --depend .\objects\atgm336h.d)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
@@ -1704,17 +1704,17 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
@@ -1763,10 +1763,10 @@ I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
@@ -1775,12 +1775,12 @@ I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\math.h)(0x5E53505A)
-F (..\HardWare\FUSE\fuse.c)(0x6360D3D0)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\fuse.o --omf_browse .\objects\fuse.crf --depend .\objects\fuse.d)
+F (..\HardWare\FUSE\fuse.c)(0x6410415D)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\fuse.o --omf_browse .\objects\fuse.crf --depend .\objects\fuse.d)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
@@ -1856,17 +1856,17 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
@@ -1916,10 +1916,10 @@ I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
@@ -1928,7 +1928,7 @@ I (..\HardWare\BMP388\bmp388.h)(0x63E64DDF)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
@@ -2078,7 +2078,7 @@ I (..\Basic\inc\stm32f4xx_can.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
-F (..\User\main.c)(0x63E65EF8)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\User\main.c)(0x6419771E)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
 I (..\CMSIS\core_cm4.h)(0x5710F38D)
@@ -2115,17 +2115,17 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
-I (..\Solution\command\command.h)(0x63E627C6)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\command\command.h)(0x6413067B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
@@ -2135,9 +2135,9 @@ I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
-I (..\Solution\control\control.h)(0x63E66073)
-F (..\Solution\command\command.c)(0x63E6539E)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\command.o --omf_browse .\objects\command.crf --depend .\objects\command.d)
-I (..\Solution\command\command.h)(0x63E627C6)
+I (..\Solution\control\control.h)(0x6410415E)
+F (..\Solution\command\command.c)(0x64133624)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\command.o --omf_browse .\objects\command.crf --depend .\objects\command.d)
+I (..\Solution\command\command.h)(0x6413067B)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
 I (..\CMSIS\core_cm4.h)(0x5710F38D)
@@ -2174,12 +2174,12 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
@@ -2189,12 +2189,12 @@ I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
-F (..\Solution\computation\computation.c)(0x63E64E09)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\computation.o --omf_browse .\objects\computation.crf --depend .\objects\computation.d)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+F (..\Solution\computation\computation.c)(0x6410415E)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\computation.o --omf_browse .\objects\computation.crf --depend .\objects\computation.d)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
 I (..\CMSIS\core_cm4.h)(0x5710F38D)
@@ -2231,12 +2231,12 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Solution\command\command.h)(0x63E627C6)
+I (..\Solution\command\command.h)(0x6413067B)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
@@ -2246,13 +2246,13 @@ I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)
-F (..\Solution\control\control.c)(0x63E66072)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\control.o --omf_browse .\objects\control.crf --depend .\objects\control.d)
-I (..\Solution\control\control.h)(0x63E66073)
-I (..\Solution\computation\computation.h)(0x63948F2B)
+F (..\Solution\control\control.c)(0x6410415E)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\control.o --omf_browse .\objects\control.crf --depend .\objects\control.d)
+I (..\Solution\control\control.h)(0x6410415E)
+I (..\Solution\computation\computation.h)(0x6413341D)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
 I (..\CMSIS\core_cm4.h)(0x5710F38D)
@@ -2289,12 +2289,12 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Solution\command\command.h)(0x63E627C6)
+I (..\Solution\command\command.h)(0x6413067B)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\HardWare\LED\led.h)(0x63774BD6)
 I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
-I (..\HardWare\BMM150\bmm150.h)(0x635BCCAE)
+I (..\HardWare\BMM150\bmm150.h)(0x6417D567)
 I (..\Connectivity\SPI\spi.h)(0x635E3A75)
 I (..\HardWare\ADXL357\adxl357.h)(0x63595B73)
 I (..\HardWare\BMI088\bmi088.h)(0x63749E03)
@@ -2304,7 +2304,7 @@ I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x636B9C2D)
+I (..\Connectivity\USART\usart.h)(0x6410415D)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x638B039D)

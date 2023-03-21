@@ -79,15 +79,15 @@ void BMM150_Measure(BMM150_DataStruct *BMM150_Data)
   
 #if BMM150_Cal
   //开始计算x轴磁场
-  BMM150_Data->data_x = BMM150_CompensateX(BMM150_Data,&BMM150_Trim);
+  BMM150_Data->data_x = (BMM150_CompensateX(BMM150_Data,&BMM150_Trim)-7.2998)*0.090021965359548;
   //开始计算y轴磁场
-  BMM150_Data->data_y = BMM150_CompensateY(BMM150_Data,&BMM150_Trim);
+  BMM150_Data->data_y = (BMM150_CompensateY(BMM150_Data,&BMM150_Trim)+7.14111)*0.079766443852400;
   //开始计算z轴磁场
-  BMM150_Data->data_z = BMM150_CompensateZ(BMM150_Data,&BMM150_Trim);
+  BMM150_Data->data_z = (BMM150_CompensateZ(BMM150_Data,&BMM150_Trim)-80.416250000000000)*0.010451991130440;
 #else
-  BMM150_Data->data_x = BMM150_Data->data_x_int / 8191.0f * 2600.0f;
-  BMM150_Data->data_y = BMM150_Data->data_y_int / 8191.0f * 2600.0f;
-  BMM150_Data->data_z = BMM150_Data->data_z_int / 32767.0f * 5000.0f;
+  BMM150_Data->data_x = BMM150_Data->data_x_int / 8191.0f * 2600.0f-MotionOffset.bmm_x_offset;
+  BMM150_Data->data_y = BMM150_Data->data_y_int / 8191.0f * 2600.0f-MotionOffset.bmm_y_offset;
+  BMM150_Data->data_z = (BMM150_Data->data_z_int / 32767.0f * 5000.0f-MotionOffset.bmm_z_offset)*2.26;
 #endif
 }
 

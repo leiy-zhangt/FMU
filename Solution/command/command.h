@@ -40,6 +40,8 @@ W25Q存储分区：
 
 #define Height_TEST 20
 
+#define BMM_TEST 
+
 #define AttitudeSolution_TEST 70
 #define Sample_STOP 71
 #define AccelerationSolution_TEST 72

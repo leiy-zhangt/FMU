@@ -361,8 +361,18 @@ void MotionOffset_Init(void)
   MotionOffset.adxl_x_offset = 0;
   MotionOffset.adxl_y_offset = 0;
   MotionOffset.adxl_z_offset = 0;
+  MotionOffset.bmm_x_offset = 24.900676510020800;
+  MotionOffset.bmm_y_offset = -21.580321496944464;;
+  MotionOffset.bmm_z_offset = 12.712765029319412;
   W25Q_SectorErase(0);
-  for(uint16_t i = 0;i<500;i++)
+  while(1)
+  {
+    BMI088_Measure(&BMI088_Data);
+    ADXL357_Measure(&ADXL357_Data);
+    if(BMI088_Data.acc_z>9.5) break;
+  }
+  delay_ms(1000);
+  for(uint8_t i = 0;i<100;i++)
   {
     BMI088_Measure(&BMI088_Data);
     ADXL357_Measure(&ADXL357_Data);
@@ -375,17 +385,44 @@ void MotionOffset_Init(void)
     adxl_x_offset += ADXL357_Data.acc_x;
     adxl_y_offset += ADXL357_Data.acc_y;
     adxl_z_offset += ADXL357_Data.acc_z;
-    delay_ms(10);
+    delay_ms(20);
   }
-  MotionOffset.acc_x_offset = acc_x_offset/500;
-  MotionOffset.acc_y_offset = acc_y_offset/500;
-  MotionOffset.acc_z_offset = acc_z_offset/500 - g;
-  MotionOffset.gyr_x_offset = gyr_x_offset/500;
-  MotionOffset.gyr_y_offset = gyr_y_offset/500;
-  MotionOffset.gyr_z_offset = gyr_z_offset/500;
-  MotionOffset.adxl_x_offset = adxl_x_offset/500;
-  MotionOffset.adxl_y_offset = adxl_y_offset/500;
-  MotionOffset.adxl_z_offset = adxl_z_offset/500 - g;
+  printf("First offset stop!\r\n");
+  USART3_printf("First offset stop!\r\n");
+  while(1)
+  {
+    BMI088_Measure(&BMI088_Data);
+    ADXL357_Measure(&ADXL357_Data);
+    if(BMI088_Data.acc_z<-9.5) break;
+  }
+  printf("Second offset start!\r\n");
+  USART3_printf("Second offset start!\r\n");
+  delay_ms(3000);
+  for(uint8_t i = 0;i<100;i++)
+  {
+    BMI088_Measure(&BMI088_Data);
+    ADXL357_Measure(&ADXL357_Data);
+    acc_x_offset += BMI088_Data.acc_x;
+    acc_y_offset += BMI088_Data.acc_y;
+    acc_z_offset += BMI088_Data.acc_z;
+    gyr_x_offset += BMI088_Data.gyr_x;
+    gyr_y_offset += BMI088_Data.gyr_y;
+    gyr_z_offset += BMI088_Data.gyr_z;
+    adxl_x_offset += ADXL357_Data.acc_x;
+    adxl_y_offset += ADXL357_Data.acc_y;
+    adxl_z_offset += ADXL357_Data.acc_z;
+    delay_ms(20);
+  }
+  
+  MotionOffset.acc_x_offset = acc_x_offset/200;
+  MotionOffset.acc_y_offset = acc_y_offset/200;
+  MotionOffset.acc_z_offset = acc_z_offset/100;
+  MotionOffset.gyr_x_offset = gyr_x_offset/200;
+  MotionOffset.gyr_y_offset = gyr_y_offset/200;
+  MotionOffset.gyr_z_offset = gyr_z_offset/200;
+  MotionOffset.adxl_x_offset = adxl_x_offset/200;
+  MotionOffset.adxl_y_offset = adxl_y_offset/200;
+  MotionOffset.adxl_z_offset = adxl_z_offset/100;
   data[0] = MotionOffset.acc_x_offset;
   data[1] = MotionOffset.acc_y_offset;
   data[2] = MotionOffset.acc_z_offset;
@@ -415,6 +452,9 @@ void MotionOffset_DeInit(void)
   MotionOffset.adxl_x_offset = 0;
   MotionOffset.adxl_y_offset = 0;
   MotionOffset.adxl_z_offset = 0;
+  MotionOffset.bmm_x_offset = 0;
+  MotionOffset.bmm_y_offset = 0;
+  MotionOffset.bmm_z_offset = 0;
   printf("FMU offset has cleared!\r\n");
   USART3_printf("FMU offset has cleared!\r\n");
 }
@@ -433,6 +473,9 @@ void MotionOffset_Get(void)
   MotionOffset.adxl_x_offset = *tran++;
   MotionOffset.adxl_y_offset = *tran++;
   MotionOffset.adxl_z_offset = *tran;
+  MotionOffset.bmm_x_offset = 24.900676510020800;
+  MotionOffset.bmm_y_offset = -21.580321496944464;
+  MotionOffset.bmm_z_offset = 12.712765029319412;
 }
 
 void Height_Test(void)
