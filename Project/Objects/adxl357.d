@@ -61,3 +61,4 @@
 .\objects\adxl357.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\adxl357.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\adxl357.o: ..\HardWare\ATGM336H\atgm336h.h
+.\objects\adxl357.o: ..\Solution\control\control.h

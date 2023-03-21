@@ -61,3 +61,4 @@
 .\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\bmm150.o: ..\HardWare\ATGM336H\atgm336h.h
+.\objects\bmm150.o: ..\Solution\control\control.h

@@ -60,3 +60,4 @@
 .\objects\command.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\command.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\command.o: ..\HardWare\ATGM336H\atgm336h.h
+.\objects\command.o: ..\Solution\control\control.h

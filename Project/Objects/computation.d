@@ -61,3 +61,4 @@
 .\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\computation.o: ..\HardWare\ATGM336H\atgm336h.h
+.\objects\computation.o: ..\Solution\control\control.h
