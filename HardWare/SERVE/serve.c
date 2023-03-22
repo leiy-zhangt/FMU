@@ -30,7 +30,7 @@ void SERVE_Configuration(FunctionalState status)
   GPIO_PinAFConfig(GPIOC,GPIO_PinSource8,GPIO_AF_TIM3);
   GPIO_PinAFConfig(GPIOC,GPIO_PinSource9,GPIO_AF_TIM3);
   
-  TIM_TimeBaseStructure.TIM_Prescaler=81;  
+  TIM_TimeBaseStructure.TIM_Prescaler=83;  
   TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; 
   TIM_TimeBaseStructure.TIM_Period=9999;   
   TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 	
@@ -51,8 +51,8 @@ void SERVE_Configuration(FunctionalState status)
   TIM_ARRPreloadConfig(TIM3,ENABLE);	
   TIM_Cmd(TIM3, ENABLE);  
   
-  TIM_SetCompare1(TIM3,1500);
-  TIM_SetCompare2(TIM3,1500);
-  TIM_SetCompare3(TIM3,1500);
-  TIM_SetCompare4(TIM3,1500);
+  TIM_SetCompare1(TIM3,1000);
+  TIM_SetCompare2(TIM3,1000);
+  TIM_SetCompare3(TIM3,1000);
+  TIM_SetCompare4(TIM3,1000);
 }

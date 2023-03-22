@@ -44,6 +44,7 @@ void ATGM336H_Configuration(FunctionalState ATGM_State)
   GPS_status = 1;
   while(GPS_init == 0) ;
   printf("GPS is ready!\r\n");
+  USART3_printf("GPS is ready!\r\n");
   LED_DIS;
 }
 
@@ -64,6 +65,7 @@ ErrorStatus GPS_WaitReady(void)
           if(j==6)
           {
             printf("GPS is prepare!\r\n");
+            USART3_printf("GPS is prepare!\r\n");
             if(USART2_RX_BUF[i+1]=='A') return SUCCESS;
             else return ERROR;
           }

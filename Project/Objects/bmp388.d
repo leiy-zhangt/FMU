@@ -60,4 +60,5 @@
 .\objects\bmp388.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\bmp388.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\bmp388.o: ..\HardWare\ATGM336H\atgm336h.h
+.\objects\bmp388.o: ..\Solution\control\control.h
 .\objects\bmp388.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
