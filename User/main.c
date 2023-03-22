@@ -57,7 +57,7 @@ int main(void)
     Yh= BMM150_Data.data_y*sin(roll)*sin(pitch)+BMM150_Data.data_x*cos(pitch)+BMM150_Data.data_z*sin(pitch)*cos(roll);
     yaw = atan2(Xh,Yh);
     printf("%+0.4f  %+0.4f  %+0.4f\r\n",pitch*57.3,roll*57.3,yaw*57.3);
-//    printf("%+0.4f  %+0.4f  %+0.4f\r\n",BMM150_Data.data_x,BMM150_Data.data_y,BMM150_Data.data_z);
+    printf("%+0.4f  %+0.4f  %+0.4f\r\n",BMM150_Data.data_x,BMM150_Data.data_y,BMM150_Data.data_z);
     LED_DIS;
     delay_ms(100);
     //测试代码结束
