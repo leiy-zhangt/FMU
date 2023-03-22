@@ -7,6 +7,7 @@ BMM150的校准程序存在问题，不建议使用。
 
 BMM150_DataStruct BMM150_Data;
 BMM150_TrimStruct BMM150_Trim;
+BMM150_CalStruct BMM150_CalData;
 
 void BMM150_Configuration(void)
 {
@@ -79,11 +80,11 @@ void BMM150_Measure(BMM150_DataStruct *BMM150_Data)
   
 #if BMM150_Cal
   //开始计算x轴磁场
-  BMM150_Data->data_x = (BMM150_CompensateX(BMM150_Data,&BMM150_Trim)-7.2998)*0.090021965359548;
+  BMM150_Data->data_x = (BMM150_CompensateX(BMM150_Data,&BMM150_Trim)-BMM150_CalData.offset_x)*BMM150_CalData.scale_x;
   //开始计算y轴磁场
-  BMM150_Data->data_y = (BMM150_CompensateY(BMM150_Data,&BMM150_Trim)+7.14111)*0.079766443852400;
+  BMM150_Data->data_y = (BMM150_CompensateY(BMM150_Data,&BMM150_Trim)-BMM150_CalData.offset_y)*BMM150_CalData.scale_y;
   //开始计算z轴磁场
-  BMM150_Data->data_z = (BMM150_CompensateZ(BMM150_Data,&BMM150_Trim)-80.416250000000000)*0.010451991130440;
+  BMM150_Data->data_z = (BMM150_CompensateZ(BMM150_Data,&BMM150_Trim)-BMM150_CalData.offset_z)*BMM150_CalData.scale_z;
 #else
   BMM150_Data->data_x = BMM150_Data->data_x_int / 8191.0f * 2600.0f-MotionOffset.bmm_x_offset;
   BMM150_Data->data_y = BMM150_Data->data_y_int / 8191.0f * 2600.0f-MotionOffset.bmm_y_offset;

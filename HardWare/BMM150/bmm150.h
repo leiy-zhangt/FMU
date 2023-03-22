@@ -53,8 +53,19 @@ typedef struct
   uint16_t digXYZ1;/**< trim xyz1 data */
 }BMM150_TrimStruct;
 
+typedef struct
+{
+  double offset_x;
+  double offset_y;
+  double offset_z;
+  double scale_x;
+  double scale_y;
+  double scale_z;
+}BMM150_CalStruct;
+
 extern BMM150_DataStruct BMM150_Data;
 extern BMM150_TrimStruct BMM150_Trim;
+extern BMM150_CalStruct BMM150_CalData;
 
 void BMM150_Configuration(void);//BMM150初始化函数
 void BMM150_WriteData(uint8_t addr,uint8_t data);//BMM150单字节发送函数

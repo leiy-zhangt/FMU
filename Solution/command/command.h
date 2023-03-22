@@ -3,7 +3,7 @@
 0~9:BMI088模块
 10~19:ADXL357模块
 20~29:BMP388模块
-30~39:BMI150模块
+30~39:BMM150模块
 40~49:W25Q模块
 50~59:Lora模块
 60~69:GPS模块
@@ -37,11 +37,11 @@ W25Q存储分区：
 #include "control.h"
 
 #define BMI_START 1
-#define Sample_STOP 2
 
 #define Height_TEST 20
 
-#define BMM_TEST 
+#define MagnetismOffset_INIT 30
+#define MagnetismOffset_STOP 31
 
 #define AttitudeSolution_TEST 70
 #define Sample_STOP 71
@@ -54,6 +54,8 @@ W25Q存储分区：
 #define Control_EMERGENCY 103
 #define MotorCal_START 104
 #define MotorCal_STOP 105
+#define IMUUpOffset 106
+#define IMUBackOffset 107
 
 
 extern uint8_t Command_State;
@@ -75,9 +77,10 @@ void Sample_Stop(void);
 void AccelerationSolution_Test(void);
 void VelocitySolution_Test(void);
 void PositionSolution_Test(void);
-void MotionOffset_Init(void);//向第0扇区写入偏差量缓存
-void MotionOffset_DeInit(void);//将偏差量重置为0
-void MotionOffset_Get(void);//从第0扇区得到偏差量
+void IMUOffset_Init(void);//向第0扇区写入偏差量缓存
+void MagnetismOffset_Init(void);//向0扇区写入磁场偏差量
+void FMUOffset_DeInit(void);//将偏差量重置为0
+void FMUOffset_Get(void);//从第0扇区得到偏差量
 void Height_Test(void);//气压计测试程序
 void Position_DeInit(void);//位置参数清楚初始化
 void Position_Init(void);//位置参数初始化

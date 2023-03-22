@@ -9,6 +9,8 @@ uint32_t Fuse_State = 1;//开伞状态
 void Command_Receive(uint8_t *buffer)
 {
   if(strcmp(buffer,"BMI_START") == 0) {Command_State = BMI_START;Sample_Start();}
+  else if(strcmp(buffer,"MagnetismOffset_INIT") == 0) {Command_State = MagnetismOffset_INIT;MagnetismOffset_Init();}
+  else if(strcmp(buffer,"MagnetismOffset_STOP") == 0) {Command_State = MagnetismOffset_STOP;}
   else if(strcmp(buffer,"Sample_STOP") == 0) Sample_Stop();
   else if(strcmp(buffer,"W25Q_DataConsult") == 0) W25Q_DataConsult();
   else if(strcmp(buffer,"W25Q_DataClear") == 0) W25Q_DataClear();
@@ -17,8 +19,9 @@ void Command_Receive(uint8_t *buffer)
   else if(strcmp(buffer,"AccelerationSolution_TEST") == 0) {Command_State = AccelerationSolution_TEST;AccelerationSolution_Test();}
   else if(strcmp(buffer,"VelocitySolution_TEST") == 0) {Command_State = VelocitySolution_TEST;VelocitySolution_Test();}
   else if(strcmp(buffer,"PositionSolution_TEST") == 0) {Command_State = PositionSolution_TEST;PositionSolution_Test();}
-  else if(strcmp(buffer,"MotionOffset_INIT") == 0) MotionOffset_Init();
-  else if(strcmp(buffer,"MotionOffset_DEINIT") == 0) MotionOffset_DeInit();
+  else if(strcmp(buffer,"IMUOffset_INIT") == 0) {Command_State = IMUUpOffset;IMUOffset_Init();}
+  else if(strcmp(buffer,"IMUBackOffset") == 0) {Command_State = IMUBackOffset;}
+  else if(strcmp(buffer,"FMUOffset_DEINIT") == 0) FMUOffset_DeInit();
   else if(strcmp(buffer,"Data_STORAGE") == 0) {Command_State = Data_STORAGE;DataStorage_Init();}
   else if(strcmp(buffer,"Data_READ") == 0) {Command_State = Data_READ;DataRead(0x10000);}
   else if(strcmp(buffer,"Height_TEST") == 0) {Command_State = Height_TEST;Height_Test();}
@@ -33,7 +36,7 @@ void Command_Receive(uint8_t *buffer)
 
 void Q_Init(void)
 {
-  double acc_x = 0,acc_y = 0,acc_z = 0;
+  double acc_x = 0,acc_y = 0,acc_z = 0,Xh,Yh;
   double pitch,yaw,roll;
   for(uint8_t i = 0;i<10;i++)
   {
@@ -44,12 +47,15 @@ void Q_Init(void)
     acc_z += ADXL357_Data.acc_z;
     delay_ms(20);
   }
+  BMM150_Measure(&BMM150_Data);
   acc_x = acc_x/10;
   acc_y = acc_y/10;
   acc_z = acc_z/10;
   pitch = asin(acc_y/g);
   roll = atan2(-acc_x,acc_z);
-  yaw = 0;
+  Xh= BMM150_Data.data_y*cos(roll)-BMM150_Data.data_z*sin(roll);
+  Yh= BMM150_Data.data_y*sin(roll)*sin(pitch)+BMM150_Data.data_x*cos(pitch)+BMM150_Data.data_z*sin(pitch)*cos(roll);
+  yaw = atan2(Xh,Yh);
   MotionData.pitch = pitch;
   MotionData.roll = roll;
   MotionData.yaw = yaw;
@@ -70,6 +76,7 @@ void Q_Init(void)
   if((T_13 - T_31)<0) q[2] = -q[2];
   if((T_21 - T_12)<0) q[3] = -q[3];
   printf("Q Init is finished!pitch:%0.4f  yaw:%0.4f  roll:%0.4f\r\n",pitch*180/PI,yaw*180/PI,roll*180/PI);
+  USART3_printf("Q Init is finished!pitch:%0.4f  yaw:%0.4f  roll:%0.4f\r\n",pitch*180/PI,yaw*180/PI,roll*180/PI);
 }
 
 
@@ -345,13 +352,10 @@ void DataStorage_Init(void)
   Sample_Start();
 }
 
-void MotionOffset_Init(void)
+void IMUOffset_Init(void)
 {
-  double data[9];
+  double data[10];
   uint8_t *tran;
-  tran = data;
-  printf("FMU offset is begining!\r\n");
-  USART3_printf("FMU offset is begining!\r\n");
   double acc_x_offset = 0;
   double acc_y_offset = 0;
   double acc_z_offset = 0;
@@ -361,26 +365,9 @@ void MotionOffset_Init(void)
   double adxl_x_offset = 0;
   double adxl_y_offset = 0;
   double adxl_z_offset = 0;
-  MotionOffset.acc_x_offset = 0;
-  MotionOffset.acc_y_offset = 0;
-  MotionOffset.acc_z_offset = 0;
-  MotionOffset.gyr_x_offset = 0;
-  MotionOffset.gyr_y_offset = 0;
-  MotionOffset.gyr_z_offset = 0;
-  MotionOffset.adxl_x_offset = 0;
-  MotionOffset.adxl_y_offset = 0;
-  MotionOffset.adxl_z_offset = 0;
-  MotionOffset.bmm_x_offset = 24.900676510020800;
-  MotionOffset.bmm_y_offset = -21.580321496944464;;
-  MotionOffset.bmm_z_offset = 12.712765029319412;
+  printf("FMU UP offset is begining!\r\n");
+  USART3_printf("FMU UP offset is begining!\r\n");
   W25Q_SectorErase(0);
-  while(1)
-  {
-    BMI088_Measure(&BMI088_Data);
-    ADXL357_Measure(&ADXL357_Data);
-    if(BMI088_Data.acc_z>9.5) break;
-  }
-  delay_ms(1000);
   for(uint8_t i = 0;i<100;i++)
   {
     BMI088_Measure(&BMI088_Data);
@@ -396,17 +383,12 @@ void MotionOffset_Init(void)
     adxl_z_offset += ADXL357_Data.acc_z;
     delay_ms(20);
   }
+  MotionOffset.g_position = ADXL357_Data.acc_z/100.0;
   printf("First offset stop!\r\n");
   USART3_printf("First offset stop!\r\n");
-  while(1)
-  {
-    BMI088_Measure(&BMI088_Data);
-    ADXL357_Measure(&ADXL357_Data);
-    if(BMI088_Data.acc_z<-9.5) break;
-  }
+  while(Command_State==IMUUpOffset) ;
   printf("Second offset start!\r\n");
   USART3_printf("Second offset start!\r\n");
-  delay_ms(3000);
   for(uint8_t i = 0;i<100;i++)
   {
     BMI088_Measure(&BMI088_Data);
@@ -422,7 +404,6 @@ void MotionOffset_Init(void)
     adxl_z_offset += ADXL357_Data.acc_z;
     delay_ms(20);
   }
-  
   MotionOffset.acc_x_offset = acc_x_offset/200;
   MotionOffset.acc_y_offset = acc_y_offset/200;
   MotionOffset.acc_z_offset = acc_z_offset/100;
@@ -441,16 +422,55 @@ void MotionOffset_Init(void)
   data[6] = MotionOffset.adxl_x_offset;
   data[7] = MotionOffset.adxl_y_offset;
   data[8] = MotionOffset.adxl_z_offset;
-  for(uint8_t i = 0;i<72;i++)
+  data[9] = MotionOffset.g_position - MotionOffset.adxl_z_offset;
+  tran = data;
+  for(uint8_t i = 0;i<80;i++)
   {
     W25Q_buffer[i] =  *tran++;
   }
-  W25Q_DataStorage(0x00,W25Q_buffer,72);
+  W25Q_DataStorage(0x00,W25Q_buffer,80);
   printf("FMU offset has finished!\r\n");
   USART3_printf("FMU offset has finished!\r\n");
 }
 
-void MotionOffset_DeInit(void)
+void MagnetismOffset_Init(void)
+{
+  double x_min=0,x_max=0;
+  double y_min=0,y_max=0;
+  double z_min=0,z_max=0;
+  double data[6];
+  uint8_t *tran;
+  while(Command_State==MagnetismOffset_INIT)
+  {
+    BMM150_Measure(&BMM150_Data);
+    if(x_min>BMM150_Data.data_x) x_min = BMM150_Data.data_x;
+    if(x_max<BMM150_Data.data_x) x_max = BMM150_Data.data_x;
+    if(y_min>BMM150_Data.data_y) y_min = BMM150_Data.data_y;
+    if(y_max<BMM150_Data.data_y) y_max = BMM150_Data.data_y;
+    if(z_min>BMM150_Data.data_z) z_min = BMM150_Data.data_z;
+    if(z_max<BMM150_Data.data_z) z_max = BMM150_Data.data_z;
+    delay_ms(20);
+    printf("%0.4f %0.4f %0.4f %0.4f %0.4f %0.4f \r\n",x_min,x_max,y_min,y_max,z_min,z_max);
+    USART3_printf("%0.4f %0.4f %0.4f %0.4f %0.4f %0.4f \r\n",x_min,x_max,y_min,y_max,z_min,z_max);
+  }
+  BMM150_CalData.offset_x = (x_min+x_max)/2;
+  BMM150_CalData.offset_y = (y_min+y_max)/2;
+  BMM150_CalData.offset_z = (z_min+z_max)/2;
+  BMM150_CalData.scale_x = 2/(x_max - x_min);
+  BMM150_CalData.scale_y = 2/(y_max - y_min);
+  BMM150_CalData.scale_z = 2/(z_max - z_min);
+  data[0] = BMM150_CalData.offset_x;
+  data[1] = BMM150_CalData.offset_y;
+  data[2] = BMM150_CalData.offset_z;
+  data[3] = BMM150_CalData.scale_x;
+  data[4] = BMM150_CalData.scale_y;
+  data[5] = BMM150_CalData.scale_z;
+  tran = data;
+  for(uint8_t i=0;i<48;i++) W25Q_buffer[i] =  *tran++;
+  W25Q_DataStorage(80,W25Q_buffer,48);
+}
+
+void FMUOffset_DeInit(void)
 {
   MotionOffset.acc_x_offset = 0;
   MotionOffset.acc_y_offset = 0;
@@ -461,18 +481,22 @@ void MotionOffset_DeInit(void)
   MotionOffset.adxl_x_offset = 0;
   MotionOffset.adxl_y_offset = 0;
   MotionOffset.adxl_z_offset = 0;
-  MotionOffset.bmm_x_offset = 0;
-  MotionOffset.bmm_y_offset = 0;
-  MotionOffset.bmm_z_offset = 0;
+  MotionOffset.g_position = g;
+  BMM150_CalData.offset_x = 0;
+  BMM150_CalData.offset_y = 0;
+  BMM150_CalData.offset_z = 0;
+  BMM150_CalData.scale_x = 1;
+  BMM150_CalData.scale_y = 1;
+  BMM150_CalData.scale_z = 1;
   printf("FMU offset has cleared!\r\n");
   USART3_printf("FMU offset has cleared!\r\n");
 }
 
-void MotionOffset_Get(void)
+void FMUOffset_Get(void)
 {
   double *tran;
   tran = W25Q_buffer;
-  W25Q_DataReceive(0x00,W25Q_buffer,72);
+  W25Q_DataReceive(0x00,W25Q_buffer,128);
   MotionOffset.acc_x_offset = *tran++;
   MotionOffset.acc_y_offset = *tran++;
   MotionOffset.acc_z_offset = *tran++;
@@ -481,10 +505,14 @@ void MotionOffset_Get(void)
   MotionOffset.gyr_z_offset = *tran++;
   MotionOffset.adxl_x_offset = *tran++;
   MotionOffset.adxl_y_offset = *tran++;
-  MotionOffset.adxl_z_offset = *tran;
-  MotionOffset.bmm_x_offset = 24.900676510020800;
-  MotionOffset.bmm_y_offset = -21.580321496944464;
-  MotionOffset.bmm_z_offset = 12.712765029319412;
+  MotionOffset.adxl_z_offset = *tran++;
+  MotionOffset.g_position = *tran++;
+  BMM150_CalData.offset_x = *tran++;
+  BMM150_CalData.offset_y = *tran++;
+  BMM150_CalData.offset_z = *tran++;
+  BMM150_CalData.scale_x = *tran++;
+  BMM150_CalData.scale_y = *tran++;
+  BMM150_CalData.scale_z = *tran;
 }
 
 void Height_Test(void)

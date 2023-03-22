@@ -28,9 +28,7 @@ typedef struct
   double adxl_x_offset;
   double adxl_y_offset;
   double adxl_z_offset;
-  double bmm_x_offset;
-  double bmm_y_offset;
-  double bmm_z_offset;
+  double g_position;
 }MotionOffsetStruct;
 
 extern const double PI;
