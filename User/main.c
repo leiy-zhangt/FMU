@@ -48,8 +48,19 @@ int main(void)
   while(1)
   {
     //测试代码开始
-//    if(TRIGGER) LED_EN;
-//    else LED_DIS;
+    double pitch,roll,yaw,Xh,Yh;
+    LED_EN;
+    ADXL357_Measure(&ADXL357_Data);
+    BMM150_Measure(&BMM150_Data);
+    pitch = asin(ADXL357_Data.acc_y/g);
+    roll = atan2(-ADXL357_Data.acc_x,ADXL357_Data.acc_z);
+    Xh= BMM150_Data.data_y*cos(roll)-BMM150_Data.data_z*sin(roll);
+    Yh= BMM150_Data.data_y*sin(roll)*sin(pitch)+BMM150_Data.data_x*cos(pitch)+BMM150_Data.data_z*sin(pitch)*cos(roll);
+    yaw = atan2(Xh,Yh);
+    printf("%+0.4f  %+0.4f  %+0.4f\r\n",pitch*57.3,roll*57.3,yaw*57.3);
+    printf("%+0.4f  %+0.4f  %+0.4f\r\n",BMM150_Data.data_x,BMM150_Data.data_y,BMM150_Data.data_z);
+    LED_DIS;
+    delay_ms(100);
     //测试代码结束
     if(sample_state == 0)//执行采样后操作
     {
