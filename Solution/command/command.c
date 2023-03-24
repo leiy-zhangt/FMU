@@ -9,7 +9,7 @@ uint32_t Fuse_State = 1;//开伞状态
 void Command_Receive(uint8_t *buffer)
 {
   if(strcmp(buffer,"BMI_START") == 0) {Command_State = BMI_START;Sample_Start();}
-  else if(strcmp(buffer,"MagnetismOffset_INIT") == 0) {Command_State = MagnetismOffset_INIT;MagnetismOffset_Init();}
+  else if(strcmp(buffer,"MagnetismOffset_INIT") == 0) {Command_State = MagnetismOffset_INIT;}
   else if(strcmp(buffer,"MagnetismOffset_STOP") == 0) {Command_State = MagnetismOffset_STOP;}
   else if(strcmp(buffer,"Sample_STOP") == 0) Sample_Stop();
   else if(strcmp(buffer,"W25Q_DataConsult") == 0) W25Q_DataConsult();
@@ -19,7 +19,7 @@ void Command_Receive(uint8_t *buffer)
   else if(strcmp(buffer,"AccelerationSolution_TEST") == 0) {Command_State = AccelerationSolution_TEST;AccelerationSolution_Test();}
   else if(strcmp(buffer,"VelocitySolution_TEST") == 0) {Command_State = VelocitySolution_TEST;VelocitySolution_Test();}
   else if(strcmp(buffer,"PositionSolution_TEST") == 0) {Command_State = PositionSolution_TEST;PositionSolution_Test();}
-  else if(strcmp(buffer,"IMUOffset_INIT") == 0) {Command_State = IMUUpOffset;IMUOffset_Init();}
+  else if(strcmp(buffer,"IMUOffset_INIT") == 0) {Command_State = IMUUpOffset;}
   else if(strcmp(buffer,"IMUBackOffset") == 0) {Command_State = IMUBackOffset;}
   else if(strcmp(buffer,"FMUOffset_DEINIT") == 0) FMUOffset_DeInit();
   else if(strcmp(buffer,"Data_STORAGE") == 0) {Command_State = Data_STORAGE;DataStorage_Init();}
@@ -365,9 +365,11 @@ void IMUOffset_Init(void)
   double adxl_x_offset = 0;
   double adxl_y_offset = 0;
   double adxl_z_offset = 0;
+  double g_max,g_min;
   printf("FMU UP offset is begining!\r\n");
   USART3_printf("FMU UP offset is begining!\r\n");
   W25Q_SectorErase(0);
+  FMUOffset_DeInit();
   for(uint8_t i = 0;i<100;i++)
   {
     BMI088_Measure(&BMI088_Data);
@@ -383,7 +385,8 @@ void IMUOffset_Init(void)
     adxl_z_offset += ADXL357_Data.acc_z;
     delay_ms(20);
   }
-  MotionOffset.g_position = ADXL357_Data.acc_z/100.0;
+  g_max = adxl_z_offset/100.0;
+  adxl_z_offset = 0;
   printf("First offset stop!\r\n");
   USART3_printf("First offset stop!\r\n");
   while(Command_State==IMUUpOffset) ;
@@ -412,7 +415,9 @@ void IMUOffset_Init(void)
   MotionOffset.gyr_z_offset = gyr_z_offset/200;
   MotionOffset.adxl_x_offset = adxl_x_offset/200;
   MotionOffset.adxl_y_offset = adxl_y_offset/200;
-  MotionOffset.adxl_z_offset = adxl_z_offset/100;
+  g_min = adxl_z_offset/100;
+  MotionOffset.adxl_z_offset = (g_max + g_min)/2;
+  MotionOffset.g_position = g - MotionOffset.adxl_z_offset;
   data[0] = MotionOffset.acc_x_offset;
   data[1] = MotionOffset.acc_y_offset;
   data[2] = MotionOffset.acc_z_offset;
@@ -422,7 +427,7 @@ void IMUOffset_Init(void)
   data[6] = MotionOffset.adxl_x_offset;
   data[7] = MotionOffset.adxl_y_offset;
   data[8] = MotionOffset.adxl_z_offset;
-  data[9] = MotionOffset.g_position - MotionOffset.adxl_z_offset;
+  data[9] = MotionOffset.g_position;
   tran = data;
   for(uint8_t i = 0;i<80;i++)
   {
@@ -440,6 +445,12 @@ void MagnetismOffset_Init(void)
   double z_min=0,z_max=0;
   double data[6];
   uint8_t *tran;
+  BMM150_CalData.offset_x = 0;
+  BMM150_CalData.offset_y = 0;
+  BMM150_CalData.offset_z = 0;
+  BMM150_CalData.scale_x = 1;
+  BMM150_CalData.scale_y = 1;
+  BMM150_CalData.scale_z = 1;
   while(Command_State==MagnetismOffset_INIT)
   {
     BMM150_Measure(&BMM150_Data);
@@ -468,6 +479,8 @@ void MagnetismOffset_Init(void)
   tran = data;
   for(uint8_t i=0;i<48;i++) W25Q_buffer[i] =  *tran++;
   W25Q_DataStorage(80,W25Q_buffer,48);
+  printf("%0.4f %0.4f %0.4f\r\n",BMM150_CalData.offset_x,BMM150_CalData.offset_y,BMM150_CalData.offset_z);
+  USART3_printf("%0.4f %0.4f %0.4f\r\n",BMM150_CalData.offset_x,BMM150_CalData.offset_y,BMM150_CalData.offset_z);
 }
 
 void FMUOffset_DeInit(void)

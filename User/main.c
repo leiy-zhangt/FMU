@@ -42,7 +42,7 @@ int main(void)
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
-  USART4_Configuration(100000,ENABLE);
+  USART4_Configuration(100000,ENABLE);//配置遥控器接收
   LED_DIS;
   sample_state=0;
   while(1)
@@ -52,7 +52,7 @@ int main(void)
     LED_EN;
     ADXL357_Measure(&ADXL357_Data);
     BMM150_Measure(&BMM150_Data);
-    pitch = asin(ADXL357_Data.acc_y/g);
+    pitch = asin(ADXL357_Data.acc_y/MotionOffset.g_position);
     roll = atan2(-ADXL357_Data.acc_x,ADXL357_Data.acc_z);
     Xh= BMM150_Data.data_y*cos(roll)-BMM150_Data.data_z*sin(roll);
     Yh= BMM150_Data.data_y*sin(roll)*sin(pitch)+BMM150_Data.data_x*cos(pitch)+BMM150_Data.data_z*sin(pitch)*cos(roll);
@@ -123,6 +123,15 @@ int main(void)
           break;
       }
 //      LED_DIS;
+    }
+    switch(Command_State)
+    {
+      case IMUUpOffset:
+        IMUOffset_Init();
+        break;
+      case MagnetismOffset_INIT:
+        MagnetismOffset_Init();
+        break;
     }
   }
 }
