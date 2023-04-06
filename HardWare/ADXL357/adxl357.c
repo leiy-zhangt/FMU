@@ -20,9 +20,9 @@ void ADXL357_Configuration(ADXL_Range_Choose adxl_range)
   ADXL357_WriteData(0x2C,adxl_range);//配置加速度计量程
   ADXL357_WriteData(0x2D,0x00);//加速度计进入测量模式
   //初始化量程
-  if(adxl_range == ADXL_Range_10g) ADXL_Range = 20;
-  else if(adxl_range == ADXL_Range_20g) ADXL_Range = 40;
-  else if(adxl_range == ADXL_Range_40g) ADXL_Range = 80;
+  if(adxl_range == ADXL_Range_10g) ADXL_Range = 10;
+  else if(adxl_range == ADXL_Range_20g) ADXL_Range = 20;
+  else if(adxl_range == ADXL_Range_40g) ADXL_Range = 40;
 }
 
 
@@ -72,8 +72,8 @@ void ADXL357_Measure(ADXL357_DataStruct *ADXL357_Data)
   ADXL357_Data->acc_x_int = ((((int32_t)ADXL357_Data->buffer[2])<<24)|(((int32_t)ADXL357_Data->buffer[3])<<16)|(((int32_t)ADXL357_Data->buffer[4])<<8))>>12;
   ADXL357_Data->acc_y_int = ((((int32_t)ADXL357_Data->buffer[5])<<24)|(((int32_t)ADXL357_Data->buffer[6])<<16)|(((int32_t)ADXL357_Data->buffer[7])<<8))>>12;
   ADXL357_Data->acc_z_int = ((((int32_t)ADXL357_Data->buffer[8])<<24)|(((int32_t)ADXL357_Data->buffer[9])<<16)|(((int32_t)ADXL357_Data->buffer[10])<<8))>>12;
-  ADXL357_Data->acc_x = (ADXL357_Data->acc_x_int) / 1048575.0 * ADXL_Range * g - MotionOffset.adxl_x_offset;
-  ADXL357_Data->acc_y = (ADXL357_Data->acc_y_int) / 1048575.0 * ADXL_Range * g - MotionOffset.adxl_y_offset;
-  ADXL357_Data->acc_z = (ADXL357_Data->acc_z_int) / 1048575.0 * ADXL_Range * g - MotionOffset.adxl_z_offset;
+  ADXL357_Data->acc_x = (ADXL357_Data->acc_x_int) / 505000.0 * ADXL_Range * g - MotionOffset.adxl_x_offset;
+  ADXL357_Data->acc_y = (ADXL357_Data->acc_y_int) / 505000.0 * ADXL_Range * g - MotionOffset.adxl_y_offset;
+  ADXL357_Data->acc_z = (ADXL357_Data->acc_z_int) / 505000.0 * ADXL_Range * g - MotionOffset.adxl_z_offset;
 }
 

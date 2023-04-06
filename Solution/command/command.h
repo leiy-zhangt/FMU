@@ -36,7 +36,9 @@ W25Q存储分区：
 #include "atgm336h.h"
 #include "control.h"
 
-#define BMI_START 1
+#define BMI_TEST 1
+
+#define ADXL_TEST 10
 
 #define Height_TEST 20
 

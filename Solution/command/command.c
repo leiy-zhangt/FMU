@@ -8,7 +8,8 @@ uint32_t Fuse_State = 1;//开伞状态
 
 void Command_Receive(uint8_t *buffer)
 {
-  if(strcmp(buffer,"BMI_START") == 0) {Command_State = BMI_START;Sample_Start();}
+  if(strcmp(buffer,"BMI_TEST") == 0) {Command_State = BMI_TEST;Sample_Start();}
+  else if(strcmp(buffer,"ADXL_TEST") == 0) {Command_State = ADXL_TEST;Sample_Start();}
   else if(strcmp(buffer,"MagnetismOffset_INIT") == 0) {Command_State = MagnetismOffset_INIT;}
   else if(strcmp(buffer,"MagnetismOffset_STOP") == 0) {Command_State = MagnetismOffset_STOP;}
   else if(strcmp(buffer,"Sample_STOP") == 0) Sample_Stop();
@@ -115,7 +116,6 @@ void PositionSolution_Test(void)
 
 void Sample_Start(void)
 {
-  LED_DIS;
   sample_time = 0;
   sample_number = 0;
   TIM_ClearITPendingBit(TIM2, TIM_FLAG_Update);
@@ -310,7 +310,7 @@ void DataRead(uint32_t addr)//数据读取函数
 //  if(sample_time >= 7500.0) Sample_Stop();
 //}
 
- void DataStorage(void)
+void DataStorage(void)
 {
   static uint16_t i=0;
   double data[16];
@@ -417,7 +417,7 @@ void IMUOffset_Init(void)
   MotionOffset.adxl_y_offset = adxl_y_offset/200;
   g_min = adxl_z_offset/100;
   MotionOffset.adxl_z_offset = (g_max + g_min)/2;
-  MotionOffset.g_position = g - MotionOffset.adxl_z_offset;
+  MotionOffset.g_position = g_max - MotionOffset.adxl_z_offset;
   data[0] = MotionOffset.acc_x_offset;
   data[1] = MotionOffset.acc_y_offset;
   data[2] = MotionOffset.acc_z_offset;

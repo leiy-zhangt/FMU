@@ -48,19 +48,19 @@ int main(void)
   while(1)
   {
     //测试代码开始
-    double pitch,roll,yaw,Xh,Yh;
-    LED_EN;
-    ADXL357_Measure(&ADXL357_Data);
-    BMM150_Measure(&BMM150_Data);
-    pitch = asin(ADXL357_Data.acc_y/MotionOffset.g_position);
-    roll = atan2(-ADXL357_Data.acc_x,ADXL357_Data.acc_z);
-    Xh= BMM150_Data.data_y*cos(roll)-BMM150_Data.data_z*sin(roll);
-    Yh= BMM150_Data.data_y*sin(roll)*sin(pitch)+BMM150_Data.data_x*cos(pitch)+BMM150_Data.data_z*sin(pitch)*cos(roll);
-    yaw = atan2(Xh,Yh);
-    printf("%+0.4f  %+0.4f  %+0.4f\r\n",pitch*57.3,roll*57.3,yaw*57.3);
+//    double pitch,roll,yaw,Xh,Yh;
+//    LED_EN;
+//    ADXL357_Measure(&ADXL357_Data);
+//    BMM150_Measure(&BMM150_Data);
+//    pitch = asin(ADXL357_Data.acc_y/MotionOffset.g_position);
+//    roll = atan2(-ADXL357_Data.acc_x,ADXL357_Data.acc_z);
+//    Xh= BMM150_Data.data_y*cos(roll)-BMM150_Data.data_z*sin(roll);
+//    Yh= BMM150_Data.data_y*sin(roll)*sin(pitch)+BMM150_Data.data_x*cos(pitch)+BMM150_Data.data_z*sin(pitch)*cos(roll);
+//    yaw = atan2(Xh,Yh);
+//    printf("pitch=%+0.4f,roll=%+0.4f,yaw=%+0.4f\r\n",pitch*57.3,roll*57.3,yaw*57.3);
 //    printf("%+0.4f  %+0.4f  %+0.4f\r\n",BMM150_Data.data_x,BMM150_Data.data_y,BMM150_Data.data_z);
-    LED_DIS;
-    delay_ms(100);
+//    LED_DIS;
+//    delay_ms(100);
     //测试代码结束
     if(sample_state == 0)//执行采样后操作
     {
@@ -70,14 +70,16 @@ int main(void)
       {
         case 0:
           break;
-        case BMI_START:
+        case BMI_TEST:
           printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",BMI088_Data.gyr_x,BMI088_Data.gyr_y,BMI088_Data.gyr_z,BMI088_Data.acc_x,BMI088_Data.acc_y,BMI088_Data.acc_z);
-//         printf("%+0.4f\r\n",sample_time);
+          break;
+        case ADXL_TEST:
+           if(sample_number%50==0) printf("%+0.4f  %+0.4f  %+0.4f\r\n",ADXL357_Data.acc_x,ADXL357_Data.acc_y,ADXL357_Data.acc_z);
           break;
         case AttitudeSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
-          if(sample_number%10 == 0) printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+        if(sample_number%10 == 0) printf("pitch:%+0.4f yaw:%+0.4f roll:%+0.4f  %+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
 //          printf("pitch=%+0.4f,yaw=%+0.4f,roll=%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
           break;
         case AccelerationSolution_TEST:

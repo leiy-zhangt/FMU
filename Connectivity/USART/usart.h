@@ -12,13 +12,13 @@
 #define USART1_REC_LEN  			50  	//定义USART1最大接收字节数
 #define USART2_REC_LEN  			200  	//定义USART2最大接收字节数
 #define USART3_REC_LEN  			50  	//定义USART3最大接收字节数
-#define USART4_REC_LEN  			30  	//定义USART3最大接收字节数
+#define USART4_REC_LEN  			30  	//定义USART4最大接收字节数
 
 //不使用某个串口时要禁止此串口，以减少编译量
 #define EN_USART1 			1		//使能（1）/禁止（0）串口1
 #define EN_USART2 			1		//使能（1）/禁止（0）串口2
 #define EN_USART3 			1		//使能（1）/禁止（0）串口3
-#define EN_USART4 			1		//使能（1）/禁止（0）串口3
+#define EN_USART4 			1		//使能（1）/禁止（0）串口4
 
 	  	
 extern uint8_t  USART1_RX_BUF[USART1_REC_LEN]; //接收缓冲,最大USART_REC_LEN个字节.末字节为换行符 
