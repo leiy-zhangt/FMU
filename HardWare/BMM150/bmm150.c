@@ -15,12 +15,14 @@ void BMM150_Configuration(void)
   BMM150_WriteData(0x4B,0x82);//软件复位
   delay_ms(10);
   BMM150_WriteData(0x4B,0x01);//退出待机模式，进入睡眠模式
-  BMM150_WriteData(0x4E,0x38);//使能输出通道
+  delay_ms(10);
+//  BMM150_WriteData(0x4E,0x38);//使能输出通道
+  BMM150_WriteData(0x4E,0x00);//使能输出通道
   BMM150_Trim_Get(&BMM150_Trim);
   BMM150_WriteData(0x51,23);//设置nXY = 1+2*23;
   BMM150_WriteData(0x52,82);//设置nXY = 1+82
-//  BMM150_WriteData(0x4C,0x2B);//配置为强制模式
-  delay_ms(100);
+  BMM150_WriteData(0x4C,0x28);//配置正常模式，输出速率为10Hz
+//  delay_ms(100);
 }
 
 void BMM150_WriteData(uint8_t addr,uint8_t data)
@@ -61,14 +63,14 @@ void BMM150_ReadBuffer(uint8_t addr,uint8_t *buffer,uint8_t length)
 
 void BMM150_Measure(BMM150_DataStruct *BMM150_Data)
 {
-  uint8_t status;
-  BMM150_WriteData(0x4C,0x2B);
-  while(1) 
-  {
-    status = BMM150_ReadData(0x4C);
-    if((BMM150_ReadData(0x48)&0x01)) break;
-    if((status&0x02)&&(status&0x04)) break;;
-  }
+//  uint8_t status;
+//  BMM150_WriteData(0x4C,0x2B);
+//  while(1) 
+//  {
+//    status = BMM150_ReadData(0x4C);
+//    if((BMM150_ReadData(0x48)&0x01)) break;
+//    if((status&0x02)&&(status&0x04)) break;;
+//  }
   BMM150_ReadBuffer(0x42,BMM150_Data->buffer,8);
   BMM150_Data->data_x_int = (int16_t)BMM150_Data->buffer[1]<<8 | BMM150_Data->buffer[0];
   BMM150_Data->data_x_int = BMM150_Data->data_x_int>>3;

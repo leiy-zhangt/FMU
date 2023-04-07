@@ -96,31 +96,34 @@ void AttitudeSolution(double gyr_x,double gyr_y,double gyr_z)  //对角速度进
 
 double AttitudeCompensation(void)
 {
-  const float coefficient = 0.05;
+  const float pitch_coefficient = 0.05,roll_coefficient = 0.05,yaw_coefficient = 0.1;
+  double mag_x,mag_y;
   double acc_norm;
   acc_norm = sqrt(pow(MotionData.acc_x,2)+pow(MotionData.acc_y,2)+pow(MotionData.acc_z,2));
   if((acc_norm>9.6)&&(acc_norm<10))
   {
-    MotionData.pitch = asin(MotionData.acc_y/acc_norm)*coefficient + MotionData.pitch*(1-coefficient);
-    MotionData.roll = atan2(-MotionData.acc_x,MotionData.acc_z)*coefficient + MotionData.roll*(1-coefficient);
-    T_11 = cos(MotionData.roll)*cos(MotionData.yaw)-sin(MotionData.roll)*sin(MotionData.pitch)*sin(MotionData.yaw);
-    T_21 = cos(MotionData.roll)*sin(MotionData.yaw)+sin(MotionData.roll)*sin(MotionData.pitch)*cos(MotionData.yaw);
-    T_31 = -sin(MotionData.roll)*cos(MotionData.pitch);
-    T_12 = -cos(MotionData.pitch)*sin(MotionData.yaw);
-    T_22 = cos(MotionData.pitch)*cos(MotionData.yaw);
-    T_32 = sin(MotionData.pitch);
-    T_13 = sin(MotionData.roll)*cos(MotionData.yaw)+cos(MotionData.roll)*sin(MotionData.pitch)*sin(MotionData.yaw);
-    T_23 = sin(MotionData.roll)*sin(MotionData.yaw)-cos(MotionData.roll)*sin(MotionData.pitch)*cos(MotionData.yaw);
-    T_33 = cos(MotionData.roll)*cos(MotionData.pitch);
-    q[0] = 0.5*sqrt(1+T_11+T_22+T_33);
-    q[1] = 0.5*sqrt(1+T_11-T_22-T_33);
-    q[2] = 0.5*sqrt(1-T_11+T_22-T_33);
-    q[3] = 0.5*sqrt(1-T_11-T_22+T_33);
-    if((T_32 - T_23)<0) q[1] = -q[1];
-    if((T_13 - T_31)<0) q[2] = -q[2];
-    if((T_21 - T_12)<0) q[3] = -q[3];
+    MotionData.pitch = asin(MotionData.acc_y/acc_norm)*pitch_coefficient + MotionData.pitch*(1-pitch_coefficient);
+    MotionData.roll = atan2(-MotionData.acc_x,MotionData.acc_z)*roll_coefficient + MotionData.roll*(1-roll_coefficient);
   }
-//  printf("%0.6f\r\n",acc_norm);
+  mag_x = BMM150_Data.data_y*cos(MotionData.roll)-BMM150_Data.data_z*sin(MotionData.roll);
+  mag_y = BMM150_Data.data_y*sin(MotionData.roll)*sin(MotionData.pitch)+BMM150_Data.data_x*cos(MotionData.pitch)+BMM150_Data.data_z*sin(MotionData.pitch)*cos(MotionData.roll);
+  MotionData.yaw = atan2(mag_x,mag_y)*yaw_coefficient + MotionData.yaw*(1-yaw_coefficient);
+  T_11 = cos(MotionData.roll)*cos(MotionData.yaw)-sin(MotionData.roll)*sin(MotionData.pitch)*sin(MotionData.yaw);
+  T_21 = cos(MotionData.roll)*sin(MotionData.yaw)+sin(MotionData.roll)*sin(MotionData.pitch)*cos(MotionData.yaw);
+  T_31 = -sin(MotionData.roll)*cos(MotionData.pitch);
+  T_12 = -cos(MotionData.pitch)*sin(MotionData.yaw);
+  T_22 = cos(MotionData.pitch)*cos(MotionData.yaw);
+  T_32 = sin(MotionData.pitch);
+  T_13 = sin(MotionData.roll)*cos(MotionData.yaw)+cos(MotionData.roll)*sin(MotionData.pitch)*sin(MotionData.yaw);
+  T_23 = sin(MotionData.roll)*sin(MotionData.yaw)-cos(MotionData.roll)*sin(MotionData.pitch)*cos(MotionData.yaw);
+  T_33 = cos(MotionData.roll)*cos(MotionData.pitch);
+  q[0] = 0.5*sqrt(1+T_11+T_22+T_33);
+  q[1] = 0.5*sqrt(1+T_11-T_22-T_33);
+  q[2] = 0.5*sqrt(1-T_11+T_22-T_33);
+  q[3] = 0.5*sqrt(1-T_11-T_22+T_33);
+  if((T_32 - T_23)<0) q[1] = -q[1];
+  if((T_13 - T_31)<0) q[2] = -q[2];
+  if((T_21 - T_12)<0) q[3] = -q[3];
   return acc_norm;
 }
 
