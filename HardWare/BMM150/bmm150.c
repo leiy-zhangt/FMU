@@ -21,7 +21,7 @@ void BMM150_Configuration(void)
   BMM150_Trim_Get(&BMM150_Trim);
   BMM150_WriteData(0x51,23);//设置nXY = 1+2*23;
   BMM150_WriteData(0x52,82);//设置nXY = 1+82
-  BMM150_WriteData(0x4C,0x28);//配置正常模式，输出速率为10Hz
+  BMM150_WriteData(0x4C,0x28);//配置正常模式，输出速率为20Hz
 //  delay_ms(100);
 }
 
