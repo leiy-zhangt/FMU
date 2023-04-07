@@ -102,6 +102,8 @@ double AttitudeCompensation(void)
   acc_norm = sqrt(pow(MotionData.acc_x,2)+pow(MotionData.acc_y,2)+pow(MotionData.acc_z,2));
   if((acc_norm>9.6)&&(acc_norm<10))
   {
+    MotionData.acc_y = MotionData.acc_y>g?g:MotionData.acc_y;//加速度补偿，防止超过定义域
+    MotionData.acc_y = MotionData.acc_y<-g?-g:MotionData.acc_y;
     MotionData.pitch = asin(MotionData.acc_y/acc_norm)*pitch_coefficient + MotionData.pitch*(1-pitch_coefficient);
     MotionData.roll = atan2(-MotionData.acc_x,MotionData.acc_z)*roll_coefficient + MotionData.roll*(1-roll_coefficient);
   }

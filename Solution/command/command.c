@@ -52,6 +52,8 @@ void Q_Init(void)
   acc_x = acc_x/10;
   acc_y = acc_y/10;
   acc_z = acc_z/10;
+  acc_y = acc_y>g?g:acc_y;//加速度补偿，防止超过定义域
+  acc_y = acc_y<-g?-g:acc_y;
   pitch = asin(acc_y/g);
   roll = atan2(-acc_x,acc_z);
   Xh= BMM150_Data.data_y*cos(roll)-BMM150_Data.data_z*sin(roll);
