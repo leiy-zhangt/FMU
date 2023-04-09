@@ -44,12 +44,16 @@ W25Q存储分区：
 
 #define MagnetismOffset_INIT 30
 #define MagnetismOffset_STOP 31
+#define BMM_TEST 32
 
 #define AttitudeSolution_TEST 70
-#define Sample_STOP 71
 #define AccelerationSolution_TEST 72
-#define VelocitySolution_TEST 73
-#define PositionSolution_TEST 74
+#define AttitudeCompensation_TEST 73
+#define VelocitySolution_TEST 74
+#define PositionSolution_TEST 75
+
+#define Sample_STOP 99
+
 #define Data_STORAGE 100
 #define Data_READ 101
 #define Control_START 102
@@ -67,6 +71,7 @@ extern uint32_t Storage_Addr;//变量存储地址
 extern uint32_t Fuse_State;
 
 void Command_Receive(uint8_t *buffer);
+void Q_Init(void);//四元数初始化，确定当前姿态角
 void AttitudeSolution_Ttst(void);
 void W25Q_DataConsult(void);//查询已经保存的数据量及地址
 void W25Q_DataClear(void);//清除已经保存的数据及地址表

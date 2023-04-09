@@ -64,17 +64,25 @@ int main(void)
         case ADXL_TEST:
            if(sample_number%50==0) printf("%+0.4f  %+0.4f  %+0.4f\r\n",ADXL357_Data.acc_x,ADXL357_Data.acc_y,ADXL357_Data.acc_z);
           break;
+        case BMM_TEST:
+          
+          break;
         case AttitudeSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
 //          AttitudeCompensation();
-        if(sample_number%10 == 0) printf("pitch:%+0.4f yaw:%+0.4f roll:%+0.4f  %+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+          if(sample_number%10 == 0) printf("pitch:%+0.4f yaw:%+0.4f roll:%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
 //          printf("pitch=%+0.4f,yaw=%+0.4f,roll=%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+          break;
+        case AttitudeCompensation_TEST:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+          AttitudeCompensation();
+          if(sample_number%10 == 0) printf("pitch:%+0.4f yaw:%+0.4f roll:%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
           break;
         case AccelerationSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
 //          AccelerationSolution(BMI088_Data.acc_x,BMI088_Data.acc_y,BMI088_Data.acc_z);
           AccelerationSolution(ADXL357_Data.acc_x,ADXL357_Data.acc_y,ADXL357_Data.acc_z);
-          printf("%+0.4f  %+0.4f  %+0.4f  %+0.4f\r\n",sample_time,MotionData.acc_x,MotionData.acc_y,MotionData.acc_z);
+          printf("%+0.4f  %+0.4f  %+0.4f\r\n",MotionData.acc_x,MotionData.acc_y,MotionData.acc_z);
           break;
         case VelocitySolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);

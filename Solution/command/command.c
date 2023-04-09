@@ -10,13 +10,16 @@ void Command_Receive(uint8_t *buffer)
 {
   if(strcmp(buffer,"BMI_TEST") == 0) {Command_State = BMI_TEST;Sample_Start();}
   else if(strcmp(buffer,"ADXL_TEST") == 0) {Command_State = ADXL_TEST;Sample_Start();}
+  else if(strcmp(buffer,"BMM_TEST") == 0) {Command_State = BMM_TEST;Sample_Start();}
   else if(strcmp(buffer,"MagnetismOffset_INIT") == 0) {Command_State = MagnetismOffset_INIT;}
   else if(strcmp(buffer,"MagnetismOffset_STOP") == 0) {Command_State = MagnetismOffset_STOP;}
   else if(strcmp(buffer,"Sample_STOP") == 0) Sample_Stop();
   else if(strcmp(buffer,"W25Q_DataConsult") == 0) W25Q_DataConsult();
   else if(strcmp(buffer,"W25Q_DataClear") == 0) W25Q_DataClear();
   else if(strcmp(buffer,"W25Q_ChipErase") == 0) {LED_EN;W25Q_ChipErase();LED_DIS;}
+  else if(strcmp(buffer,"Q_INIT") == 0) {Q_Init();}
   else if(strcmp(buffer,"AttitudeSolution_TEST") == 0) {Command_State = AttitudeSolution_TEST;AttitudeSolution_Ttst();}
+  else if(strcmp(buffer,"AttitudeCompensation_TEST") == 0) {Command_State = AttitudeCompensation_TEST;AttitudeSolution_Ttst();}
   else if(strcmp(buffer,"AccelerationSolution_TEST") == 0) {Command_State = AccelerationSolution_TEST;AccelerationSolution_Test();}
   else if(strcmp(buffer,"VelocitySolution_TEST") == 0) {Command_State = VelocitySolution_TEST;VelocitySolution_Test();}
   else if(strcmp(buffer,"PositionSolution_TEST") == 0) {Command_State = PositionSolution_TEST;PositionSolution_Test();}

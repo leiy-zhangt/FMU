@@ -46,6 +46,7 @@ void TIM2_IRQHandler(void)
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
     BMI088_Measure(&BMI088_Data);
     ADXL357_Measure(&ADXL357_Data);
+    BMM150_Measure(&BMM150_Data);
     MotionData.acc_x = ADXL357_Data.acc_x;
     MotionData.acc_y = ADXL357_Data.acc_y;
     MotionData.acc_z = ADXL357_Data.acc_z;
@@ -60,7 +61,7 @@ void TIM2_IRQHandler(void)
 	}
 }
 
-void AttitudeSolution(double gyr_x,double gyr_y,double gyr_z)  //对角速度进行处理，得到角度值形式的姿态角
+void AttitudeSolution(double gyr_x,double gyr_y,double gyr_z)  //对角速度进行处理，得到弧度值形式的姿态角
 {
   double w[3],dq[4],q_norm;
   w[0] = gyr_x * PI /180;
@@ -110,6 +111,8 @@ double AttitudeCompensation(void)
   mag_x = BMM150_Data.data_y*cos(MotionData.roll)-BMM150_Data.data_z*sin(MotionData.roll);
   mag_y = BMM150_Data.data_y*sin(MotionData.roll)*sin(MotionData.pitch)+BMM150_Data.data_x*cos(MotionData.pitch)+BMM150_Data.data_z*sin(MotionData.pitch)*cos(MotionData.roll);
   MotionData.yaw = atan2(mag_x,mag_y)*yaw_coefficient + MotionData.yaw*(1-yaw_coefficient);
+//  MotionData.yaw = atan2(mag_x,mag_y);
+//  printf("%+0.4f\r\n",MotionData.yaw*57.3);
   T_11 = cos(MotionData.roll)*cos(MotionData.yaw)-sin(MotionData.roll)*sin(MotionData.pitch)*sin(MotionData.yaw);
   T_21 = cos(MotionData.roll)*sin(MotionData.yaw)+sin(MotionData.roll)*sin(MotionData.pitch)*cos(MotionData.yaw);
   T_31 = -sin(MotionData.roll)*cos(MotionData.pitch);
