@@ -31,6 +31,8 @@ void LORA_Configuration(uint16_t lora_addr,int32_t bound)
   delay_ms(50);
   LORA_WriteCmd(0x01,lora_addr);//配置地址
   delay_ms(50);
+  LORA_WriteCmd(0x02,0x00);//配置地址
+  delay_ms(50);
   LORA_WriteCmd(0x03,0xA7);//配置波特率与速度
   delay_ms(50);
   LORA_WriteCmd(0x04,0x00);//配置分包

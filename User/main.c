@@ -48,7 +48,9 @@ int main(void)
   while(1)
   {
     //测试代码开始
-    
+//    USART3_printf("Hello,world!\r\n");
+//    delay_ms(100);
+//    LED=!LED;
     //测试代码结束
     if(sample_state == 0)//执行采样后操作
     {

@@ -21,6 +21,20 @@ int fputc(int ch, FILE *f){
 }
 #endif 
 
+USART_TypeDef * USART_X=USART1;
+
+void USART_printf(char *fmt, ...){ 
+	char buffer[USART_REC_LEN+1];  // 数据长度
+	uint8_t i = 0;	
+	va_list arg_ptr;
+	va_start(arg_ptr, fmt);  
+	vsnprintf(buffer, USART_REC_LEN+1, fmt, arg_ptr);
+	while ((i < USART_REC_LEN) && (i < strlen(buffer))){
+        USART_SendData(USART_X, (uint8_t) buffer[i++]);
+        while (USART_GetFlagStatus(USART_X, USART_FLAG_TC) == RESET); 
+	}
+	va_end(arg_ptr);
+}
 
 /*
 USART1串口相关程序
@@ -119,6 +133,7 @@ void USART1_IRQHandler(void){ //串口1中断服务程序（固定的函数名�
     {
       USART1_RX_BUF[USART1_RX_STA&0x3FFF] = 0;
       USART1_RX_STA = 0;
+      USART_X = USART1;
       Command_Receive(USART1_RX_BUF);
     }
 	} 
@@ -386,6 +401,7 @@ void USART3_IRQHandler(void){ //串口1中断服务程序（固定的函数名�
     {
       USART3_RX_BUF[USART3_RX_STA&0x3FFF] = 0;
       USART3_RX_STA = 0;
+      USART_X = USART3;
       Command_Receive(USART3_RX_BUF);
     }
 	} 
