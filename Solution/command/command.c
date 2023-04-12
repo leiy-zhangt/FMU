@@ -81,8 +81,7 @@ void Q_Init(void)
   if((T_32 - T_23)<0) q[1] = -q[1];
   if((T_13 - T_31)<0) q[2] = -q[2];
   if((T_21 - T_12)<0) q[3] = -q[3];
-  printf("Q Init is finished!pitch:%0.4f  yaw:%0.4f  roll:%0.4f\r\n",pitch*180/PI,yaw*180/PI,roll*180/PI);
-  USART3_printf("Q Init is finished!pitch:%0.4f  yaw:%0.4f  roll:%0.4f\r\n",pitch*180/PI,yaw*180/PI,roll*180/PI);
+  USART_printf("Q Init is finished!pitch:%0.4f  yaw:%0.4f  roll:%0.4f\r\n",pitch*180/PI,yaw*180/PI,roll*180/PI);
 }
 
 
@@ -136,9 +135,8 @@ void Sample_Stop(void)
   sample_state = 1;
 //  LED_DIS;
   FUSE1 = 0;
-  printf("FMU stop working!\r\n");
-  USART3_printf("FMU stop working!\r\n");
-  if(Command_State == Data_STORAGE) printf("%u points have been storaged!\r\n",Storage_Number);
+  USART_printf("FMU stop working!\r\n");
+  if(Command_State == Data_STORAGE) USART_printf("%u points have been storaged!\r\n",Storage_Number);
   Command_State = Sample_STOP;
 }
 
@@ -154,7 +152,7 @@ void W25Q_DataConsult(void)//查询已经保存的数据量及地址
     else 
     {
       W25Q_DataNumber = i;
-      printf("%d datas have been stored!\r\n",i);
+      USART_printf("%d datas have been stored!\r\n",i);
       break;
     }
     addr++;
@@ -165,8 +163,7 @@ void W25Q_DataClear(void)//清除已经保存的数据及地址表
 {
   uint32_t i,*res;
 //  W25Q_DataConsult();
-  printf("Data is clearing!\r\n");
-  USART3_printf("Data is clearing!\r\n");
+  USART_printf("Data is clearing!\r\n");
   LED_EN;
   for(i = 1;i<16;i++) W25Q_SectorErase(i);
   for(i=16;i<16384;i++)
@@ -178,8 +175,7 @@ void W25Q_DataClear(void)//清除已经保存的数据及地址表
   }
   W25Q_DataNumber = 0;
   LED_DIS;
-  printf("Data has been cleared!\r\n");
-  USART3_printf("Data has been cleared!\r\n");
+  USART_printf("Data has been cleared!\r\n");
 }
 
 ErrorStatus NumberChoose(uint8_t *buffer)
@@ -224,8 +220,8 @@ void DataRead(uint32_t addr)//数据读取函数
 {
   double *tran,data[16];
   uint32_t *number,i;
-  printf("Data is sending!\r\n");
-  printf("number:p_x p_y p_z v_e v_n a_x a_y a_z g_x g_y g_z pitch roll yaw s_1 s_2\r\n");
+  USART_printf("Data is sending!\r\n");
+  USART_printf("number:p_x p_y p_z v_e v_n a_x a_y a_z g_x g_y g_z pitch roll yaw s_1 s_2\r\n");
   while(Command_State == Data_READ)
   {
     W25Q_DataReceive(addr,W25Q_buffer,128);
@@ -233,19 +229,19 @@ void DataRead(uint32_t addr)//数据读取函数
     if(*number == 0xFFFFFFFF) break;
     else
     {
-      printf("%u:",i);
+      USART_printf("%u:",i);
       tran = W25Q_buffer;
       for(uint8_t n=0;n<16;n++)
       {
-        printf("  %+0.4f",*tran);
+        USART_printf("  %+0.4f",*tran);
         tran++;
       }
-      printf("\r\n");
+      USART_printf("\r\n");
     }
     addr += 128;
     i++;
   }
-  printf("Data has been sended!\r\n");
+  USART_printf("Data has been sended!\r\n");
 }
 
 //void DataStorage(void)
@@ -352,8 +348,7 @@ void DataStorage_Init(void)
   Storage_Number=0;
   Storage_Addr = 0x10000;
   Fuse_State = 0;
-  printf("Data is storaging!\r\n");
-  USART3_printf("Data is storaging!\r\n");
+  USART_printf("Data is storaging!\r\n");
   Sample_Start();
 }
 
@@ -371,8 +366,7 @@ void IMUOffset_Init(void)
   double adxl_y_offset = 0;
   double adxl_z_offset = 0;
   double g_max,g_min;
-  printf("FMU UP offset is begining!\r\n");
-  USART3_printf("FMU UP offset is begining!\r\n");
+  USART_printf("FMU UP offset is begining!\r\n");
   W25Q_SectorErase(0);
   FMUOffset_DeInit();
   for(uint8_t i = 0;i<100;i++)
@@ -392,11 +386,9 @@ void IMUOffset_Init(void)
   }
   g_max = adxl_z_offset/100.0;
   adxl_z_offset = 0;
-  printf("First offset stop!\r\n");
-  USART3_printf("First offset stop!\r\n");
+  USART_printf("First offset stop!\r\n");
   while(Command_State==IMUUpOffset) ;
-  printf("Second offset start!\r\n");
-  USART3_printf("Second offset start!\r\n");
+  USART_printf("Second offset start!\r\n");
   for(uint8_t i = 0;i<100;i++)
   {
     BMI088_Measure(&BMI088_Data);
@@ -439,8 +431,7 @@ void IMUOffset_Init(void)
     W25Q_buffer[i] =  *tran++;
   }
   W25Q_DataStorage(0x00,W25Q_buffer,80);
-  printf("FMU offset has finished!\r\n");
-  USART3_printf("FMU offset has finished!\r\n");
+  USART_printf("FMU offset has finished!\r\n");
 }
 
 void MagnetismOffset_Init(void)
@@ -466,8 +457,7 @@ void MagnetismOffset_Init(void)
     if(z_min>BMM150_Data.data_z) z_min = BMM150_Data.data_z;
     if(z_max<BMM150_Data.data_z) z_max = BMM150_Data.data_z;
     delay_ms(20);
-    printf("%0.4f %0.4f %0.4f %0.4f %0.4f %0.4f \r\n",x_min,x_max,y_min,y_max,z_min,z_max);
-    USART3_printf("%0.4f %0.4f %0.4f %0.4f %0.4f %0.4f \r\n",x_min,x_max,y_min,y_max,z_min,z_max);
+    USART_printf("%0.4f %0.4f %0.4f %0.4f %0.4f %0.4f \r\n",x_min,x_max,y_min,y_max,z_min,z_max);
   }
   BMM150_CalData.offset_x = (x_min+x_max)/2;
   BMM150_CalData.offset_y = (y_min+y_max)/2;
@@ -484,8 +474,7 @@ void MagnetismOffset_Init(void)
   tran = data;
   for(uint8_t i=0;i<48;i++) W25Q_buffer[i] =  *tran++;
   W25Q_DataStorage(80,W25Q_buffer,48);
-  printf("%0.4f %0.4f %0.4f\r\n",BMM150_CalData.offset_x,BMM150_CalData.offset_y,BMM150_CalData.offset_z);
-  USART3_printf("%0.4f %0.4f %0.4f\r\n",BMM150_CalData.offset_x,BMM150_CalData.offset_y,BMM150_CalData.offset_z);
+  USART_printf("%0.4f %0.4f %0.4f\r\n",BMM150_CalData.offset_x,BMM150_CalData.offset_y,BMM150_CalData.offset_z);
 }
 
 void FMUOffset_DeInit(void)
@@ -506,8 +495,7 @@ void FMUOffset_DeInit(void)
   BMM150_CalData.scale_x = 1;
   BMM150_CalData.scale_y = 1;
   BMM150_CalData.scale_z = 1;
-  printf("FMU offset has cleared!\r\n");
-  USART3_printf("FMU offset has cleared!\r\n");
+  USART_printf("FMU offset has cleared!\r\n");
 }
 
 void FMUOffset_Get(void)
@@ -563,8 +551,7 @@ void Position_Init(void)
   MotionData.height = 0;
   GPS_Data.lat_init = GPS_Data.lat;
   GPS_Data.lon_init = GPS_Data.lon;
-  printf("PositionInit has finished!\r\n");
-  USART3_printf("PositionInit has finished!\r\n");
+  USART_printf("PositionInit has finished!\r\n");
   LED_DIS;
 }
 
