@@ -265,8 +265,9 @@ void GPS_Solution(uint8_t *buffer)
                 break;
               }
             }
-            GPS_Data.velocity_n = velocity*0.514*cos(degree/180*PI);
-            GPS_Data.velocity_e = velocity*0.514*sin(degree/180*PI);
+            GPS_Data.velocity_course = degree;
+            GPS_Data.velocity_n = velocity*0.514*cos(degree/57.3);
+            GPS_Data.velocity_e = velocity*0.514*sin(degree/57.3);
             MotionData.velocity_x = GPS_Data.velocity_e;
             MotionData.velocity_y = GPS_Data.velocity_n;
           }

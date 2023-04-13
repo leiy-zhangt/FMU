@@ -1,73 +1,62 @@
 #include "control.h"
 
-double ze_p,pe_p,re_p;
-double ze,ze_i,ze_d,pe,pe_i,pe_d,re,re_i,re_d;
-double U1,U2,U3,f1,f2,f3,f4;//旋翼螺旋桨参数，代表升力、力矩
-const double Kpz=4,Kiz=0,Kdz=0.2,Kpp=1,Kip=0.5,Kdp=00,Kpr=1,Kir=0.5,Kdr=0.5;//控制器系数
-void Control(void) 
+void Parafoil_Control(void)
 {
-  //高度回路控制
-  ze = 1 - MotionData.height;
-  ze_i += ze*dt;
-  ze_d = (ze - ze_p)/dt;
-  ze_p = ze;
-  U1 = (Kpz*ze+Kiz*ze_i+Kdz*ze_d+1*g)/(cos(MotionData.roll)*cos(MotionData.pitch));
-  //俯仰控制回路
-  pe = -MotionData.pitch;
-  pe_i += pe*dt;
-  pe_d = (pe - pe_p)/dt;
-  pe_p = pe;
-  U2 = Kpp*pe + Kip*pe_i + Kdp*pe_d;
-  //滚转控制回路
-  re = -MotionData.roll;
-  re_i += re*dt;
-  re_d = (re - re_p)/dt;
-  re_p = re;
-  U3 = Kpr*re + Kir*re_i + Kdr*re_d;
-  //分配升力
-  f1 = U1/4 + U2/4 - U3/4;
-  f2 = U1/4 + U2/4 + U3/4;
-  f3 = U1/4 - U2/4 + U3/4;
-  f4 = U1/4 - U2/4 - U3/4;
-  //求出偏角
-  Serve_1_Set(f1);
-  Serve_2_Set(f3);
-  Serve_3_Set(f3);
-  Serve_4_Set(f4);
+  double IPI_x = -10;         //目标点位置
+  double IPI_y = 100;
+  double ptheta,vtheta,theta;
+  static double angle[3];
+  ptheta = atan2(IPI_y-MotionData.position_y,IPI_x-MotionData.position_x);
+	vtheta = atan2(GPS_Data.velocity_n,GPS_Data.velocity_e);
+	theta = vtheta-ptheta;
+  angle[0] = ptheta;
+  angle[1] = vtheta;
+  if(theta < 0)
+  {
+    MotionData.serve[0] = -theta*57.3*0.87;
+    MotionData.serve[1] = 0;
+	  
+  }
+  else
+  {
+    MotionData.serve[0] = 0;
+    MotionData.serve[1] = theta*57.3*0.87;
+  }
+  if(sample_number%100==0) 
+  {
+    USART_printf("s1:%+0.4f  s2v:%+0.4f  t:%+0.4f\r\n",MotionData.serve[0],MotionData.serve[1],theta*57.3);
+  }
+  MotionData.serve[0] = MotionData.serve[0]>20?20:MotionData.serve[0];
+  MotionData.serve[1] = MotionData.serve[1]>20?20:MotionData.serve[1];
+  Serve_1_Set(MotionData.serve[0]);
+  Serve_2_Set(MotionData.serve[1]);
 }
 
-void Serve_1_Set(double f)
+void Serve_1_Set(double angle)
 {
-  double serve;
-  f = f<0?0:f;
-  f = f>10?10:f;
-  serve = sqrt(f/16);
-  TIM_SetCompare1(TIM3,serve*1000+1000);
+  static double angle_offset = 5;
+  angle = -angle + angle_offset;
+  TIM_SetCompare1(TIM3,angle/90.0*1000+1500);
 }
 
-void Serve_2_Set(double f)
+void Serve_2_Set(double angle)
 {
-  double serve;
-  f = f<0?0:f;
-  f = f>10?10:f;
-  serve = sqrt(f/16);
-  TIM_SetCompare2(TIM3,serve*1000+1000);
+  static double angle_offset = -15;
+  angle = angle + angle_offset;
+  TIM_SetCompare2(TIM3,angle/90.0*1000+1500);
 }
 
-void Serve_3_Set(double f)
+void Serve_3_Set(double angle)
 {
-  double serve;
-  f = f<0?0:f;
-  f = f>10?10:f;
-  serve = sqrt(f/16);
-  TIM_SetCompare3(TIM3,serve*1000+1000);
+  static double angle_offset = 0;
+  angle = -angle + angle_offset;
+  TIM_SetCompare3(TIM3,angle/90.0*1000+1500);
 }
 
-void Serve_4_Set(double f)
+void Serve_4_Set(double angle)
 {
-  double serve;
-  f = f<0?0:f;
-  f = f>10?10:f;
-  serve = sqrt(f/16);
-  TIM_SetCompare4(TIM3,serve*1000+1000);
+  static double angle_offset = 0;
+  angle = angle + angle_offset;
+  TIM_SetCompare4(TIM3,angle/90.0*1000+1500);
 }
+

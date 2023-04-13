@@ -31,8 +31,8 @@ void Command_Receive(uint8_t *buffer)
   else if(strcmp(buffer,"Height_TEST") == 0) {Command_State = Height_TEST;Height_Test();}
   else if(strcmp(buffer,"Position_INIT") == 0) Position_Init();
   else if(strcmp(buffer,"Position_DEINIT") == 0) Position_DeInit();
-  else if(strcmp(buffer,"Control_START") == 0) {Command_State = Control_START;Control_Start();}
-  else if(strcmp(buffer,"Control_EMERGENCY") == 0) Control_Emergency();
+  else if(strcmp(buffer,"ParafoilControl_START") == 0) {Command_State = ParafoilControl_START;ParafoilControl_Start();}
+  else if(strcmp(buffer,"ParafoilControl_STOP") == 0) ParafoilControl_Stop();
   else if(strcmp(buffer,"MotorCal_START") == 0) MotorCal_Start();
   else if(strcmp(buffer,"MotorCal_STOP") == 0) MotorCal_Stop();
   else Command_State = 0;
@@ -133,10 +133,7 @@ void Sample_Stop(void)
 {
   TIM_Cmd(TIM2,DISABLE);
   sample_state = 1;
-//  LED_DIS;
-  FUSE1 = 0;
   USART_printf("FMU stop working!\r\n");
-  if(Command_State == Data_STORAGE) USART_printf("%u points have been storaged!\r\n",Storage_Number);
   Command_State = Sample_STOP;
 }
 
@@ -555,23 +552,6 @@ void Position_Init(void)
   LED_DIS;
 }
 
-void Control_Start(void)
-{
-  ze_p = 0;
-  pe_p = 0;
-  re_p = 0;
-  Q_Init();
-  Sample_Start();
-}
-
-void Control_Emergency(void)
-{
-  Sample_Stop();
-  TIM_SetCompare1(TIM3,1000);
-  TIM_SetCompare2(TIM3,1000);
-  TIM_SetCompare3(TIM3,1000);
-  TIM_SetCompare4(TIM3,1000);
-}
 
 void MotorCal_Start(void)
 {
@@ -587,4 +567,19 @@ void MotorCal_Stop(void)
   TIM_SetCompare2(TIM3,1000);
   TIM_SetCompare3(TIM3,1000);
   TIM_SetCompare4(TIM3,1000);
+}
+
+void ParafoilControl_Start(void)
+{
+  Q_Init();
+  Storage_Number=0;
+  Storage_Addr = 0x10000;
+  USART_printf("ParafoilControl is start!\r\n");
+  Sample_Start();
+}
+
+void ParafoilControl_Stop(void)
+{
+  Sample_Stop();
+  USART_printf("ParafoilControl is start!\r\n");
 }

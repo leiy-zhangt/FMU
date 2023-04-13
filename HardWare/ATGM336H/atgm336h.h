@@ -13,7 +13,7 @@
 typedef struct
 {
   double lat,lon,height;
-  double velocity_n,velocity_e;
+  double velocity_n,velocity_e,velocity_course;
   double lat_init,lon_init,height_init;
 }GPS_DataStruct;
 

@@ -56,12 +56,11 @@ W25Q存储分区：
 
 #define Data_STORAGE 100
 #define Data_READ 101
-#define Control_START 102
-#define Control_EMERGENCY 103
-#define MotorCal_START 104
-#define MotorCal_STOP 105
-#define IMUUpOffset 106
-#define IMUBackOffset 107
+#define ParafoilControl_START 102
+#define MotorCal_START 103
+#define MotorCal_STOP 104
+#define IMUUpOffset 105
+#define IMUBackOffset 106
 
 
 extern uint8_t Command_State;
@@ -91,11 +90,10 @@ void FMUOffset_Get(void);//从第0扇区得到偏差量
 void Height_Test(void);//气压计测试程序
 void Position_DeInit(void);//位置参数清楚初始化
 void Position_Init(void);//位置参数初始化
-void Control_Start(void);//控制初始化函数
-void Control_Emergency(void);//紧急停止
 void MotorCal_Start(void);//电机校准启动
 void MotorCal_Stop(void);//电机校准结束
-
+void ParafoilControl_Start(void);//翼伞控制开始
+void ParafoilControl_Stop(void);//翼伞控制结束
 #endif
 
 

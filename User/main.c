@@ -36,7 +36,7 @@ int main(void)
   BMP388_Configuration();
   W25Q_Configuration();
   LORA_Configuration(0x1234,38400);
-//  ATGM336H_Configuration(ENABLE);
+  ATGM336H_Configuration(ENABLE);
   SampleFrequency_Configuration(Frequency_100Hz);
   FMUOffset_Get();
   delay_ms(100);
@@ -67,13 +67,11 @@ int main(void)
            if(sample_number%50==0) printf("%+0.4f  %+0.4f  %+0.4f\r\n",ADXL357_Data.acc_x,ADXL357_Data.acc_y,ADXL357_Data.acc_z);
           break;
         case BMM_TEST:
-          
+          if(sample_number%50==0) printf("%+0.4f  %+0.4f  %+0.4f\r\n",BMM150_Data.data_x,BMM150_Data.data_y,BMM150_Data.data_z);
           break;
         case AttitudeSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
-//          AttitudeCompensation();
           if(sample_number%10 == 0) USART_printf("pitch:%+0.4f yaw:%+0.4f roll:%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
-//          printf("pitch=%+0.4f,yaw=%+0.4f,roll=%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
           break;
         case AttitudeCompensation_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
@@ -111,15 +109,8 @@ int main(void)
         case Height_TEST:
           if(sample_number%10 == 0) USART_printf("pre=%0.4f,height=%0.4f\r\n",MotionData.pressure,MotionData.height);
           break;
-        case Control_START:
-          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
-          Control();
-          if(sample_number%20 == 0) 
-          {
-//            USART3_printf("height=%0.2f,f1=%0.2f,f2=%0.2f,f3=%0.2f,f4=%0.2f\r\n",MotionData.height,f1,f2,f3,f4);
-//            USART3_printf("pitch=%0.2f,roll=%0.2f,yaw=%0.2f\r\n",MotionData.pitch*57.3,MotionData.roll*57.3,MotionData.yaw*57.3);
-            USART_printf("height=%0.2f,U1=%0.2f,U2=%0.2f,U3=%0.2f\r\n",MotionData.height,U1,U2,U3);
-          }
+        case ParafoilControl_START:
+          Parafoil_Control();
           break;
       }
 //      LED_DIS;
