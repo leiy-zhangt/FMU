@@ -1320,13 +1320,13 @@ I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x64366867)
 I (..\Solution\control\control.h)(0x643668C6)
 F (..\Connectivity\USART\usart.c)(0x6435110B)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\usart.o --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -1436,7 +1436,7 @@ I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x64366867)
@@ -1608,7 +1608,7 @@ I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x64366867)
@@ -1666,7 +1666,7 @@ I (..\HardWare\SERVE\serve.h)(0x636B738B)
 I (..\HardWare\BUZZER\buzzer.h)(0x636BCCB6)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x64366867)
@@ -1709,7 +1709,7 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -1781,7 +1781,7 @@ I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x64366867)
@@ -1863,7 +1863,7 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -1936,7 +1936,7 @@ I (..\HardWare\BMP388\bmp388.h)(0x63E64DDF)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
@@ -2087,7 +2087,7 @@ I (..\Basic\inc\stm32f4xx_can.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
-F (..\User\main.c)(0x64367200)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\User\main.c)(0x64427396)(--c99 --gnu -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I ..\Basic\inc -I ..\CMSIS -I ..\Connectivity\IIC -I ..\Connectivity\SPI -I ..\Connectivity\USART -I ..\HardWare\BMM150 -I ..\HardWare\BUZZER -I ..\HardWare\LED -I ..\System\delay -I ..\System\stm32f4xx_it -I ..\System\sys -I ..\System\system_stm32f4xx -I ..\User -I ..\System -I ..\HardWare\BMI088 -I ..\HardWare\SERVE -I ..\HardWare\ADXL357 -I ..\HardWare\ATGM336H -I ..\HardWare\BMP388 -I ..\HardWare\FUSE -I ..\HardWare\Lora -I ..\HardWare\VOLTAGE -I ..\HardWare\W25Q -I ..\Solution\command -I ..\Solution\computation -I ..\Solution\control-I.\RTE\_Target_1-ID:\ProgramFile\Keil5\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-ID:\ProgramFile\Keil5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F405xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\System\sys\sys.h)(0x635E8C6F)
 I (..\System\stm32f4xx.h)(0x6349847D)
 I (..\CMSIS\core_cm4.h)(0x5710F38D)
@@ -2124,7 +2124,7 @@ I (..\Basic\inc\stm32f4xx_dac.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_dcmi.h)(0x5710F38D)
 I (..\Basic\inc\stm32f4xx_fsmc.h)(0x5710F38D)
 I (..\System\delay\delay.h)(0x63495F29)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -2198,7 +2198,7 @@ I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x64366867)
@@ -2256,7 +2256,7 @@ I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x64366867)
@@ -2315,7 +2315,7 @@ I (..\HardWare\W25Q\w25q.h)(0x63762906)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\HardWare\FUSE\fuse.h)(0x6360D3D0)
 I (..\HardWare\Lora\lora.h)(0x63A70881)
-I (..\Connectivity\USART\usart.h)(0x64336CE9)
+I (..\Connectivity\USART\usart.h)(0x6442727A)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (D:\ProgramFile\Keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\HardWare\ATGM336H\atgm336h.h)(0x64366867)

@@ -27,7 +27,7 @@ int main(void)
   SPI1_Configuration();
   LED_Configuration();
   BUZZER_Configuration(DISABLE);
-  SERVE_Configuration(DISABLE);
+  SERVE_Configuration(ENABLE);
   USART1_Configuration(512000,ENABLE);
   delay_ms(10);//等待芯片完成上电复位
   ADXL357_Configuration(ADXL_Range_10g);
@@ -36,7 +36,7 @@ int main(void)
   BMP388_Configuration();
   W25Q_Configuration();
   LORA_Configuration(0x1234,38400);
-  ATGM336H_Configuration(ENABLE);
+//  ATGM336H_Configuration(ENABLE);
   SampleFrequency_Configuration(Frequency_100Hz);
   FMUOffset_Get();
   delay_ms(100);
@@ -48,8 +48,12 @@ int main(void)
   while(1)
   {
     //测试代码开始
-//    USART3_printf("Hello,world!\r\n");
-//    delay_ms(100);
+//    TIM_SetCompare1(TIM3,500);
+//    delay_ms(1000);
+//    TIM_SetCompare1(TIM3,1500);
+//    delay_ms(1000);
+//    TIM_SetCompare1(TIM3,2500);
+//    delay_ms(1000);
 //    LED=!LED;
     //测试代码结束
     if(sample_state == 0)//执行采样后操作

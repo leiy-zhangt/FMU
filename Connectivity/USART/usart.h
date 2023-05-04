@@ -9,7 +9,7 @@
 
 #define USART_n		USART1  //定义使用printf函数的串口，其他串口要使用USART_printf专用函数发送
 
-#define USART_REC_LEN         50    //定义通用发送函数最大字节数
+#define USART_REC_LEN         100    //定义通用发送函数最大字节数
 #define USART1_REC_LEN  			50  	//定义USART1最大接收字节数
 #define USART2_REC_LEN  			200  	//定义USART2最大接收字节数
 #define USART3_REC_LEN  			50  	//定义USART3最大接收字节数
