@@ -24,7 +24,7 @@ void SampleFrequency_Configuration(SampleFrequency frequency)
 
 	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 3;//配置优先级
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;//配置优先级
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_Init(&NVIC_InitStructure);
 

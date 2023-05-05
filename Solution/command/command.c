@@ -5,6 +5,7 @@ uint8_t DataNumber = 255;//读取数据量
 uint32_t Storage_Number = 0;
 uint32_t Storage_Addr = 0x10000;//变量存储地址
 uint32_t Fuse_State = 1;//开伞状态
+uint16_t RemoteChannle[5];
 
 void Command_Receive(uint8_t *buffer)
 {
@@ -364,6 +365,7 @@ void IMUOffset_Init(void)
   double adxl_z_offset = 0;
   double g_max,g_min;
   USART_printf("FMU UP offset is begining!\r\n");
+  W25Q_DataReceive(0x00,W25Q_buffer,128);
   W25Q_SectorErase(0);
   FMUOffset_DeInit();
   for(uint8_t i = 0;i<100;i++)
@@ -427,15 +429,15 @@ void IMUOffset_Init(void)
   {
     W25Q_buffer[i] =  *tran++;
   }
-  W25Q_DataStorage(0x00,W25Q_buffer,80);
+  W25Q_DataStorage(0x00,W25Q_buffer,128);
   USART_printf("FMU offset has finished!\r\n");
 }
 
 void MagnetismOffset_Init(void)
 {
-  double x_min=0,x_max=0;
-  double y_min=0,y_max=0;
-  double z_min=0,z_max=0;
+  double x_min=999,x_max=-999;
+  double y_min=999,y_max=-999;
+  double z_min=999,z_max=-999;
   double data[6];
   uint8_t *tran;
   BMM150_CalData.offset_x = 0;
@@ -444,6 +446,8 @@ void MagnetismOffset_Init(void)
   BMM150_CalData.scale_x = 1;
   BMM150_CalData.scale_y = 1;
   BMM150_CalData.scale_z = 1;
+  W25Q_DataReceive(0x00,W25Q_buffer,128);
+  W25Q_SectorErase(0);
   while(Command_State==MagnetismOffset_INIT)
   {
     BMM150_Measure(&BMM150_Data);
@@ -469,8 +473,8 @@ void MagnetismOffset_Init(void)
   data[4] = BMM150_CalData.scale_y;
   data[5] = BMM150_CalData.scale_z;
   tran = data;
-  for(uint8_t i=0;i<48;i++) W25Q_buffer[i] =  *tran++;
-  W25Q_DataStorage(80,W25Q_buffer,48);
+  for(uint8_t i=80;i<128;i++) W25Q_buffer[i] =  *tran++;
+  W25Q_DataStorage(0,W25Q_buffer,128);
   USART_printf("%0.4f %0.4f %0.4f\r\n",BMM150_CalData.offset_x,BMM150_CalData.offset_y,BMM150_CalData.offset_z);
 }
 

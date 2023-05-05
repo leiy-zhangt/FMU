@@ -96,8 +96,8 @@ void USART1_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	GPIO_Init(GPIOA,&GPIO_InitStructure); //初始化PA9，PA10
   //Usart1 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;//抢占优先级3
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
 
@@ -188,8 +188,8 @@ void USART2_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	GPIO_Init(GPIOA,&GPIO_InitStructure); 
   //Usart1 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=8 ;//抢占优先级3
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级5
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;		//子优先级0
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
   //USART 初始化设置
@@ -203,41 +203,6 @@ void USART2_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
   USART_ITConfig(USART2, USART_IT_RXNE, ITStatus);//开启ENABLE/关闭DISABLE中断
   USART_Cmd(USART2, ENABLE);                    //使能串口 
 }
-
-//void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名不能修改）	
-//    uint8_t Res;
-//	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)		
-//		Res=USART_ReceiveData(USART2);//读取接收到的数据
-//		printf("%c",Res); //把收到的数据发送回电脑
-//        if((USART2_RX_STA&0x8000)==0)//接收未完成
-//		{
-//			if(USART2_RX_STA&0x4000)//接收到了0x0d
-//			{
-//				if(Res!=0x0a)USART2_RX_STA=0;//接收错误,重新开始
-//				else USART2_RX_STA|=0x8000;	//接收完成了 
-//			}
-//			else //还没收到0X0D
-//			{	
-//				if(Res==0x0d)USART2_RX_STA|=0x4000;
-//				else
-//				{
-//					USART2_RX_BUF[USART2_RX_STA&0X3FFF]=Res ;
-//					USART2_RX_STA++;
-//					if(USART2_RX_STA>(USART2_REC_LEN-1))USART2_RX_STA=0;//接收数据错误,重新开始接收	  
-//				}		 
-//			}
-//		}   	
-//	} 
-//} 
-
-//void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名不能修改）	
-//  uint8_t Res;
-//	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){  //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
-//    USART_ClearITPendingBit(USART2, USART_IT_RXNE);
-//    Res=USART_ReceiveData(USART2); 
-//    USART_SendData(USART1,Res);
-//	} 
-//} 
 
 void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名不能修改）
 	uint8_t Res;
@@ -336,7 +301,7 @@ void USART3_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
   //Usart3 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级3
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
   //USART 初始化设置
@@ -463,7 +428,7 @@ void USART4_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	GPIO_Init(GPIOC,&GPIO_InitStructure); //初始化PB10，PB11
   //Usart3 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=5 ;//抢占优先级3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级3
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
@@ -474,44 +439,37 @@ void USART4_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 }
 
 void UART4_IRQHandler(void){ //串口1中断服务程序（固定的函数名不能修改）
-  static uint8_t number;
-	uint8_t Res;
-  uint16_t CH[18];
+  uint8_t Res;
 	if(USART_GetITStatus(UART4, USART_IT_RXNE) != RESET)   //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
   { 
     USART_ClearITPendingBit(UART4, USART_IT_RXNE);
 		Res=USART_ReceiveData(UART4);//读取接收到的数据
-		if(Res == 0X0F) number = 0;
-    else 
+    if((USART4_RX_STA&0x8000)==0)//接收未完成
+		{
+			if(USART4_RX_STA&0x4000)//接收到了0x0d
+			{
+				if(Res!=0x0A)USART4_RX_STA=0;//接收错误,重新开始
+				else USART4_RX_STA|=0x8000;	//接收完成了 
+			}
+			else //还没收到0X0D
+			{	
+				if(Res==0x0D)USART4_RX_STA|=0x4000;
+				else
+				{
+					USART4_RX_BUF[USART4_RX_STA&0x3FFF]=Res ;
+					USART4_RX_STA++;
+					if(USART4_RX_STA>(USART4_REC_LEN-1))USART4_RX_STA=0;//接收数据错误,重新开始接收	  
+				}		 
+			}
+		} 
+    if((USART4_RX_STA&0x8000))
     {
-      if(number != 22) 
+      USART4_RX_STA = 0;
+      if(USART4_RX_BUF[0] == 0)
       {
-        USART4_RX_BUF[number] = Res;
-        number++;
-      }
-      else
-      {
-        CH[ 0] = ((int16_t)USART4_RX_BUF[ 0] >> 0 | ((int16_t)USART4_RX_BUF[ 1] << 8 )) & 0x07FF;
-        CH[ 1] = ((int16_t)USART4_RX_BUF[ 1] >> 3 | ((int16_t)USART4_RX_BUF[ 2] << 5 )) & 0x07FF;
-        CH[ 2] = ((int16_t)USART4_RX_BUF[ 2] >> 6 | ((int16_t)USART4_RX_BUF[ 3] << 2 )  | (int16_t)USART4_RX_BUF[ 4] << 10 ) & 0x07FF;
-        CH[ 3] = ((int16_t)USART4_RX_BUF[ 4] >> 1 | ((int16_t)USART4_RX_BUF[ 5] << 7 )) & 0x07FF;
-        CH[ 4] = ((int16_t)USART4_RX_BUF[ 5] >> 4 | ((int16_t)USART4_RX_BUF[ 6] << 4 )) & 0x07FF;
-        CH[ 5] = ((int16_t)USART4_RX_BUF[ 6] >> 7 | ((int16_t)USART4_RX_BUF[ 7] << 1 )  | (int16_t)USART4_RX_BUF[8] <<  9 ) & 0x07FF;
-        CH[ 6] = ((int16_t)USART4_RX_BUF[8] >> 2 | ((int16_t)USART4_RX_BUF[9] << 6 )) & 0x07FF;
-        CH[ 7] = ((int16_t)USART4_RX_BUF[9] >> 5 | ((int16_t)USART4_RX_BUF[10] << 3 )) & 0x07FF;
-
-        CH[ 8] = ((int16_t)USART4_RX_BUF[11] << 0 | ((int16_t)USART4_RX_BUF[12] << 8 )) & 0x07FF;
-        CH[ 9] = ((int16_t)USART4_RX_BUF[12] >> 3 | ((int16_t)USART4_RX_BUF[13] << 5 )) & 0x07FF;
-        CH[10] = ((int16_t)USART4_RX_BUF[13] >> 6 | ((int16_t)USART4_RX_BUF[14] << 2 )  | (int16_t)USART4_RX_BUF[15] << 10 ) & 0x07FF;
-        CH[11] = ((int16_t)USART4_RX_BUF[15] >> 1 | ((int16_t)USART4_RX_BUF[16] << 7 )) & 0x07FF;
-        CH[12] = ((int16_t)USART4_RX_BUF[16] >> 4 | ((int16_t)USART4_RX_BUF[17] << 4 )) & 0x07FF;
-        CH[13] = ((int16_t)USART4_RX_BUF[17] >> 7 | ((int16_t)USART4_RX_BUF[18] << 1 )  | (int16_t)USART4_RX_BUF[19] <<  9 ) & 0x07FF;
-        CH[14] = ((int16_t)USART4_RX_BUF[19] >> 2 | ((int16_t)USART4_RX_BUF[20] << 6 )) & 0x07FF;
-        CH[15] = ((int16_t)USART4_RX_BUF[20] >> 5 | ((int16_t)USART4_RX_BUF[21] << 3 )) & 0x07FF;
-        for(number = 0;number<4;number++) 
+        for(uint8_t n=0;n<5;n++)
         {
-          printf("%d  ",CH[number]);
-          if(number == 3) printf("\r\n");
+          RemoteChannle[n] = ((USART4_RX_BUF[2*n+1]*100+USART4_RX_BUF[2*(n+1)])-352)*0.744f+1000;
         }
       }
     }

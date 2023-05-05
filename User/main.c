@@ -28,7 +28,7 @@ int main(void)
   LED_Configuration();
   BUZZER_Configuration(DISABLE);
   SERVE_Configuration(ENABLE);
-  USART1_Configuration(512000,ENABLE);
+  USART1_Configuration(1500000,ENABLE);
   delay_ms(10);//等待芯片完成上电复位
   ADXL357_Configuration(ADXL_Range_10g);
   BMM150_Configuration();
@@ -37,24 +37,20 @@ int main(void)
   W25Q_Configuration();
   LORA_Configuration(0x1234,38400);
 //  ATGM336H_Configuration(ENABLE);
-  SampleFrequency_Configuration(Frequency_100Hz);
+  SampleFrequency_Configuration(Frequency_200Hz);
   FMUOffset_Get();
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
-  USART4_Configuration(100000,ENABLE);//配置遥控器接收
+  USART4_Configuration(512000,ENABLE);//配置遥控器接收
   LED_DIS;
   sample_state=0;
   while(1)
   {
     //测试代码开始
-//    TIM_SetCompare1(TIM3,500);
-//    delay_ms(1000);
-//    TIM_SetCompare1(TIM3,1500);
-//    delay_ms(1000);
-//    TIM_SetCompare1(TIM3,2500);
-//    delay_ms(1000);
+    
 //    LED=!LED;
+//    delay_ms(100);
     //测试代码结束
     if(sample_state == 0)//执行采样后操作
     {
@@ -75,12 +71,15 @@ int main(void)
           break;
         case AttitudeSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
-          if(sample_number%10 == 0) USART_printf("pitch:%+0.4f yaw:%+0.4f roll:%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+          if(sample_number%40 == 0) USART_printf("%0.2f pitch:%+0.4f yaw:%+0.4f roll:%+0.4f\r\n",sample_time,MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
           break;
         case AttitudeCompensation_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
-          if(sample_number%10 == 0) USART_printf("pitch:%+0.4f yaw:%+0.4f roll:%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+          if(sample_number%50 == 0) 
+            {
+              USART_printf("pitch:%+0.4f yaw:%+0.4f roll:%+0.4f\r\n",MotionData.pitch*180/PI,MotionData.yaw*180/PI,MotionData.roll*180/PI);
+            }
           break;
         case AccelerationSolution_TEST:
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
