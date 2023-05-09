@@ -9,12 +9,11 @@ typedef enum{Frequency_1Hz = 999999,Frequency_10Hz = 99999,Frequency_50Hz = 1999
 typedef struct
 {
   double acc_x,acc_y,acc_z;
-  double gyr_x,gyr_y,gyr_z;
-  double pitch,yaw,roll;
+  double gyr_x,gyr_y,gyr_z;//单位为°/s
+  double pitch,yaw,roll;//单位为rad
   double velocity_x,velocity_y,velocity_z;
   double position_x,position_y,position_z;
   double pressure,height;
-  double serve[2];
 }MotionDataStruct;
 
 typedef struct

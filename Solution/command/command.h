@@ -61,6 +61,7 @@ W25Q存储分区：
 #define MotorCal_STOP 104
 #define IMUUpOffset 105
 #define IMUBackOffset 106
+#define FixdWingControl_TEST 107
 
 
 extern uint8_t Command_State;
@@ -95,6 +96,7 @@ void MotorCal_Start(void);//电机校准启动
 void MotorCal_Stop(void);//电机校准结束
 void ParafoilControl_Start(void);//翼伞控制开始
 void ParafoilControl_Stop(void);//翼伞控制结束
+void FixdWingControl_Start(void);//固定翼飞行测试
 #endif
 
 

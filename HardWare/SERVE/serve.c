@@ -51,8 +51,8 @@ void SERVE_Configuration(FunctionalState status)
   TIM_ARRPreloadConfig(TIM3,ENABLE);	
   TIM_Cmd(TIM3, ENABLE);  
   
-  TIM_SetCompare1(TIM3,1000);
-  TIM_SetCompare2(TIM3,1000);
-  TIM_SetCompare3(TIM3,1000);
-  TIM_SetCompare4(TIM3,1000);
+  TIM_SetCompare1(TIM3,1500);
+  TIM_SetCompare2(TIM3,1500);
+  TIM_SetCompare3(TIM3,1500);
+  TIM_SetCompare4(TIM3,1500);
 }

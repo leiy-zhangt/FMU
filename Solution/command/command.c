@@ -36,6 +36,7 @@ void Command_Receive(uint8_t *buffer)
   else if(strcmp(buffer,"ParafoilControl_STOP") == 0) ParafoilControl_Stop();
   else if(strcmp(buffer,"MotorCal_START") == 0) MotorCal_Start();
   else if(strcmp(buffer,"MotorCal_STOP") == 0) MotorCal_Stop();
+  else if(strcmp(buffer,"FixdWingControl_TEST") == 0) {Command_State = FixdWingControl_TEST;FixdWingControl_Start();}
   else Command_State = 0;
 }
 
@@ -183,36 +184,7 @@ ErrorStatus NumberChoose(uint8_t *buffer)
   return SUCCESS;
 }
 
-//void DataRead(uint32_t addr)//数据读取函数
-//{
-//  double *tran,data[10];
-//  uint32_t *number,r;
-//  printf("Data is sending!\r\n");
-//  printf("number  acc_x  acc_y  acc_z  gyr_x  gyr_y  gyr_z  yaw  pitch  roll  height\r\n");
-//  while(Command_State == Data_READ)
-//  {
-//    W25Q_DataReceive(addr,W25Q_buffer,256);
-//    number = W25Q_buffer;
-//    if(*number == 0xFFFFFFFF) break;
-//    else
-//    {
-//      for(uint8_t n=0;n<3;n++)
-//      {
-//        tran = W25Q_buffer + 8 +84*n;
-//        number = W25Q_buffer + 4 +84*n;
-//        for(uint8_t i=0;i<10;i++)
-//        {
-//          data[i] = *tran++;
-//          if(i>5 && i<9) data[i] = data[i]*180/PI;
-//        }
-//        r = *number;
-//        printf("%u  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",r,data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9]);
-//      }
-//    }
-//    addr += 256;
-//  }
-//  printf("Data has been sended!\r\n");
-//}
+
 
 void DataRead(uint32_t addr)//数据读取函数
 {
@@ -242,72 +214,6 @@ void DataRead(uint32_t addr)//数据读取函数
   USART_printf("Data has been sended!\r\n");
 }
 
-//void DataStorage(void)
-//{
-//  uint8_t *tran,i,offset;
-//  double data[10];
-//  for(i=0;i<10;i++)
-//  {
-//    switch(i)
-//    {
-//      case 0:
-//        data[i] = MotionData.acc_x;
-//        break;
-//      case 1:
-//        data[i] = MotionData.acc_y;
-//        break;
-//      case 2:
-//        data[i] = MotionData.acc_z;
-//        break;
-//      case 3:
-//        data[i] = MotionData.gyr_x;
-//        break;
-//      case 4:
-//        data[i] = MotionData.gyr_y;
-//        break;
-//      case 5:
-//        data[i] = MotionData.gyr_z;
-//        break;
-//      case 6:
-//        data[i] = MotionData.yaw;
-//        break;
-//      case 7:
-//        data[i] = MotionData.pitch;
-//        break;
-//      case 8:
-//        data[i] = MotionData.roll;
-//        break;
-//      case 9:
-//        data[i] = MotionData.height;
-//        break;
-//    }
-//  }
-//  offset = (Storage_Number%3)*84 + 4;
-//  for(i = 0;i<84;i++)
-//  {
-//    if(i==0) tran = &Storage_Number;
-//    else if(i==4) tran = data;
-//    *(&W25Q_buffer[0]+i+offset) = *tran++;
-//  }
-////  if(Storage_Number == 0) for(uint8_t i=0;i<4;i++) W25Q_buffer[i] = 0x00;
-////  else for(uint8_t i=0;i<4;i++) W25Q_buffer[i] = 0x00;
-//  
-//  if((Storage_Number%3 == 2)) 
-//  {
-//    if(Storage_Number == 0) 
-//    {
-//      for(i=0;i<4;i++) W25Q_buffer[i] = 0x00;
-//    }
-//    else 
-//    { 
-//      for(i=0;i<4;i++) W25Q_buffer[i] = 0x00;
-//      W25Q_DataStorage(Storage_Addr,W25Q_buffer,256);
-//      Storage_Addr += 256;
-//    }
-//  }
-//  Storage_Number++;
-//  if(sample_time >= 7500.0) Sample_Stop();
-//}
 
 void DataStorage(void)
 {
@@ -328,8 +234,6 @@ void DataStorage(void)
   data[11] = MotionData.pitch;
   data[12] = MotionData.roll;
   data[13] = MotionData.yaw;
-  data[14] = MotionData.serve[0];
-  data[15] = MotionData.serve[1];
   tran = data;
   for(i=(Storage_Number%2)*128;i<(Storage_Number%2+1)*128;i++) W25Q_buffer[i] = *tran++;
   if((Storage_Number%2 == 0)&&(Storage_Number!=0))
@@ -587,3 +491,11 @@ void ParafoilControl_Stop(void)
   Sample_Stop();
   USART_printf("ParafoilControl is start!\r\n");
 }
+
+void FixdWingControl_Start(void)
+{
+  Q_Init();
+  USART_printf("FixdWing test is start!\r\n");
+  Sample_Start();
+}
+

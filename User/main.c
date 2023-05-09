@@ -115,6 +115,11 @@ int main(void)
         case ParafoilControl_START:
           Parafoil_Control();
           break;
+        case FixdWingControl_TEST:
+          AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
+          AttitudeCompensation();
+          FixdWing_Control();
+          break;
       }
 //      LED_DIS;
     }

@@ -2,61 +2,53 @@
 
 void Parafoil_Control(void)
 {
-  double IPI_x = -10;         //目标点位置
-  double IPI_y = 100;
-  double ptheta,vtheta,theta;
-  static double angle[3];
-  ptheta = atan2(IPI_y-MotionData.position_y,IPI_x-MotionData.position_x);
-	vtheta = atan2(GPS_Data.velocity_n,GPS_Data.velocity_e);
-	theta = vtheta-ptheta;
-  angle[0] = ptheta;
-  angle[1] = vtheta;
-  if(theta < 0)
+  
+}
+
+void FixdWing_Control(void)
+{
+  static const double Kp=0.75,Kd=0.1;
+  double serve;
+  if(RemoteChannle[4]>1500)
   {
-    MotionData.serve[0] = -theta*57.3*0.87;
-    MotionData.serve[1] = 0;
-	  
+    Serve_1_Set(RemoteChannle[0]);
+    Serve_2_Set(RemoteChannle[1]);
+    Serve_3_Set(RemoteChannle[2]);
+    Serve_4_Set(RemoteChannle[3]);
   }
   else
   {
-    MotionData.serve[0] = 0;
-    MotionData.serve[1] = theta*57.3*0.87;
+    serve = -Kp*MotionData.roll*57.3-Kd*MotionData.gyr_y;
+    serve = serve>45?45:serve;
+    serve = serve<-45?-45:serve;
+    Serve_1_Set(serve/45.0*500+1500);
+    Serve_2_Set(RemoteChannle[1]);
+    Serve_3_Set(RemoteChannle[2]);
+    Serve_4_Set(RemoteChannle[3]);
   }
-  if(sample_number%100==0) 
-  {
-    USART_printf("s1:%+0.4f  s2v:%+0.4f  t:%+0.4f\r\n",MotionData.serve[0],MotionData.serve[1],theta*57.3);
-  }
-  MotionData.serve[0] = MotionData.serve[0]>20?20:MotionData.serve[0];
-  MotionData.serve[1] = MotionData.serve[1]>20?20:MotionData.serve[1];
-  Serve_1_Set(MotionData.serve[0]);
-  Serve_2_Set(MotionData.serve[1]);
 }
 
-void Serve_1_Set(double angle)
+void Serve_1_Set(uint16_t angle)
 {
-  static double angle_offset = 5;
-  angle = -angle + angle_offset;
-  TIM_SetCompare1(TIM3,angle/90.0*1000+1500);
+  static uint16_t angle_offset = 0;
+  TIM_SetCompare1(TIM3,angle+angle_offset);
 }
 
-void Serve_2_Set(double angle)
+void Serve_2_Set(uint16_t angle)
 {
-  static double angle_offset = -15;
-  angle = angle + angle_offset;
-  TIM_SetCompare2(TIM3,angle/90.0*1000+1500);
+  static uint16_t angle_offset = 0;
+  TIM_SetCompare2(TIM3,angle+angle_offset);
 }
 
-void Serve_3_Set(double angle)
+void Serve_3_Set(uint16_t angle)
 {
-  static double angle_offset = 0;
-  angle = -angle + angle_offset;
-  TIM_SetCompare3(TIM3,angle/90.0*1000+1500);
+  static uint16_t angle_offset = 0;
+  TIM_SetCompare3(TIM3,angle+angle_offset);
 }
 
-void Serve_4_Set(double angle)
+void Serve_4_Set(uint16_t angle)
 {
-  static double angle_offset = 0;
-  angle = angle + angle_offset;
-  TIM_SetCompare4(TIM3,angle/90.0*1000+1500);
+  static uint16_t angle_offset = 0;
+  TIM_SetCompare4(TIM3,angle+angle_offset);
 }
 
