@@ -44,13 +44,36 @@ int main(void)
   USART3_printf("\r\nData Logger is ready!\r\n");
   USART4_Configuration(512000,ENABLE);//配置遥控器接收
   LED_DIS;
-  sample_state=0;
   while(1)
   {
     //测试代码开始
-    
+//    USART3_printf("Hello,world!\r\n");
 //    LED=!LED;
 //    delay_ms(100);
+/* 火箭点火测试代码
+    FUSE1 = 0;
+    FUSE2 = 0;
+    while(1)
+    {
+      if(TRIGGER == 1) while(1);
+      while(TRIGGER == 0)
+      {
+        LED_EN;
+        if(TRIGGER == 1)
+        {
+          delay_ms(50);
+          if(TRIGGER == 1)
+          {
+            LED_DIS;
+            delay_ms(26100);
+            FUSE1 = 1;
+            delay_ms(100);
+            FUSE1 = 0;
+          }
+        }
+      }
+    }
+*/
     //测试代码结束
     if(sample_state == 0)//执行采样后操作
     {
@@ -119,6 +142,7 @@ int main(void)
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
           FixdWing_Control();
+          if(sample_number%20 == 0) DataStorage();
           break;
       }
 //      LED_DIS;

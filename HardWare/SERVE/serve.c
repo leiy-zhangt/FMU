@@ -32,7 +32,7 @@ void SERVE_Configuration(FunctionalState status)
   
   TIM_TimeBaseStructure.TIM_Prescaler=83;  
   TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; 
-  TIM_TimeBaseStructure.TIM_Period=9999;   
+  TIM_TimeBaseStructure.TIM_Period=2499;   
   TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 	
   TIM_TimeBaseInit(TIM3,&TIM_TimeBaseStructure);
  
@@ -53,6 +53,6 @@ void SERVE_Configuration(FunctionalState status)
   
   TIM_SetCompare1(TIM3,1500);
   TIM_SetCompare2(TIM3,1500);
-  TIM_SetCompare3(TIM3,1500);
+  TIM_SetCompare3(TIM3,1000);
   TIM_SetCompare4(TIM3,1500);
 }

@@ -222,7 +222,7 @@ void DataStorage(void)
   uint8_t *tran = data;
   data[0] = MotionData.position_x;
   data[1] = MotionData.position_y;
-  data[2] = MotionData.height;
+  data[2] = MotionData.position_z;
   data[3] = GPS_Data.velocity_e;
   data[4] = GPS_Data.velocity_n;
   data[5] = MotionData.acc_x;
@@ -249,7 +249,6 @@ void DataStorage_Init(void)
   Q_Init();
   Storage_Number=0;
   Storage_Addr = 0x10000;
-  Fuse_State = 0;
   USART_printf("Data is storaging!\r\n");
   Sample_Start();
 }
@@ -495,7 +494,10 @@ void ParafoilControl_Stop(void)
 void FixdWingControl_Start(void)
 {
   Q_Init();
+  Storage_Number=0;
+  Storage_Addr = 0x10000;
   USART_printf("FixdWing test is start!\r\n");
+  USART_printf("Data is storaging!\r\n");
   Sample_Start();
 }
 
