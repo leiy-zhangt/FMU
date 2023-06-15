@@ -433,49 +433,64 @@ void USART4_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ITStatus;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
   //USART 初始化设置
-	
-  USART_ITConfig(UART4, USART_IT_RXNE, ITStatus);//开启ENABLE/关闭DISABLE中断
+	USART_DMACmd(UART4,USART_DMAReq_Rx,ENABLE); 
+  USART_ITConfig(UART4, USART_IT_IDLE, ITStatus);//开启ENABLE/关闭DISABLE中断
   USART_Cmd(UART4, ENABLE);                    //使能串口 
 }
 
-void UART4_IRQHandler(void){ //串口1中断服务程序（固定的函数名不能修改）
-  uint8_t Res;
-	if(USART_GetITStatus(UART4, USART_IT_RXNE) != RESET)   //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
-  { 
-    USART_ClearITPendingBit(UART4, USART_IT_RXNE);
-		Res=USART_ReceiveData(UART4);//读取接收到的数据
-    if((USART4_RX_STA&0x8000)==0)//接收未完成
-		{
-			if(USART4_RX_STA&0x4000)//接收到了0x0d
-			{
-				if(Res!=0x0A)USART4_RX_STA=0;//接收错误,重新开始
-				else USART4_RX_STA|=0x8000;	//接收完成了 
-			}
-			else //还没收到0X0D
-			{	
-				if(Res==0x0D)USART4_RX_STA|=0x4000;
-				else
-				{
-					USART4_RX_BUF[USART4_RX_STA&0x3FFF]=Res ;
-					USART4_RX_STA++;
-					if(USART4_RX_STA>(USART4_REC_LEN-1))USART4_RX_STA=0;//接收数据错误,重新开始接收	  
-				}		 
-			}
-		} 
-    if((USART4_RX_STA&0x8000))
-    {
-      USART4_RX_STA = 0;
-      if(USART4_RX_BUF[0]+USART4_RX_BUF[9]==USART4_RX_BUF[10])
-      {
-        for(uint8_t n=0;n<5;n++)
-        {
-          RemoteChannle[n] = (uint16_t)(USART4_RX_BUF[2*n])<<8|USART4_RX_BUF[2*n+1];
-        }
-        printf("%u %u %u %u %u\r\n",RemoteChannle[0],RemoteChannle[1],RemoteChannle[2],RemoteChannle[3],RemoteChannle[4]);
-      }
-    }
+
+void UART4_IRQHandler(void){ 
+  static uint8_t clear;
+  if(USART_GetITStatus(UART4, USART_IT_IDLE) != RESET)
+  {
+    DMA_Cmd(DMA1_Stream2, DISABLE);
+    clear=UART4->SR;
+    clear=UART4->DR;
+    printf("%u\r\n",((uint16_t)USART4_RX_BUF[0])<<8|USART4_RX_BUF[1]);
+    DMA_SetCurrDataCounter(DMA1_Stream2, 11);
+    DMA_Cmd(DMA1_Stream2, ENABLE);
+    
   }
-} 
+  
+}
+//void UART4_IRQHandler(void){ //串口1中断服务程序（固定的函数名不能修改）
+//  uint8_t Res;
+//	if(USART_GetITStatus(UART4, USART_IT_RXNE) != RESET)   //接收中断(接收到的数据必须是0x0d 0x0a结尾)	
+//  { 
+//    USART_ClearITPendingBit(UART4, USART_IT_RXNE);
+//		Res=USART_ReceiveData(UART4);//读取接收到的数据
+//    if((USART4_RX_STA&0x8000)==0)//接收未完成
+//		{
+//			if(USART4_RX_STA&0x4000)//接收到了0x0d
+//			{
+//				if(Res!=0x0A)USART4_RX_STA=0;//接收错误,重新开始
+//				else USART4_RX_STA|=0x8000;	//接收完成了 
+//			}
+//			else //还没收到0X0D
+//			{	
+//				if(Res==0x0D)USART4_RX_STA|=0x4000;
+//				else
+//				{
+//					USART4_RX_BUF[USART4_RX_STA&0x3FFF]=Res ;
+//					USART4_RX_STA++;
+//					if(USART4_RX_STA>(USART4_REC_LEN-1))USART4_RX_STA=0;//接收数据错误,重新开始接收	  
+//				}		 
+//			}
+//		} 
+//    if((USART4_RX_STA&0x8000))
+//    {
+//      USART4_RX_STA = 0;
+//      if(USART4_RX_BUF[0]+USART4_RX_BUF[9]==USART4_RX_BUF[10])
+//      {
+//        for(uint8_t n=0;n<5;n++)
+//        {
+//          RemoteChannle[n] = (uint16_t)(USART4_RX_BUF[2*n])<<8|USART4_RX_BUF[2*n+1];
+//        }
+//        printf("%u %u %u %u %u\r\n",RemoteChannle[0],RemoteChannle[1],RemoteChannle[2],RemoteChannle[3],RemoteChannle[4]);
+//      }
+//    }
+//  }
+//} 
 
 #endif	
 

@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI088;..\HardWare\SERVE;..\HardWare\ADXL357;..\HardWare\ATGM336H;..\HardWare\BMP388;..\HardWare\FUSE;..\HardWare\Lora;..\HardWare\VOLTAGE;..\HardWare\W25Q;..\Solution\command;..\Solution\computation;..\Solution\control</IncludePath>
+              <IncludePath>..\Basic\inc;..\CMSIS;..\Connectivity\IIC;..\Connectivity\SPI;..\Connectivity\USART;..\HardWare\BMM150;..\HardWare\BUZZER;..\HardWare\LED;..\System\delay;..\System\stm32f4xx_it;..\System\sys;..\System\system_stm32f4xx;..\User;..\System;..\HardWare\BMI088;..\HardWare\SERVE;..\HardWare\ADXL357;..\HardWare\ATGM336H;..\HardWare\BMP388;..\HardWare\FUSE;..\HardWare\Lora;..\HardWare\VOLTAGE;..\HardWare\W25Q;..\Solution\command;..\Solution\computation;..\Solution\control;..\Connectivity\DMA</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -585,6 +585,11 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Connectivity\USART\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Connectivity\DMA\dma.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -38,6 +38,7 @@
 ".\objects\iic.o"
 ".\objects\spi.o"
 ".\objects\usart.o"
+".\objects\dma.o"
 ".\objects\bmm150.o"
 ".\objects\buzzer.o"
 ".\objects\led.o"

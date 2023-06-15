@@ -2,6 +2,7 @@
 数据记录仪V2.1对应代码
 */
 #include "sys.h"
+#include "dma.h"
 #include "delay.h"
 #include "usart.h"
 #include "spi.h"
@@ -23,6 +24,7 @@ int main(void)
 { 
   RCC_Configuration();
   NVIC_Configuration();
+  DMA_Configuration();
   FUSE_Configuration();
   SPI1_Configuration();
   LED_Configuration();

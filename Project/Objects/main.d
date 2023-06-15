@@ -37,6 +37,7 @@
 .\objects\main.o: ..\Basic\inc\stm32f4xx_fsmc.h
 .\objects\main.o: ..\System\delay\delay.h
 .\objects\main.o: ..\System\sys\sys.h
+.\objects\main.o: ..\Connectivity\DMA\dma.h
 .\objects\main.o: ..\Connectivity\USART\usart.h
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
