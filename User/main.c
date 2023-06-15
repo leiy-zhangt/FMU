@@ -42,7 +42,7 @@ int main(void)
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
-  USART4_Configuration(512000,ENABLE);//配置遥控器接收
+  USART4_Configuration(1000000,ENABLE);//配置遥控器接收
   LED_DIS;
   while(1)
   {

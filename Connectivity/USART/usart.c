@@ -465,12 +465,13 @@ void UART4_IRQHandler(void){ //串口1中断服务程序（固定的函数名不
     if((USART4_RX_STA&0x8000))
     {
       USART4_RX_STA = 0;
-      if(USART4_RX_BUF[0] == 0)
+      if(USART4_RX_BUF[0]+USART4_RX_BUF[9]==USART4_RX_BUF[10])
       {
         for(uint8_t n=0;n<5;n++)
         {
-          RemoteChannle[n] = ((USART4_RX_BUF[2*n+1]*100+USART4_RX_BUF[2*(n+1)])-352)*0.744f+1000;
+          RemoteChannle[n] = (uint16_t)(USART4_RX_BUF[2*n])<<8|USART4_RX_BUF[2*n+1];
         }
+        printf("%u %u %u %u %u\r\n",RemoteChannle[0],RemoteChannle[1],RemoteChannle[2],RemoteChannle[3],RemoteChannle[4]);
       }
     }
   }
