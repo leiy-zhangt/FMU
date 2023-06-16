@@ -43,6 +43,8 @@
 .\objects\lora.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\lora.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\lora.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\lora.o: ..\Connectivity\DMA\dma.h
+.\objects\lora.o: ..\Connectivity\USART\usart.h
 .\objects\lora.o: ..\Solution\command\command.h
 .\objects\lora.o: ..\Solution\computation\computation.h
 .\objects\lora.o: ..\Solution\command\command.h
@@ -61,5 +63,4 @@
 .\objects\lora.o: ..\HardWare\FUSE\fuse.h
 .\objects\lora.o: ..\HardWare\Lora\lora.h
 .\objects\lora.o: ..\HardWare\ATGM336H\atgm336h.h
-.\objects\lora.o: ..\Connectivity\USART\usart.h
 .\objects\lora.o: ..\Solution\control\control.h

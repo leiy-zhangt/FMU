@@ -13,7 +13,7 @@
 #define TRIGGER_Port GPIOA
 #define TRIGGER_Pin GPIO_Pin_15
 
-#define TRIGGER PAin(15)
+#define TRIGGER PAout(15)
 
 void FUSE_Configuration(void);
 

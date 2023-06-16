@@ -43,6 +43,7 @@
 .\objects\dma.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\dma.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\dma.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\dma.o: ..\Connectivity\DMA\dma.h
 .\objects\dma.o: ..\Solution\command\command.h
 .\objects\dma.o: ..\Solution\computation\computation.h
 .\objects\dma.o: ..\Solution\command\command.h

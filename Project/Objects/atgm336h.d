@@ -43,6 +43,8 @@
 .\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\atgm336h.o: ..\Connectivity\DMA\dma.h
+.\objects\atgm336h.o: ..\Connectivity\USART\usart.h
 .\objects\atgm336h.o: ..\Solution\command\command.h
 .\objects\atgm336h.o: ..\Solution\computation\computation.h
 .\objects\atgm336h.o: ..\Solution\command\command.h
@@ -60,6 +62,5 @@
 .\objects\atgm336h.o: ..\HardWare\W25Q\w25q.h
 .\objects\atgm336h.o: ..\HardWare\FUSE\fuse.h
 .\objects\atgm336h.o: ..\HardWare\Lora\lora.h
-.\objects\atgm336h.o: ..\Connectivity\USART\usart.h
 .\objects\atgm336h.o: ..\HardWare\ATGM336H\atgm336h.h
 .\objects\atgm336h.o: ..\Solution\control\control.h

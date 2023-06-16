@@ -49,9 +49,8 @@ int main(void)
   while(1)
   {
     //测试代码开始
-//    USART3_printf("Hello,world!\r\n");
-//    LED=!LED;
-//    delay_ms(100);
+    printf("%u %u %u %u %u\r\n",RemoteChannel[0],RemoteChannel[1],RemoteChannel[2],RemoteChannel[3],RemoteChannel[4]);
+    delay_ms(20);
 /* 火箭点火测试代码
     FUSE1 = 0;
     FUSE2 = 0;

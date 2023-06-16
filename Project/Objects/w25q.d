@@ -60,5 +60,7 @@
 .\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\w25q.o: ..\Connectivity\DMA\dma.h
+.\objects\w25q.o: ..\Connectivity\USART\usart.h
 .\objects\w25q.o: ..\HardWare\ATGM336H\atgm336h.h
 .\objects\w25q.o: ..\Solution\control\control.h

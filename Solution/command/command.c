@@ -5,7 +5,7 @@ uint8_t DataNumber = 255;//读取数据量
 uint32_t Storage_Number = 0;
 uint32_t Storage_Addr = 0x10000;//变量存储地址
 uint32_t Fuse_State = 1;//开伞状态
-uint16_t RemoteChannle[5];
+uint16_t RemoteChannel[5];
 
 void Command_Receive(uint8_t *buffer)
 {

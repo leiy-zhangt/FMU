@@ -434,22 +434,22 @@ void USART4_Configuration(uint32_t bound,FunctionalState ITStatus){ //串口1初
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器 
   //USART 初始化设置
 	USART_DMACmd(UART4,USART_DMAReq_Rx,ENABLE); 
-  USART_ITConfig(UART4, USART_IT_IDLE, ITStatus);//开启ENABLE/关闭DISABLE中断
+  USART_ITConfig(UART4,USART_IT_IDLE,ITStatus);//开启ENABLE/关闭DISABLE中断
   USART_Cmd(UART4, ENABLE);                    //使能串口 
 }
 
 
 void UART4_IRQHandler(void){ 
-  static uint8_t clear;
   if(USART_GetITStatus(UART4, USART_IT_IDLE) != RESET)
   {
+    UART4->SR;
+    UART4->DR;
+    for(uint8_t n=0;n<5;n++) RemoteChannel[n] = ((uint16_t)USART4_RX_BUF[2*n])<<8|USART4_RX_BUF[2*n+1];
     DMA_Cmd(DMA1_Stream2, DISABLE);
-    clear=UART4->SR;
-    clear=UART4->DR;
-    printf("%u\r\n",((uint16_t)USART4_RX_BUF[0])<<8|USART4_RX_BUF[1]);
-    DMA_SetCurrDataCounter(DMA1_Stream2, 11);
+    while (DMA_GetCmdStatus(DMA1_Stream2) != DISABLE);
+    DMA_SetCurrDataCounter(DMA1_Stream2,15);
+    DMA_ClearITPendingBit(DMA1_Stream2,DMA_IT_TCIF2);
     DMA_Cmd(DMA1_Stream2, ENABLE);
-    
   }
   
 }
@@ -484,9 +484,9 @@ void UART4_IRQHandler(void){
 //      {
 //        for(uint8_t n=0;n<5;n++)
 //        {
-//          RemoteChannle[n] = (uint16_t)(USART4_RX_BUF[2*n])<<8|USART4_RX_BUF[2*n+1];
+//          RemoteChannel[n] = (uint16_t)(USART4_RX_BUF[2*n])<<8|USART4_RX_BUF[2*n+1];
 //        }
-//        printf("%u %u %u %u %u\r\n",RemoteChannle[0],RemoteChannle[1],RemoteChannle[2],RemoteChannle[3],RemoteChannle[4]);
+//        printf("%u %u %u %u %u\r\n",RemoteChannel[0],RemoteChannel[1],RemoteChannel[2],RemoteChannel[3],RemoteChannel[4]);
 //      }
 //    }
 //  }

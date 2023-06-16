@@ -5,6 +5,7 @@
 #include <string.h>
 #include "stdio.h"	
 #include "sys.h" 
+#include "dma.h"
 #include "command.h"
 
 #define USART_n		USART1  //定义使用printf函数的串口，其他串口要使用USART_printf专用函数发送

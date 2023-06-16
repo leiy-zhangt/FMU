@@ -42,6 +42,8 @@
 .\objects\usart.o: ..\Basic\inc\stm32f4xx_fsmc.h
 .\objects\usart.o: ..\System\delay\delay.h
 .\objects\usart.o: ..\System\sys\sys.h
+.\objects\usart.o: ..\Connectivity\DMA\dma.h
+.\objects\usart.o: ..\Connectivity\USART\usart.h
 .\objects\usart.o: ..\Solution\command\command.h
 .\objects\usart.o: ..\Solution\computation\computation.h
 .\objects\usart.o: ..\Solution\command\command.h
@@ -59,6 +61,5 @@
 .\objects\usart.o: ..\HardWare\W25Q\w25q.h
 .\objects\usart.o: ..\HardWare\FUSE\fuse.h
 .\objects\usart.o: ..\HardWare\Lora\lora.h
-.\objects\usart.o: ..\Connectivity\USART\usart.h
 .\objects\usart.o: ..\HardWare\ATGM336H\atgm336h.h
 .\objects\usart.o: ..\Solution\control\control.h

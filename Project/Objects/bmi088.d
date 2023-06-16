@@ -60,6 +60,8 @@
 .\objects\bmi088.o: ..\Connectivity\USART\usart.h
 .\objects\bmi088.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\bmi088.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\bmi088.o: ..\Connectivity\DMA\dma.h
+.\objects\bmi088.o: ..\Connectivity\USART\usart.h
 .\objects\bmi088.o: ..\Solution\command\command.h
 .\objects\bmi088.o: ..\HardWare\ATGM336H\atgm336h.h
 .\objects\bmi088.o: ..\Solution\control\control.h

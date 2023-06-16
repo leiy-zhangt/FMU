@@ -59,5 +59,7 @@
 .\objects\spi.o: ..\Connectivity\USART\usart.h
 .\objects\spi.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\spi.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\spi.o: ..\Connectivity\DMA\dma.h
+.\objects\spi.o: ..\Connectivity\USART\usart.h
 .\objects\spi.o: ..\HardWare\ATGM336H\atgm336h.h
 .\objects\spi.o: ..\Solution\control\control.h
