@@ -12,7 +12,7 @@
 
 #define USART_REC_LEN         100    //定义通用发送函数最大字节数
 #define USART1_REC_LEN  			50  	//定义USART1最大接收字节数
-#define USART2_REC_LEN  			200  	//定义USART2最大接收字节数
+#define USART2_REC_LEN  			500  	//定义USART2最大接收字节数
 #define USART3_REC_LEN  			50  	//定义USART3最大接收字节数
 #define USART4_REC_LEN  			30  	//定义USART4最大接收字节数
 

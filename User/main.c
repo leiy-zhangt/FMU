@@ -38,19 +38,21 @@ int main(void)
   BMP388_Configuration();
   W25Q_Configuration();
   LORA_Configuration(0x1234,38400);
-//  ATGM336H_Configuration(ENABLE);
+  ATGM336H_Configuration(ENABLE);
   SampleFrequency_Configuration(Frequency_200Hz);
   FMUOffset_Get();
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
-  USART4_Configuration(1000000,ENABLE);//配置遥控器接收
+  USART4_Configuration(1000000,DISABLE);//配置遥控器接收
   LED_DIS;
+  USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);//开启空闲中断
   while(1)
   {
     //测试代码开始
-    printf("%u %u %u %u %u\r\n",RemoteChannel[0],RemoteChannel[1],RemoteChannel[2],RemoteChannel[3],RemoteChannel[4]);
-    delay_ms(20);
+//    printf("%u %u %u %u %u\r\n",RemoteChannel[0],RemoteChannel[1],RemoteChannel[2],RemoteChannel[3],RemoteChannel[4]);
+//    delay_ms(1000);
+//    for(uint16_t i;i<500;i++)USART_SendData(USART2,USART2_RX_BUF[i]); 
 /* 火箭点火测试代码
     FUSE1 = 0;
     FUSE2 = 0;

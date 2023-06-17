@@ -36,16 +36,15 @@ void ATGM336H_Configuration(FunctionalState ATGM_State)
   delay_ms(1000);
   USART2_printf("$PCAS01,2*1E\r\n");
   delay_ms(1000);
-  
   LED_EN;
-  GPS_status = 0;
+//  GPS_status = 0;
   USART2_Configuration(19200,ENABLE);
-  while(GPS_WaitReady()==ERROR);
-  GPS_status = 1;
-  while(GPS_init == 0) ;
-  printf("GPS is ready!\r\n");
-  USART3_printf("GPS is ready!\r\n");
-  LED_DIS;
+//  while(GPS_WaitReady()==ERROR);
+//  GPS_status = 1;
+//  while(GPS_init == 0) ;
+//  printf("GPS is ready!\r\n");
+//  USART3_printf("GPS is ready!\r\n");
+//  LED_DIS;
 }
 
 ErrorStatus GPS_WaitReady(void)
