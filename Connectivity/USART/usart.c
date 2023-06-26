@@ -217,11 +217,12 @@ void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名�
     USART2->SR;
     USART2->DR;
     DMA_Cmd(DMA1_Stream5, DISABLE);
-    USART2_RX_BUF[499]=0;
-    printf("%u\r\n",DMA_GetCurrDataCounter(DMA1_Stream5));
+    USART2_RX_BUF[800-DMA_GetCurrDataCounter(DMA1_Stream5)]=0;
+    
     printf("%s",USART2_RX_BUF);
+    NMEASolution();
     while (DMA_GetCmdStatus(DMA1_Stream5) != DISABLE);
-    DMA_SetCurrDataCounter(DMA1_Stream5,500);
+    DMA_SetCurrDataCounter(DMA1_Stream5,800);
     DMA_ClearITPendingBit(DMA1_Stream5,DMA_IT_TCIF5);
     DMA_Cmd(DMA1_Stream5, ENABLE);
 	}

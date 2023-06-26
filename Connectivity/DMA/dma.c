@@ -3,7 +3,7 @@
 void DMA_Configuration(void)
 {
   DMA_InitTypeDef  DMA_InitStructure;
-  NVIC_InitTypeDef NVIC_InitStructure;
+//  NVIC_InitTypeDef NVIC_InitStructure;
   
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1,ENABLE);//DMA1时钟使能 
   

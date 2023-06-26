@@ -24,5 +24,6 @@ extern GPS_DataStruct GPS_Data;
 void ATGM336H_Configuration(FunctionalState ATGM_State);
 ErrorStatus GPS_WaitReady(void);//等待GPS就绪
 void Coordinate2Position(void);//坐标转换公式
+void NMEASolution(void);//NEMA报文解析函数
 
 #endif

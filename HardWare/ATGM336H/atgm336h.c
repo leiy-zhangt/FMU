@@ -47,36 +47,191 @@ void ATGM336H_Configuration(FunctionalState ATGM_State)
 //  LED_DIS;
 }
 
-ErrorStatus GPS_WaitReady(void)
-{
-  uint8_t i,j=0;
-  while((USART2_RX_STA&0x8000) == 0);
-  USART2_RX_STA = 0;
-  if(USART2_RX_BUF[0] == 0x24)
-  {
-    if(((USART2_RX_BUF[1]=='G')&&(USART2_RX_BUF[2]=='L')&&(USART2_RX_BUF[3]=='L'))||((USART2_RX_BUF[3]=='G')&&(USART2_RX_BUF[4]=='L')&&(USART2_RX_BUF[5]=='L')))
-    {
-      for(i=1;i<200;i++)
-      {
-        if(USART2_RX_BUF[i]==',')
-        {
-          j++;
-          if(j==6)
-          {
-            printf("GPS is prepare!\r\n");
-            USART3_printf("GPS is prepare!\r\n");
-            if(USART2_RX_BUF[i+1]=='A') return SUCCESS;
-            else return ERROR;
-          }
-        }
-      }
-    }
-  }
-  return ERROR;
-}
 
 void Coordinate2Position(void)
 {
   MotionData.position_y = (GPS_Data.lat-GPS_Data.lat_init)*PI/180*R;
   MotionData.position_x = (GPS_Data.lon-GPS_Data.lon_init)*PI/180*R;
 }
+
+void NMEASolution(void)
+{
+  uint8_t GPS_state;//GPS状态标志位
+  uint16_t message,flag,para;//参数
+  int16_t dot;//小数点位置
+  volatile double lat,lon,height;//经纬度
+  volatile double velocity,degree;//速度
+  float point;//小数点指示位
+  for(message=0;message<800;message++)
+  {
+    if(USART2_RX_BUF[message]=='$')
+    {
+      if(USART2_RX_BUF[message+3]=='G'&&USART2_RX_BUF[message+4]=='G'&&USART2_RX_BUF[message+5]=='A')
+      {
+        flag=0;
+        for(para=6;1;para++)
+        {
+          if(USART2_RX_BUF[message+para]==',')flag++;
+          if(flag==2)//得到纬度
+          {
+            if(USART2_RX_BUF[message+para+1]==',') 
+            {
+              lat = 0;
+              continue;
+            }
+            para++;
+            lat = (USART2_RX_BUF[message+para++]-0x30)*10;
+            lat += (USART2_RX_BUF[message+para++]-0x30);
+            lat += (USART2_RX_BUF[message+para++]-0x30)/6.0;
+            lat += (USART2_RX_BUF[message+para++]-0x30)/60.0;
+            para++;
+            point = 0.1f;
+            while(1)
+            {
+              lat += (USART2_RX_BUF[message+para]-0x30)*point/60;
+              if(USART2_RX_BUF[message+para+1]==',')break;
+              para++;
+              point = 0.1f*point;
+            }
+          }
+          else if(flag==3)
+          {
+            if(USART2_RX_BUF[message+para+1]==',') 
+            {
+              continue;
+            }
+            para++;
+            if(USART2_RX_BUF[message+para]=='N') GPS_Data.lat = lat;
+            else if(USART2_RX_BUF[message+para]=='S') GPS_Data.lat = -lat;
+          }
+          else if(flag==4)//得到经度
+          {
+            if(USART2_RX_BUF[message+para+1]==',') 
+            {
+              lon = 0;
+              continue;
+            }
+            para++;
+            lon = (USART2_RX_BUF[message+para++]-0x30)*100;
+            lon += (USART2_RX_BUF[message+para++]-0x30)*10;
+            lon += (USART2_RX_BUF[message+para++]-0x30);
+            lon += (USART2_RX_BUF[message+para++]-0x30)/6.0;
+            lon += (USART2_RX_BUF[message+para++]-0x30)/60.0;
+            para++;
+            point = 0.1f;
+            while(1)
+            {
+              lon += (USART2_RX_BUF[message+para]-0x30)*point/60;
+              if(USART2_RX_BUF[message+para+1]==',')break;
+              para++;
+              point = 0.1f*point;
+            }
+          }
+          else if(flag==5)
+          {
+            if(USART2_RX_BUF[message+para+1]==',') 
+            {
+              continue;
+            }
+            para++;
+            if(USART2_RX_BUF[message+para]=='E') GPS_Data.lon = lon;
+            else if(USART2_RX_BUF[message+para]=='W') GPS_Data.lon = -lon;
+          }
+          else if(flag==9)
+          {
+            if(USART2_RX_BUF[message+para+1]==',') 
+            {
+              height = 0;
+              continue;
+            }
+            for(dot=0;;dot++) if(USART2_RX_BUF[message+para+dot+1]=='.') break;
+            height=0;
+            para++;
+            while(1)
+            {
+              height=height+(USART2_RX_BUF[message+para]-0x30)*pow(10,dot-1);
+              if(USART2_RX_BUF[message+para+1]=='.') para++;
+              if(USART2_RX_BUF[message+para+1]==',')break;
+              dot--;
+              para++;
+            }
+          }
+          else if(flag>9)
+          {
+            message+=para;
+            break;
+          }
+        }
+      }
+      if(USART2_RX_BUF[message+3]=='R'&&USART2_RX_BUF[message+4]=='M'&&USART2_RX_BUF[message+5]=='C')
+      {
+        flag=0;
+        for(para=6;1;para++)
+        {
+          if(USART2_RX_BUF[message+para]==',')flag++;
+          if(flag==2)//状态检测
+          {
+            para++;
+            if(USART2_RX_BUF[message+para+1]==',') 
+            {
+              GPS_state = 0;
+              continue;
+            }
+            para++;
+            if(USART2_RX_BUF[message+para]=='V') GPS_state=0;
+            else if(USART2_RX_BUF[message+para]=='A') GPS_state=1;
+          }
+          else if(flag==7)//得到速度
+          {
+            if(USART2_RX_BUF[message+para+1]==',') 
+            {
+              velocity = 0;
+              continue;
+            }
+            for(dot=0;;dot++) if(USART2_RX_BUF[message+para+dot+1]=='.') break;
+            velocity=0;
+            para++;
+            while(1)
+            {
+              velocity=velocity+(USART2_RX_BUF[message+para]-0x30)*pow(10,dot-1);
+              if(USART2_RX_BUF[message+para+1]=='.') para++;
+              if(USART2_RX_BUF[message+para+1]==',')
+              {
+                velocity*=0.514444;
+                break;
+              }
+              dot--;
+              para++;
+            }
+          }
+          else if(flag==8)//得到航向角
+          {
+            if(USART2_RX_BUF[message+para+1]==',') 
+            {
+              degree = 0;
+              continue;
+            }
+            for(dot=0;;dot++) if(USART2_RX_BUF[message+para+dot+1]=='.') break;
+            degree=0;
+            para++;
+            while(1)
+            {
+              degree+=(USART2_RX_BUF[message+para]-0x30)*pow(10,dot-1);
+              if(USART2_RX_BUF[message+para+1]=='.') para++;
+              if(USART2_RX_BUF[message+para+1]==',')break;
+              dot--;
+              para++;
+            }
+          }
+          else if(flag>9)
+          {
+            message+=para;
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
+

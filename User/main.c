@@ -30,7 +30,7 @@ int main(void)
   LED_Configuration();
   BUZZER_Configuration(DISABLE);
   SERVE_Configuration(ENABLE);
-  USART1_Configuration(1500000,ENABLE);
+  USART1_Configuration(115200,ENABLE);
   delay_ms(10);//等待芯片完成上电复位
   ADXL357_Configuration(ADXL_Range_10g);
   BMM150_Configuration();
