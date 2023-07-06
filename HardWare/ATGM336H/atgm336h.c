@@ -1,6 +1,6 @@
 #include "atgm336h.h"
 
-uint8_t GPS_status = 0;//指示GPS状态，0为未接收信号，1为正常，其余为数据不可信
+uint8_t GPS_state = 0;//指示GPS状态，0为未接收信号，1为正常，其余为数据不可信
 uint8_t GPS_init = 0;
 GPS_DataStruct GPS_Data;
 
@@ -171,7 +171,6 @@ void NMEASolution(void)
           if(USART2_RX_BUF[message+para]==',')flag++;
           if(flag==2)//状态检测
           {
-            para++;
             if(USART2_RX_BUF[message+para+1]==',') 
             {
               GPS_state = 0;
@@ -231,6 +230,22 @@ void NMEASolution(void)
         }
       }
     }
+  }
+  if(GPS_state==1)
+  {
+    GPS_Data.lat = lat;
+    GPS_Data.lon = lon;
+    GPS_Data.height = height;
+    GPS_Data.velocity_n = velocity*cos(degree/57.3);
+    GPS_Data.velocity_e = velocity*sin(degree/57.3);
+  }
+  else
+  {
+    GPS_Data.lat = 0;
+    GPS_Data.lon = 0;
+    GPS_Data.height = 0;
+    GPS_Data.velocity_n = 0;
+    GPS_Data.velocity_e = 0;
   }
 }
 

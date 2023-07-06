@@ -1,11 +1,13 @@
 #include "command.h"
 
+uint8_t Remote_state = 0;//遥控器状态
 uint8_t Command_State = 0;//指令状态
 uint8_t DataNumber = 255;//读取数据量
 uint32_t Storage_Number = 0;
 uint32_t Storage_Addr = 0x10000;//变量存储地址
 uint32_t Fuse_State = 1;//开伞状态
-uint16_t RemoteChannel[5];
+uint16_t RemoteChannel[5];//遥控器输入通道
+uint16_t ServeOutput[4];//舵机通道输出
 
 void Command_Receive(uint8_t *buffer)
 {
@@ -191,24 +193,24 @@ void DataRead(uint32_t addr)//数据读取函数
   double *tran,data[16];
   uint32_t *number,i;
   USART_printf("Data is sending!\r\n");
-  USART_printf("number:p_x p_y p_z v_e v_n a_x a_y a_z g_x g_y g_z pitch roll yaw s_1 s_2\r\n");
+  USART_printf("number:time lat lon hei v_e v_n a_x a_y a_z g_x g_y g_z roll pitch yaw pre hei r1~5 c_r c_p c_y o1_4\r\n");
   while(Command_State == Data_READ)
   {
-    W25Q_DataReceive(addr,W25Q_buffer,128);
+    W25Q_DataReceive(addr,W25Q_buffer,256);
     number = W25Q_buffer;
     if(*number == 0xFFFFFFFF) break;
     else
     {
       USART_printf("%u:",i);
       tran = W25Q_buffer;
-      for(uint8_t n=0;n<16;n++)
+      for(uint8_t n=0;n<32;n++)
       {
         USART_printf("  %+0.4f",*tran);
         tran++;
       }
       USART_printf("\r\n");
     }
-    addr += 128;
+    addr += 256;
     i++;
   }
   USART_printf("Data has been sended!\r\n");
@@ -218,29 +220,44 @@ void DataRead(uint32_t addr)//数据读取函数
 void DataStorage(void)
 {
   static uint16_t i=0;
-  double data[16];
+  double data[32];
   uint8_t *tran = data;
-  data[0] = MotionData.position_x;
-  data[1] = MotionData.position_y;
-  data[2] = MotionData.position_z;
-  data[3] = GPS_Data.velocity_e;
-  data[4] = GPS_Data.velocity_n;
-  data[5] = MotionData.acc_x;
-  data[6] = MotionData.acc_y;
-  data[7] = MotionData.acc_z;
-  data[8] = MotionData.gyr_x;
-  data[9] = MotionData.gyr_y;
-  data[10] = MotionData.gyr_z;
-  data[11] = MotionData.pitch;
+  data[0] = sample_time;
+  data[1] = GPS_Data.lat;
+  data[2] = GPS_Data.lon;
+  data[3] = GPS_Data.height;
+  data[4] = GPS_Data.velocity_e;
+  data[5] = GPS_Data.velocity_n;
+  data[6] = MotionData.acc_x;
+  data[7] = MotionData.acc_y;
+  data[8] = MotionData.acc_z;
+  data[9] = MotionData.gyr_x;
+  data[10] = MotionData.gyr_y;
+  data[11] = MotionData.gyr_z;
   data[12] = MotionData.roll;
-  data[13] = MotionData.yaw;
+  data[13] = MotionData.pitch;
+  data[14] = MotionData.yaw;
+  data[15] = MotionData.pressure;
+  data[16] = MotionData.height;
+  data[17] = RemoteChannel[0];
+  data[18] = RemoteChannel[1];
+  data[19] = RemoteChannel[2];
+  data[20] = RemoteChannel[3];
+  data[21] = RemoteChannel[4];
+  data[22] = roll_e;
+  data[23] = pitch_e;
+  data[24] = yaw_init;
+  data[25] = control_roll;
+  data[26] = control_pitch;
+  data[27] = control_yaw;
+  data[28] = ServeOutput[0];
+  data[29] = ServeOutput[1];
+  data[30] = ServeOutput[2];
+  data[31] = ServeOutput[3];
   tran = data;
-  for(i=(Storage_Number%2)*128;i<(Storage_Number%2+1)*128;i++) W25Q_buffer[i] = *tran++;
-  if((Storage_Number%2 == 0)&&(Storage_Number!=0))
-  {
-    W25Q_DataStorage(Storage_Addr,W25Q_buffer,256);
-    Storage_Addr = Storage_Addr + 256;
-  }
+  for(i=0;i<256;i++) W25Q_buffer[i] = *tran++;
+  W25Q_DataStorage(Storage_Addr,W25Q_buffer,256);
+  Storage_Addr = Storage_Addr + 256;
   Storage_Number++;
 }
 

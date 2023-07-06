@@ -17,7 +17,8 @@ typedef struct
   double lat_init,lon_init,height_init;
 }GPS_DataStruct;
 
-extern uint8_t GPS_status;
+
+extern uint8_t GPS_state;
 extern uint8_t GPS_init;
 extern GPS_DataStruct GPS_Data;
 

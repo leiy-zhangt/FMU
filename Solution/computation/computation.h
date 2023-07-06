@@ -46,7 +46,6 @@ void AccelerationSolution(double acc_x,double acc_y,double acc_z);//得到惯性
 double AttitudeCompensation(void);//对姿态进行补偿
 void VelocitySolution(void);//得到惯性坐标系下的速度
 void PositionSolution(void);//得到惯性坐标系下的位置
-void GPS_Solution(uint8_t *buffer);//通过GPS解算位置与速度
 
 #endif
 

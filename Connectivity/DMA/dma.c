@@ -30,7 +30,7 @@ void DMA_Configuration(void)
   
   DMA_DeInit(DMA1_Stream5);
   while (DMA_GetCmdStatus(DMA1_Stream5) != DISABLE);//等待DMA可配置 
-  /* 配置 DMA1_Stream2，USART4接收 */
+  /* 配置 DMA1_Stream5，USART4接收 */
   DMA_InitStructure.DMA_Channel            = DMA_Channel_4;               //通道选择
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)&USART2->DR;            //DMA外设地址
   DMA_InitStructure.DMA_Memory0BaseAddr    = (uint32_t)USART2_RX_BUF;      //DMA 存储器0地址

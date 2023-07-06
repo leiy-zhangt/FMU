@@ -30,7 +30,7 @@ int main(void)
   LED_Configuration();
   BUZZER_Configuration(DISABLE);
   SERVE_Configuration(ENABLE);
-  USART1_Configuration(115200,ENABLE);
+  USART1_Configuration(1500000,ENABLE);
   delay_ms(10);//等待芯片完成上电复位
   ADXL357_Configuration(ADXL_Range_10g);
   BMM150_Configuration();
@@ -44,7 +44,7 @@ int main(void)
   delay_ms(100);
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
-  USART4_Configuration(1000000,DISABLE);//配置遥控器接收
+  USART4_Configuration(1000000,ENABLE);//配置遥控器接收
   LED_DIS;
   USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);//开启空闲中断
   while(1)
@@ -52,32 +52,9 @@ int main(void)
     //测试代码开始
 //    printf("%u %u %u %u %u\r\n",RemoteChannel[0],RemoteChannel[1],RemoteChannel[2],RemoteChannel[3],RemoteChannel[4]);
 //    delay_ms(1000);
-//    for(uint16_t i;i<500;i++)USART_SendData(USART2,USART2_RX_BUF[i]); 
-/* 火箭点火测试代码
-    FUSE1 = 0;
-    FUSE2 = 0;
-    while(1)
-    {
-      if(TRIGGER == 1) while(1);
-      while(TRIGGER == 0)
-      {
-        LED_EN;
-        if(TRIGGER == 1)
-        {
-          delay_ms(50);
-          if(TRIGGER == 1)
-          {
-            LED_DIS;
-            delay_ms(26100);
-            FUSE1 = 1;
-            delay_ms(100);
-            FUSE1 = 0;
-          }
-        }
-      }
-    }
-*/
+//    for(uint16_t i;i<500;i++)USART_SendData(USART2,USART2_RX_BUF[i]);
     //测试代码结束
+    
     if(sample_state == 0)//执行采样后操作
     {
 //      LED_EN;
@@ -145,7 +122,6 @@ int main(void)
           AttitudeSolution(MotionData.gyr_x,MotionData.gyr_y,MotionData.gyr_z);
           AttitudeCompensation();
           FixdWing_Control();
-          if(sample_number%20 == 0) DataStorage();
           break;
       }
 //      LED_DIS;

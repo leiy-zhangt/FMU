@@ -63,13 +63,14 @@ W25Q存储分区：
 #define IMUBackOffset 106
 #define FixdWingControl_TEST 107
 
-
+extern uint8_t Remote_state;//遥控器状态
 extern uint8_t Command_State;
 extern uint8_t DataNumber;
 extern uint32_t Storage_Number;
 extern uint32_t Storage_Addr;//变量存储地址
 extern uint32_t Fuse_State;
 extern uint16_t RemoteChannel[5];//遥控器通道，最低为352，最高位1696，中立位置为1024
+extern uint16_t ServeOutput[4];//舵机通道输出
 
 void Command_Receive(uint8_t *buffer);
 void Q_Init(void);//四元数初始化，确定当前姿态角
