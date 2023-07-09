@@ -42,11 +42,20 @@ int main(void)
   SampleFrequency_Configuration(Frequency_200Hz);
   FMUOffset_Get();
   delay_ms(100);
+//  while(!GPS_state)
+//  {
+//    printf("GPS is wating!\r\n");
+//    delay_ms(1000);
+//  }
   printf("\r\nData Logger is ready!\r\n");
   USART3_printf("\r\nData Logger is ready!\r\n");
   USART4_Configuration(1000000,ENABLE);//配置遥控器接收
   LED_DIS;
   USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);//开启空闲中断
+  Serve_1_Set(1500);
+  Serve_2_Set(1500);
+  Serve_3_Set(1000);
+  Serve_4_Set(1500);
   while(1)
   {
     //测试代码开始

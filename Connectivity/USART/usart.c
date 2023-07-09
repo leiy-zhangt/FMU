@@ -410,6 +410,7 @@ void UART4_IRQHandler(void){
     }
     DMA_Cmd(DMA1_Stream2, DISABLE);
     while (DMA_GetCmdStatus(DMA1_Stream2) != DISABLE);
+//    printf("%u %u %u %u %u\r\n",RemoteChannel[0],RemoteChannel[1],RemoteChannel[2],RemoteChannel[3],RemoteChannel[4]);
     DMA_SetCurrDataCounter(DMA1_Stream2,15);
     DMA_ClearITPendingBit(DMA1_Stream2,DMA_IT_TCIF2);
     DMA_Cmd(DMA1_Stream2, ENABLE);

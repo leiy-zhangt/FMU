@@ -46,15 +46,22 @@ void Parafoil_Control(void)
 
 void FixdWing_Control(void)
 {
-  static const double Kp_roll=1,Kd_roll=0.1,Kp_pitch=1.5,Kd_pitch=0.1,Kp_yaw=1.5,Kd_yaw=0.1;
+  static const double Kp_roll=1,Kd_roll=0.1,Kp_pitch=3,Kd_pitch=0.2,Kp_yaw=1.5,Kd_yaw=0.1;
   static double serve_roll,serve_pitch,serve_yaw,yaw_init;
-  if(RemoteChannel[4]>1500)
+  uint16_t channel[5];
+  for(uint8_t i=0;i<5;i++)channel[i]=RemoteChannel[i];
+//  Serve_1_Set(RemoteChannel[0]);
+//  Serve_2_Set(RemoteChannel[1]);
+//  Serve_3_Set(RemoteChannel[2]);
+//  Serve_4_Set(RemoteChannel[3]);
+//  printf("%u %u %u %u %u\r\n",RemoteChannel[0],RemoteChannel[1],RemoteChannel[2],RemoteChannel[3],RemoteChannel[4]);
+  if(channel[4]>1500)
   {
     ControlMode=0;
-    ServeOutput[0]=RemoteChannel[0];
-    ServeOutput[1]=3000-RemoteChannel[1];
-    ServeOutput[2]=RemoteChannel[2];
-    ServeOutput[3]=3000-RemoteChannel[3];
+    ServeOutput[0]=channel[0];
+    ServeOutput[1]=3000-channel[1];
+    ServeOutput[2]=channel[2];
+    ServeOutput[3]=3000-channel[3];
   }
   else
   {
@@ -63,15 +70,15 @@ void FixdWing_Control(void)
       ControlMode=1;
       yaw_init=MotionData.yaw;
     }
-    roll_e = (RemoteChannel[0]-1500)/500*30;
+    roll_e = (channel[0]-1500)/500.0*30;
     serve_roll = Kp_roll*(roll_e-MotionData.roll*57.3)-Kd_roll*MotionData.gyr_y;
     serve_roll = serve_roll>30?30:serve_roll;
     serve_roll = serve_roll<-30?-30:serve_roll;
-    pitch_e = (RemoteChannel[1]-1500)/500*30;
+    pitch_e = (channel[1]-1500)/500.0*30;
     serve_pitch = -Kp_pitch*(pitch_e-MotionData.pitch*57.3)-Kd_pitch*MotionData.gyr_x;
-    serve_pitch = serve_pitch>30?30:serve_pitch;
-    serve_pitch = serve_pitch<-30?-30:serve_pitch;
-    yaw_init = yaw_init+(RemoteChannel[3]-1500)/10000.0f;
+    serve_pitch = serve_pitch>60?60:serve_pitch;
+    serve_pitch = serve_pitch<-60?-60:serve_pitch;
+    yaw_init = yaw_init+(channel[3]-1500)/99999.0f;
     yaw_init = yaw_init>PI?yaw_init-PI:yaw_init;
     yaw_init = yaw_init<-PI?yaw_init+PI:yaw_init;
     serve_yaw = Kp_yaw*(AngleDifference(yaw_init,MotionData.yaw)*57.3)+Kd_yaw*MotionData.gyr_z;
@@ -80,10 +87,11 @@ void FixdWing_Control(void)
     control_pitch=serve_pitch;
     control_roll=serve_roll;
     control_yaw=serve_yaw;
+    
     ServeOutput[0]=serve_roll/30.0*333+1500;
-    ServeOutput[1]=serve_pitch/30.0*333+1500;
-    ServeOutput[2]=RemoteChannel[2];
-    ServeOutput[3]=serve_yaw/30.0*333+1500;
+    ServeOutput[1]=serve_pitch/60.0*666+1500;
+    ServeOutput[2]=channel[2];
+    ServeOutput[3]=3000-channel[3];
   }
   Serve_1_Set(ServeOutput[0]);
   Serve_2_Set(ServeOutput[1]);
@@ -122,7 +130,7 @@ void Serve_3_Set(uint16_t angle)
 
 void Serve_4_Set(uint16_t angle)
 {
-  static int16_t angle_offset = 0;
+  static int16_t angle_offset = -100;
   TIM_SetCompare4(TIM3,angle+angle_offset);
 }
 

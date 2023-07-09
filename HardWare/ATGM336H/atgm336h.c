@@ -56,7 +56,6 @@ void Coordinate2Position(void)
 
 void NMEASolution(void)
 {
-  uint8_t GPS_state;//GPS状态标志位
   uint16_t message,flag,para;//参数
   int16_t dot;//小数点位置
   volatile double lat,lon,height;//经纬度
