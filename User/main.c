@@ -29,7 +29,7 @@ int main(void)
   SPI1_Configuration();
   LED_Configuration();
   BUZZER_Configuration(DISABLE);
-  SERVE_Configuration(ENABLE);
+  SERVE_Configuration(DISABLE);
   USART1_Configuration(1500000,ENABLE);
   delay_ms(10);//等待芯片完成上电复位
   ADXL357_Configuration(ADXL_Range_10g);
@@ -39,7 +39,7 @@ int main(void)
   W25Q_Configuration();
   LORA_Configuration(0x1234,38400);
   ATGM336H_Configuration(ENABLE);
-  SampleFrequency_Configuration(Frequency_200Hz);
+  SampleFrequency_Configuration(Frequency_100Hz);
   FMUOffset_Get();
   delay_ms(100);
   USART4_Configuration(1000000,ENABLE);//配置遥控器接收

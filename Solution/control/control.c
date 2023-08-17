@@ -46,7 +46,7 @@ void Parafoil_Control(void)
 
 void FixdWing_Control(void)
 {
-  static const double Kp_roll=1,Kd_roll=0.1,Kp_pitch=3,Kd_pitch=0.2,Kp_yaw=1.5,Kd_yaw=0.1;
+  static const double Kp_roll=1,Kd_roll=0.1,Kp_pitch=1,Kd_pitch=0,Kp_yaw=1.5,Kd_yaw=0.1;
   static double serve_roll,serve_pitch,serve_yaw,yaw_init;
   uint16_t channel[5];
   for(uint8_t i=0;i<5;i++)channel[i]=RemoteChannel[i];
@@ -112,7 +112,7 @@ float AngleDifference(float angle_1,float angle_2)
 
 void Serve_1_Set(uint16_t angle)
 {
-  static uint16_t angle_offset = 0;
+  static int16_t angle_offset = 0;
   TIM_SetCompare1(TIM3,angle+angle_offset);
 }
 
@@ -124,13 +124,13 @@ void Serve_2_Set(uint16_t angle)
 
 void Serve_3_Set(uint16_t angle)
 {
-  static uint16_t angle_offset = 0;
+  static int16_t angle_offset = 0;
   TIM_SetCompare3(TIM3,angle+angle_offset);
 }
 
 void Serve_4_Set(uint16_t angle)
 {
-  static int16_t angle_offset = -100;
+  static int16_t angle_offset = 0;
   TIM_SetCompare4(TIM3,angle+angle_offset);
 }
 

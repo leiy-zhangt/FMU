@@ -213,7 +213,6 @@ void USART2_IRQHandler(void){ //串口2中断服务程序（固定的函数名�
   { 
 //		Res=USART_ReceiveData(USART2);//读取接收到的数据
 //		printf("%c",Res); //把收到的数据发送回电脑
-    LED=!LED;
     USART2->SR;
     USART2->DR;
     DMA_Cmd(DMA1_Stream5, DISABLE);

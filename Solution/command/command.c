@@ -208,7 +208,6 @@ void DataRead(uint32_t addr)//数据读取函数
         if(n>0&&n<3) USART_printf("  %+0.8f",*tran);
         else if((n>16&&n<22)||(n>27)) USART_printf("  %d",(int)(*tran));
         else USART_printf("  %+0.4f",*tran);
-        USART_printf("  %+0.4f",*tran);
         tran++;
       }
       USART_printf("\r\n");
