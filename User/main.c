@@ -42,13 +42,6 @@ int main(void)
   SampleFrequency_Configuration(Frequency_200Hz);
   FMUOffset_Get();
   delay_ms(100);
-//  while(!GPS_state)
-//  {
-//    printf("GPS is wating!\r\n");
-//    delay_ms(1000);
-//  }
-  printf("\r\nData Logger is ready!\r\n");
-  USART3_printf("\r\nData Logger is ready!\r\n");
   USART4_Configuration(1000000,ENABLE);//配置遥控器接收
   LED_DIS;
   USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);//开启空闲中断
@@ -56,6 +49,22 @@ int main(void)
   Serve_2_Set(1500);
   Serve_3_Set(1000);
   Serve_4_Set(1500);
+  for(uint8_t n=0;n<60;n++)
+  {
+    if(GPS_state==0) printf("GPS is wating!\r\n");
+    else 
+    {
+      printf("GPS is ready!lat:%0.8f lon:%0.8f height:%0.2f\r\n",GPS_Data.lat,GPS_Data.lon,GPS_Data.height);
+      break;
+    }
+    if(n==59) 
+    {
+      printf("GPS no signal!\r\n");
+    }
+    delay_ms(1000);
+  }
+  printf("\r\nData Logger is ready!\r\n");
+  USART3_printf("\r\nData Logger is ready!\r\n");
   while(1)
   {
     //测试代码开始
