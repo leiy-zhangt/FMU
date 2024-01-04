@@ -44,6 +44,3 @@ fmu\stm32h7xx_hal_adc_ex.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_ti
 fmu\stm32h7xx_hal_adc_ex.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 fmu\stm32h7xx_hal_adc_ex.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
 fmu\stm32h7xx_hal_adc_ex.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
-fmu\stm32h7xx_hal_adc_ex.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h
-fmu\stm32h7xx_hal_adc_ex.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h
-fmu\stm32h7xx_hal_adc_ex.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h

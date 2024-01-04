@@ -46,9 +46,7 @@ fmu\taskinit.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
 fmu\taskinit.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 fmu\taskinit.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
 fmu\taskinit.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
-fmu\taskinit.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h
-fmu\taskinit.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h
-fmu\taskinit.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h
+fmu\taskinit.o: ../Middlewares/Third_Party/FatFs/src/integer.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 fmu\taskinit.o: ../Core/Inc/FreeRTOSConfig.h
@@ -65,7 +63,6 @@ fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 fmu\taskinit.o: ../FATFS/App/fatfs.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FatFs/src/ff.h
-fmu\taskinit.o: ../Middlewares/Third_Party/FatFs/src/integer.h
 fmu\taskinit.o: ../FATFS/Target/ffconf.h
 fmu\taskinit.o: ../FATFS/Target/bsp_driver_sd.h
 fmu\taskinit.o: ../FATFS/Target/fatfs_platform.h
@@ -73,3 +70,4 @@ fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FatFs/src/diskio.h
 fmu\taskinit.o: ../FATFS/Target/sd_diskio.h
+fmu\taskinit.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

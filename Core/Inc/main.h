@@ -31,13 +31,13 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-//#include "fatfs.h"
+#include "integer.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-extern uint8_t USART5_RX_Buffer[50];
 extern unsigned long FreeRTOSRunTimeTicks;
+extern BYTE work[];
 
 extern UART_HandleTypeDef huart4;
 extern UART_HandleTypeDef huart5;

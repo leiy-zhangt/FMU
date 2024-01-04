@@ -1,6 +1,9 @@
 #include "stdio.h"
 #include "printf.h"
-//加入以下代码,支持printf函数,而不需要选择use MicroLIB	  
+
+UART_HandleTypeDef *USART_x = &huart1;
+
+//加入以下代码,支持printf函数,而不需要选择use MicroLIB	
 #if 1
 #pragma import(__use_no_semihosting)             
 //标准库需要的支持函数                 
@@ -22,7 +25,8 @@ int fputc(int c, FILE *stream)
     huart1是工具生成代码定义的UART1结构体，
     如果以后要使用其他串口打印，只需要把这个结构体改成其他UART结构体。
 */
-    HAL_UART_Transmit(&huart1, (unsigned char *)&c, 1, 1000);   
+    HAL_UART_Transmit(USART_x, (unsigned char *)&c, 1, 1000);   
     return 1;
 }
 #endif
+

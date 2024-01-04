@@ -20,7 +20,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "fatfs.h"
-#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -76,11 +75,8 @@ DMA_HandleTypeDef hdma_usart3_rx;
 osThreadId defaultTaskHandle;
 /* USER CODE BEGIN PV */
 unsigned long FreeRTOSRunTimeTicks;
-FRESULT SDret;
 BYTE work[_MAX_SS];
-uint8_t USART5_RX_Buffer[50]={0,1,2,3,4,5,6,7,8,10};
-uint32_t voltage_uint32,current_uint32;
-float voltage,current;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -165,26 +161,10 @@ int main(void)
   MX_TIM5_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-//	SDret = f_mount(&SDFatFS,SDPath,1);
-//	if(SDret != FR_OK)
-//	{
-//		switch(SDret)
-//		{
-//			case FR_NO_FILESYSTEM:
-//				SDret = f_mkfs(SDPath,FM_FAT32,0,work,_MAX_SS);
-//				if(SDret==FR_OK) 
-//				{
-//					SDret = f_mount(&SDFatFS,SDPath,1);
-//				}
-//				break;
-//		}
-//	}
-//	SDret = f_open(&SDFile,"sdtest.txt",FA_WRITE|FA_CREATE_ALWAYS);
-//	SDret = f_printf(&SDFile,"Hello,world!\n");
-//	SDret = f_close(&SDFile);
+
 	
-	__HAL_UART_ENABLE_IT(&huart4,UART_IT_IDLE);
-	 HAL_UART_Receive_DMA(&huart4,USART5_RX_Buffer,50);
+	__HAL_UART_ENABLE_IT(&huart3,UART_IT_IDLE);
+//	 HAL_UART_Receive_DMA(&huart3,USART5_RX_Buffer,50);
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
@@ -197,7 +177,9 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
 	HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
-	HAL_TIM_Base_Start_IT(&htim7);
+	HAL_TIM_Base_Start_IT(&htim7);//开启RunTime统计时钟
+	TaskCreate();//创建任务并启动调度器
+
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -223,12 +205,10 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-	xTaskCreate(LEDTwink,"LEDTwink",64,(void*)1,LEDTwink_Prio,&LEDTwink_TCB);
-	xTaskCreate(SDwrite,"SDwrite",512,(void*)1,SDWrite_Prio,&SDWrite_TCB);
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-  osKernelStart();
+//  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -238,11 +218,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//		HAL_GPIO_TogglePin(RS232_IO1_GPIO_Port,RS232_IO1_Pin);
+//		HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
 //		HAL_I2C_Master_Transmit(&hi2c1,59,"Hello,world!\r\n",14,0xFFFF);
-//		HAL_Delay(1);
-		
-		
+//		HAL_UART_Transmit(&huart3,"Hello,world!\r\n",14,0xFFFF);
+		HAL_Delay(100000);
   }
   /* USER CODE END 3 */
 }
@@ -442,7 +421,7 @@ static void MX_SDMMC1_SD_Init(void)
   hsd1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
   hsd1.Init.BusWide = SDMMC_BUS_WIDE_4B;
   hsd1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
-  hsd1.Init.ClockDiv = 1;
+  hsd1.Init.ClockDiv = 2;
   /* USER CODE BEGIN SDMMC1_Init 2 */
 
   /* USER CODE END SDMMC1_Init 2 */
@@ -1139,7 +1118,7 @@ static void MX_USART3_UART_Init(void)
 
   /* USER CODE END USART3_Init 1 */
   huart3.Instance = USART3;
-  huart3.Init.BaudRate = 1500000;
+  huart3.Init.BaudRate = 921600;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
   huart3.Init.StopBits = UART_STOPBITS_1;
   huart3.Init.Parity = UART_PARITY_NONE;
@@ -1398,8 +1377,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
-  /* init code for USB_DEVICE */
-  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
   for(;;)

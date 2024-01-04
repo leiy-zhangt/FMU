@@ -45,13 +45,10 @@ fmu\stm32h7xx_it.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
 fmu\stm32h7xx_it.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 fmu\stm32h7xx_it.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
 fmu\stm32h7xx_it.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
-fmu\stm32h7xx_it.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h
-fmu\stm32h7xx_it.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h
-fmu\stm32h7xx_it.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h
+fmu\stm32h7xx_it.o: ../Middlewares/Third_Party/FatFs/src/integer.h
 fmu\stm32h7xx_it.o: ../Core/Inc/stm32h7xx_it.h
 fmu\stm32h7xx_it.o: ../FATFS/App/fatfs.h
 fmu\stm32h7xx_it.o: ../Middlewares/Third_Party/FatFs/src/ff.h
-fmu\stm32h7xx_it.o: ../Middlewares/Third_Party/FatFs/src/integer.h
 fmu\stm32h7xx_it.o: ../FATFS/Target/ffconf.h
 fmu\stm32h7xx_it.o: ../FATFS/Target/bsp_driver_sd.h
 fmu\stm32h7xx_it.o: ../FATFS/Target/fatfs_platform.h

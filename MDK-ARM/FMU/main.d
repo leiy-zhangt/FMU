@@ -45,9 +45,7 @@ fmu\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
 fmu\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 fmu\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
 fmu\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
-fmu\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h
-fmu\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h
-fmu\main.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h
+fmu\main.o: ../Middlewares/Third_Party/FatFs/src/integer.h
 fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 fmu\main.o: ../Core/Inc/FreeRTOSConfig.h
@@ -64,7 +62,6 @@ fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 fmu\main.o: ../FATFS/App/fatfs.h
 fmu\main.o: ../Middlewares/Third_Party/FatFs/src/ff.h
-fmu\main.o: ../Middlewares/Third_Party/FatFs/src/integer.h
 fmu\main.o: ../FATFS/Target/ffconf.h
 fmu\main.o: ../FATFS/Target/bsp_driver_sd.h
 fmu\main.o: ../FATFS/Target/fatfs_platform.h
@@ -72,12 +69,8 @@ fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\main.o: ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h
 fmu\main.o: ../Middlewares/Third_Party/FatFs/src/diskio.h
 fmu\main.o: ../FATFS/Target/sd_diskio.h
-fmu\main.o: ../USB_DEVICE/App/usb_device.h
-fmu\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
-fmu\main.o: ../USB_DEVICE/Target/usbd_conf.h
-fmu\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-fmu\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 fmu\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+fmu\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 fmu\main.o: ../Program/Inc/delay.h
 fmu\main.o: ../Program/Inc/taskinit.h
 fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
