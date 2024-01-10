@@ -27,6 +27,7 @@
 #include "stdio.h"
 #include "delay.h"
 #include "taskinit.h"
+#include "imu.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,6 +71,7 @@ UART_HandleTypeDef huart3;
 UART_HandleTypeDef huart6;
 DMA_HandleTypeDef hdma_uart4_rx;
 DMA_HandleTypeDef hdma_uart5_rx;
+DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart3_rx;
 
 osThreadId defaultTaskHandle;
@@ -161,10 +163,6 @@ int main(void)
   MX_TIM5_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-
-	
-	__HAL_UART_ENABLE_IT(&huart3,UART_IT_IDLE);
-//	 HAL_UART_Receive_DMA(&huart3,USART5_RX_Buffer,50);
 	HAL_TIM_Base_Start(&htim2);
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
@@ -175,11 +173,12 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
-	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
-	HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
-	HAL_TIM_Base_Start_IT(&htim7);//开启RunTime统计时钟
+//	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+//	HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
+	HAL_TIM_Base_Start_IT(&htim7);//�?启RunTime统计时钟
 	TaskCreate();//创建任务并启动调度器
-
+//	__HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);
+//	HAL_UART_Receive_DMA(&huart2,IMUReceiveBuff,70);
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -200,15 +199,15 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-//  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
-//  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-//  osKernelStart();
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -218,9 +217,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//		HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
-//		HAL_I2C_Master_Transmit(&hi2c1,59,"Hello,world!\r\n",14,0xFFFF);
-//		HAL_UART_Transmit(&huart3,"Hello,world!\r\n",14,0xFFFF);
+		HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
+//		IMUReceiveBuff[55] = 0;
+//		printf("%s\r\n",IMUReceiveBuff);
+//		IMURet = IMUDataConvert(IMUReceiveBuff);
+//		if(IMURet) printf("IMU receive error!\r\n");
 		HAL_Delay(100000);
   }
   /* USER CODE END 3 */
@@ -1070,7 +1071,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 230400;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -1217,6 +1218,9 @@ static void MX_DMA_Init(void)
   /* DMA1_Stream2_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+  /* DMA1_Stream3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream3_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream3_IRQn);
 
 }
 

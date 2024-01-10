@@ -2099,6 +2099,21 @@
               <FileType>1</FileType>
               <FilePath>..\Program\Src\taskinit.c</FilePath>
             </File>
+            <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Program\Src\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>receiver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Program\Src\receiver.c</FilePath>
+            </File>
+            <File>
+              <FileName>teleport.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Program\Src\teleport.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
