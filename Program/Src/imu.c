@@ -3,7 +3,7 @@
 #include "stdio.h"
 
 uint8_t IMUReceiveBuff[60];//IMU接收缓存数组
-uint8_t IMUFifoBuff[60];
+uint8_t IMUFifoBuff[60];//IMU数据处理数组，缓存数组接收数据后保存至处理数组中
 
 IMUDateStruct IMUData;//IMU数据存储结构体
 

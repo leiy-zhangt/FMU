@@ -26,6 +26,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "imu.h"
+#include "gnss.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,6 +67,7 @@ extern DMA_HandleTypeDef hdma_uart5_rx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart3;
 extern TIM_HandleTypeDef htim17;
 
 /* USER CODE BEGIN EV */
@@ -246,6 +248,35 @@ void USART2_IRQHandler(void)
 		portYIELD_FROM_ISR(IMUHigherTaskSwitch);
 	}
   /* USER CODE END USART2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART3 global interrupt.
+  */
+void USART3_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART3_IRQn 0 */
+	volatile uint16_t len;
+  /* USER CODE END USART3_IRQn 0 */
+  HAL_UART_IRQHandler(&huart3);
+  /* USER CODE BEGIN USART3_IRQn 1 */
+		if(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_IDLE)==SET)
+		{
+			__HAL_UART_CLEAR_IDLEFLAG(&huart3);
+			HAL_UART_AbortReceive(&huart3);
+//				HAL_UART_DMAStop(&huart3);
+//			memset(GNSSFifoBuff,);
+//			memcpy(GNSSFifoBuff,GNSSReceiveBuff,__HAL_DMA_GET_COUNTER(&hdma_usart3_rx));
+			len = __HAL_DMA_GET_COUNTER(&hdma_usart3_rx);
+			GNSSReceiveBuff[1024 - len] = 0;
+			memcpy(GNSSFifoBuff,GNSSReceiveBuff,1024);
+//			printf("%s",GNSSFifoBuff);
+			printf("%d\r\n",len);
+			HAL_UART_Receive_DMA(&huart3,GNSSReceiveBuff,1024);		
+			xSemaphoreGiveFromISR(GNSSSemaphore,&GNSSHigherTaskSwitch);
+			portYIELD_FROM_ISR(GNSSHigherTaskSwitch);
+		}
+  /* USER CODE END USART3_IRQn 1 */
 }
 
 /**

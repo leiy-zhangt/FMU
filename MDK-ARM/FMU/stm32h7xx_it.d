@@ -73,3 +73,5 @@ fmu\stm32h7xx_it.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 fmu\stm32h7xx_it.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 fmu\stm32h7xx_it.o: ../Program/Inc/imu.h
 fmu\stm32h7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\stm32h7xx_it.o: ../Program/Inc/gnss.h
+fmu\stm32h7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h

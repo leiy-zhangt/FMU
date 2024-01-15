@@ -2114,6 +2114,11 @@
               <FileType>1</FileType>
               <FilePath>..\Program\Src\teleport.c</FilePath>
             </File>
+            <File>
+              <FileName>gnss.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Program\Src\gnss.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

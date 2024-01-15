@@ -36,5 +36,12 @@ extern TaskHandle_t IMUReceive_TCB;
 
 void IMUReceive(void *pvParameters);
 
+//GNSSReceive
+extern BaseType_t GNSSReceive_Ret;
+extern UBaseType_t GNSSReceive_Prio;
+extern TaskHandle_t GNSSReceive_TCB;
+
+void GNSSReceive(void *pvParameters);
+
 
 #endif

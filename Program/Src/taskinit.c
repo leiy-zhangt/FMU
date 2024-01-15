@@ -1,6 +1,8 @@
 #include "taskinit.h"
 #include "stdio.h"
 #include "imu.h"
+#include "gnss.h"
+#include "string.h"
 //TaskCreate函数声明
 void TaskCreate(void)
 {
@@ -16,10 +18,14 @@ void TaskCreate(void)
 //	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
 //	if(SDWrite_Ret == pdPASS) printf("SDWrite creat successfully!\r\n");
 //	else printf("SDWrite creat failed!\r\n");
-	//Create LEDTwink
-	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",196,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
-	if(IMUReceive_Ret == pdPASS) printf("IMUReceive creat successfully!\r\n");
-	else printf("IMUReceive creat failed!\r\n");
+	//Create IMUReceive
+//	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",196,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
+//	if(IMUReceive_Ret == pdPASS) printf("IMUReceive creat successfully!\r\n");
+//	else printf("IMUReceive creat failed!\r\n");
+	//Create GNSSReceive
+	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
+	if(GNSSReceive_Ret == pdPASS) printf("GNSSReceive creat successfully!\r\n");
+	else printf("GNSSReceive creat failed!\r\n");
 	
 	vTaskStartScheduler();
 	while(1) ;
@@ -133,6 +139,34 @@ void IMUReceive(void *pvParameters)
 			uint8_t i;
 			for(i=0;i<55;i++) printf("%hx ",IMUFifoBuff[i]);
 			printf("\r\n");
+		}
+		HAL_GPIO_WritePin(RS232_IO1_GPIO_Port,RS232_IO1_Pin,GPIO_PIN_RESET);
+//		vTaskDelay(2);
+	}
+}
+
+//IMUReceive函数声明
+BaseType_t GNSSReceive_Ret;
+UBaseType_t GNSSReceive_Prio=8;
+TaskHandle_t GNSSReceive_TCB;
+
+void GNSSReceive(void *pvParameters)
+{
+	GNSSStatus GNSSRet;
+	GNSSSemaphore = xSemaphoreCreateBinary();
+	GNSSInit();//初始化GNSS串口波特率
+	HAL_UART_Receive_DMA(GNSSHandle,GNSSReceiveBuff,1024);
+	__HAL_UART_ENABLE_IT(GNSSHandle,UART_IT_IDLE);
+	while(1)
+	{
+		xSemaphoreTake(GNSSSemaphore,portMAX_DELAY);
+		HAL_GPIO_WritePin(RS232_IO1_GPIO_Port,RS232_IO1_Pin,GPIO_PIN_SET);
+		GNSSRet = GNSSDataConvert(GNSSFifoBuff);
+		if(GNSSRet != GNSS_Data_ERR)
+		{
+			printf("%s",GNSSFifoBuff);
+			printf("%0.8f  %0.8f  %0.4f  ",GNSSData.lat,GNSSData.lon,GNSSData.alt);
+			printf("%0.4f  %0.4f  %0.4f\r\n",GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n);
 		}
 		HAL_GPIO_WritePin(RS232_IO1_GPIO_Port,RS232_IO1_Pin,GPIO_PIN_RESET);
 //		vTaskDelay(2);
