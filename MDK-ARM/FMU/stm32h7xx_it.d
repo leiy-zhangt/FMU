@@ -75,3 +75,5 @@ fmu\stm32h7xx_it.o: ../Program/Inc/imu.h
 fmu\stm32h7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\stm32h7xx_it.o: ../Program/Inc/gnss.h
 fmu\stm32h7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\stm32h7xx_it.o: ../Program/Inc/receiver.h
+fmu\stm32h7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h

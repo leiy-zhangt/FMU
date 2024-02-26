@@ -27,6 +27,7 @@
 #include "string.h"
 #include "imu.h"
 #include "gnss.h"
+#include "receiver.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,6 +67,7 @@ extern DMA_HandleTypeDef hdma_uart4_rx;
 extern DMA_HandleTypeDef hdma_uart5_rx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart3_rx;
+extern UART_HandleTypeDef huart5;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 extern TIM_HandleTypeDef htim17;
@@ -271,7 +273,7 @@ void USART3_IRQHandler(void)
 			GNSSReceiveBuff[1024 - len] = 0;
 			memcpy(GNSSFifoBuff,GNSSReceiveBuff,1024);
 //			printf("%s",GNSSFifoBuff);
-			printf("%d\r\n",len);
+//			printf("%d\r\n",len);
 			HAL_UART_Receive_DMA(&huart3,GNSSReceiveBuff,1024);		
 			xSemaphoreGiveFromISR(GNSSSemaphore,&GNSSHigherTaskSwitch);
 			portYIELD_FROM_ISR(GNSSHigherTaskSwitch);
@@ -291,6 +293,32 @@ void SDMMC1_IRQHandler(void)
   /* USER CODE BEGIN SDMMC1_IRQn 1 */
 
   /* USER CODE END SDMMC1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles UART5 global interrupt.
+  */
+void UART5_IRQHandler(void)
+{
+  /* USER CODE BEGIN UART5_IRQn 0 */
+
+  /* USER CODE END UART5_IRQn 0 */
+  HAL_UART_IRQHandler(&huart5);
+  /* USER CODE BEGIN UART5_IRQn 1 */
+	if(__HAL_UART_GET_FLAG(&huart5,UART_FLAG_IDLE)==SET)
+	{
+		__HAL_UART_CLEAR_IDLEFLAG(&huart5);
+		HAL_UART_AbortReceive(&huart5);
+//				HAL_UART_DMAStop(&huart3);
+//			memset(GNSSFifoBuff,);
+//			memcpy(GNSSFifoBuff,GNSSReceiveBuff,__HAL_DMA_GET_COUNTER(&hdma_usart3_rx));
+		memcpy(ReceiverFifoBuff,ReceiverReceiveBuff,25);
+//			printf("%s",GNSSFifoBuff);
+		HAL_UART_Receive_DMA(&huart5,ReceiverReceiveBuff,25);		
+		xSemaphoreGiveFromISR(ReceiverSemaphore,&ReceiverHigherTaskSwitch);
+		portYIELD_FROM_ISR(ReceiverHigherTaskSwitch);
+	}
+  /* USER CODE END UART5_IRQn 1 */
 }
 
 /**

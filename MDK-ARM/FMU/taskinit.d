@@ -75,4 +75,6 @@ fmu\taskinit.o: ../Program/Inc/imu.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: ../Program/Inc/gnss.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\taskinit.o: ../Program/Inc/receiver.h
+fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

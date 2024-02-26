@@ -15,6 +15,13 @@ extern TaskHandle_t LEDTwink_TCB;
 
 void LEDTwink(void *pvParameters);
 
+//FMUCheck
+extern BaseType_t FMUCheck_Ret;
+extern UBaseType_t FMUCheck_Prio;
+extern TaskHandle_t FMUCheck_TCB;
+
+void FMUCheck(void *pvParameters);
+
 //TaskMonitor
 extern BaseType_t TaskMonitor_Ret;
 extern UBaseType_t TaskMonitor_Prio;
@@ -43,5 +50,11 @@ extern TaskHandle_t GNSSReceive_TCB;
 
 void GNSSReceive(void *pvParameters);
 
+//ReceiverReceive
+extern BaseType_t ReceiverReceive_Ret;
+extern UBaseType_t ReceiverReceive_Prio;
+extern TaskHandle_t ReceiverReceive_TCB;
+
+void ReceiverReceive(void *pvParameters);
 
 #endif
