@@ -63,12 +63,13 @@ unsigned long getRunTimeCounterValue(void);
 /* Functions needed when configGENERATE_RUN_TIME_STATS is on */
 __weak void configureTimerForRunTimeStats(void)
 {
-
+	FreeRTOSRunTimeTicks = 0;
+	HAL_TIM_Base_Start_IT(&htim7);//开启RunTime统计时钟;
 }
 
 __weak unsigned long getRunTimeCounterValue(void)
 {
-return FreeRTOSRunTimeTicks;
+	return FreeRTOSRunTimeTicks;
 }
 /* USER CODE END 1 */
 

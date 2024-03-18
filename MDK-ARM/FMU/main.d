@@ -74,5 +74,16 @@ fmu\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 fmu\main.o: ../Program/Inc/delay.h
 fmu\main.o: ../Program/Inc/taskinit.h
 fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\main.o: ../Program/Inc/taskinit.h
 fmu\main.o: ../Program/Inc/imu.h
 fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\main.o: ../Program/Inc/gnss.h
+fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\main.o: ../Program/Inc/receiver.h
+fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\main.o: ../Program/Inc/control.h
+fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\main.o: ../Program/Inc/printf.h
+fmu\main.o: ../Program/Inc/tf.h
+fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\main.o: ../Program/Inc/teleport.h

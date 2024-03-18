@@ -5,7 +5,8 @@
 #include "cmsis_os.h"
 #include "stm32h7xx_hal.h"
 
-#define GNSS_Z230 1
+#define GNSS_Z230 0
+#define GNSS_WTGPS 1
 
 typedef enum 
 {
@@ -95,6 +96,8 @@ void NMEA_GPVTG_Analysis(nmea_msg *gpsx,uint8_t *buf);
 void NMEA_GPGLL_Analysis(nmea_msg *gpsx,uint8_t *buf);
 
 GNSSStatus GNSSDataConvert(uint8_t *DataBuff);
+void GNSS_UART_ReInit(uint32_t band);
+void GNSSInit(void);
 
 #endif
 

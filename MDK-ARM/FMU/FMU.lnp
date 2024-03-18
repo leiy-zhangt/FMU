@@ -42,6 +42,7 @@
 "fmu\ff.o"
 "fmu\ff_gen_drv.o"
 "fmu\syscall.o"
+"fmu\cc936.o"
 "fmu\croutine.o"
 "fmu\event_groups.o"
 "fmu\list.o"
@@ -60,6 +61,7 @@
 "fmu\teleport.o"
 "fmu\gnss.o"
 "fmu\control.o"
+"fmu\tf.o"
 --strict --scatter "FMU\FMU.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

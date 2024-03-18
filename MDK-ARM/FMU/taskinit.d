@@ -70,6 +70,7 @@ fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FatFs/src/diskio.h
 fmu\taskinit.o: ../FATFS/Target/sd_diskio.h
+fmu\taskinit.o: ../Program/Inc/taskinit.h
 fmu\taskinit.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 fmu\taskinit.o: ../Program/Inc/imu.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
@@ -77,4 +78,10 @@ fmu\taskinit.o: ../Program/Inc/gnss.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: ../Program/Inc/receiver.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\taskinit.o: ../Program/Inc/control.h
+fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+fmu\taskinit.o: ../Program/Inc/printf.h
+fmu\taskinit.o: ../Program/Inc/tf.h
+fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\taskinit.o: ../Program/Inc/teleport.h

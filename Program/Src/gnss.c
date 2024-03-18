@@ -14,13 +14,16 @@ nmea_msg GNSS_msg;
 SemaphoreHandle_t GNSSSemaphore;
 BaseType_t GNSSHigherTaskSwitch;
 
-#if GNSS_Z230
-
 void GNSSInit(void)
 {
-	GNSSHandle = &huart3;
-	HAL_UART_Transmit(GNSSHandle,"$CFGLOAD\r\n",strlen("$CFGLOAD\r\n"),0xFFFF);
-	GNSS_UART_ReInit(230400);
+	//Z230对应初始化代码
+	#if GNSS_Z230
+		GNSSHandle = &huart3;
+		HAL_UART_Transmit(GNSSHandle,"$CFGLOAD\r\n",strlen("$CFGLOAD\r\n"),0xFFFF);
+		GNSS_UART_ReInit(230400);	
+	#elif GNSS_WTGPS
+		GNSSHandle = &huart6;
+	#endif
 }
 
 void GNSS_UART_ReInit(uint32_t band)//GNSS模块重初始化
@@ -55,7 +58,6 @@ void GNSS_UART_ReInit(uint32_t band)//GNSS模块重初始化
   }
 }
 
-#endif
 
 GNSSStatus GNSSDataConvert(uint8_t *DataBuff)
 {
@@ -72,19 +74,14 @@ GNSSStatus GNSSDataConvert(uint8_t *DataBuff)
 	if(GNSS_msg.gpssta == 'V') 
 	{
 		GNSSData.GNSSSta = GNSS_NOFIX;
-		return GNSS_OK;
+		return GNSS_NOFIX;
 	}
 	else if(GNSS_msg.gpssta == 'A') 
 	{
 		GNSSData.GNSSSta = GNSS_FIX;
-		return GNSS_OK;
+		return GNSS_FIX;
 	}
-	else 
-	{
-		GNSSData.GNSSSta = GNSS_NOFIX;
-		return GNSS_Data_ERR;
-	}
-}
+} 
 
 
 uint8_t NMEA_Comma_Pos(uint8_t *buf,uint8_t cx)
@@ -356,6 +353,7 @@ void NMEA_GPGLL_Analysis(nmea_msg *gpsx,uint8_t *buf)
 	{
 		gpsx->gpssta=*(p1+posx);
 	}
+	else gpsx->gpssta='V';
 }  
 //提取NMEA-0183信息
 //gpsx:nmea信息结构体

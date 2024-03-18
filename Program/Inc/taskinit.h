@@ -4,6 +4,24 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "fatfs.h"
+#include "taskinit.h"
+#include "stdio.h"
+#include "imu.h"
+#include "gnss.h"
+#include "receiver.h"
+#include "control.h"
+#include "string.h"
+#include "printf.h"
+#include "tf.h"
+#include "teleport.h"
+
+
+extern EventGroupHandle_t FMUCheckEvent;
+
+extern IMUStatus IMURet;
+extern GNSSStatus GNSSRet;
+extern ReceiverStatus ReceiverRet;
+
 
 //TaskCreate
 void TaskCreate(void);
@@ -21,6 +39,13 @@ extern UBaseType_t FMUCheck_Prio;
 extern TaskHandle_t FMUCheck_TCB;
 
 void FMUCheck(void *pvParameters);
+
+//FMUControlCalculation
+extern BaseType_t FMUControlCalculation_Ret;
+extern UBaseType_t FMUControlCalculation_Prio;
+extern TaskHandle_t FMUControlCalculation_TCB;
+
+void FMUControlCalculation(void *pvParameters);
 
 //TaskMonitor
 extern BaseType_t TaskMonitor_Ret;
