@@ -70,3 +70,18 @@ fmu\receiver.o: ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h
 fmu\receiver.o: ../Middlewares/Third_Party/FatFs/src/diskio.h
 fmu\receiver.o: ../FATFS/Target/sd_diskio.h
 fmu\receiver.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\receiver.o: ../Program/Inc/teleport.h
+fmu\receiver.o: ../Program/Inc/tf.h
+fmu\receiver.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\receiver.o: ../Program/Inc/control.h
+fmu\receiver.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\receiver.o: ../Program/Inc/taskinit.h
+fmu\receiver.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\receiver.o: ../Program/Inc/taskinit.h
+fmu\receiver.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+fmu\receiver.o: ../Program/Inc/imu.h
+fmu\receiver.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\receiver.o: ../Program/Inc/gnss.h
+fmu\receiver.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\receiver.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+fmu\receiver.o: ../Program/Inc/printf.h

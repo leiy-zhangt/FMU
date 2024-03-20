@@ -74,7 +74,11 @@ extern UART_HandleTypeDef huart3;
 extern UART_HandleTypeDef huart6;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern DMA_HandleTypeDef hdma_uart5_rx;
+extern DMA_HandleTypeDef hdma_uart8_tx;
+extern DMA_HandleTypeDef hdma_usart1_tx;
+extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart3_rx;
+extern DMA_HandleTypeDef hdma_usart6_rx;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

@@ -5,8 +5,10 @@
 #include "fatfs.h"
 
 extern uint8_t FileName[];
+extern uint8_t StorageBuff[];
 extern FRESULT SDRet;
 
 void FileCreate(void);
+void FileClose(void);
 
 #endif

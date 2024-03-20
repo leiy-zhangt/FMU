@@ -74,6 +74,7 @@ UART_HandleTypeDef huart6;
 DMA_HandleTypeDef hdma_uart4_rx;
 DMA_HandleTypeDef hdma_uart5_rx;
 DMA_HandleTypeDef hdma_uart8_tx;
+DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart3_rx;
 DMA_HandleTypeDef hdma_usart6_rx;
@@ -211,15 +212,15 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-//  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
-//  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-//  osKernelStart();
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -1274,6 +1275,9 @@ static void MX_DMA_Init(void)
   /* DMA1_Stream5_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
+  /* DMA1_Stream6_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream6_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream6_IRQn);
 
 }
 
@@ -1313,8 +1317,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, ADXL_CS_Pin|ADXL_INT_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, TELEM2_IO1_Pin|TELEM2_IO2_Pin|BAT3_Pin|TELEM3_IO2_Pin
-                          |TELEM3_IO1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, TELEM2_IO1_Pin|TELEM2_IO2_Pin|BAT3_Pin|TRIGGER_Pin
+                          |TELEM3_IO2_Pin|TELEM3_IO1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(BAT4_GPIO_Port, BAT4_Pin, GPIO_PIN_SET);
@@ -1416,8 +1420,9 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : TRIGGER_Pin */
   GPIO_InitStruct.Pin = TRIGGER_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(TRIGGER_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
@@ -1466,6 +1471,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if (htim->Instance == TIM7) {
     FreeRTOSRunTimeTicks++;
   }
+	
+	if (htim->Instance == TIM6) {
+		ControlUpdata();
+//		ControlTime += ControlDt;
+//		xSemaphoreGiveFromISR(ControlSemaphore,&GNSSHigherTaskSwitch);
+//		portYIELD_FROM_ISR(ControlHigherTaskSwitch);
+	}
   /* USER CODE END Callback 1 */
 }
 

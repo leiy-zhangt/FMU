@@ -70,3 +70,18 @@ fmu\control.o: ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h
 fmu\control.o: ../Middlewares/Third_Party/FatFs/src/diskio.h
 fmu\control.o: ../FATFS/Target/sd_diskio.h
 fmu\control.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\control.o: ../Program/Inc/tf.h
+fmu\control.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\control.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+fmu\control.o: ../Program/Inc/imu.h
+fmu\control.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\control.o: ../Program/Inc/gnss.h
+fmu\control.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\control.o: ../Program/Inc/receiver.h
+fmu\control.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\control.o: ../Program/Inc/taskinit.h
+fmu\control.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\control.o: ../Program/Inc/taskinit.h
+fmu\control.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+fmu\control.o: ../Program/Inc/printf.h
+fmu\control.o: ../Program/Inc/teleport.h

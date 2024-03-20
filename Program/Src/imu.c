@@ -76,8 +76,8 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	}
 	if(sum != *point) return IMU_Data_ERR;
 	point = DataBuff + 35;
-	IMUData.pressure = ((int32_t)point[3]<<24)|((int32_t)point[2]<<16)|((int32_t)point[1]<<8)|((int32_t)point[0]);
-	IMUData.height = (((int32_t)point[7]<<24)|((int32_t)point[6]<<16)|((int32_t)point[5]<<8)|((int32_t)point[4]))*0.01;
+	IMUData.pressure = ((uint32_t)point[3]<<24)|((uint32_t)point[2]<<16)|((uint32_t)point[1]<<8)|((uint32_t)point[0]);
+	IMUData.height = (((uint32_t)point[7]<<24)|((uint32_t)point[6]<<16)|((uint32_t)point[5]<<8)|((uint32_t)point[4]))*0.01;
 	//计算四元数
 	point = DataBuff+44;
 	sum=0;

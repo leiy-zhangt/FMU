@@ -28,6 +28,7 @@
 #include "imu.h"
 #include "gnss.h"
 #include "receiver.h"
+#include "control.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,10 +68,13 @@ extern TIM_HandleTypeDef htim7;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern DMA_HandleTypeDef hdma_uart5_rx;
 extern DMA_HandleTypeDef hdma_uart8_tx;
+extern DMA_HandleTypeDef hdma_usart1_tx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern DMA_HandleTypeDef hdma_usart6_rx;
 extern UART_HandleTypeDef huart5;
+extern UART_HandleTypeDef huart8;
+extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 extern UART_HandleTypeDef huart6;
@@ -263,6 +267,34 @@ void DMA1_Stream5_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles DMA1 stream6 global interrupt.
+  */
+void DMA1_Stream6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream6_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream6_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_tx);
+  /* USER CODE BEGIN DMA1_Stream6_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream6_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART1 global interrupt.
+  */
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
   * @brief This function handles USART2 global interrupt.
   */
 void USART2_IRQHandler(void)
@@ -305,7 +337,7 @@ void USART3_IRQHandler(void)
 			GNSSReceiveBuff[1024 - len] = 0;
 			memcpy(GNSSFifoBuff,GNSSReceiveBuff,1024);
 //			printf("%s",GNSSFifoBuff);
-//			printf("%d\r\n",len);
+			memset(GNSSReceiveBuff,0,1024);
 			HAL_UART_Receive_DMA(&huart3,GNSSReceiveBuff,1024);		
 			xSemaphoreGiveFromISR(GNSSSemaphore,&GNSSHigherTaskSwitch);
 			portYIELD_FROM_ISR(GNSSHigherTaskSwitch);
@@ -333,7 +365,7 @@ void SDMMC1_IRQHandler(void)
 void UART5_IRQHandler(void)
 {
   /* USER CODE BEGIN UART5_IRQn 0 */
-
+	
   /* USER CODE END UART5_IRQn 0 */
   HAL_UART_IRQHandler(&huart5);
   /* USER CODE BEGIN UART5_IRQn 1 */
@@ -341,11 +373,8 @@ void UART5_IRQHandler(void)
 	{
 		__HAL_UART_CLEAR_IDLEFLAG(&huart5);
 		HAL_UART_AbortReceive(&huart5);
-//				HAL_UART_DMAStop(&huart3);
-//			memset(GNSSFifoBuff,);
-//			memcpy(GNSSFifoBuff,GNSSReceiveBuff,__HAL_DMA_GET_COUNTER(&hdma_usart3_rx));
 		memcpy(ReceiverFifoBuff,ReceiverReceiveBuff,25);
-//			printf("%s",GNSSFifoBuff);
+		memset(ReceiverReceiveBuff,0,25);
 		HAL_UART_Receive_DMA(&huart5,ReceiverReceiveBuff,25);		
 		xSemaphoreGiveFromISR(ReceiverSemaphore,&ReceiverHigherTaskSwitch);
 		portYIELD_FROM_ISR(ReceiverHigherTaskSwitch);
@@ -363,7 +392,13 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
-
+	if(__HAL_TIM_GET_FLAG(&htim6,TIM_FLAG_UPDATE)==SET)
+	{
+		__HAL_TIM_CLEAR_FLAG(&htim6,TIM_FLAG_UPDATE);
+//		ControlTime += ControlDt;
+//		xSemaphoreGiveFromISR(ControlSemaphore,&GNSSHigherTaskSwitch);
+//		portYIELD_FROM_ISR(ControlHigherTaskSwitch);
+	}
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 
@@ -395,19 +430,31 @@ void USART6_IRQHandler(void)
 	{
 		__HAL_UART_CLEAR_IDLEFLAG(&huart6);
 		HAL_UART_AbortReceive(&huart6);
-//				HAL_UART_DMAStop(&huart3);
-//			memset(GNSSFifoBuff,);
-//			memcpy(GNSSFifoBuff,GNSSReceiveBuff,__HAL_DMA_GET_COUNTER(&hdma_usart3_rx));
 		len = __HAL_DMA_GET_COUNTER(&hdma_usart6_rx);
 		GNSSReceiveBuff[1024 - len] = 0;
 		memcpy(GNSSFifoBuff,GNSSReceiveBuff,1024);
 //			printf("%s",GNSSFifoBuff);
 //			printf("%d\r\n",len);
+		memset(GNSSReceiveBuff,0,1024);
 		HAL_UART_Receive_DMA(&huart6,GNSSReceiveBuff,1024);		
 		xSemaphoreGiveFromISR(GNSSSemaphore,&GNSSHigherTaskSwitch);
 		portYIELD_FROM_ISR(GNSSHigherTaskSwitch);
 	}
   /* USER CODE END USART6_IRQn 1 */
+}
+
+/**
+  * @brief This function handles UART8 global interrupt.
+  */
+void UART8_IRQHandler(void)
+{
+  /* USER CODE BEGIN UART8_IRQn 0 */
+
+  /* USER CODE END UART8_IRQn 0 */
+  HAL_UART_IRQHandler(&huart8);
+  /* USER CODE BEGIN UART8_IRQn 1 */
+
+  /* USER CODE END UART8_IRQn 1 */
 }
 
 /**

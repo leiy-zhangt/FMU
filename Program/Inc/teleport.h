@@ -4,7 +4,7 @@
 #include "main.h"
 
 
-#define TeleHandle huart8
+extern UART_HandleTypeDef *	TeleHandle;
 
 typedef enum
 {
@@ -14,6 +14,8 @@ typedef enum
 
 extern PrintChannelSelect PrintChannel;
 
-void DebugPrint(PrintChannelSelect PrintChannel,char * info);
+extern uint8_t SendBuff[];
+
+void InfoPrint(PrintChannelSelect PrintChannel,char * info);
 
 #endif

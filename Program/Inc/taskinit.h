@@ -12,7 +12,6 @@
 #include "control.h"
 #include "string.h"
 #include "printf.h"
-#include "tf.h"
 #include "teleport.h"
 
 
@@ -81,5 +80,12 @@ extern UBaseType_t ReceiverReceive_Prio;
 extern TaskHandle_t ReceiverReceive_TCB;
 
 void ReceiverReceive(void *pvParameters);
+
+//TeleportTransmit函数声明
+extern BaseType_t TeleportTransmit_Ret;
+extern UBaseType_t TeleportTransmit_Prio;
+extern TaskHandle_t TeleportTransmit_TCB;
+
+void TeleportTransmit(void *pvParameters);
 
 #endif

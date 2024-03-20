@@ -71,15 +71,14 @@ GNSSStatus GNSSDataConvert(uint8_t *DataBuff)
 	GNSSData.velocity = velocity;
 	GNSSData.velocity_n = velocity*cos(angle);
 	GNSSData.velocity_e = velocity*sin(angle);
-	if(GNSS_msg.gpssta == 'V') 
-	{
-		GNSSData.GNSSSta = GNSS_NOFIX;
-		return GNSS_NOFIX;
-	}
-	else if(GNSS_msg.gpssta == 'A') 
+	if(GNSS_msg.gpssta == 'A') 
 	{
 		GNSSData.GNSSSta = GNSS_FIX;
 		return GNSS_FIX;
+	}
+	else
+	{
+		return GNSS_NOFIX;
 	}
 } 
 

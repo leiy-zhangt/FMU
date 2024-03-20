@@ -84,6 +84,4 @@ fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\main.o: ../Program/Inc/control.h
 fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\main.o: ../Program/Inc/printf.h
-fmu\main.o: ../Program/Inc/tf.h
-fmu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\main.o: ../Program/Inc/teleport.h
