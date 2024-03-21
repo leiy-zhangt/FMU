@@ -13,7 +13,7 @@ BaseType_t ControlHigherTaskSwitch;
 double ControlTime;//飞控运行时间
 const double ControlDt = 0.01;//飞控控制时间间隔
 
-const double Kp_roll=1,Kd_roll=0.1,Kp_pitch=1,Kd_pitch=0,Kp_yaw=1.5,Kd_yaw=0.1,Kp_height=3;//控制率参数
+const double Kp_roll=1.5,Kd_roll=0.15,Kp_pitch=1,Kd_pitch=0.1,Kp_yaw=1.5,Kd_yaw=0.1,Kp_height=3;//控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
 
@@ -44,7 +44,7 @@ void ControlStop(void)//飞控结束工作
 
 void ServoSet(ServoChannel channel,double angle)//
 {
-	uint8_t ServoDirection[8] = {0,0,0,0,0,0,0,0};
+	uint8_t ServoDirection[8] = {0,1,0,0,0,0,0,0};
 	int16_t ServoOffset[8] = {0,0,0,0,0,0,0,0};
 	int16_t angle_int16;
 	switch(channel)
@@ -99,7 +99,7 @@ void FixedWingControl(void)
 		case FMU_Manual:
 		{
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,ReceiverChannel[0]);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,ReceiverChannel[1]);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,3000-ReceiverChannel[1]);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
 			break;
@@ -110,13 +110,12 @@ void FixedWingControl(void)
 			expected_roll = (ReceiverChannel[0]-1500)*0.12;
 			expected_pitch = (ReceiverChannel[1]-1500)*0.12;
 			//计算舵机角度
-			servo_roll = Kp_roll*(expected_roll-IMUData.roll)+Kd_roll*IMUData.gyr_y;
+			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
 			servo_roll = servo_roll>30?30:servo_roll;
 			servo_roll = servo_roll<-30?-30:servo_roll;
-			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)+Kd_pitch*IMUData.gyr_x;
-			servo_pitch = servo_pitch>30?30:servo_pitch;
-			servo_pitch = servo_pitch<-30?-30:servo_pitch;
-			printf("%f  %f\r\n",expected_pitch,servo_pitch);
+			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x;
+			servo_pitch = servo_pitch>45?45:servo_pitch;
+			servo_pitch = servo_pitch<-45?-45:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
 			ServoSet(ServoChannel_2,servo_pitch);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);

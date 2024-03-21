@@ -80,6 +80,10 @@ TaskHandle_t FMUCheck_TCB;
 void FMUCheck(void *pvParameters)
 {
 	xEventGroupClearBits(FMUCheckEvent,0xFFFF);
+	//调试时使用禁用GPS
+//	xEventGroupSetBits(FMUCheckEvent,0xFF);
+//	vTaskSuspend(NULL);
+	//
 	while(1)
 	{
 		xSemaphoreTake(GNSSSemaphore,portMAX_DELAY);
@@ -88,7 +92,6 @@ void FMUCheck(void *pvParameters)
 		{
 			InfoPrint(PrintChannel,"GNSS is ready!\r\n");
 			xEventGroupSetBits(FMUCheckEvent,0xFF);
-			HAL_TIM_Base_Start(&htim5);
 			vTaskSuspend(NULL);
 		}
 		else

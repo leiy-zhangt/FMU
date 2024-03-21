@@ -50,7 +50,7 @@ void ReceiverSolution(void)
 			ControlStop();
 		}
 		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,ReceiverChannel[0]);
-		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,ReceiverChannel[1]);
+		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,3000-ReceiverChannel[1]);
 		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
 		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
 	}

@@ -220,7 +220,7 @@ int main(void)
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-  osKernelStart();
+//  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -230,9 +230,18 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
-		printf("FMU is run!\r\n");
+		ServoSet(ServoChannel_1,30);
+		ServoSet(ServoChannel_2,30);
+		ServoSet(ServoChannel_4,30);
 		HAL_Delay(1000000);
+		ServoSet(ServoChannel_1,0);
+		ServoSet(ServoChannel_2,0);
+		ServoSet(ServoChannel_4,0);
+		HAL_Delay(1000000);
+//		ServoSet(ServoChannel_1,-30);
+//		ServoSet(ServoChannel_2,-30);
+//		ServoSet(ServoChannel_4,-30);
+//		HAL_Delay(3000000);
   }
   /* USER CODE END 3 */
 }
@@ -763,7 +772,7 @@ static void MX_TIM5_Init(void)
   htim5.Instance = TIM5;
   htim5.Init.Prescaler = 199;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 9999;
+  htim5.Init.Period = 0xFFFFFFFF;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim5) != HAL_OK)

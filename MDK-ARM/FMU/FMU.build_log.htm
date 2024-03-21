@@ -5,11 +5,11 @@
 <h2>Tool Versions:</h2>
 IDE-Version: ¦ÌVision V5.25.3.0
 Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: lei yu, NWPU, LIC=65ISZ-JWXED-TGZ7T-R2AFN-6NJ0A-HCADP
+License Information: lei yu, nwpu, LIC=CZLZX-HTM8D-8TF3P-MHXF3-3QT62-ND0LH
  
 Tool Versions:
 Toolchain:       MDK-ARM Plus  Version: 5.30.0.0
-Toolchain Path:  C:\Program Files\Keil_v5\ARM\ARMCC\Bin
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 6 (build 750)
 Assembler:       Armasm.exe V5.06 update 6 (build 750)
 Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
@@ -21,33 +21,16 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.7.0
 Dialog DLL:      TCM.DLL V1.42.0.0
  
 <h2>Project:</h2>
-C:\Users\leiyu\Desktop\FMU\MDK-ARM\FMU.uvprojx
-Project File Date:  03/20/2024
+C:\Users\13728\Desktop\FMU\MDK-ARM\FMU.uvprojx
+Project File Date:  03/21/2024
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Program Files\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'FMU'
-compiling receiver.c...
-compiling stm32h7xx_it.c...
 compiling control.c...
-compiling taskinit.c...
-..\Program\Src\taskinit.c(290): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
-  				sprintf(ControlMode,"Manual");
-..\Program\Src\taskinit.c(293): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
-  				sprintf(ControlMode,"Stable");
-..\Program\Src\taskinit.c(296): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
-  				sprintf(ControlMode,"Height");
-..\Program\Src\taskinit.c(299): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
-  		sprintf(SendBuff,"%s  p:%0.2f  r:%0.2f  y:%0.2f  h:%0.2f  lat:%0.8f  lon:%0.8f  s:%0.2f  v:%0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,GNSSData.alt,GNSSData.lat,GNSSData.lon,GNSSData.velocity,voltage);
-..\Program\Src\taskinit.c(300): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *"
-  		InfoPrint(PrintChannel,SendBuff);
-..\Program\Src\taskinit.c(273): warning:  #550-D: variable "current"  was set but never used
-  	double voltage,current;
-..\Program\Src\taskinit.c: 6 warnings, 0 errors
-compiling main.c...
 linking...
-Program Size: Code=73476 RO-data=176824 RW-data=428 ZI-data=37028  
-"FMU\FMU.axf" - 0 Error(s), 6 Warning(s).
+Program Size: Code=73588 RO-data=176824 RW-data=428 ZI-data=37028  
+"FMU\FMU.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -64,13 +47,13 @@ Package Vendor: Keil
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_FMU
-  C:\Users\leiyu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
-  C:\Users\leiyu\AppData\Local\Arm\Packs\Keil\STM32H7xx_DFP\3.1.1\Drivers\CMSIS\Device\ST\STM32H7xx\Include
+  C:\Users\13728\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include
+  C:\Users\13728\AppData\Local\Arm\Packs\Keil\STM32H7xx_DFP\3.1.1\Drivers\CMSIS\Device\ST\STM32H7xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:14
+Build Time Elapsed:  00:00:10
 </pre>
 </body>
 </html>
