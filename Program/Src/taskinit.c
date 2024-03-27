@@ -81,8 +81,8 @@ void FMUCheck(void *pvParameters)
 {
 	xEventGroupClearBits(FMUCheckEvent,0xFFFF);
 	//调试时使用禁用GPS
-//	xEventGroupSetBits(FMUCheckEvent,0xFF);
-//	vTaskSuspend(NULL);
+	xEventGroupSetBits(FMUCheckEvent,0xFF);
+	vTaskSuspend(NULL);
 	//
 	while(1)
 	{
