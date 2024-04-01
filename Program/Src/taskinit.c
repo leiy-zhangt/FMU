@@ -22,35 +22,35 @@ void TaskCreate(void)
 //	if(LEDTwink_Ret == pdPASS) InfoPrint(PrintChannel,"LEDTwink creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"LEDTwink creat failed!\r\n");
 	//Create FMUCheck
-	FMUCheck_Ret = xTaskCreate((TaskFunction_t)FMUCheck,"FMUCheck",128,(void *)1,FMUCheck_Prio,(TaskHandle_t *)(&FMUCheck_TCB));
+//	FMUCheck_Ret = xTaskCreate((TaskFunction_t)FMUCheck,"FMUCheck",128,(void *)1,FMUCheck_Prio,(TaskHandle_t *)(&FMUCheck_TCB));
 //	if(FMUCheck_Ret == pdPASS) InfoPrint(PrintChannel,"FMUCheck creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"FMUCheck creat failed!\r\n");
 	//Create FMUControlCalculation
-	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
+//	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
 //	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
 	//Create TaskMonitor
-	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
+//	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
 //	if(TaskMonitor_Ret == pdPASS) InfoPrint(PrintChannel,"TaskMonitor creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"TaskMonitor creat failed!\r\n");
 	//Create SDWrite
-	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
+//	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
 //	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
 	//Create IMUReceive
-	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",128,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
+	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",256,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
 //	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
 	//Create GNSSReceive
-	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
+//	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
 //	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
 	//Create ReceiverReceive
-	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
+//	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
 //	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
 	//Create TeleportTransmit
-	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
+//	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
 //	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 	//Start
@@ -126,18 +126,18 @@ TaskHandle_t TaskMonitor_TCB;
 void TaskMonitor(void *pvParameters)
 {
 	char InfoBuffer[600];
-	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
+//	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	while(1)
 	{
-		vTaskList(InfoBuffer);
 		taskENTER_CRITICAL();
+		vTaskList(InfoBuffer);
 		InfoPrint(DebugChannel,"---------------------------------------------\r\n");
 		InfoPrint(DebugChannel,InfoBuffer);
 		InfoPrint(DebugChannel,"---------------------------------------------\r\n");
 		taskEXIT_CRITICAL();
 		vTaskDelay(5000);
-		vTaskGetRunTimeStats(InfoBuffer);
 		taskENTER_CRITICAL();
+		vTaskGetRunTimeStats(InfoBuffer);
 		InfoPrint(DebugChannel,"---------------------------------------------\r\n");
 		InfoPrint(DebugChannel,InfoBuffer);
 		InfoPrint(DebugChannel,"---------------------------------------------\r\n");
@@ -188,9 +188,13 @@ TaskHandle_t IMUReceive_TCB;
 
 void IMUReceive(void *pvParameters)
 {
+ 	static double a_n=0,a_e=0,a_u=0;
+	static double v_n=0,v_e=0,v_u=0;
+	static double p_n=0,p_e=0,p_u=0;
+	static double T_11,T_21,T_31,T_12,T_22,T_32,T_13,T_23,T_33;
 	HAL_UART_Receive_DMA(&huart2,IMUReceiveBuff,55);
 	__HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);
-	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
+//	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	while(1)
 	{
 		xSemaphoreTake(IMUSemaphore,portMAX_DELAY);
@@ -202,6 +206,27 @@ void IMUReceive(void *pvParameters)
 //			InfoPrint(PrintChannel,"%0.4f  %0.4f  %0.4f  ",IMUData.pitch,IMUData.roll,IMUData.yaw);
 //			InfoPrint(PrintChannel,"%0.4f  %0.4f  ",IMUData.pressure,IMUData.height);
 //			InfoPrint(PrintChannel,"%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);
+			//体坐标系到惯性坐标系
+			T_11 = cos(IMUData.roll*0.0174532922)*cos(IMUData.yaw*0.0174532922)-sin(IMUData.roll*0.0174532922)*sin(IMUData.pitch*0.0174532922)*sin(IMUData.yaw*0.0174532922);
+			T_21 = cos(IMUData.roll*0.0174532922)*sin(IMUData.yaw*0.0174532922)+sin(IMUData.roll*0.0174532922)*sin(IMUData.pitch*0.0174532922)*cos(IMUData.yaw*0.0174532922);
+			T_31 = -sin(IMUData.roll*0.0174532922)*cos(IMUData.pitch*0.0174532922);
+			T_12 = -cos(IMUData.pitch*0.0174532922)*sin(IMUData.yaw*0.0174532922);
+			T_22 = cos(IMUData.pitch*0.0174532922)*cos(IMUData.yaw*0.0174532922);
+			T_32 = sin(IMUData.pitch*0.0174532922);
+			T_13 = sin(IMUData.roll*0.0174532922)*cos(IMUData.yaw*0.0174532922)+cos(IMUData.roll*0.0174532922)*sin(IMUData.pitch*0.0174532922)*sin(IMUData.yaw*0.0174532922);
+			T_23 = sin(IMUData.roll*0.0174532922)*sin(IMUData.yaw*0.0174532922)-cos(IMUData.roll*0.0174532922)*sin(IMUData.pitch*0.0174532922)*cos(IMUData.yaw*0.0174532922);
+			T_33 = cos(IMUData.roll*0.0174532922)*cos(IMUData.pitch*0.0174532922);
+			a_e = T_11*IMUData.acc_x+T_12*IMUData.acc_y+T_13*IMUData.acc_z;
+			a_n = T_21*IMUData.acc_x+T_22*IMUData.acc_y+T_23*IMUData.acc_z;
+			a_u = T_31*IMUData.acc_x+T_32*IMUData.acc_y+T_33*IMUData.acc_z;
+			v_e += a_e*ControlDt/2;
+			v_n += a_n*ControlDt/2;
+			v_u += (a_u - 9.79440)*ControlDt/2;
+			p_e += v_e*ControlDt/2;
+			p_n += v_n*ControlDt/2;
+			p_u += v_u*ControlDt/2;
+//			printf("%0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",a_e,a_n,a_u,p_e,p_n,p_u);
+			printf("%0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",a_e,a_n,a_u,v_e,v_n,v_u,p_e,p_n,p_u);
 		}
 		else 
 		{
