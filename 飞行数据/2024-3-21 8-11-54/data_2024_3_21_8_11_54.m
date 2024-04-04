@@ -106,3 +106,17 @@ hold on;
 plot(height_true);
 figure(4);
 plot(height_pre);
+
+%%
+%分析加速度噪声
+[b,a] = butter(4,1/50);
+ax_fil = filter(b,a,ax);
+v(999)=0;
+% for i=2:numel(ax)
+for i=1000:1500
+    % v(i)=v(i-1)+ax_fil(i);
+    v(i)=v(i-1)+ay(i)*0.01;
+end
+plot(time(1000:1500),v(1000:1500))
+hold on 
+plot(time(1000:1500),ax(1000:1500))
