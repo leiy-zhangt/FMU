@@ -1,7 +1,8 @@
-%%导入数据
+%%
+%导入数据
 clear;
 clc;
-load('data_2024_3_21_7_57_17.mat');
+load('data_2024_3_21_7_57_17 mat');
 time = data_2024_3_21_7_57_17.VarName2;
 ax = data_2024_3_21_7_57_17.VarName6;
 ay = data_2024_3_21_7_57_17.VarName8;
@@ -30,14 +31,14 @@ channel_6 = data_2024_3_21_7_57_17.VarName56;
 channel_7 = data_2024_3_21_7_57_17.VarName58;
 channel_8 = data_2024_3_21_7_57_17.VarName60;
 
-% R=287.05287;
-% T=288.15;
-% L=-0.0065;
+% R=287 05287;
+% T=288 15;
+% L=-0 0065;
 % P=101325;
-% G=9.80665;
-% rho=1.1736;
+% G=9 80665;
+% rho=1 1736;
 % for i=1:size(alt)
-%     p_e = 0.5*rho*velocity(i)^2;
+%     p_e = 0 5*rho*velocity(i)^2;
 %     e(i)=T*R*p_e/G*power(pressure(i)/P,L*R/G-1)*(-pressure(i)/P^2);
 %     height_cali(i)=height(i)+e(i);
 % end
@@ -58,7 +59,7 @@ channel_8 = data_2024_3_21_7_57_17.VarName60;
 % n=1;
 % for i=1:size(alt)
 %     if channel_6(i) > 1400 & channel_6(i) < 1600
-%         pitch_expect(n) = (channel_2(i)-1500)*0.12;
+%         pitch_expect(n) = (channel_2(i)-1500)*0 12;
 %         pitch_true(n) = pitch(i);
 %         n = n+1;
 %     end
@@ -70,7 +71,7 @@ channel_8 = data_2024_3_21_7_57_17.VarName60;
 % n=1;
 % for i=1:size(alt)
 %     if channel_6(i) > 1400 & channel_6(i) < 1600
-%         roll_expect(n) = (channel_1(i)-1500)*0.12;
+%         roll_expect(n) = (channel_1(i)-1500)*0 12;
 %         roll_true(n) = roll(i);
 %         n = n+1;
 %     end
@@ -83,7 +84,7 @@ channel_8 = data_2024_3_21_7_57_17.VarName60;
 % n=1;
 % for i=1:size(alt)
 %     if channel_6(i) > 1600
-%         roll_expect(n) = (channel_1(i)-1500)*0.12;
+%         roll_expect(n) = (channel_1(i)-1500)*0 12;
 %         roll_true(n) = roll(i);
 %         pitch_expect(n) = 3*(height_expect(i)-alt(i));
 %         pitch_true(n) = pitch(i);
@@ -150,17 +151,97 @@ channel_8 = data_2024_3_21_7_57_17.VarName60;
 
 %%
 % 对数据进行滤波处理
-[b,a] = butter(4,1/50);
-ax_fil = filter(b,a,ax);
+% [b,a] = butter(4,1/50);
+% ax_fil = filter(b,a,ax);
+% figure(1);
+% plot(time,ax_fil);
+% [b,a] = butter(4,1/50);
+% ay_fil = filter(b,a,ay);
+% figure(2);
+% plot(time,ay_fil);
+% [b,a] = butter(4,1/50);
+% az_fil = filter(b,a,az);
+% figure(3);
+% plot(time,az_fil);
+
+%%
+%导航算法测试
+k = 0.6;
+n_data = cell(6,1);
+dt = 0.01;
+for i=1:numel(ax)
+    if i == 1
+        n_data{1,1}(i) = 0;
+        n_data{2,1}(i) = 0;
+        n_data{3,1}(i) = 0;
+        n_data{4,1}(i) = 0;
+        n_data{5,1}(i) = 0;
+        n_data{6,1}(i) = 0;
+    end
+    if i ~= 1 
+        if lon(i)~=lon(i-1) || lat(i)~=lat(i-1) || alt(i)~=alt(i-1)
+            [Px_obe,Py_obe] = Pos2Coo(lon(i),lat(i),lon(1),lat(1));
+            n_data{1,1}(i) = k*n_data{1,1}(i) + (1-k)*Px_obe;
+            n_data{2,1}(i) = k*n_data{2,1}(i) + (1-k)*Py_obe;
+            n_data{3,1}(i) = k*n_data{3,1}(i) + (1-k)*(alt(i)-alt(1));
+            n_data{4,1}(i) = k*n_data{4,1}(i) + (1-k)*ve(i);
+            n_data{5,1}(i) = k*n_data{5,1}(i) + (1-k)*vn(2);
+        end
+        n_data{6,1}(i) = k*n_data{6,1}(i) + (1-k)*(height(i)-height(i))/dt;
+    end
+    T_11 = cos(roll(i)/57.3)*cos(yaw(i)/57.3)-sin(roll(i)/57.3)*sin(pitch(i)/57.3)*sin(yaw(i)/57.3);
+	T_21 = cos(roll(i)/57.3)*sin(yaw(i)/57.3)+sin(roll(i)/57.3)*sin(pitch(i)/57.3)*cos(yaw(i)/57.3);
+	T_31 = -sin(roll(i)/57.3)*cos(pitch(i)/57.3);
+	T_12 = -cos(pitch(i)/57.3)*sin(yaw(i)/57.3);
+	T_22 = cos(pitch(i)/57.3)*cos(yaw(i)/57.3);
+	T_32 = sin(pitch(i)/57.3);
+	T_13 = sin(roll(i)/57.3)*cos(yaw(i)/57.3)+cos(roll(i)/57.3)*sin(pitch(i)/57.3)*sin(yaw(i)/57.3);
+	T_23 = sin(roll(i)/57.3)*sin(yaw(i)/57.3)-cos(roll(i)/57.3)*sin(pitch(i)/57.3)*cos(yaw(i)/57.3);
+	T_33 = cos(roll(i)/57.3)*cos(pitch(i)/57.3);
+	a_e = T_11*ax(i)+T_12*ay(i)+T_13*az(i);
+	a_n = T_21*ax(i)+T_22*ay(i)+T_23*az(i);
+	a_u = T_31*ax(i)+T_32*ay(i)+T_33*az(i) - 9.80665;
+    n_data{1,1}(i+1) = n_data{1,1}(i) + n_data{4,1}(i)*dt + a_e*dt^2/2;
+    n_data{2,1}(i+1) = n_data{2,1}(i) + n_data{5,1}(i)*dt + a_n*dt^2/2;
+    n_data{3,1}(i+1) = n_data{3,1}(i) + n_data{6,1}(i)*dt + a_u*dt^2/2;
+    n_data{4,1}(i+1) = n_data{4,1}(i) + a_e*dt;
+    n_data{5,1}(i+1) = n_data{5,1}(i) + a_n*dt;
+    n_data{6,1}(i+1) = n_data{6,1}(i) + a_u*dt;
+    % if height(i)==height(i+1)
+    %     n_data{6,1}(i+1) == 0;
+    %end
+end
 figure(1);
-plot(time,ax_fil);
-[b,a] = butter(4,1/50);
-ay_fil = filter(b,a,ay);
+plot(time,n_data{1,1}(1:numel(ax)));
+hold on;
+% plot(time,alt);
+plot(time,(lon-lon(1))*100000);
 figure(2);
-plot(time,ay_fil);
-[b,a] = butter(4,1/50);
-az_fil = filter(b,a,az);
-figure(3);
-plot(time,az_fil);
+plot(time,n_data{2,1}(1:numel(ax)));
+hold on;
+% plot(time,alt);
+plot(time,(lat-lat(1))*111320);
+figure(3)
+plot(time,n_data{3,1}(1:numel(ax)));
+hold on;
+% plot(time,alt);
+plot(time,alt-alt(1));
+figure(4)
+plot(time,n_data{4,1}(1:numel(ax)));
+hold on;
+plot(time,ve);
+figure(5)
+plot(time,n_data{5,1}(1:numel(ax)));
+hold on;
+plot(time,vn);
+figure(6)
+plot(time,n_data{6,1}(1:numel(ax)));
+hold on;
+vu(1) = 0;
+for i=2:numel(ax)
+    vu(i) = (alt(i) - alt(i-1));
+end
+plot(time,vu);
+
 
 
