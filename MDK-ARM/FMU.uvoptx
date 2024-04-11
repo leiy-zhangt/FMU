@@ -157,9 +157,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>132</LineNumber>
+          <LineNumber>161</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134260392</Address>
+          <Address>134261710</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -168,7 +168,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\Program\Src\taskinit.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\FMU\../Program/Src/taskinit.c\132</Expression>
+          <Expression>\\FMU\../Program/Src/taskinit.c\161</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -206,6 +206,11 @@
           <count>6</count>
           <WinNumber>1</WinNumber>
           <ItemText>IMUData,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>GNSSFifoBuff</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

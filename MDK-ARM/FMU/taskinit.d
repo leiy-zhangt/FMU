@@ -85,3 +85,4 @@ fmu\taskinit.o: ../Program/Inc/printf.h
 fmu\taskinit.o: ../Program/Inc/teleport.h
 fmu\taskinit.o: ../Program/Inc/tf.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\taskinit.o: ../Program/Inc/navigation.h

@@ -15,7 +15,7 @@ void FileCreate(void)
 		sprintf((char *)FileName,"%u-%u-%u %d-%d-%d.txt",GNSS_msg.utc.year,GNSS_msg.utc.month,GNSS_msg.utc.date,GNSS_msg.utc.hour,GNSS_msg.utc.min,GNSS_msg.utc.sec);
 	}
 	else sprintf((char *)FileName,"NOSIGNAL.txt");
-	SDRet = f_open(&SDFile,(char *)FileName,FA_WRITE|FA_CREATE_ALWAYS);
+	SDRet = f_open(&SDFile,(char *)FileName,FA_WRITE|FA_OPEN_APPEND);
 	if(SDRet == FR_OK) InfoPrint(PrintChannel,"TF open successfully!\r\n");
 	else InfoPrint(PrintChannel,"TF open failed!\r\n");
 }

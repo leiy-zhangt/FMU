@@ -63,7 +63,11 @@ void ReceiverSolution(void)
 	}
 	//控制飞控飞行模式
 	if(ReceiverChannel[5]<1400) FMUControlMode = FMU_Manual;
-	else if(ReceiverChannel[5]<1600) FMUControlMode = FMU_Stable;
+	else if(ReceiverChannel[5]<1600) 
+	{
+		FMUControlMode = FMU_Stable;
+		if(FMUControlModePrevious != FMU_Stable) integtal_pitch = 0;
+	}
 	else 
 	{
 		FMUControlMode = FMU_Height;
@@ -73,12 +77,12 @@ void ReceiverSolution(void)
 	if(ReceiverChannel[6]<1400) 
 	{
 		vTaskSuspend(TeleportTransmit_TCB);
-		vTaskSuspend(TaskMonitor_TCB);
+//		vTaskSuspend(TaskMonitor_TCB);
 	}
 	else if(ReceiverChannel[6]>1600) 
 	{
 		vTaskResume(TeleportTransmit_TCB);
-		vTaskResume(TaskMonitor_TCB);
+//		vTaskResume(TaskMonitor_TCB);
 	}
 	//复制通道内容
 	FMUControlModePrevious = FMUControlMode;

@@ -28,13 +28,13 @@ void NevigationSolution(void)
 	a_e = T_11*IMUData.acc_x+T_12*IMUData.acc_y+T_13*IMUData.acc_z;
 	a_n = T_21*IMUData.acc_x+T_22*IMUData.acc_y+T_23*IMUData.acc_z;
 	a_u = T_31*IMUData.acc_x+T_32*IMUData.acc_y+T_33*IMUData.acc_z - 9.80665;
-	v_e += a_e*ControlDt;
-	v_n += a_n*ControlDt;
-	v_u += (a_u)*ControlDt;
-	p_e += v_e*ControlDt;
-	p_n += v_n*ControlDt;
-	p_u += v_u*ControlDt;
-	printf("%0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",a_e,a_n,a_u,v_e,v_n,v_u,p_e,p_n,p_u);
+//	v_e += a_e*ControlDt;
+//	v_n += a_n*ControlDt;
+//	v_u += (a_u)*ControlDt;
+//	p_e += v_e*ControlDt;
+//	p_n += v_n*ControlDt;
+//	p_u += v_u*ControlDt;
+//	printf("%0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",a_e,a_n,a_u,v_e,v_n,v_u,p_e,p_n,p_u);
 }
 
 double Lon2Distance(double lon_1,double lon_2) //lon1-lon2的距离

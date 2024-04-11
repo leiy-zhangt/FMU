@@ -13,9 +13,10 @@ BaseType_t ControlHigherTaskSwitch;
 double ControlTime;//飞控运行时间
 const double ControlDt = 0.01;//飞控控制时间间隔
 
-const double Kp_roll=1.5,Kd_roll=0.15,Kp_pitch=1,Kd_pitch=0.1,Kp_yaw=1.5,Kd_yaw=0.1,Kp_height=3;//控制率参数
+const double Kp_roll=1.5,Kd_roll=0.15,Kp_pitch=1.5,Kd_pitch=0.3,Ki_pitch = 0.5,Kp_yaw=1.5,Kd_yaw=0.1,Kp_height=2;//姿态控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
+double integtal_pitch;//俯仰角误差积分
 
 FMUControlModeSelect FMUControlMode = FMU_Manual;//飞控工作模式选择
 FMUControlModeSelect FMUControlModePrevious = FMU_Manual;
@@ -109,11 +110,13 @@ void FixedWingControl(void)
 			//滚转与俯仰角期望值
 			expected_roll = (ReceiverChannel[0]-1500)*0.12;
 			expected_pitch = (ReceiverChannel[1]-1500)*0.12;
+			//计算俯仰角误差积分
+			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
 			//计算舵机角度
 			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
 			servo_roll = servo_roll>30?30:servo_roll;
 			servo_roll = servo_roll<-30?-30:servo_roll;
-			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x;
+			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
 			servo_pitch = servo_pitch>45?45:servo_pitch;
 			servo_pitch = servo_pitch<-45?-45:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
@@ -127,11 +130,13 @@ void FixedWingControl(void)
 			//滚转与俯仰角期望值
 			expected_roll = (ReceiverChannel[0]-1500)*0.12;
 			expected_pitch = Kp_height*(expected_height-GNSSData.alt);
+			//计算俯仰角误差积分
+			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
 			//计算舵机角度
-			servo_roll = Kp_roll*(expected_roll-IMUData.roll)+Kd_roll*IMUData.gyr_y;
+			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
 			servo_roll = servo_roll>30?30:servo_roll;
 			servo_roll = servo_roll<-30?-30:servo_roll;
-			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)+Kd_pitch*IMUData.gyr_x;
+			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
 			servo_pitch = servo_pitch>30?30:servo_pitch;
 			servo_pitch = servo_pitch<-30?-30:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
