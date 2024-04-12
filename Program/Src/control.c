@@ -108,8 +108,8 @@ void FixedWingControl(void)
 		case FMU_Stable:
 		{
 			//滚转与俯仰角期望值
-			expected_roll = (ReceiverChannel[0]-1500)*0.12;
-			expected_pitch = (ReceiverChannel[1]-1630)*0.12+6;
+			expected_roll = (ReceiverChannel[0]-1532)*0.12;
+			expected_pitch = (ReceiverChannel[1]-1350)*0.12+6;
 			//计算俯仰角误差积分
 			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
       integtal_pitch = integtal_pitch>10?10:integtal_pitch;
@@ -131,7 +131,7 @@ void FixedWingControl(void)
 		case FMU_Height:
 		{
 			//滚转与俯仰角期望值
-			expected_roll = (ReceiverChannel[0]-1500)*0.12;
+			expected_roll = (ReceiverChannel[0]-1532)*0.12;
 			expected_pitch = Kp_height*(expected_height-GNSSData.alt)+6;
 			//计算俯仰角误差积分
 			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
