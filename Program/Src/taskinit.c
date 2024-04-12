@@ -32,9 +32,9 @@ void TaskCreate(void)
 	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
 	//Create TaskMonitor
-	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
-	if(TaskMonitor_Ret == pdPASS) InfoPrint(PrintChannel,"TaskMonitor creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"TaskMonitor creat failed!\r\n");
+//	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
+//	if(TaskMonitor_Ret == pdPASS) InfoPrint(PrintChannel,"TaskMonitor creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"TaskMonitor creat failed!\r\n");
 	//Create SDWrite
 	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
 	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
@@ -83,8 +83,8 @@ void FMUCheck(void *pvParameters)
 {
 	xEventGroupClearBits(FMUCheckEvent,0xFFFF);
 	//调试时使用禁用GPS
-	xEventGroupSetBits(FMUCheckEvent,0xFF);
-	vTaskSuspend(NULL);
+//	xEventGroupSetBits(FMUCheckEvent,0xFF);
+//	vTaskSuspend(NULL);
 	//
 	while(1)
 	{

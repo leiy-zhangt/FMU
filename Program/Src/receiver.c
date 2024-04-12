@@ -71,7 +71,11 @@ void ReceiverSolution(void)
 	else 
 	{
 		FMUControlMode = FMU_Height;
-		if(FMUControlModePrevious != FMU_Height) expected_height = GNSSData.alt;
+		if(FMUControlModePrevious != FMU_Height) 
+    {
+      expected_height = GNSSData.alt;
+      integtal_pitch = 0;
+    }
 	}
 	//控制数传数据返回
 	if(ReceiverChannel[6]<1400) 
