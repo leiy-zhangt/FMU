@@ -55,17 +55,17 @@ channel_8 = data_2024_3_21_8_11_54.VarName60;
 % hold on
 % plot(alt)
 %%
-% n=1;
-% for i=1:size(alt)
-%     if channel_6(i) > 1400 & channel_6(i) < 1600
-%         pitch_expect(n) = (channel_2(i)-1500)*0.12;
-%         pitch_true(n) = pitch(i);
-%         n = n+1;
-%     end
-% end
-% plot(pitch_true);
-% hold on;
-% plot(pitch_expect);
+n=1;
+for i=1:size(alt)
+    if channel_6(i) > 1400 & channel_6(i) < 1600
+        pitch_expect(n) = (channel_2(i)-1500)*0.12;
+        pitch_true(n) = pitch(i);
+        n = n+1;
+    end
+end
+plot(pitch_true);
+hold on;
+plot(pitch_expect);
 %%
 % n=1;
 % for i=1:size(alt)

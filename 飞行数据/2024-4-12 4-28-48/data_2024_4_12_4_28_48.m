@@ -56,6 +56,14 @@ plot(height_cali)
 hold on
 plot(alt)
 %%
+%»æÖÆÈıÎ¬ÇúÏß
+lat0=lat(1);
+lon0=lon(1);
+for i=1:numel(ax)
+    [x(i),y(i)]=Pos2Coo(lon(i),lat(i),lon0,lat0);
+end
+plot3(x,y,alt)
+%%
 n=1;
 for i=1:size(alt)
     if channel_6(i) > 1400 & channel_6(i) < 1600
