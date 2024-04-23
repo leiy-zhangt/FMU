@@ -217,9 +217,9 @@ for i=1:numel(ax)
     n_data{4,1}(i+1) = n_data{4,1}(i) + a_e*dt;
     n_data{5,1}(i+1) = n_data{5,1}(i) + a_n*dt;
     n_data{6,1}(i+1) = n_data{6,1}(i) + a_u*dt;
-    if height(i)==height(i+1)
-        n_data{6,1}(i+1) == 0;
-    end
+    % if height(i)==height(i+1)
+    %     n_data{6,1}(i+1) == 0;
+    % end
 end
 figure(1);
 plot(time,n_data{1,1}(1:numel(ax)));

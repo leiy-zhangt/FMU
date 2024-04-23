@@ -212,15 +212,15 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+//  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
+//  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-  osKernelStart();
+//  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -233,11 +233,12 @@ int main(void)
 		ServoSet(ServoChannel_1,30);
 		ServoSet(ServoChannel_2,30);
 		ServoSet(ServoChannel_4,30);
-		HAL_Delay(1000000);
+		HAL_Delay(100000);
 		ServoSet(ServoChannel_1,0);
 		ServoSet(ServoChannel_2,0);
 		ServoSet(ServoChannel_4,0);
-		HAL_Delay(1000000);
+		HAL_Delay(100000);
+//		InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
 //		ServoSet(ServoChannel_1,-30);
 //		ServoSet(ServoChannel_2,-30);
 //		ServoSet(ServoChannel_4,-30);
