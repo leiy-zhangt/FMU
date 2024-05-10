@@ -81,7 +81,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
+            <RunUserProg2>1</RunUserProg2>
             <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -2189,6 +2189,16 @@
               <FileName>navigation.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Program\Src\navigation.c</FilePath>
+            </File>
+            <File>
+              <FileName>airspeed.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Program\Src\airspeed.c</FilePath>
+            </File>
+            <File>
+              <FileName>ms5525.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Program\Src\ms5525.c</FilePath>
             </File>
           </Files>
         </Group>

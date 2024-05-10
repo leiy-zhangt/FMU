@@ -63,6 +63,8 @@
 "fmu\control.o"
 "fmu\tf.o"
 "fmu\navigation.o"
+"fmu\airspeed.o"
+"fmu\ms5525.o"
 --strict --scatter "FMU\FMU.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

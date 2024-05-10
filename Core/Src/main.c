@@ -29,6 +29,8 @@
 #include "taskinit.h"
 #include "imu.h"
 #include "control.h"
+#include "ms5525.h"
+#include "airspeed.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -190,7 +192,7 @@ int main(void)
 	ServoSet(ServoChannel_6,0);
 	ServoSet(ServoChannel_7,0);
 	ServoSet(ServoChannel_8,0);
-	TaskCreate();//创建任务并启动调度器
+//	TaskCreate();//创建任务并启动调度器
 
   /* USER CODE END 2 */
 
@@ -212,8 +214,8 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-//  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
-//  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 256);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -230,19 +232,79 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		ServoSet(ServoChannel_1,30);
-		ServoSet(ServoChannel_2,30);
-		ServoSet(ServoChannel_4,30);
+//		ServoSet(ServoChannel_1,30);
+//		ServoSet(ServoChannel_2,30);
+//		ServoSet(ServoChannel_4,30);
+//		HAL_Delay(100000);
+//		ServoSet(ServoChannel_1,0);
+//		ServoSet(ServoChannel_2,0);
+//		ServoSet(ServoChannel_4,0);
+//		HAL_Delay(100000);
+		
+		static uint8_t res[3],i,tran[2];
+		static uint16_t C[8]; 
+		static uint8_t send = 0xA0;
+		send = 0xA0;
+		for(i=0;i<8;i++)
+		{
+			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
+			HAL_I2C_Master_Receive(&hi2c1,0x76<<1,res,2,0xFFFF);
+			send = send + 2;
+			C[i] = ((uint16_t)res[0]<<8)|res[1];
+		}
+		memcpy(MS5525_C,C,16);
+		MS5525_Tref = (int64_t)MS5525_C[5] * (1UL << MS5525_Q5);
+		while(1)
+		{
+			send = 0x48;
+			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
+			HAL_Delay(10000);
+			send = 0x00;
+			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
+			HAL_I2C_Master_Receive(&hi2c1,0x76<<1,res,3,0xFFFF);
+			MS5525_D1 = ((uint16_t)res[0] << 16) | ((uint16_t)res[1] << 8) | res[2];
+			send = 0x58;
+			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
+			HAL_Delay(10000);
+			send = 0x00;
+			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
+			HAL_I2C_Master_Receive(&hi2c1,0x76<<1,res,3,0xFFFF);
+			MS5525_D2 = ((uint16_t)res[0] << 16) | ((uint16_t)res[1] << 8) | res[2];
+			// Difference between actual and reference temperature
+			//  dT = D2 - Tref
+			int64_t MS5525_dT = MS5525_D2 - MS5525_Tref;
+
+			// Measured temperature
+			//  TEMP = 20°C + dT * TEMPSENS
+			int64_t MS5525_TEMP = 2000 + (MS5525_dT * (int64_t)(MS5525_C[6])) / (1UL << MS5525_Q6);
+
+			// Offset at actual temperature
+			//  OFF = OFF_T1 + TCO * dT
+			int64_t MS5525_OFF = (int64_t)(MS5525_C[2]) * (1UL << MS5525_Q2) + ((int64_t)(MS5525_C[4]) * MS5525_dT) / (1UL << MS5525_Q4);
+
+			// Sensitivity at actual temperature
+			//  SENS = SENS_T1 + TCS * dT
+			int64_t MS5525_SENS = (int64_t)(MS5525_C[1]) * (1UL << MS5525_Q1) + ((int64_t)(MS5525_C[3]) * MS5525_dT) / (1UL << MS5525_Q3);
+
+			// Temperature Compensated Pressure (example 24996 = 2.4996 psi)
+			//  P = D1 * SENS - OFF
+			int64_t MS5525_P = (MS5525_D1 * MS5525_SENS / (1UL << 21) - MS5525_OFF) / (1UL << 15);
+
+			float diff_press_PSI = MS5525_P * 0.0001f;
+
+			// 1 PSI = 6894.76 Pascals
+			float PSI_to_Pa = 6894.757f;
+			float diff_press_pa = diff_press_PSI * PSI_to_Pa;
+
+			float temperature_c = MS5525_TEMP * 0.01f;	
+			float v = calc_IAS_corrected(0.2,1.5,diff_press_pa+37,96000,temperature_c);
+			printf("pre:%f  tem:%f v:%f\r\n",diff_press_pa,temperature_c,v);
+			HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
+			HAL_Delay(100000);
+		}
+		
+		HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
 		HAL_Delay(100000);
-		ServoSet(ServoChannel_1,0);
-		ServoSet(ServoChannel_2,0);
-		ServoSet(ServoChannel_4,0);
-		HAL_Delay(100000);
-//		InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
-//		ServoSet(ServoChannel_1,-30);
-//		ServoSet(ServoChannel_2,-30);
-//		ServoSet(ServoChannel_4,-30);
-//		HAL_Delay(3000000);
   }
   /* USER CODE END 3 */
 }
@@ -390,7 +452,7 @@ static void MX_I2C1_Init(void)
 
   /* USER CODE END I2C1_Init 1 */
   hi2c1.Instance = I2C1;
-  hi2c1.Init.Timing = 0x10C0ECFF;
+  hi2c1.Init.Timing = 0x009034B6;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
