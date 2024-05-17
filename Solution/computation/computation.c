@@ -110,7 +110,7 @@ double AttitudeCompensation(void)
   }
   mag_x = BMM150_Data.data_y*cos(MotionData.roll)-BMM150_Data.data_z*sin(MotionData.roll);
   mag_y = BMM150_Data.data_y*sin(MotionData.roll)*sin(MotionData.pitch)+BMM150_Data.data_x*cos(MotionData.pitch)+BMM150_Data.data_z*sin(MotionData.pitch)*cos(MotionData.roll);
-  MotionData.yaw = atan2(mag_x,mag_y)*yaw_coefficient + MotionData.yaw*(1-yaw_coefficient);
+//  MotionData.yaw = atan2(mag_x,mag_y)*yaw_coefficient + MotionData.yaw*(1-yaw_coefficient);
 //  MotionData.yaw = atan2(mag_x,mag_y);
 //  printf("%+0.4f\r\n",MotionData.yaw*57.3);
   T_11 = cos(MotionData.roll)*cos(MotionData.yaw)-sin(MotionData.roll)*sin(MotionData.pitch)*sin(MotionData.yaw);

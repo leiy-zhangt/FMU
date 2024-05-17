@@ -3,7 +3,7 @@
 .\objects\bmm150.o: ..\System\sys\sys.h
 .\objects\bmm150.o: ..\System\stm32f4xx.h
 .\objects\bmm150.o: ..\CMSIS\core_cm4.h
-.\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\bmm150.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\bmm150.o: ..\CMSIS\core_cmInstr.h
 .\objects\bmm150.o: ..\CMSIS\core_cmFunc.h
 .\objects\bmm150.o: ..\CMSIS\core_cm4_simd.h
@@ -46,20 +46,20 @@
 .\objects\bmm150.o: ..\Solution\command\command.h
 .\objects\bmm150.o: ..\Solution\computation\computation.h
 .\objects\bmm150.o: ..\Solution\command\command.h
-.\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\bmm150.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\bmm150.o: ..\HardWare\LED\led.h
 .\objects\bmm150.o: ..\HardWare\SERVE\serve.h
 .\objects\bmm150.o: ..\HardWare\BUZZER\buzzer.h
 .\objects\bmm150.o: ..\HardWare\BMI088\bmi088.h
 .\objects\bmm150.o: ..\HardWare\BMP388\bmp388.h
-.\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\bmm150.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\bmm150.o: ..\HardWare\FUSE\fuse.h
 .\objects\bmm150.o: ..\HardWare\W25Q\w25q.h
-.\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\bmm150.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\bmm150.o: ..\HardWare\Lora\lora.h
 .\objects\bmm150.o: ..\Connectivity\USART\usart.h
-.\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\bmm150.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\bmm150.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\bmm150.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\bmm150.o: ..\Connectivity\DMA\dma.h
 .\objects\bmm150.o: ..\Connectivity\USART\usart.h
 .\objects\bmm150.o: ..\HardWare\ATGM336H\atgm336h.h

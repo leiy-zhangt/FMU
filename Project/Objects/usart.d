@@ -1,13 +1,13 @@
 .\objects\usart.o: ..\Connectivity\USART\usart.c
 .\objects\usart.o: ..\Connectivity\USART\usart.h
-.\objects\usart.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\usart.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\usart.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\usart.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\usart.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\usart.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\usart.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\usart.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\usart.o: ..\System\sys\sys.h
 .\objects\usart.o: ..\System\stm32f4xx.h
 .\objects\usart.o: ..\CMSIS\core_cm4.h
-.\objects\usart.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\usart.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\usart.o: ..\CMSIS\core_cmInstr.h
 .\objects\usart.o: ..\CMSIS\core_cmFunc.h
 .\objects\usart.o: ..\CMSIS\core_cm4_simd.h
@@ -57,7 +57,7 @@
 .\objects\usart.o: ..\HardWare\BMM150\bmm150.h
 .\objects\usart.o: ..\HardWare\BMI088\bmi088.h
 .\objects\usart.o: ..\HardWare\BMP388\bmp388.h
-.\objects\usart.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\usart.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\usart.o: ..\HardWare\W25Q\w25q.h
 .\objects\usart.o: ..\HardWare\FUSE\fuse.h
 .\objects\usart.o: ..\HardWare\Lora\lora.h

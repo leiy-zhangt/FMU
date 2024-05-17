@@ -3,7 +3,7 @@
 .\objects\iic.o: ..\System\sys\sys.h
 .\objects\iic.o: ..\System\stm32f4xx.h
 .\objects\iic.o: ..\CMSIS\core_cm4.h
-.\objects\iic.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\iic.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\iic.o: ..\CMSIS\core_cmInstr.h
 .\objects\iic.o: ..\CMSIS\core_cmFunc.h
 .\objects\iic.o: ..\CMSIS\core_cm4_simd.h

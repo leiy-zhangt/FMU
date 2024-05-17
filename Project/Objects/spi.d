@@ -3,7 +3,7 @@
 .\objects\spi.o: ..\System\sys\sys.h
 .\objects\spi.o: ..\System\stm32f4xx.h
 .\objects\spi.o: ..\CMSIS\core_cm4.h
-.\objects\spi.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\spi.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\spi.o: ..\CMSIS\core_cmInstr.h
 .\objects\spi.o: ..\CMSIS\core_cmFunc.h
 .\objects\spi.o: ..\CMSIS\core_cm4_simd.h
@@ -45,20 +45,20 @@
 .\objects\spi.o: ..\Solution\command\command.h
 .\objects\spi.o: ..\Solution\computation\computation.h
 .\objects\spi.o: ..\Solution\command\command.h
-.\objects\spi.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\spi.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\spi.o: ..\HardWare\LED\led.h
 .\objects\spi.o: ..\HardWare\SERVE\serve.h
 .\objects\spi.o: ..\HardWare\BUZZER\buzzer.h
 .\objects\spi.o: ..\HardWare\BMI088\bmi088.h
 .\objects\spi.o: ..\HardWare\BMP388\bmp388.h
-.\objects\spi.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\spi.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\spi.o: ..\HardWare\FUSE\fuse.h
 .\objects\spi.o: ..\HardWare\W25Q\w25q.h
-.\objects\spi.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\spi.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\spi.o: ..\HardWare\Lora\lora.h
 .\objects\spi.o: ..\Connectivity\USART\usart.h
-.\objects\spi.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\spi.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\spi.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\spi.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\spi.o: ..\Connectivity\DMA\dma.h
 .\objects\spi.o: ..\Connectivity\USART\usart.h
 .\objects\spi.o: ..\HardWare\ATGM336H\atgm336h.h

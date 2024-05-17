@@ -3,7 +3,7 @@
 .\objects\w25q.o: ..\System\sys\sys.h
 .\objects\w25q.o: ..\System\stm32f4xx.h
 .\objects\w25q.o: ..\CMSIS\core_cm4.h
-.\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\w25q.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\w25q.o: ..\CMSIS\core_cmInstr.h
 .\objects\w25q.o: ..\CMSIS\core_cmFunc.h
 .\objects\w25q.o: ..\CMSIS\core_cm4_simd.h
@@ -46,20 +46,20 @@
 .\objects\w25q.o: ..\Solution\command\command.h
 .\objects\w25q.o: ..\Solution\computation\computation.h
 .\objects\w25q.o: ..\Solution\command\command.h
-.\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\w25q.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\w25q.o: ..\HardWare\LED\led.h
 .\objects\w25q.o: ..\HardWare\SERVE\serve.h
 .\objects\w25q.o: ..\HardWare\BUZZER\buzzer.h
 .\objects\w25q.o: ..\HardWare\BMI088\bmi088.h
 .\objects\w25q.o: ..\HardWare\BMP388\bmp388.h
-.\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\w25q.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\w25q.o: ..\HardWare\FUSE\fuse.h
 .\objects\w25q.o: ..\HardWare\W25Q\w25q.h
 .\objects\w25q.o: ..\HardWare\Lora\lora.h
 .\objects\w25q.o: ..\Connectivity\USART\usart.h
-.\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\w25q.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\w25q.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\w25q.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\w25q.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\w25q.o: ..\Connectivity\DMA\dma.h
 .\objects\w25q.o: ..\Connectivity\USART\usart.h
 .\objects\w25q.o: ..\HardWare\ATGM336H\atgm336h.h

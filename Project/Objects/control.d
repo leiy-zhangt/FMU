@@ -4,7 +4,7 @@
 .\objects\control.o: ..\System\sys\sys.h
 .\objects\control.o: ..\System\stm32f4xx.h
 .\objects\control.o: ..\CMSIS\core_cm4.h
-.\objects\control.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\control.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\control.o: ..\CMSIS\core_cmInstr.h
 .\objects\control.o: ..\CMSIS\core_cmFunc.h
 .\objects\control.o: ..\CMSIS\core_cm4_simd.h
@@ -41,7 +41,7 @@
 .\objects\control.o: ..\System\sys\sys.h
 .\objects\control.o: ..\Solution\command\command.h
 .\objects\control.o: ..\Solution\computation\computation.h
-.\objects\control.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\control.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\control.o: ..\HardWare\LED\led.h
 .\objects\control.o: ..\HardWare\SERVE\serve.h
 .\objects\control.o: ..\HardWare\BUZZER\buzzer.h
@@ -53,14 +53,14 @@
 .\objects\control.o: ..\HardWare\BMI088\bmi088.h
 .\objects\control.o: ..\Solution\command\command.h
 .\objects\control.o: ..\HardWare\BMP388\bmp388.h
-.\objects\control.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\control.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\control.o: ..\HardWare\W25Q\w25q.h
-.\objects\control.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\control.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\control.o: ..\HardWare\FUSE\fuse.h
 .\objects\control.o: ..\HardWare\Lora\lora.h
 .\objects\control.o: ..\Connectivity\USART\usart.h
-.\objects\control.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\control.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\control.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\control.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\control.o: ..\Connectivity\DMA\dma.h
 .\objects\control.o: ..\Connectivity\USART\usart.h
 .\objects\control.o: ..\HardWare\ATGM336H\atgm336h.h

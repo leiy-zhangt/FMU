@@ -3,7 +3,7 @@
 .\objects\atgm336h.o: ..\System\sys\sys.h
 .\objects\atgm336h.o: ..\System\stm32f4xx.h
 .\objects\atgm336h.o: ..\CMSIS\core_cm4.h
-.\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\atgm336h.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\atgm336h.o: ..\CMSIS\core_cmInstr.h
 .\objects\atgm336h.o: ..\CMSIS\core_cmFunc.h
 .\objects\atgm336h.o: ..\CMSIS\core_cm4_simd.h
@@ -39,10 +39,10 @@
 .\objects\atgm336h.o: ..\System\delay\delay.h
 .\objects\atgm336h.o: ..\System\sys\sys.h
 .\objects\atgm336h.o: ..\Connectivity\USART\usart.h
-.\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\atgm336h.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\atgm336h.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\atgm336h.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\atgm336h.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\atgm336h.o: ..\Connectivity\DMA\dma.h
 .\objects\atgm336h.o: ..\Connectivity\USART\usart.h
 .\objects\atgm336h.o: ..\Solution\command\command.h
@@ -58,7 +58,7 @@
 .\objects\atgm336h.o: ..\HardWare\BMM150\bmm150.h
 .\objects\atgm336h.o: ..\HardWare\BMI088\bmi088.h
 .\objects\atgm336h.o: ..\HardWare\BMP388\bmp388.h
-.\objects\atgm336h.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\atgm336h.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\atgm336h.o: ..\HardWare\W25Q\w25q.h
 .\objects\atgm336h.o: ..\HardWare\FUSE\fuse.h
 .\objects\atgm336h.o: ..\HardWare\Lora\lora.h

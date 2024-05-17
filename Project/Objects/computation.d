@@ -3,7 +3,7 @@
 .\objects\computation.o: ..\System\sys\sys.h
 .\objects\computation.o: ..\System\stm32f4xx.h
 .\objects\computation.o: ..\CMSIS\core_cm4.h
-.\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\computation.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\computation.o: ..\CMSIS\core_cmInstr.h
 .\objects\computation.o: ..\CMSIS\core_cmFunc.h
 .\objects\computation.o: ..\CMSIS\core_cm4_simd.h
@@ -40,7 +40,7 @@
 .\objects\computation.o: ..\System\sys\sys.h
 .\objects\computation.o: ..\Solution\command\command.h
 .\objects\computation.o: ..\Solution\computation\computation.h
-.\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\computation.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\computation.o: ..\HardWare\LED\led.h
 .\objects\computation.o: ..\HardWare\SERVE\serve.h
 .\objects\computation.o: ..\HardWare\BUZZER\buzzer.h
@@ -52,14 +52,14 @@
 .\objects\computation.o: ..\HardWare\BMI088\bmi088.h
 .\objects\computation.o: ..\Solution\command\command.h
 .\objects\computation.o: ..\HardWare\BMP388\bmp388.h
-.\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\computation.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\computation.o: ..\HardWare\W25Q\w25q.h
-.\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\computation.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\computation.o: ..\HardWare\FUSE\fuse.h
 .\objects\computation.o: ..\HardWare\Lora\lora.h
 .\objects\computation.o: ..\Connectivity\USART\usart.h
-.\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\computation.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\computation.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\computation.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\computation.o: ..\Connectivity\DMA\dma.h
 .\objects\computation.o: ..\Connectivity\USART\usart.h
 .\objects\computation.o: ..\HardWare\ATGM336H\atgm336h.h

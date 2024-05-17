@@ -2,7 +2,7 @@
 .\objects\main.o: ..\System\sys\sys.h
 .\objects\main.o: ..\System\stm32f4xx.h
 .\objects\main.o: ..\CMSIS\core_cm4.h
-.\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\main.o: ..\CMSIS\core_cmInstr.h
 .\objects\main.o: ..\CMSIS\core_cmFunc.h
 .\objects\main.o: ..\CMSIS\core_cm4_simd.h
@@ -39,10 +39,10 @@
 .\objects\main.o: ..\System\sys\sys.h
 .\objects\main.o: ..\Connectivity\DMA\dma.h
 .\objects\main.o: ..\Connectivity\USART\usart.h
-.\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\Connectivity\DMA\dma.h
 .\objects\main.o: ..\Solution\command\command.h
 .\objects\main.o: ..\Solution\computation\computation.h
@@ -57,7 +57,7 @@
 .\objects\main.o: ..\HardWare\BMM150\bmm150.h
 .\objects\main.o: ..\HardWare\BMI088\bmi088.h
 .\objects\main.o: ..\HardWare\BMP388\bmp388.h
-.\objects\main.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\main.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\main.o: ..\HardWare\W25Q\w25q.h
 .\objects\main.o: ..\HardWare\FUSE\fuse.h
 .\objects\main.o: ..\HardWare\Lora\lora.h

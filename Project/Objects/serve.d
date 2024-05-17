@@ -3,7 +3,7 @@
 .\objects\serve.o: ..\System\sys\sys.h
 .\objects\serve.o: ..\System\stm32f4xx.h
 .\objects\serve.o: ..\CMSIS\core_cm4.h
-.\objects\serve.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\serve.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\serve.o: ..\CMSIS\core_cmInstr.h
 .\objects\serve.o: ..\CMSIS\core_cmFunc.h
 .\objects\serve.o: ..\CMSIS\core_cm4_simd.h

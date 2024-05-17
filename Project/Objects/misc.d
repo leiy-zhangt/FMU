@@ -2,7 +2,7 @@
 .\objects\misc.o: ..\Basic\inc\misc.h
 .\objects\misc.o: ..\System\stm32f4xx.h
 .\objects\misc.o: ..\CMSIS\core_cm4.h
-.\objects\misc.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\misc.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\misc.o: ..\CMSIS\core_cmInstr.h
 .\objects\misc.o: ..\CMSIS\core_cmFunc.h
 .\objects\misc.o: ..\CMSIS\core_cm4_simd.h

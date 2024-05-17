@@ -3,7 +3,7 @@
 .\objects\fuse.o: ..\System\sys\sys.h
 .\objects\fuse.o: ..\System\stm32f4xx.h
 .\objects\fuse.o: ..\CMSIS\core_cm4.h
-.\objects\fuse.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\fuse.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\fuse.o: ..\CMSIS\core_cmInstr.h
 .\objects\fuse.o: ..\CMSIS\core_cmFunc.h
 .\objects\fuse.o: ..\CMSIS\core_cm4_simd.h

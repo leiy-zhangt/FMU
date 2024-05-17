@@ -2,7 +2,7 @@
 .\objects\stm32f4xx_rcc.o: ..\Basic\inc\stm32f4xx_rcc.h
 .\objects\stm32f4xx_rcc.o: ..\System\stm32f4xx.h
 .\objects\stm32f4xx_rcc.o: ..\CMSIS\core_cm4.h
-.\objects\stm32f4xx_rcc.o: D:\ProgramFile\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\stm32f4xx_rcc.o: C:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\stm32f4xx_rcc.o: ..\CMSIS\core_cmInstr.h
 .\objects\stm32f4xx_rcc.o: ..\CMSIS\core_cmFunc.h
 .\objects\stm32f4xx_rcc.o: ..\CMSIS\core_cm4_simd.h
