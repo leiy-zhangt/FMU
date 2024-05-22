@@ -17,7 +17,7 @@ ReceiverStatus ReceiverDataConvert(uint8_t *ReceiverBuff)
 {
 	uint8_t n = 0;
 	if((ReceiverBuff[0] != 0x0F)||(ReceiverBuff[24] != 0x08)) return Receiver_ERR;
-	if(ReceiverBuff[23] == 0x0D) return Receiver_NOSignal;
+	if(ReceiverBuff[23] == 0x0C) return Receiver_NOSignal;
 	ReceiverChannel[0] = ((uint16_t)ReceiverBuff[1])|((uint16_t)((ReceiverBuff[2]&0x07)<<8));
 	ReceiverChannel[1] = ((uint16_t)((ReceiverBuff[2]&0xf8)>>3))|(((uint16_t)(ReceiverBuff[3]&0x3f))<<5);
 	ReceiverChannel[2] = ((uint16_t)((ReceiverBuff[3]&0xc0)>>6))|((((uint16_t)ReceiverBuff[4])<<2))|(((uint16_t)(ReceiverBuff[5]&0x01))<<10);
