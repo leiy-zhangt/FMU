@@ -276,19 +276,19 @@ int main(void)
 
 			// Measured temperature
 			//  TEMP = 20°C + dT * TEMPSENS
-			int64_t MS5525_TEMP = 2000 + (MS5525_dT * (int64_t)(MS5525_C[6])) / (1UL << MS5525_Q6);
+			volatile int64_t MS5525_TEMP = 2000 + (MS5525_dT * (int64_t)(MS5525_C[6])) / (1UL << MS5525_Q6);
 
 			// Offset at actual temperature
 			//  OFF = OFF_T1 + TCO * dT
-			int64_t MS5525_OFF = (int64_t)(MS5525_C[2]) * (1UL << MS5525_Q2) + ((int64_t)(MS5525_C[4]) * MS5525_dT) / (1UL << MS5525_Q4);
+			volatile int64_t MS5525_OFF = (int64_t)(MS5525_C[2]) * (1UL << MS5525_Q2) + ((int64_t)(MS5525_C[4]) * MS5525_dT) / (1UL << MS5525_Q4);
 
 			// Sensitivity at actual temperature
 			//  SENS = SENS_T1 + TCS * dT
-			int64_t MS5525_SENS = (int64_t)(MS5525_C[1]) * (1UL << MS5525_Q1) + ((int64_t)(MS5525_C[3]) * MS5525_dT) / (1UL << MS5525_Q3);
+			volatile int64_t MS5525_SENS = (int64_t)(MS5525_C[1]) * (1UL << MS5525_Q1) + ((int64_t)(MS5525_C[3]) * MS5525_dT) / (1UL << MS5525_Q3);
 
 			// Temperature Compensated Pressure (example 24996 = 2.4996 psi)
 			//  P = D1 * SENS - OFF
-			int64_t MS5525_P = (MS5525_D1 * MS5525_SENS / (1UL << 21) - MS5525_OFF) / (1UL << 15);
+			volatile int64_t MS5525_P = (MS5525_D1 * MS5525_SENS / (1UL << 21) - MS5525_OFF) / (1UL << 15);
 
 			float diff_press_PSI = MS5525_P * 0.0001f;
 
@@ -297,8 +297,8 @@ int main(void)
 			float diff_press_pa = diff_press_PSI * PSI_to_Pa;
 
 			float temperature_c = MS5525_TEMP * 0.01f;	
-			float v = calc_IAS_corrected(0.2,1.5,diff_press_pa+37,96000,temperature_c);
-			printf("pre:%f  tem:%f v:%f\r\n",diff_press_pa,temperature_c,v);
+//			float v = calc_IAS_corrected(0.2,1.5,diff_press_pa+37,96000,temperature_c);
+			printf("pre:%f  tem:%f v:%f\r\n",diff_press_pa,temperature_c,0);
 			HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
 			HAL_Delay(100000);
 		}
