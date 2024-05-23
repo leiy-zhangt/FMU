@@ -38,6 +38,7 @@ extern "C" {
 /* USER CODE BEGIN ET */
 extern unsigned long FreeRTOSRunTimeTicks;
 extern BYTE work[];
+extern uint8_t Rocket[];
 
 extern UART_HandleTypeDef huart4;
 extern UART_HandleTypeDef huart5;

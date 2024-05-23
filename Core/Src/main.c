@@ -86,6 +86,8 @@ osThreadId defaultTaskHandle;
 unsigned long FreeRTOSRunTimeTicks = 0;
 BYTE work[_MAX_SS];
 
+uint8_t Rocket[10] = "Rocket_1";
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -184,14 +186,28 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_4);
 //	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
 //	HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
-	ServoSet(ServoChannel_1,0);
-	ServoSet(ServoChannel_2,0);
-	ServoSet(ServoChannel_3,0);
-	ServoSet(ServoChannel_4,0);
-	ServoSet(ServoChannel_5,0);
-	ServoSet(ServoChannel_6,0);
-	ServoSet(ServoChannel_7,0);
-	ServoSet(ServoChannel_8,0);
+	if(HAL_GPIO_ReadPin(TRIGGER_GPIO_Port,TRIGGER_Pin)==GPIO_PIN_RESET)
+	{
+		HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+		while(1) ;
+	}
+	else
+	{
+		HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+		HAL_Delay(500000);
+		HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
+		HAL_Delay(500000);
+		HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+		HAL_Delay(500000);
+		HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
+		HAL_Delay(500000);
+		HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+		HAL_Delay(500000);
+		HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
+		HAL_Delay(500000);
+	}
+	sprintf(SendBuff,"%s:FMU is checking!\r\n");
+	InfoPrint(PrintChannel,SendBuff);
 	TaskCreate();//创建任务并启动调度器
 
   /* USER CODE END 2 */
@@ -222,7 +238,7 @@ int main(void)
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-//  osKernelStart();
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
@@ -231,78 +247,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
-//		ServoSet(ServoChannel_1,30);
-//		ServoSet(ServoChannel_2,30);
-//		ServoSet(ServoChannel_4,30);
-//		HAL_Delay(100000);
-//		ServoSet(ServoChannel_1,0);
-//		ServoSet(ServoChannel_2,0);
-//		ServoSet(ServoChannel_4,0);
-//		HAL_Delay(100000);
-		
-		static uint8_t res[3],i,tran[2];
-		static uint16_t C[8]; 
-		static uint8_t send = 0xA0;
-		send = 0xA0;
-		for(i=0;i<8;i++)
-		{
-			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
-			HAL_I2C_Master_Receive(&hi2c1,0x76<<1,res,2,0xFFFF);
-			send = send + 2;
-			C[i] = ((uint16_t)res[0]<<8)|res[1];
-		}
-		memcpy(MS5525_C,C,16);
-		MS5525_Tref = (int64_t)MS5525_C[5] * (1UL << MS5525_Q5);
-		while(1)
-		{
-			send = 0x48;
-			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
-			HAL_Delay(10000);
-			send = 0x00;
-			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
-			HAL_I2C_Master_Receive(&hi2c1,0x76<<1,res,3,0xFFFF);
-			MS5525_D1 = ((uint16_t)res[0] << 16) | ((uint16_t)res[1] << 8) | res[2];
-			send = 0x58;
-			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
-			HAL_Delay(10000);
-			send = 0x00;
-			HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&send,1,0xFFFF);
-			HAL_I2C_Master_Receive(&hi2c1,0x76<<1,res,3,0xFFFF);
-			MS5525_D2 = ((uint16_t)res[0] << 16) | ((uint16_t)res[1] << 8) | res[2];
-			// Difference between actual and reference temperature
-			//  dT = D2 - Tref
-			int64_t MS5525_dT = MS5525_D2 - MS5525_Tref;
-
-			// Measured temperature
-			//  TEMP = 20°C + dT * TEMPSENS
-			volatile int64_t MS5525_TEMP = 2000 + (MS5525_dT * (int64_t)(MS5525_C[6])) / (1UL << MS5525_Q6);
-
-			// Offset at actual temperature
-			//  OFF = OFF_T1 + TCO * dT
-			volatile int64_t MS5525_OFF = (int64_t)(MS5525_C[2]) * (1UL << MS5525_Q2) + ((int64_t)(MS5525_C[4]) * MS5525_dT) / (1UL << MS5525_Q4);
-
-			// Sensitivity at actual temperature
-			//  SENS = SENS_T1 + TCS * dT
-			volatile int64_t MS5525_SENS = (int64_t)(MS5525_C[1]) * (1UL << MS5525_Q1) + ((int64_t)(MS5525_C[3]) * MS5525_dT) / (1UL << MS5525_Q3);
-
-			// Temperature Compensated Pressure (example 24996 = 2.4996 psi)
-			//  P = D1 * SENS - OFF
-			volatile int64_t MS5525_P = (MS5525_D1 * MS5525_SENS / (1UL << 21) - MS5525_OFF) / (1UL << 15);
-
-			float diff_press_PSI = MS5525_P * 0.0001f;
-
-			// 1 PSI = 6894.76 Pascals
-			float PSI_to_Pa = 6894.757f;
-			float diff_press_pa = diff_press_PSI * PSI_to_Pa;
-
-			float temperature_c = MS5525_TEMP * 0.01f;	
-//			float v = calc_IAS_corrected(0.2,1.5,diff_press_pa+37,96000,temperature_c);
-			printf("pre:%f  tem:%f v:%f\r\n",diff_press_pa,temperature_c,0);
-			HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
-			HAL_Delay(100000);
-		}
-		
+    /* USER CODE BEGIN 3 */	
 		HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
 		HAL_Delay(100000);
   }
@@ -1389,8 +1334,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, ADXL_CS_Pin|ADXL_INT_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, TELEM2_IO1_Pin|TELEM2_IO2_Pin|BAT3_Pin|TRIGGER_Pin
-                          |TELEM3_IO2_Pin|TELEM3_IO1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, TELEM2_IO1_Pin|TELEM2_IO2_Pin|BAT3_Pin|TELEM3_IO2_Pin
+                          |TELEM3_IO1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(BAT4_GPIO_Port, BAT4_Pin, GPIO_PIN_SET);
@@ -1492,9 +1437,8 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : TRIGGER_Pin */
   GPIO_InitStruct.Pin = TRIGGER_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(TRIGGER_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */

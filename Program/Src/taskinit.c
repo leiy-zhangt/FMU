@@ -83,8 +83,8 @@ void FMUCheck(void *pvParameters)
 {
 	xEventGroupClearBits(FMUCheckEvent,0xFFFF);
 	//调试时使用禁用GPS
-	xEventGroupSetBits(FMUCheckEvent,0xFF);
-	vTaskSuspend(NULL);
+//	xEventGroupSetBits(FMUCheckEvent,0xFF);
+//	vTaskSuspend(NULL);
 	//
 	while(1)
 	{
@@ -94,7 +94,17 @@ void FMUCheck(void *pvParameters)
 		{
 			InfoPrint(PrintChannel,"GNSS is ready!\r\n");
 			xEventGroupSetBits(FMUCheckEvent,0xFF);
-			vTaskSuspend(NULL);
+			while(1)
+			{
+				if(HAL_GPIO_ReadPin(TRIGGER_GPIO_Port,TRIGGER_Pin)==GPIO_PIN_RESET)
+				{
+					__HAL_TIM_SET_COUNTER(&htim6,0);
+					ControlTime = 0;
+					HAL_TIM_Base_Start_IT(&htim6);
+					xEventGroupSetBits(FMUCheckEvent,0xFF);
+					vTaskSuspend(NULL);
+				}
+			}
 		}
 		else
 		{
