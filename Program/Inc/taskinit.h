@@ -39,12 +39,12 @@ extern TaskHandle_t FMUCheck_TCB;
 
 void FMUCheck(void *pvParameters);
 
-//FMUControlCalculation
-extern BaseType_t FMUControlCalculation_Ret;
-extern UBaseType_t FMUControlCalculation_Prio;
-extern TaskHandle_t FMUControlCalculation_TCB;
+//RocketFlight
+extern BaseType_t RocketFlight_Ret;
+extern UBaseType_t RocketFlight_Prio;
+extern TaskHandle_t RocketFlight_TCB;
 
-void FMUControlCalculation(void *pvParameters);
+void RocketFlight(void *pvParameters);
 
 //TaskMonitor
 extern BaseType_t TaskMonitor_Ret;
