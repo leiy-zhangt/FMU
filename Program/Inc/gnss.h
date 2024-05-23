@@ -21,8 +21,7 @@ typedef struct
 {
 	GNSSStatus GNSSSta;
 	double lat,lon,alt;
-	double velocity,velocity_e,velocity_n;
-	
+	double velocity,angle,velocity_e,velocity_n;  //速度单位为m/s,angle单位为弧度
 }GNSSDateStruct;
 
 //卫星信息

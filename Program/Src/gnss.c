@@ -23,6 +23,7 @@ void GNSSInit(void)
 		GNSS_UART_ReInit(230400);	
 	#elif GNSS_WTGPS
 		GNSSHandle = &huart6;
+		HAL_UART_Transmit(GNSSHandle,"log g05hz",strlen("log g05hz"),0xFFFF);
 	#endif
 }
 
@@ -63,21 +64,30 @@ GNSSStatus GNSSDataConvert(uint8_t *DataBuff)
 {
 	double angle,velocity;
 	GPS_Analysis(&GNSS_msg,DataBuff);
-	GNSSData.lat = GNSS_msg.latitude;
-	GNSSData.lon = GNSS_msg.longitude;
-	GNSSData.alt = GNSS_msg.altitude;
-	angle = GNSS_msg.angle*0.0174532922222222;
-	velocity = GNSS_msg.speed*0.2777777777777778;
-	GNSSData.velocity = velocity;
-	GNSSData.velocity_n = velocity*cos(angle);
-	GNSSData.velocity_e = velocity*sin(angle);
 	if(GNSS_msg.gpssta == 'A') 
 	{
 		GNSSData.GNSSSta = GNSS_FIX;
+		GNSSData.lat = GNSS_msg.latitude;
+		GNSSData.lon = GNSS_msg.longitude;
+		GNSSData.alt = GNSS_msg.altitude;
+		GNSSData.angle = GNSS_msg.angle*0.0174532922222222;
+		velocity = GNSS_msg.speed*0.2777777777777778;
+		GNSSData.velocity = velocity;
+		GNSSData.velocity_n = velocity*cos(GNSSData.angle);
+		GNSSData.velocity_e = velocity*sin(GNSSData.angle);
 		return GNSS_FIX;
 	}
 	else
 	{
+		GNSSData.GNSSSta = GNSS_NOFIX;
+		GNSSData.lat = 0;
+		GNSSData.lon = 0;
+		GNSSData.alt = 0;
+		angle = 0;
+		velocity = 0;
+		GNSSData.velocity = 0;
+		GNSSData.velocity_n = 0;
+		GNSSData.velocity_e = 0;
 		return GNSS_NOFIX;
 	}
 } 
@@ -243,6 +253,12 @@ void NMEA_GPRMC_Analysis(nmea_msg *gpsx,uint8_t *buf)
 		gpsx->utc.min=(temp/100)%100;
 		gpsx->utc.sec=temp%100;	
 	}
+	posx=NMEA_Comma_Pos(p1,2);								//得到接收机状态
+	if(posx!=0XFF)
+	{
+		gpsx->gpssta=*(p1+posx);
+	}
+	else gpsx->gpssta='V';
 	posx=NMEA_Comma_Pos(p1,3);								//得到纬度
 	if(posx!=0XFF)
 	{	
@@ -362,7 +378,7 @@ void GPS_Analysis(nmea_msg *gpsx,uint8_t *buf)
 //	NMEA_GPGSV_Analysis(gpsx,buf);	//GPGSV解析
 	NMEA_GPGGA_Analysis(gpsx,buf);	//GPGGA解析 
 	NMEA_GPRMC_Analysis(gpsx,buf);	//GPRMC解析	
-	NMEA_GPGLL_Analysis(gpsx,buf);	//GPGLL解析	
+//	NMEA_GPGLL_Analysis(gpsx,buf);	//GPGLL解析	
 //	NMEA_GPGSA_Analysis(gpsx,buf);	//GPGSA解析
 //	NMEA_GPVTG_Analysis(gpsx,buf);	//GPVTG解析
 }
