@@ -32,7 +32,7 @@ void ControlStart(void)//飞控开始工作初始化
 void ControlUpdata(void)//飞控参数更新
 {
 	ControlTime += ControlDt;
-	xSemaphoreGiveFromISR(ControlSemaphore,&GNSSHigherTaskSwitch);
+	xSemaphoreGiveFromISR(ControlSemaphore,&ControlHigherTaskSwitch);
 	portYIELD_FROM_ISR(ControlHigherTaskSwitch);
 }
 
