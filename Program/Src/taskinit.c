@@ -52,7 +52,7 @@ void TaskCreate(void)
 //	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
 	//Create TeleportTransmit
-	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
+	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",256,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
 	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 	//Start
@@ -62,7 +62,7 @@ void TaskCreate(void)
 
 //LEDTwink函数声明
 BaseType_t LEDTwink_Ret;
-UBaseType_t LEDTwink_Prio=2;
+UBaseType_t LEDTwink_Prio=4;
 TaskHandle_t LEDTwink_TCB;
 
 void LEDTwink(void *pvParameters)
@@ -76,7 +76,7 @@ void LEDTwink(void *pvParameters)
 
 //FMUCheck函数声明
 BaseType_t FMUCheck_Ret;
-UBaseType_t FMUCheck_Prio=30;
+UBaseType_t FMUCheck_Prio=3;
 TaskHandle_t FMUCheck_TCB;
 
 void FMUCheck(void *pvParameters)
@@ -291,7 +291,7 @@ void TeleportTransmit(void *pvParameters)
 		voltage = voltage_uint32*0.00042802;
 		current = current_uint32*0.00005355;
 		HAL_ADC_Stop(&hadc3);
-		sprintf(SendBuff,"%s:  lon:%0.8f  lat:0.8f  alt:0.8f  vol:%0.2f\r\n",Rocket,GNSSData.lon,GNSSData.lat,GNSSData.alt,voltage);
+		sprintf(SendBuff,"%s:  lon:%0.8f  lat:%0.8f  alt:%0.8f  vol:%0.2f\r\n",Rocket,GNSSData.lon,GNSSData.lat,GNSSData.alt,voltage);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(1000);
 	}

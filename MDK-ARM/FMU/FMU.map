@@ -4519,39 +4519,39 @@ Image Symbol Table
     TIM_TI2_ConfigInputStage                 0x0800af37   Thumb Code    36  stm32h7xx_hal_tim.o(i.TIM_TI2_ConfigInputStage)
     i.TaskCreate                             0x0800af5c   Section        0  taskinit.o(i.TaskCreate)
     i.TeleportTransmit                       0x0800b314   Section        0  taskinit.o(i.TeleportTransmit)
-    i.UART5_IRQHandler                       0x0800b3fc   Section        0  stm32h7xx_it.o(i.UART5_IRQHandler)
-    i.UART8_IRQHandler                       0x0800b474   Section        0  stm32h7xx_it.o(i.UART8_IRQHandler)
-    i.UARTEx_SetNbDataToProcess              0x0800b480   Section        0  stm32h7xx_hal_uart_ex.o(i.UARTEx_SetNbDataToProcess)
-    UARTEx_SetNbDataToProcess                0x0800b481   Thumb Code    62  stm32h7xx_hal_uart_ex.o(i.UARTEx_SetNbDataToProcess)
-    i.UART_AdvFeatureConfig                  0x0800b4c4   Section        0  stm32h7xx_hal_uart.o(i.UART_AdvFeatureConfig)
-    i.UART_CheckIdleState                    0x0800b58c   Section        0  stm32h7xx_hal_uart.o(i.UART_CheckIdleState)
-    i.UART_DMAAbortOnError                   0x0800b636   Section        0  stm32h7xx_hal_uart.o(i.UART_DMAAbortOnError)
-    UART_DMAAbortOnError                     0x0800b637   Thumb Code    20  stm32h7xx_hal_uart.o(i.UART_DMAAbortOnError)
-    i.UART_DMAError                          0x0800b64a   Section        0  stm32h7xx_hal_uart.o(i.UART_DMAError)
-    UART_DMAError                            0x0800b64b   Thumb Code    78  stm32h7xx_hal_uart.o(i.UART_DMAError)
-    i.UART_DMAReceiveCplt                    0x0800b698   Section        0  stm32h7xx_hal_uart.o(i.UART_DMAReceiveCplt)
-    UART_DMAReceiveCplt                      0x0800b699   Thumb Code   130  stm32h7xx_hal_uart.o(i.UART_DMAReceiveCplt)
-    i.UART_DMARxHalfCplt                     0x0800b71a   Section        0  stm32h7xx_hal_uart.o(i.UART_DMARxHalfCplt)
-    UART_DMARxHalfCplt                       0x0800b71b   Thumb Code    32  stm32h7xx_hal_uart.o(i.UART_DMARxHalfCplt)
-    i.UART_DMATransmitCplt                   0x0800b73a   Section        0  stm32h7xx_hal_uart.o(i.UART_DMATransmitCplt)
-    UART_DMATransmitCplt                     0x0800b73b   Thumb Code    64  stm32h7xx_hal_uart.o(i.UART_DMATransmitCplt)
-    i.UART_DMATxHalfCplt                     0x0800b77a   Section        0  stm32h7xx_hal_uart.o(i.UART_DMATxHalfCplt)
-    UART_DMATxHalfCplt                       0x0800b77b   Thumb Code    10  stm32h7xx_hal_uart.o(i.UART_DMATxHalfCplt)
-    i.UART_EndRxTransfer                     0x0800b784   Section        0  stm32h7xx_hal_uart.o(i.UART_EndRxTransfer)
-    UART_EndRxTransfer                       0x0800b785   Thumb Code    78  stm32h7xx_hal_uart.o(i.UART_EndRxTransfer)
-    i.UART_EndTxTransfer                     0x0800b7d8   Section        0  stm32h7xx_hal_uart.o(i.UART_EndTxTransfer)
-    UART_EndTxTransfer                       0x0800b7d9   Thumb Code    46  stm32h7xx_hal_uart.o(i.UART_EndTxTransfer)
-    i.UART_SetConfig                         0x0800b808   Section        0  stm32h7xx_hal_uart.o(i.UART_SetConfig)
-    i.UART_Start_Receive_DMA                 0x0800bbb4   Section        0  stm32h7xx_hal_uart.o(i.UART_Start_Receive_DMA)
-    i.UART_WaitOnFlagUntilTimeout            0x0800bc5c   Section        0  stm32h7xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
-    i.USART1_IRQHandler                      0x0800bce8   Section        0  stm32h7xx_it.o(i.USART1_IRQHandler)
-    i.USART2_IRQHandler                      0x0800bcf4   Section        0  stm32h7xx_it.o(i.USART2_IRQHandler)
-    i.USART3_IRQHandler                      0x0800bd64   Section        0  stm32h7xx_it.o(i.USART3_IRQHandler)
-    i.USART6_IRQHandler                      0x0800be70   Section        0  stm32h7xx_it.o(i.USART6_IRQHandler)
-    i.UsageFault_Handler                     0x0800bf80   Section        0  stm32h7xx_it.o(i.UsageFault_Handler)
-    i.__ARM_fpclassify                       0x0800bf82   Section        0  fpclassify.o(i.__ARM_fpclassify)
-    i.__NVIC_SetPriority                     0x0800bfb2   Section        0  stm32h7xx_hal_cortex.o(i.__NVIC_SetPriority)
-    __NVIC_SetPriority                       0x0800bfb3   Thumb Code    34  stm32h7xx_hal_cortex.o(i.__NVIC_SetPriority)
+    i.UART5_IRQHandler                       0x0800b400   Section        0  stm32h7xx_it.o(i.UART5_IRQHandler)
+    i.UART8_IRQHandler                       0x0800b478   Section        0  stm32h7xx_it.o(i.UART8_IRQHandler)
+    i.UARTEx_SetNbDataToProcess              0x0800b484   Section        0  stm32h7xx_hal_uart_ex.o(i.UARTEx_SetNbDataToProcess)
+    UARTEx_SetNbDataToProcess                0x0800b485   Thumb Code    62  stm32h7xx_hal_uart_ex.o(i.UARTEx_SetNbDataToProcess)
+    i.UART_AdvFeatureConfig                  0x0800b4c8   Section        0  stm32h7xx_hal_uart.o(i.UART_AdvFeatureConfig)
+    i.UART_CheckIdleState                    0x0800b590   Section        0  stm32h7xx_hal_uart.o(i.UART_CheckIdleState)
+    i.UART_DMAAbortOnError                   0x0800b63a   Section        0  stm32h7xx_hal_uart.o(i.UART_DMAAbortOnError)
+    UART_DMAAbortOnError                     0x0800b63b   Thumb Code    20  stm32h7xx_hal_uart.o(i.UART_DMAAbortOnError)
+    i.UART_DMAError                          0x0800b64e   Section        0  stm32h7xx_hal_uart.o(i.UART_DMAError)
+    UART_DMAError                            0x0800b64f   Thumb Code    78  stm32h7xx_hal_uart.o(i.UART_DMAError)
+    i.UART_DMAReceiveCplt                    0x0800b69c   Section        0  stm32h7xx_hal_uart.o(i.UART_DMAReceiveCplt)
+    UART_DMAReceiveCplt                      0x0800b69d   Thumb Code   130  stm32h7xx_hal_uart.o(i.UART_DMAReceiveCplt)
+    i.UART_DMARxHalfCplt                     0x0800b71e   Section        0  stm32h7xx_hal_uart.o(i.UART_DMARxHalfCplt)
+    UART_DMARxHalfCplt                       0x0800b71f   Thumb Code    32  stm32h7xx_hal_uart.o(i.UART_DMARxHalfCplt)
+    i.UART_DMATransmitCplt                   0x0800b73e   Section        0  stm32h7xx_hal_uart.o(i.UART_DMATransmitCplt)
+    UART_DMATransmitCplt                     0x0800b73f   Thumb Code    64  stm32h7xx_hal_uart.o(i.UART_DMATransmitCplt)
+    i.UART_DMATxHalfCplt                     0x0800b77e   Section        0  stm32h7xx_hal_uart.o(i.UART_DMATxHalfCplt)
+    UART_DMATxHalfCplt                       0x0800b77f   Thumb Code    10  stm32h7xx_hal_uart.o(i.UART_DMATxHalfCplt)
+    i.UART_EndRxTransfer                     0x0800b788   Section        0  stm32h7xx_hal_uart.o(i.UART_EndRxTransfer)
+    UART_EndRxTransfer                       0x0800b789   Thumb Code    78  stm32h7xx_hal_uart.o(i.UART_EndRxTransfer)
+    i.UART_EndTxTransfer                     0x0800b7dc   Section        0  stm32h7xx_hal_uart.o(i.UART_EndTxTransfer)
+    UART_EndTxTransfer                       0x0800b7dd   Thumb Code    46  stm32h7xx_hal_uart.o(i.UART_EndTxTransfer)
+    i.UART_SetConfig                         0x0800b80c   Section        0  stm32h7xx_hal_uart.o(i.UART_SetConfig)
+    i.UART_Start_Receive_DMA                 0x0800bbb8   Section        0  stm32h7xx_hal_uart.o(i.UART_Start_Receive_DMA)
+    i.UART_WaitOnFlagUntilTimeout            0x0800bc60   Section        0  stm32h7xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
+    i.USART1_IRQHandler                      0x0800bcec   Section        0  stm32h7xx_it.o(i.USART1_IRQHandler)
+    i.USART2_IRQHandler                      0x0800bcf8   Section        0  stm32h7xx_it.o(i.USART2_IRQHandler)
+    i.USART3_IRQHandler                      0x0800bd68   Section        0  stm32h7xx_it.o(i.USART3_IRQHandler)
+    i.USART6_IRQHandler                      0x0800be74   Section        0  stm32h7xx_it.o(i.USART6_IRQHandler)
+    i.UsageFault_Handler                     0x0800bf84   Section        0  stm32h7xx_it.o(i.UsageFault_Handler)
+    i.__ARM_fpclassify                       0x0800bf86   Section        0  fpclassify.o(i.__ARM_fpclassify)
+    i.__NVIC_SetPriority                     0x0800bfb6   Section        0  stm32h7xx_hal_cortex.o(i.__NVIC_SetPriority)
+    __NVIC_SetPriority                       0x0800bfb7   Thumb Code    34  stm32h7xx_hal_cortex.o(i.__NVIC_SetPriority)
     i.__hardfp_cos                           0x0800bfd8   Section        0  cos.o(i.__hardfp_cos)
     i.__hardfp_pow                           0x0800c088   Section        0  pow.o(i.__hardfp_pow)
     i.__hardfp_sin                           0x0800c980   Section        0  sin.o(i.__hardfp_sin)
@@ -5451,19 +5451,19 @@ Image Symbol Table
     TIM_OC2_SetConfig                        0x0800ac85   Thumb Code   126  stm32h7xx_hal_tim.o(i.TIM_OC2_SetConfig)
     TaskCreate                               0x0800af5d   Thumb Code   358  taskinit.o(i.TaskCreate)
     TeleportTransmit                         0x0800b315   Thumb Code   150  taskinit.o(i.TeleportTransmit)
-    UART5_IRQHandler                         0x0800b3fd   Thumb Code    94  stm32h7xx_it.o(i.UART5_IRQHandler)
-    UART8_IRQHandler                         0x0800b475   Thumb Code     6  stm32h7xx_it.o(i.UART8_IRQHandler)
-    UART_AdvFeatureConfig                    0x0800b4c5   Thumb Code   200  stm32h7xx_hal_uart.o(i.UART_AdvFeatureConfig)
-    UART_CheckIdleState                      0x0800b58d   Thumb Code   170  stm32h7xx_hal_uart.o(i.UART_CheckIdleState)
-    UART_SetConfig                           0x0800b809   Thumb Code   876  stm32h7xx_hal_uart.o(i.UART_SetConfig)
-    UART_Start_Receive_DMA                   0x0800bbb5   Thumb Code   156  stm32h7xx_hal_uart.o(i.UART_Start_Receive_DMA)
-    UART_WaitOnFlagUntilTimeout              0x0800bc5d   Thumb Code   140  stm32h7xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
-    USART1_IRQHandler                        0x0800bce9   Thumb Code     6  stm32h7xx_it.o(i.USART1_IRQHandler)
-    USART2_IRQHandler                        0x0800bcf5   Thumb Code    86  stm32h7xx_it.o(i.USART2_IRQHandler)
-    USART3_IRQHandler                        0x0800bd65   Thumb Code   232  stm32h7xx_it.o(i.USART3_IRQHandler)
-    USART6_IRQHandler                        0x0800be71   Thumb Code   230  stm32h7xx_it.o(i.USART6_IRQHandler)
-    UsageFault_Handler                       0x0800bf81   Thumb Code     2  stm32h7xx_it.o(i.UsageFault_Handler)
-    __ARM_fpclassify                         0x0800bf83   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
+    UART5_IRQHandler                         0x0800b401   Thumb Code    94  stm32h7xx_it.o(i.UART5_IRQHandler)
+    UART8_IRQHandler                         0x0800b479   Thumb Code     6  stm32h7xx_it.o(i.UART8_IRQHandler)
+    UART_AdvFeatureConfig                    0x0800b4c9   Thumb Code   200  stm32h7xx_hal_uart.o(i.UART_AdvFeatureConfig)
+    UART_CheckIdleState                      0x0800b591   Thumb Code   170  stm32h7xx_hal_uart.o(i.UART_CheckIdleState)
+    UART_SetConfig                           0x0800b80d   Thumb Code   876  stm32h7xx_hal_uart.o(i.UART_SetConfig)
+    UART_Start_Receive_DMA                   0x0800bbb9   Thumb Code   156  stm32h7xx_hal_uart.o(i.UART_Start_Receive_DMA)
+    UART_WaitOnFlagUntilTimeout              0x0800bc61   Thumb Code   140  stm32h7xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
+    USART1_IRQHandler                        0x0800bced   Thumb Code     6  stm32h7xx_it.o(i.USART1_IRQHandler)
+    USART2_IRQHandler                        0x0800bcf9   Thumb Code    86  stm32h7xx_it.o(i.USART2_IRQHandler)
+    USART3_IRQHandler                        0x0800bd69   Thumb Code   232  stm32h7xx_it.o(i.USART3_IRQHandler)
+    USART6_IRQHandler                        0x0800be75   Thumb Code   230  stm32h7xx_it.o(i.USART6_IRQHandler)
+    UsageFault_Handler                       0x0800bf85   Thumb Code     2  stm32h7xx_it.o(i.UsageFault_Handler)
+    __ARM_fpclassify                         0x0800bf87   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
     __hardfp_cos                             0x0800bfd9   Thumb Code   158  cos.o(i.__hardfp_cos)
     __hardfp_pow                             0x0800c089   Thumb Code  2140  pow.o(i.__hardfp_pow)
     __hardfp_sin                             0x0800c981   Thumb Code   158  sin.o(i.__hardfp_sin)
@@ -6081,32 +6081,31 @@ Memory Map of the image
     0x0800af36   0x0800af36   0x00000024   Code   RO         4700    i.TIM_TI2_ConfigInputStage  stm32h7xx_hal_tim.o
     0x0800af5a   0x0800af5a   0x00000002   PAD
     0x0800af5c   0x0800af5c   0x000003b8   Code   RO         8536    i.TaskCreate        taskinit.o
-    0x0800b314   0x0800b314   0x000000e8   Code   RO         8538    i.TeleportTransmit  taskinit.o
-    0x0800b3fc   0x0800b3fc   0x00000078   Code   RO          487    i.UART5_IRQHandler  stm32h7xx_it.o
-    0x0800b474   0x0800b474   0x0000000c   Code   RO          488    i.UART8_IRQHandler  stm32h7xx_it.o
-    0x0800b480   0x0800b480   0x00000044   Code   RO         6024    i.UARTEx_SetNbDataToProcess  stm32h7xx_hal_uart_ex.o
-    0x0800b4c4   0x0800b4c4   0x000000c8   Code   RO         5633    i.UART_AdvFeatureConfig  stm32h7xx_hal_uart.o
-    0x0800b58c   0x0800b58c   0x000000aa   Code   RO         5634    i.UART_CheckIdleState  stm32h7xx_hal_uart.o
-    0x0800b636   0x0800b636   0x00000014   Code   RO         5635    i.UART_DMAAbortOnError  stm32h7xx_hal_uart.o
-    0x0800b64a   0x0800b64a   0x0000004e   Code   RO         5636    i.UART_DMAError     stm32h7xx_hal_uart.o
-    0x0800b698   0x0800b698   0x00000082   Code   RO         5637    i.UART_DMAReceiveCplt  stm32h7xx_hal_uart.o
-    0x0800b71a   0x0800b71a   0x00000020   Code   RO         5639    i.UART_DMARxHalfCplt  stm32h7xx_hal_uart.o
-    0x0800b73a   0x0800b73a   0x00000040   Code   RO         5641    i.UART_DMATransmitCplt  stm32h7xx_hal_uart.o
-    0x0800b77a   0x0800b77a   0x0000000a   Code   RO         5643    i.UART_DMATxHalfCplt  stm32h7xx_hal_uart.o
-    0x0800b784   0x0800b784   0x00000054   Code   RO         5645    i.UART_EndRxTransfer  stm32h7xx_hal_uart.o
-    0x0800b7d8   0x0800b7d8   0x0000002e   Code   RO         5646    i.UART_EndTxTransfer  stm32h7xx_hal_uart.o
-    0x0800b806   0x0800b806   0x00000002   PAD
-    0x0800b808   0x0800b808   0x000003ac   Code   RO         5651    i.UART_SetConfig    stm32h7xx_hal_uart.o
-    0x0800bbb4   0x0800bbb4   0x000000a8   Code   RO         5652    i.UART_Start_Receive_DMA  stm32h7xx_hal_uart.o
-    0x0800bc5c   0x0800bc5c   0x0000008c   Code   RO         5658    i.UART_WaitOnFlagUntilTimeout  stm32h7xx_hal_uart.o
-    0x0800bce8   0x0800bce8   0x0000000c   Code   RO          489    i.USART1_IRQHandler  stm32h7xx_it.o
-    0x0800bcf4   0x0800bcf4   0x00000070   Code   RO          490    i.USART2_IRQHandler  stm32h7xx_it.o
-    0x0800bd64   0x0800bd64   0x0000010c   Code   RO          491    i.USART3_IRQHandler  stm32h7xx_it.o
-    0x0800be70   0x0800be70   0x00000110   Code   RO          492    i.USART6_IRQHandler  stm32h7xx_it.o
-    0x0800bf80   0x0800bf80   0x00000002   Code   RO          493    i.UsageFault_Handler  stm32h7xx_it.o
-    0x0800bf82   0x0800bf82   0x00000030   Code   RO         9290    i.__ARM_fpclassify  m_wv.l(fpclassify.o)
-    0x0800bfb2   0x0800bfb2   0x00000022   Code   RO         2605    i.__NVIC_SetPriority  stm32h7xx_hal_cortex.o
-    0x0800bfd4   0x0800bfd4   0x00000004   PAD
+    0x0800b314   0x0800b314   0x000000ec   Code   RO         8538    i.TeleportTransmit  taskinit.o
+    0x0800b400   0x0800b400   0x00000078   Code   RO          487    i.UART5_IRQHandler  stm32h7xx_it.o
+    0x0800b478   0x0800b478   0x0000000c   Code   RO          488    i.UART8_IRQHandler  stm32h7xx_it.o
+    0x0800b484   0x0800b484   0x00000044   Code   RO         6024    i.UARTEx_SetNbDataToProcess  stm32h7xx_hal_uart_ex.o
+    0x0800b4c8   0x0800b4c8   0x000000c8   Code   RO         5633    i.UART_AdvFeatureConfig  stm32h7xx_hal_uart.o
+    0x0800b590   0x0800b590   0x000000aa   Code   RO         5634    i.UART_CheckIdleState  stm32h7xx_hal_uart.o
+    0x0800b63a   0x0800b63a   0x00000014   Code   RO         5635    i.UART_DMAAbortOnError  stm32h7xx_hal_uart.o
+    0x0800b64e   0x0800b64e   0x0000004e   Code   RO         5636    i.UART_DMAError     stm32h7xx_hal_uart.o
+    0x0800b69c   0x0800b69c   0x00000082   Code   RO         5637    i.UART_DMAReceiveCplt  stm32h7xx_hal_uart.o
+    0x0800b71e   0x0800b71e   0x00000020   Code   RO         5639    i.UART_DMARxHalfCplt  stm32h7xx_hal_uart.o
+    0x0800b73e   0x0800b73e   0x00000040   Code   RO         5641    i.UART_DMATransmitCplt  stm32h7xx_hal_uart.o
+    0x0800b77e   0x0800b77e   0x0000000a   Code   RO         5643    i.UART_DMATxHalfCplt  stm32h7xx_hal_uart.o
+    0x0800b788   0x0800b788   0x00000054   Code   RO         5645    i.UART_EndRxTransfer  stm32h7xx_hal_uart.o
+    0x0800b7dc   0x0800b7dc   0x0000002e   Code   RO         5646    i.UART_EndTxTransfer  stm32h7xx_hal_uart.o
+    0x0800b80a   0x0800b80a   0x00000002   PAD
+    0x0800b80c   0x0800b80c   0x000003ac   Code   RO         5651    i.UART_SetConfig    stm32h7xx_hal_uart.o
+    0x0800bbb8   0x0800bbb8   0x000000a8   Code   RO         5652    i.UART_Start_Receive_DMA  stm32h7xx_hal_uart.o
+    0x0800bc60   0x0800bc60   0x0000008c   Code   RO         5658    i.UART_WaitOnFlagUntilTimeout  stm32h7xx_hal_uart.o
+    0x0800bcec   0x0800bcec   0x0000000c   Code   RO          489    i.USART1_IRQHandler  stm32h7xx_it.o
+    0x0800bcf8   0x0800bcf8   0x00000070   Code   RO          490    i.USART2_IRQHandler  stm32h7xx_it.o
+    0x0800bd68   0x0800bd68   0x0000010c   Code   RO          491    i.USART3_IRQHandler  stm32h7xx_it.o
+    0x0800be74   0x0800be74   0x00000110   Code   RO          492    i.USART6_IRQHandler  stm32h7xx_it.o
+    0x0800bf84   0x0800bf84   0x00000002   Code   RO          493    i.UsageFault_Handler  stm32h7xx_it.o
+    0x0800bf86   0x0800bf86   0x00000030   Code   RO         9290    i.__ARM_fpclassify  m_wv.l(fpclassify.o)
+    0x0800bfb6   0x0800bfb6   0x00000022   Code   RO         2605    i.__NVIC_SetPriority  stm32h7xx_hal_cortex.o
     0x0800bfd8   0x0800bfd8   0x000000b0   Code   RO         9176    i.__hardfp_cos      m_wv.l(cos.o)
     0x0800c088   0x0800c088   0x000008f8   Code   RO         9188    i.__hardfp_pow      m_wv.l(pow.o)
     0x0800c980   0x0800c980   0x000000b0   Code   RO         9216    i.__hardfp_sin      m_wv.l(sin.o)
@@ -6455,15 +6454,15 @@ Image component sizes
          0          0          0          0          0        412   stream_buffer.o
         74          0          0          0          0       4571   syscall.o
        220         40         16          8          0       1446   system_stm32h7xx.o
-      2184        972        153         92          0       6026   taskinit.o
+      2188        976        153         92          0       6026   taskinit.o
       2992        258          0         68        740      33352   tasks.o
         56         10          0          5        100       1735   teleport.o
        192        108          0          1        562       1282   tf.o
 
     ----------------------------------------------------------------------
-     60870       4400     176064        388      36904    1975732   Object Totals
+     60870       4404     176064        388      36904    1975732   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        84          0          3         11          4          0   (incl. Padding)
+        80          0          3         11          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -6566,9 +6565,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     71044       5226     176692        388      37004    1936708   Grand Totals
-     71044       5226     176692         56      37004    1936708   ELF Image Totals (compressed)
-     71044       5226     176692         56          0          0   ROM Totals
+     71044       5230     176692        388      37004    1936708   Grand Totals
+     71044       5230     176692         56      37004    1936708   ELF Image Totals (compressed)
+     71044       5230     176692         56          0          0   ROM Totals
 
 ==============================================================================
 
