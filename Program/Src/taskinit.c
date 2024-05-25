@@ -127,7 +127,7 @@ void RocketFlight(void *pvParameters)
 		xSemaphoreTake(ControlSemaphore,portMAX_DELAY);
 		if(ControlTime >= 11) HAL_GPIO_WritePin(BAT1_GPIO_Port,BAT1_Pin,GPIO_PIN_SET);
 		if(ControlTime >= 16) HAL_GPIO_WritePin(BAT2_GPIO_Port,BAT2_Pin,GPIO_PIN_SET);
-		if(ControlTime <= 30) 
+		if(ControlTime <= 120) 
 		{
 			sprintf((char *)StorageBuff,"time: %0.2f ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f  lon:%0.8f  lat:%0.8f  alt:%0.2f\n",\
 			ControlTime,IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height,GNSSData.lon,GNSSData.lat,GNSSData.alt);
@@ -136,7 +136,8 @@ void RocketFlight(void *pvParameters)
 		else 
 		{
 			HAL_TIM_Base_Stop_IT(&htim6);
-			f_close(&SDFile);
+//			f_close(&SDFile);
+			FileClose();
 			vTaskSuspend(NULL);
 		}
 	}
@@ -203,6 +204,7 @@ void SDWrite(void *pvParameters)
 		f_open(&SDFile,"TF test.txt",FA_WRITE|FA_OPEN_APPEND);
 		f_printf(&SDFile,"TF write test!\n");
 		f_close(&SDFile);
+		FileCreate();
 	}
 	vTaskSuspend(NULL);
 	while(1)
@@ -220,7 +222,7 @@ void IMUReceive(void *pvParameters)
 {
 	HAL_UART_Receive_DMA(&huart2,IMUReceiveBuff,55);
 	__HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);
-//	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
+	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	while(1)
 	{
 		xSemaphoreTake(IMUSemaphore,portMAX_DELAY);
@@ -264,7 +266,7 @@ void GNSSReceive(void *pvParameters)
 		}
 		else 
 		{
-//			InfoPrint(PrintChannel,"GNSS error!\r\n");
+			InfoPrint(PrintChannel,"GNSS error!\r\n");
 		}
 	}
 }
@@ -291,7 +293,7 @@ void TeleportTransmit(void *pvParameters)
 		voltage = voltage_uint32*0.00042802;
 		current = current_uint32*0.00005355;
 		HAL_ADC_Stop(&hadc3);
-		sprintf(SendBuff,"%s:  lon:%0.8f  lat:%0.8f  alt:%0.8f  vol:%0.2f\r\n",Rocket,GNSSData.lon,GNSSData.lat,GNSSData.alt,voltage);
+		sprintf(SendBuff,"%s：  lon:%0.8f  lat:%0.8f  alt:%0.8f  vol:%0.2f\r\n",Rocket,GNSSData.lon,GNSSData.lat,GNSSData.alt,voltage);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(1000);
 	}
