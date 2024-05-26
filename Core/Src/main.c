@@ -206,7 +206,7 @@ int main(void)
 		HAL_TIM_PWM_Stop(&htim3,TIM_CHANNEL_3);
 		HAL_Delay(500000);
 	}
-	sprintf(SendBuff,"%s:FMU is checking!\r\n");
+	sprintf(SendBuff,"%s:FMU is checking!\r\n",Rocket);
 	InfoPrint(PrintChannel,SendBuff);
 	TaskCreate();//创建任务并启动调度器
 

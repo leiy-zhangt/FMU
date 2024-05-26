@@ -100,7 +100,7 @@ void FMUCheck(void *pvParameters)
 				{
 					__HAL_TIM_SET_COUNTER(&htim6,0);
 					ControlTime = 0;
-					FileCreate();
+//					FileCreate();
 					HAL_TIM_Base_Start_IT(&htim6);
 					xEventGroupSetBits(FMUCheckEvent,0xFF);
 					vTaskSuspend(NULL);
