@@ -3,6 +3,8 @@
 #include "tf.h"
 #include "navigation.h"
 #include "teleport.h"
+#include "ms5525.h"
+#include "airspeed.h"
 
 
 EventGroupHandle_t FMUCheckEvent; 
@@ -55,6 +57,10 @@ void TaskCreate(void)
 	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
 	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
+	//Create AirSpeedMeasure
+	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",32,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
+	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
 	//Start
 	vTaskStartScheduler();
 	while(1) ;
@@ -315,6 +321,21 @@ void TeleportTransmit(void *pvParameters)
 		sprintf(SendBuff,"%s  p:%0.2f  r:%0.2f  y:%0.2f  h:%0.2f  lat:%0.8f  lon:%0.8f  s:%0.2f  v:%0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,GNSSData.alt,GNSSData.lat,GNSSData.lon,GNSSData.velocity,voltage);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(1000);
+	}
+}
+
+//AirSpeedMeasure函数声明
+BaseType_t AirSpeedMeasure_Ret;
+UBaseType_t AirSpeedMeasure_Prio=2;
+TaskHandle_t AirSpeedMeasure_TCB;
+
+void AirSpeedMeasure(void *pvParameters)
+{
+	AirSpeedCalibration();
+	while(1)
+	{
+		HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
+		vTaskDelay(250);
 	}
 }
 

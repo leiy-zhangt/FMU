@@ -86,3 +86,5 @@ fmu\taskinit.o: ../Program/Inc/teleport.h
 fmu\taskinit.o: ../Program/Inc/tf.h
 fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: ../Program/Inc/navigation.h
+fmu\taskinit.o: ../Program/Inc/ms5525.h
+fmu\taskinit.o: ../Program/Inc/airspeed.h

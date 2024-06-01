@@ -81,11 +81,18 @@ extern TaskHandle_t ReceiverReceive_TCB;
 
 void ReceiverReceive(void *pvParameters);
 
-//TeleportTransmit函数声明
+//TeleportTransmit
 extern BaseType_t TeleportTransmit_Ret;
 extern UBaseType_t TeleportTransmit_Prio;
 extern TaskHandle_t TeleportTransmit_TCB;
 
 void TeleportTransmit(void *pvParameters);
+
+//AirSpeedMeasure
+extern BaseType_t AirSpeedMeasure_Ret;
+extern UBaseType_t AirSpeedMeasure_Prio;
+extern TaskHandle_t AirSpeedMeasure_TCB;
+
+void AirSpeedMeasure(void *pvParameters);
 
 #endif

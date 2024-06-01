@@ -1,4 +1,5 @@
 #include "ms5525.h"
+#include "cmsis_os.h"
 
 const uint8_t MS5525_Q1 = 16;
 const uint8_t MS5525_Q2 = 17;
@@ -55,7 +56,8 @@ MS5525_Status MS5525_Measure(void)
 	MeasureFlag = 0;
 	HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&MS5525_CMD,1,0xFFFF);
 	HAL_I2C_Master_Transmit(&hi2c1,0x77<<1,&MS5525_CMD,1,0xFFFF);
-	HAL_Delay(10000);
+//	HAL_Delay(10000);
+	vTaskDelay(10);
 	MS5525_StaticData.MS5525_D1 = MS5525_GetValue(0x76);
 	MS5525_TotalData.MS5525_D1 = MS5525_GetValue(0x77);
 	if(MS5525_StaticData.MS5525_D1 != 0) MeasureFlag |= 0x01;
@@ -65,7 +67,8 @@ MS5525_Status MS5525_Measure(void)
 	MeasureFlag = 0;
 	HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&MS5525_CMD,1,0xFFFF);
 	HAL_I2C_Master_Transmit(&hi2c1,0x77<<1,&MS5525_CMD,1,0xFFFF);
-	HAL_Delay(10000);
+//	HAL_Delay(10000);
+	vTaskDelay(10);
 	MS5525_StaticData.MS5525_D2 = MS5525_GetValue(0x76);
 	MS5525_TotalData.MS5525_D2 = MS5525_GetValue(0x77);
 	if(MS5525_StaticData.MS5525_D2 != 0) MeasureFlag |= 0x01;

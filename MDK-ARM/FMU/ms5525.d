@@ -47,3 +47,17 @@ fmu\ms5525.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 fmu\ms5525.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
 fmu\ms5525.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
 fmu\ms5525.o: ../Middlewares/Third_Party/FatFs/src/integer.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+fmu\ms5525.o: ../Core/Inc/FreeRTOSConfig.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
+fmu\ms5525.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h

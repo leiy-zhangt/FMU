@@ -1,5 +1,35 @@
 #include "airspeed.h"
 #include "math.h"
+#include "ms5525.h"
+
+AirSpeedDataStruct AirSpeedData;
+
+void AirSpeedCalibration(void)
+{
+	uint8_t i;
+	MS5525_Reset(0x76);
+	MS5525_Reset(0x77);
+	MS5525_Calibration(0x76,&MS5525_StaticData);
+	MS5525_Calibration(0x77,&MS5525_TotalData);
+	MS5525_StaticData.pre_init = 0;
+	MS5525_TotalData.pre_init = 0;
+	for(i=0;i<10;i++)
+	{
+		MS5525_Ret = MS5525_Measure();
+		MS5525_Converse(&MS5525_StaticData);
+		MS5525_Converse(&MS5525_TotalData);
+		MS5525_StaticData.pre_init += MS5525_StaticData.pre;
+		MS5525_TotalData.pre_init += MS5525_TotalData.pre;
+	}
+	MS5525_StaticData.pre_init = MS5525_StaticData.pre_init/10.0;
+	MS5525_TotalData.pre_init = MS5525_TotalData.pre_init/10.0;
+	AirSpeedData.AltitudeInit = AltitudeGet(MS5525_StaticData.pre_init);
+}
+
+double AltitudeGet(double pre)
+{
+	return 288.15*(1-pow(pre/101325,0.0065*287.05287/9.8))/0.0065;
+}
 
 float calc_IAS_corrected(float tube_len, float tube_dia_mm, float differential_pressure, float pressure_ambient, float temperature_celsius)
 {
@@ -78,4 +108,6 @@ float get_air_density(float static_pressure, float temperature_celsius)
 {
 	return static_pressure / (CONSTANTS_AIR_GAS_CONST * (temperature_celsius - CONSTANTS_ABSOLUTE_NULL_CELSIUS));
 }
+
+
 
