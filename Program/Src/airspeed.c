@@ -1,8 +1,19 @@
 #include "airspeed.h"
-#include "math.h"
-#include "ms5525.h"
 
 AirSpeedDataStruct AirSpeedData;
+double DiffPressure;
+
+MS5525_Status AirSpeedGet(void)
+{
+	MS5525_Ret = MS5525_Measure();
+	if(MS5525_Ret == MS5525_ERR) return MS5525_ERR;
+	else
+	{
+		MS5525_Converse(&MS5525_StaticData);
+		MS5525_Converse(&MS5525_TotalData);
+	}
+	return MS5525_OK;
+}
 
 void AirSpeedCalibration(void)
 {
@@ -35,34 +46,34 @@ float calc_IAS_corrected(float tube_len, float tube_dia_mm, float differential_p
 {
 	tube_len = 0;
 	tube_dia_mm = 1.5;
-	
+	volatile double DiffPre = differential_pressure;
 	// air density in kg/m3
-	float rho_air = get_air_density(pressure_ambient, temperature_celsius);
-	float dp = fabsf(differential_pressure);
-	float dp_tot = dp;
-	float dv = 0.0f;
+	volatile float rho_air = get_air_density(pressure_ambient, temperature_celsius);
+	volatile float dp = fabsf(differential_pressure);
+	volatile float dp_tot = dp;
+	volatile float dv = 0.0f;
 	
-	//第一种补偿方法
-	// assumes a metal pitot tube with round tip as here: https://drotek.com/shop/2986-large_default/sdp3x-airspeed-sensor-kit-sdp31.jpg
-	// and tubing as provided by px4/drotek (1.5 mm diameter)
-	// The tube_len represents the length of the tubes connecting the pitot to the sensor.
-	const float dp_corr = dp * 96600.0f / pressure_ambient;
-	// flow through sensor
-	float flow_SDP33 = (300.805f - 300.878f / (0.00344205f * powf(dp_corr, 0.68698f) + 1.0f)) * 1.29f / rho_air;
+//	//第一种补偿方法
+//	// assumes a metal pitot tube with round tip as here: https://drotek.com/shop/2986-large_default/sdp3x-airspeed-sensor-kit-sdp31.jpg
+//	// and tubing as provided by px4/drotek (1.5 mm diameter)
+//	// The tube_len represents the length of the tubes connecting the pitot to the sensor.
+//	volatile const float dp_corr = dp * 96600.0f / pressure_ambient;
+//	// flow through sensor
+//	volatile float flow_SDP33 = (300.805f - 300.878f / (0.00344205f * powf(dp_corr, 0.68698f) + 1.0f)) * 1.29f / rho_air;
 
-	// for too small readings the compensation might result in a negative flow which causes numerical issues
-	if (flow_SDP33 < 0.0f) 
-	{
-		flow_SDP33 = 0.0f;
-	}
-	float dp_pitot = 0.0f;		
-	dp_pitot = (0.0032f * flow_SDP33 * flow_SDP33 + 0.0123f * flow_SDP33 + 1.0f) * 1.29f / rho_air;
-	// pressure drop through tube
-	const float dp_tube = (flow_SDP33 * 0.674f) / 450.0f * tube_len * rho_air / 1.29f;
-	// speed at pitot-tube tip due to flow through sensor
-	dv = 0.125f * flow_SDP33;
-	// sum of all pressure drops
-	dp_tot = dp_corr + dp_tube + dp_pitot;
+//	// for too small readings the compensation might result in a negative flow which causes numerical issues
+//	if (flow_SDP33 < 0.0f) 
+//	{
+//		flow_SDP33 = 0.0f;
+//	}
+//	volatile float dp_pitot = 0.0f;		
+//	dp_pitot = (0.0032f * flow_SDP33 * flow_SDP33 + 0.0123f * flow_SDP33 + 1.0f) * 1.29f / rho_air;
+//	// pressure drop through tube
+//	volatile const float dp_tube = (flow_SDP33 * 0.674f) / 450.0f * tube_len * rho_air / 1.29f;
+//	// speed at pitot-tube tip due to flow through sensor
+//	dv = 0.125f * flow_SDP33;
+//	// sum of all pressure drops
+//	dp_tot = dp_corr + dp_tube + dp_pitot;
 
 	
 	//第二种补偿方法
@@ -93,15 +104,16 @@ float calc_IAS_corrected(float tube_len, float tube_dia_mm, float differential_p
 //		// pressure correction
 //		dp_tot = dp / (1.0f + eps);
 //	}
-	
-	// computed airspeed without correction for inflow-speed at tip of pitot-tube
-	float airspeed_uncorrected = sqrtf(2.0f * dp_tot / CONSTANTS_AIR_DENSITY_SEA_LEVEL_15C);
+//	
+//	// computed airspeed without correction for inflow-speed at tip of pitot-tube
+//	volatile float airspeed_uncorrected = sqrtf(2.0f * dp_tot / CONSTANTS_AIR_DENSITY_SEA_LEVEL_15C);
 
-	// corrected airspeed
-	float airspeed_corrected = airspeed_uncorrected + dv;
+//	// corrected airspeed
+//	volatile float airspeed_corrected = airspeed_uncorrected + dv;
 
-	// return result with correct sign
-	return (differential_pressure > 0.0f) ? airspeed_corrected : -airspeed_corrected;
+//	// return result with correct sign
+//	return (differential_pressure > 0.0f) ? airspeed_corrected : -airspeed_corrected;
+	return sqrtf(2.0f * dp_tot / CONSTANTS_AIR_DENSITY_SEA_LEVEL_15C);
 }
 
 float get_air_density(float static_pressure, float temperature_celsius)

@@ -12,6 +12,7 @@ typedef struct
 	double pressure,height;
 	double temperature;
 	double quaternion[4];
+	double height_Init;
 }IMUDateStruct;
 
 typedef enum 

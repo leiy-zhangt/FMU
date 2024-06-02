@@ -192,7 +192,7 @@ int main(void)
 	ServoSet(ServoChannel_6,0);
 	ServoSet(ServoChannel_7,0);
 	ServoSet(ServoChannel_8,0);
-//	TaskCreate();//创建任务并启动调度器
+	TaskCreate();//创建任务并启动调度器
 
   /* USER CODE END 2 */
 

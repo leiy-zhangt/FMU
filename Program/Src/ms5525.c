@@ -54,9 +54,11 @@ MS5525_Status MS5525_Measure(void)
 	MS5525_TotalData.MS5525_D2 = 0;
 	MS5525_CMD = 0x48;
 	MeasureFlag = 0;
+//	taskENTER_CRITICAL();
 	HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&MS5525_CMD,1,0xFFFF);
 	HAL_I2C_Master_Transmit(&hi2c1,0x77<<1,&MS5525_CMD,1,0xFFFF);
-//	HAL_Delay(10000);
+//	taskEXIT_CRITICAL();
+	HAL_Delay(10000);
 	vTaskDelay(10);
 	MS5525_StaticData.MS5525_D1 = MS5525_GetValue(0x76);
 	MS5525_TotalData.MS5525_D1 = MS5525_GetValue(0x77);
@@ -67,10 +69,12 @@ MS5525_Status MS5525_Measure(void)
 	MeasureFlag = 0;
 	HAL_I2C_Master_Transmit(&hi2c1,0x76<<1,&MS5525_CMD,1,0xFFFF);
 	HAL_I2C_Master_Transmit(&hi2c1,0x77<<1,&MS5525_CMD,1,0xFFFF);
-//	HAL_Delay(10000);
+	HAL_Delay(10000);
 	vTaskDelay(10);
+//	taskENTER_CRITICAL();
 	MS5525_StaticData.MS5525_D2 = MS5525_GetValue(0x76);
 	MS5525_TotalData.MS5525_D2 = MS5525_GetValue(0x77);
+//	taskEXIT_CRITICAL();
 	if(MS5525_StaticData.MS5525_D2 != 0) MeasureFlag |= 0x01;
 	if(MS5525_TotalData.MS5525_D2 != 0) MeasureFlag |= 0x02;
 	if((MeasureFlag&0x03) != 0x03) return MS5525_ERR;
