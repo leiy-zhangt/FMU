@@ -26,37 +26,37 @@ void TaskCreate(void)
 	if(LEDTwink_Ret == pdPASS) InfoPrint(PrintChannel,"LEDTwink creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"LEDTwink creat failed!\r\n");
 	//Create FMUCheck
-//	FMUCheck_Ret = xTaskCreate((TaskFunction_t)FMUCheck,"FMUCheck",128,(void *)1,FMUCheck_Prio,(TaskHandle_t *)(&FMUCheck_TCB));
-//	if(FMUCheck_Ret == pdPASS) InfoPrint(PrintChannel,"FMUCheck creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"FMUCheck creat failed!\r\n");
+	FMUCheck_Ret = xTaskCreate((TaskFunction_t)FMUCheck,"FMUCheck",128,(void *)1,FMUCheck_Prio,(TaskHandle_t *)(&FMUCheck_TCB));
+	if(FMUCheck_Ret == pdPASS) InfoPrint(PrintChannel,"FMUCheck creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"FMUCheck creat failed!\r\n");
 	//Create FMUControlCalculation
-//	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
-//	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
+	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
+	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
 	//Create TaskMonitor
 //	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
 //	if(TaskMonitor_Ret == pdPASS) InfoPrint(PrintChannel,"TaskMonitor creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"TaskMonitor creat failed!\r\n");
 	//Create SDWrite
-//	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
-//	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
+	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
+	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
 	//Create IMUReceive
-//	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",256,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
-//	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
+	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",256,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
+	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
 	//Create GNSSReceive
-//	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
-//	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
+	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
+	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
 	//Create ReceiverReceive
-//	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
-//	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
+	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
+	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
 	//Create TeleportTransmit
-//	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
-//	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
+	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
+	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 	//Create AirSpeedMeasure
 	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
 	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
@@ -120,10 +120,10 @@ void FMUControlCalculation(void *pvParameters)
 	while(1)
 	{
 		xSemaphoreTake(ControlSemaphore,portMAX_DELAY);
-		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
-		NevigationSolution();
+//		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
+//		NevigationSolution();
 		FixedWingControl();
-		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
+//		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
 	}
 }
 
@@ -185,9 +185,9 @@ void SDWrite(void *pvParameters)
 	else if(SDRet == FR_OK) 
 	{
 		InfoPrint(PrintChannel,"TF mount successfully!\r\n");
-		f_open(&SDFile,"TF test.txt",FA_WRITE|FA_CREATE_ALWAYS);
-		f_printf(&SDFile,"TF write test!\n");
-		f_close(&SDFile);
+//		f_open(&SDFile,"TF test.txt",FA_WRITE|FA_CREATE_ALWAYS);
+//		f_printf(&SDFile,"TF write test!\n");
+//		f_close(&SDFile);
 	}
 	vTaskSuspend(NULL);
 	while(1)
