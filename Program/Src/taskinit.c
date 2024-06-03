@@ -99,6 +99,7 @@ void FMUCheck(void *pvParameters)
 		if(GNSSRet == GNSS_FIX) 
 		{
 			InfoPrint(PrintChannel,"GNSS is ready!\r\n");
+			GNSSData.alt_Init = GNSSData.alt;
 			xEventGroupSetBits(FMUCheckEvent,0xFF);
 			vTaskSuspend(NULL);
 		}
@@ -229,7 +230,7 @@ void IMUReceive(void *pvParameters)
 		}
 		else 
 		{
-			InfoPrint(PrintChannel,"IMU error!\r\n");
+//			InfoPrint(PrintChannel,"IMU error!\r\n");
 		}
 	}
 }
@@ -281,11 +282,11 @@ void ReceiverReceive(void *pvParameters)
 		}
 		else if(ReceiverRet == Receiver_ERR)
 		{
-			InfoPrint(PrintChannel,"Receiver err!\r\n");
+//			InfoPrint(PrintChannel,"Receiver err!\r\n");
 		}
 		else if(ReceiverRet == Receiver_NOSignal)
 		{
-			InfoPrint(PrintChannel,"Receiver no signal!\r\n");
+//			InfoPrint(PrintChannel,"Receiver no signal!\r\n");
 		}
 	}
 }
@@ -324,7 +325,7 @@ void TeleportTransmit(void *pvParameters)
 				sprintf(ControlMode,"Height");
 				break;
 		}
-		sprintf(SendBuff,"%s  p:%0.2f  r:%0.2f  y:%0.2f  h:%0.2f  lat:%0.8f  lon:%0.8f  s:%0.2f  v:%0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,GNSSData.alt,GNSSData.lat,GNSSData.lon,GNSSData.velocity,voltage);
+		sprintf(SendBuff,"%s  p:%0.2f  r:%0.2f  y:%0.2f  h:%0.2f  lat:%0.8f  lon:%0.8f  s:%0.2f  v:%0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,GNSSData.alt - GNSSData.alt_Init,GNSSData.lat,GNSSData.lon,GNSSData.velocity,voltage);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(1000);
 	}

@@ -3,6 +3,7 @@
 #include "stdio.h"
 #include "gnss.h"
 #include "teleport.h"
+#include "cmsis_os.h"
 
 uint8_t FileName[50];
 uint8_t StorageBuff[512];

@@ -50,21 +50,29 @@ void ReceiverSolution(void)
 		{
 			ControlStop();
 		}
-		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,ReceiverChannel[0]);
-		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,3000-ReceiverChannel[1]);
+		expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
+		expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.045;
+		expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
+		ServoSet(ServoChannel_1,expected_roll);
+		ServoSet(ServoChannel_5,expected_roll);
+		ServoSet(ServoChannel_2,expected_pitch);
+		ServoSet(ServoChannel_6,expected_pitch);
 		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-		__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
+		ServoSet(ServoChannel_4,expected_yaw);
+		ServoSet(ServoChannel_7,expected_yaw);
 	}
 	else if(ReceiverChannel[4]>1600)//检测飞控开始工作信号
 	{
 		if(ReceiverChannelPrevious[4]<1550)
 		{
+			PitchNeutral=0;
+			RollNeutral=0;
 			ControlStart();
 		}
 	}
 	//控制飞控飞行模式
 	if(ReceiverChannel[5]<1400) FMUControlMode = FMU_Manual;
-	else if(ReceiverChannel[5]<1600) 
+	else if(ReceiverChannel[5]<2600) 
 	{
 		FMUControlMode = FMU_Stable;
 		if(FMUControlModePrevious != FMU_Stable) integtal_pitch = 0;
@@ -81,18 +89,21 @@ void ReceiverSolution(void)
 	//控制数传数据返回
 	if(ReceiverChannel[6]<1400) 
 	{
-		if(ReceiverChannelPrevious[6]>1600)
-		{
+//		if(ReceiverChannelPrevious[6]>1600)
+//		{
 			memcpy(ReceiverChannelNeutral,ReceiverChannel,sizeof(ReceiverChannel));
 			PitchNeutral = IMUData.pitch;
 			RollNeutral = IMUData.roll;
-		}
+//		}
 		vTaskSuspend(TeleportTransmit_TCB);
 //		vTaskSuspend(TaskMonitor_TCB);
 	}
 	else if(ReceiverChannel[6]>1600) 
 	{
-		vTaskResume(TeleportTransmit_TCB);
+//		if(ReceiverChannelPrevious[6]<1400)
+//		{
+			vTaskResume(TeleportTransmit_TCB);
+//		}
 //		vTaskResume(TaskMonitor_TCB);
 	}
 	//复制通道内容

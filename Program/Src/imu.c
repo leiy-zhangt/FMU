@@ -62,9 +62,10 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	point = DataBuff + 24;
 	tran_int16 = (((int16_t)point[1])<<8|(int16_t)point[0]);
 	//修正后的俯仰角,俯仰角加负号
-	IMUData.pitch = -(double)tran_int16*0.0054931640625;
+	IMUData.pitch = 180 - (double)tran_int16*0.0054931640625;
+	IMUData.pitch = IMUData.pitch>180?IMUData.pitch-360:IMUData.pitch;
 	tran_int16 = (((int16_t)point[3])<<8|(int16_t)point[2]);
-	IMUData.roll = (double)tran_int16*0.0054931640625;
+	IMUData.roll = -(double)tran_int16*0.0054931640625;
 	tran_int16 = (((int16_t)point[5])<<8|(int16_t)point[4]);
 	IMUData.yaw = (double)tran_int16*0.0054931640625;
 	//计算气压,单位为Pa和cm
