@@ -58,9 +58,9 @@ void TaskCreate(void)
 	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 	//Create AirSpeedMeasure
-	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
-	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
+//	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
+//	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
 	//Start
 	vTaskStartScheduler();
 	while(1) ;

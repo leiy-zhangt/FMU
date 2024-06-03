@@ -61,7 +61,8 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	if(sum != *point) return IMU_Data_ERR;
 	point = DataBuff + 24;
 	tran_int16 = (((int16_t)point[1])<<8|(int16_t)point[0]);
-	IMUData.pitch = (double)tran_int16*0.0054931640625;
+	//修正后的俯仰角,俯仰角加负号
+	IMUData.pitch = -(double)tran_int16*0.0054931640625;
 	tran_int16 = (((int16_t)point[3])<<8|(int16_t)point[2]);
 	IMUData.roll = (double)tran_int16*0.0054931640625;
 	tran_int16 = (((int16_t)point[5])<<8|(int16_t)point[4]);
