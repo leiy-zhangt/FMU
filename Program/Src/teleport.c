@@ -5,7 +5,7 @@
 
 UART_HandleTypeDef *TeleHandle = &huart8;
 
-PrintChannelSelect PrintChannel = TeleChannel;
+PrintChannelSelect PrintChannel = DebugChannel;
 
 uint8_t SendBuff[100];
 

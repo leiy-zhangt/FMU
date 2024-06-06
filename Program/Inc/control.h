@@ -33,6 +33,7 @@ extern const double Kp_roll,Kd_roll,Kp_pitch,Kd_pitch,Kp_yaw,Kd_yaw;//控制率�
 extern double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 extern double servo_roll,servo_pitch,servo_yaw;//对应通道角度
 extern double integtal_pitch;
+extern double PitchNeutral,RollNeutral;//姿态角中立位置
 
 void ControlStart(void);//飞控开始工作初始化
 void ControlUpdata(void);//飞控参数更新

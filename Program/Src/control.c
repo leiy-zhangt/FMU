@@ -13,10 +13,11 @@ BaseType_t ControlHigherTaskSwitch;
 double ControlTime;//飞控运行时间
 const double ControlDt = 0.01;//飞控控制时间间隔
 
-const double Kp_roll=2,Kd_roll=0.2,Kp_pitch=1.5,Kd_pitch=0.2,Ki_pitch = 0.5,Kp_yaw=1.5,Kd_yaw=0.1,Kp_height=2;//姿态控制率参数
+const double Kp_roll=2,Kd_roll=0.2,Kp_pitch=3,Kd_pitch=1,Ki_pitch = 0.5,Kp_yaw=1.5,Kd_yaw=0.1,Kp_height=2;//姿态控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
 double integtal_pitch;//俯仰角误差积分
+double PitchNeutral=0,RollNeutral=0;//姿态角中立位置
 
 FMUControlModeSelect FMUControlMode = FMU_Manual;//飞控工作模式选择
 FMUControlModeSelect FMUControlModePrevious = FMU_Manual;
@@ -45,8 +46,8 @@ void ControlStop(void)//飞控结束工作
 
 void ServoSet(ServoChannel channel,double angle)//
 {
-	uint8_t ServoDirection[8] = {0,1,0,0,0,0,0,0};
-	int16_t ServoOffset[8] = {0,0,0,0,0,0,0,0};
+	uint8_t ServoDirection[8] = {1,1,0,1,1,0,0,0};
+	int16_t ServoOffset[8] = {0,150,0,40,0,-40,70,0};
 	int16_t angle_int16;
 	switch(channel)
 	{
@@ -99,17 +100,25 @@ void FixedWingControl(void)
 	{
 		case FMU_Manual:
 		{
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,ReceiverChannel[0]);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,3000-ReceiverChannel[1]);
+			//第一组舵机
+			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
+			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.06;
+			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
+			ServoSet(ServoChannel_1,expected_roll);
+			ServoSet(ServoChannel_5,expected_roll);
+			ServoSet(ServoChannel_2,expected_pitch);
+			ServoSet(ServoChannel_6,expected_pitch);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
+			ServoSet(ServoChannel_4,expected_yaw);
+			ServoSet(ServoChannel_7,expected_yaw);
 			break;
 		}
 		case FMU_Stable:
 		{
-			//滚转与俯仰角期望值
-			expected_roll = (ReceiverChannel[0]-1532)*0.12;
-			expected_pitch = (ReceiverChannel[1]-1350)*0.12+6;
+			//滚转与俯仰角期望值 0.06为30°
+			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09+RollNeutral;
+			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09+PitchNeutral;
+			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
 			//计算俯仰角误差积分
 			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
       integtal_pitch = integtal_pitch>10?10:integtal_pitch;
@@ -117,15 +126,18 @@ void FixedWingControl(void)
       
 			//计算舵机角度
 			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
-			servo_roll = servo_roll>30?30:servo_roll;
-			servo_roll = servo_roll<-30?-30:servo_roll;
+			servo_roll = servo_roll>45?45:servo_roll;
+			servo_roll = servo_roll<-45?-45:servo_roll;
 			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
-			servo_pitch = servo_pitch>45?45:servo_pitch;
-			servo_pitch = servo_pitch<-45?-45:servo_pitch;
+			servo_pitch = servo_pitch>20?20:servo_pitch;
+			servo_pitch = servo_pitch<-20?-20:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_5,servo_roll);
 			ServoSet(ServoChannel_2,servo_pitch);
+			ServoSet(ServoChannel_6,servo_pitch);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
+			ServoSet(ServoChannel_4,expected_yaw);
+			ServoSet(ServoChannel_7,expected_yaw);
 			break;
 		}
 		case FMU_Height:
@@ -148,6 +160,8 @@ void FixedWingControl(void)
 			ServoSet(ServoChannel_2,servo_pitch);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
 			break;
 		}
 	}

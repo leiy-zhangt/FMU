@@ -58,9 +58,9 @@ void TaskCreate(void)
 	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 	//Create AirSpeedMeasure
-	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
-	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
+//	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
+//	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
 	//Start
 	vTaskStartScheduler();
 	while(1) ;
@@ -89,8 +89,8 @@ void FMUCheck(void *pvParameters)
 {
 	xEventGroupClearBits(FMUCheckEvent,0xFFFF);
 	//调试时使用禁用GPS
-	xEventGroupSetBits(FMUCheckEvent,0xFF);
-	vTaskSuspend(NULL);
+//	xEventGroupSetBits(FMUCheckEvent,0xFF);
+//	vTaskSuspend(NULL);
 	//
 	while(1)
 	{
@@ -99,6 +99,7 @@ void FMUCheck(void *pvParameters)
 		if(GNSSRet == GNSS_FIX) 
 		{
 			InfoPrint(PrintChannel,"GNSS is ready!\r\n");
+			GNSSData.alt_Init = GNSSData.alt;
 			xEventGroupSetBits(FMUCheckEvent,0xFF);
 			vTaskSuspend(NULL);
 		}
@@ -219,17 +220,17 @@ void IMUReceive(void *pvParameters)
 		IMURet = IMUDataConvert(IMUFifoBuff);
 		if(IMURet == IMU_OK)
 		{
-//			InfoPrint(PrintChannel,"%0.4f  %0.4f  %0.4f  ",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z);
-//			InfoPrint(PrintChannel,"%0.4f  %0.4f  %0.4f  ",IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
-//			InfoPrint(PrintChannel,"%0.4f  %0.4f  %0.4f  ",IMUData.pitch,IMUData.roll,IMUData.yaw);
-//			InfoPrint(PrintChannel,"%0.4f  %0.4f  ",IMUData.pressure,IMUData.height);
-//			InfoPrint(PrintChannel,"%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);
+//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z);
+//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
+//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.pitch,IMUData.roll,IMUData.yaw);
+//			printf("%0.4f  %0.4f  ",IMUData.pressure,IMUData.height);
+//			printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);
 			//体坐标系到惯性坐标系
 //			printf("%0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",a_e,a_n,a_u,p_e,p_n,p_u);
 		}
 		else 
 		{
-			InfoPrint(PrintChannel,"IMU error!\r\n");
+//			InfoPrint(PrintChannel,"IMU error!\r\n");
 		}
 	}
 }
@@ -278,14 +279,15 @@ void ReceiverReceive(void *pvParameters)
 		if(ReceiverRet == Receiver_OK)
 		{
 			ReceiverSolution();
+//			printf("%d  %d  %d  %d  %d  %d  %d  %d\r\n",ReceiverChannel[0],ReceiverChannel[1],ReceiverChannel[2],ReceiverChannel[3],ReceiverChannel[4],ReceiverChannel[5],ReceiverChannel[6],ReceiverChannel[7]);
 		}
 		else if(ReceiverRet == Receiver_ERR)
 		{
-			InfoPrint(PrintChannel,"Receiver err!\r\n");
+			InfoPrint(DebugChannel,"Receiver err!\r\n");
 		}
 		else if(ReceiverRet == Receiver_NOSignal)
 		{
-			InfoPrint(PrintChannel,"Receiver no signal!\r\n");
+			InfoPrint(DebugChannel,"Receiver no signal!\r\n");
 		}
 	}
 }
@@ -324,7 +326,7 @@ void TeleportTransmit(void *pvParameters)
 				sprintf(ControlMode,"Height");
 				break;
 		}
-		sprintf(SendBuff,"%s  p:%0.2f  r:%0.2f  y:%0.2f  h:%0.2f  lat:%0.8f  lon:%0.8f  s:%0.2f  v:%0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,GNSSData.alt,GNSSData.lat,GNSSData.lon,GNSSData.velocity,voltage);
+		sprintf(SendBuff,"%s  p:%0.2f  r:%0.2f  y:%0.2f  h:%0.2f  lat:%0.8f  lon:%0.8f  s:%0.2f  v:%0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,GNSSData.alt - GNSSData.alt_Init,GNSSData.lat,GNSSData.lon,GNSSData.velocity,voltage);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(1000);
 	}

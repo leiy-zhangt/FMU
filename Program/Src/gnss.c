@@ -23,7 +23,7 @@ void GNSSInit(void)
 		GNSS_UART_ReInit(230400);	
 	#elif GNSS_WTGPS
 		GNSSHandle = &huart6;
-		HAL_UART_Transmit(GNSSHandle,"log g05hz",strlen("log g05hz"),0xFFFF);
+		HAL_UART_Transmit(GNSSHandle,"log g01hz",strlen("log g05hz"),0xFFFF);
 	#endif
 }
 

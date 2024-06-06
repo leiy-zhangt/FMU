@@ -85,3 +85,4 @@ fmu\tf.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\tf.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\string.h
 fmu\tf.o: ../Program/Inc/printf.h
 fmu\tf.o: ../Program/Inc/teleport.h
+fmu\tf.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
