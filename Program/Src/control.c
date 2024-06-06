@@ -133,8 +133,8 @@ void FixedWingControl(void)
 			servo_pitch = servo_pitch<-20?-20:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
 			ServoSet(ServoChannel_5,servo_roll);
-			ServoSet(ServoChannel_2,servo_pitch);
-			ServoSet(ServoChannel_6,servo_pitch);
+			ServoSet(ServoChannel_2,servo_pitch+5);
+			ServoSet(ServoChannel_6,servo_pitch+5);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
 			ServoSet(ServoChannel_4,expected_yaw);
 			ServoSet(ServoChannel_7,expected_yaw);
@@ -176,10 +176,10 @@ void FixedWingControl(void)
 	else sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f h: %0.2f ",\
 		"GNSS NOFIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,expected_height);
 	f_printf(&SDFile,(char *)StorageBuff);
-	if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s c1: %u c2: %u c3: %u c4: %u c5: %u c6: %u c7: %u c8: %u\n","Receiver OK!",\
-		ReceiverChannel[0],ReceiverChannel[1],ReceiverChannel[2],ReceiverChannel[3],ReceiverChannel[4],ReceiverChannel[5],ReceiverChannel[6],ReceiverChannel[7]);
-	else sprintf((char *)StorageBuff,"%s c1: %u c2: %u c3: %u c4: %u c5: %u c6: %u c7: %u c8: %u\n","Receiver ERR!",\
-		ReceiverChannel[0],ReceiverChannel[1],ReceiverChannel[2],ReceiverChannel[3],ReceiverChannel[4],ReceiverChannel[5],ReceiverChannel[6],ReceiverChannel[7]);
+	if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s expect_p:%0.4f expect_r:%0.4f expect_y:%0.4f expect_t:%u servo_p:%0.4f servo_y:%0.4f\n","Receiver OK!",\
+		expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],servo_pitch,servo_roll);
+	else sprintf((char *)StorageBuff,"%s expect_p:%0.4f expect_r:%0.4f expect_y:%0.4f expect_t:%u servo_p:%0.4f servo_y:%0.4f\n","Receiver ERR!",\
+		expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],servo_pitch,servo_roll);
 	f_printf(&SDFile,(char *)StorageBuff);
 }
 
