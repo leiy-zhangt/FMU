@@ -102,8 +102,8 @@ void ReceiverSolution(void)
 		if(ReceiverChannelPrevious[6]>1450)
 		{
 			memcpy(ReceiverChannelNeutral,ReceiverChannel,sizeof(ReceiverChannel));
-			PitchNeutral = IMUData.pitch;
-			RollNeutral = IMUData.roll;
+//			PitchNeutral = IMUData.pitch;
+//			RollNeutral = IMUData.roll;
 			if(eTaskGetState(TeleportTransmit_TCB) != eSuspended) vTaskSuspend(TeleportTransmit_TCB);
 		}
 	}
