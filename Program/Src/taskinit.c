@@ -283,11 +283,11 @@ void ReceiverReceive(void *pvParameters)
 		}
 		else if(ReceiverRet == Receiver_ERR)
 		{
-			InfoPrint(DebugChannel,"Receiver err!\r\n");
+//			InfoPrint(DebugChannel,"Receiver err!\r\n");
 		}
 		else if(ReceiverRet == Receiver_NOSignal)
 		{
-			InfoPrint(DebugChannel,"Receiver no signal!\r\n");
+//			InfoPrint(DebugChannel,"Receiver no signal!\r\n");
 		}
 	}
 }
