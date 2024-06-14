@@ -44,17 +44,15 @@ void TaskCreate(void)
 	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
 	//Create GNSSReceive
-	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
-	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
+//	GNSSReceive_Ret = xTaskCreate((TaskFuncc creat failed!\r\n");
 	//Create ReceiverReceive
 //	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
 //	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
 	//Create TeleportTransmit
-	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",256,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
-	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
+//	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",256,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
+//	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 	//Start
 	vTaskStartScheduler();
 	while(1) ;
@@ -82,36 +80,49 @@ TaskHandle_t FMUCheck_TCB;
 void FMUCheck(void *pvParameters)
 {
 	xEventGroupClearBits(FMUCheckEvent,0xFFFF);
+	while(1)
+	{
+		if(HAL_GPIO_ReadPin(TRIGGER_GPIO_Port,TRIGGER_Pin)==GPIO_PIN_RESET)
+		{
+			__HAL_TIM_SET_COUNTER(&htim6,0);
+			ControlTime = 0;
+//					FileCreate();
+			HAL_TIM_Base_Start_IT(&htim6);
+			xEventGroupSetBits(FMUCheckEvent,0xFF);
+			vTaskSuspend(NULL);
+		}
+		vTaskDelay(10);
+	}
 	//调试时使用禁用GPS
 //	xEventGroupSetBits(FMUCheckEvent,0xFF);
 //	vTaskSuspend(NULL);
 	//
-	while(1)
-	{
-		xSemaphoreTake(GNSSSemaphore,portMAX_DELAY);
-		GNSSRet = GNSSDataConvert(GNSSFifoBuff);
-		if(GNSSRet == GNSS_FIX) 
-		{
-			InfoPrint(PrintChannel,"GNSS is ready!\r\n");
-			xEventGroupSetBits(FMUCheckEvent,0xFF);
-			while(1)
-			{
-				if(HAL_GPIO_ReadPin(TRIGGER_GPIO_Port,TRIGGER_Pin)==GPIO_PIN_RESET)
-				{
-					__HAL_TIM_SET_COUNTER(&htim6,0);
-					ControlTime = 0;
-//					FileCreate();
-					HAL_TIM_Base_Start_IT(&htim6);
-					xEventGroupSetBits(FMUCheckEvent,0xFF);
-					vTaskSuspend(NULL);
-				}
-			}
-		}
-		else
-		{
-			InfoPrint(PrintChannel,"GNSS is preparing!\r\n");
-		}
-	}
+//	while(1)
+//	{
+//		xSemaphoreTake(GNSSSemaphore,portMAX_DELAY);
+//		GNSSRet = GNSSDataConvert(GNSSFifoBuff);
+//		if(GNSSRet == GNSS_FIX) 
+//		{
+//			InfoPrint(PrintChannel,"GNSS is ready!\r\n");
+//			xEventGroupSetBits(FMUCheckEvent,0xFF);
+//			while(1)
+//			{
+//				if(HAL_GPIO_ReadPin(TRIGGER_GPIO_Port,TRIGGER_Pin)==GPIO_PIN_RESET)
+//				{
+//					__HAL_TIM_SET_COUNTER(&htim6,0);
+//					ControlTime = 0;
+////					FileCreate();
+//					HAL_TIM_Base_Start_IT(&htim6);
+//					xEventGroupSetBits(FMUCheckEvent,0xFF);
+//					vTaskSuspend(NULL);
+//				}
+//			}
+//		}
+//		else
+//		{
+//			InfoPrint(PrintChannel,"GNSS is preparing!\r\n");
+//		}
+//	}
 }
 
 //RocketFlight函数声明
@@ -125,12 +136,12 @@ void RocketFlight(void *pvParameters)
 	while(1)
 	{
 		xSemaphoreTake(ControlSemaphore,portMAX_DELAY);
-		if(ControlTime >= 11) HAL_GPIO_WritePin(BAT1_GPIO_Port,BAT1_Pin,GPIO_PIN_SET);
-		if(ControlTime >= 16) HAL_GPIO_WritePin(BAT2_GPIO_Port,BAT2_Pin,GPIO_PIN_SET);
-		if(ControlTime <= 120) 
+		if(ControlTime >= 2) HAL_GPIO_WritePin(BAT1_GPIO_Port,BAT1_Pin,GPIO_PIN_SET);
+		if(ControlTime >= 3) HAL_GPIO_WritePin(BAT2_GPIO_Port,BAT2_Pin,GPIO_PIN_SET);
+		if(ControlTime <= 10) 
 		{
 			sprintf((char *)StorageBuff,"time: %0.2f ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f  lon:%0.8f  lat:%0.8f  alt:%0.2f\n",\
-			ControlTime,IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height,GNSSData.lon,GNSSData.lat,GNSSData.alt);
+			ControlTime,IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height,0,0,0);
 			f_printf(&SDFile,(char *)StorageBuff);
 		}
 		else 
@@ -178,7 +189,7 @@ TaskHandle_t SDWrite_TCB;
 
 void SDWrite(void *pvParameters)
 {
-	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
+//	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	SDRet = f_mount(&SDFatFS,SDPath,1);
 	if(SDRet != FR_OK)
 	{
@@ -201,9 +212,9 @@ void SDWrite(void *pvParameters)
 	else if(SDRet == FR_OK) 
 	{
 		InfoPrint(PrintChannel,"TF mount successfully!\r\n");
-		f_open(&SDFile,"TF test.txt",FA_WRITE|FA_OPEN_APPEND);
-		f_printf(&SDFile,"TF write test!\n");
-		f_close(&SDFile);
+//		f_open(&SDFile,"TF test.txt",FA_WRITE|FA_OPEN_APPEND);
+//		f_printf(&SDFile,"TF write test!\n");
+//		f_close(&SDFile);
 		FileCreate();
 	}
 	vTaskSuspend(NULL);
@@ -222,7 +233,7 @@ void IMUReceive(void *pvParameters)
 {
 	HAL_UART_Receive_DMA(&huart2,IMUReceiveBuff,55);
 	__HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);
-	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
+//	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	while(1)
 	{
 		xSemaphoreTake(IMUSemaphore,portMAX_DELAY);
