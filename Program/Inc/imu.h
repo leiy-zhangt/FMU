@@ -22,6 +22,12 @@ typedef enum
 	IMU_Data_ERR
 }IMUStatus;
 
+typedef enum
+{
+	IMU_NO_Rotation = 0,
+	IMU_Roll_180
+}IMU_RotationDirection;
+
 extern uint8_t IMUReceiveBuff[];
 extern uint8_t IMUFifoBuff[];
 
@@ -31,5 +37,6 @@ extern SemaphoreHandle_t IMUSemaphore;
 extern BaseType_t IMUHigherTaskSwitch;
 
 IMUStatus IMUDataConvert(uint8_t *DataBuff);
+void IMURotationTransform(IMU_RotationDirection direction);
 
 #endif

@@ -61,11 +61,9 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	if(sum != *point) return IMU_Data_ERR;
 	point = DataBuff + 24;
 	tran_int16 = (((int16_t)point[1])<<8|(int16_t)point[0]);
-	//修正后的俯仰角,俯仰角加负号
-	IMUData.pitch = 180 - (double)tran_int16*0.0054931640625;
-	IMUData.pitch = IMUData.pitch>180?IMUData.pitch-360:IMUData.pitch;
+	IMUData.pitch = (double)tran_int16*0.0054931640625;
 	tran_int16 = (((int16_t)point[3])<<8|(int16_t)point[2]);
-	IMUData.roll = -(double)tran_int16*0.0054931640625;
+	IMUData.roll = (double)tran_int16*0.0054931640625;
 	tran_int16 = (((int16_t)point[5])<<8|(int16_t)point[4]);
 	IMUData.yaw = (double)tran_int16*0.0054931640625;
 	//计算气压,单位为Pa和cm
@@ -98,10 +96,32 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	IMUData.quaternion[2] = (double)tran_int16*0.000030517578125;
 	tran_int16 = (((int16_t)point[7])<<8|(int16_t)point[6]);
 	IMUData.quaternion[3] = (double)tran_int16*0.000030517578125;
+	//进行旋转变换，得到有安装角下的数据
+	IMURotationTransform(IMU_NO_Rotation);
 //	printf("%0.4f  %0.4f  %0.4f  ",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z);
 //	printf("%0.4f  %0.4f  %0.4f  ",IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
 //	printf("%0.4f  %0.4f  %0.4f  ",IMUData.pitch,IMUData.roll,IMUData.yaw);
 //	printf("%0.4f  %0.4f  ",IMUData.pressure,IMUData.height);
 //	printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);
 	return IMU_OK;
+}
+
+
+void IMURotationTransform(IMU_RotationDirection direction)
+{
+	switch(direction)
+	{
+		case IMU_NO_Rotation:
+			break;
+		case IMU_Roll_180:
+			//修正后的俯仰角,俯仰角加负号
+			IMUData.pitch = 180 - IMUData.pitch;
+			IMUData.pitch = IMUData.pitch>180?IMUData.pitch-360:IMUData.pitch;
+			IMUData.roll = -IMUData.roll;
+			IMUData.acc_x = -IMUData.acc_x;
+			IMUData.acc_z = -IMUData.acc_z;
+			IMUData.gyr_x = -IMUData.gyr_x;
+			IMUData.gyr_z = -IMUData.gyr_z;
+			break;
+	}
 }
