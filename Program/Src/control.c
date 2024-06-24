@@ -115,48 +115,7 @@ void FixedWingControl(void)
 		}
 		case FMU_Stable:
 		{
-			//滚转与俯仰角期望值 0.06为30°
-			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
-			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09;
-			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;      
-			//计算舵机角度
-			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
-			servo_roll = servo_roll>45?45:servo_roll;
-			servo_roll = servo_roll<-45?-45:servo_roll;
-			servo_pitch = expected_pitch;
-			ServoSet(ServoChannel_1,servo_roll);
-			ServoSet(ServoChannel_5,servo_roll);
-			ServoSet(ServoChannel_2,servo_pitch);
-			ServoSet(ServoChannel_6,servo_pitch);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-			ServoSet(ServoChannel_4,expected_yaw);
-			ServoSet(ServoChannel_7,expected_yaw);
-			break;
-		}
-		case FMU_Height:
-		{
-//			//滚转与俯仰角期望值
-//			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.12;
-//			expected_pitch = Kp_height*(expected_height-GNSSData.alt)+6;
-//			//计算俯仰角误差积分
-//			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
-//      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
-//      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
-//			//计算舵机角度
-//			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
-//			servo_roll = servo_roll>30?30:servo_roll;
-//			servo_roll = servo_roll<-30?-30:servo_roll;
-//			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
-//			servo_pitch = servo_pitch>25?25:servo_pitch;
-//			servo_pitch = servo_pitch<-25?-25:servo_pitch;
-//			ServoSet(ServoChannel_1,servo_roll);
-//			ServoSet(ServoChannel_2,servo_pitch);
-//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
-//			ServoSet(ServoChannel_1,servo_roll);
-//			ServoSet(ServoChannel_2,servo_pitch);
-//			break;
-			//滚转与俯仰角期望值 0.06为30°
+			//滚转与俯仰角期望值 0.09为45°
 			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09+RollNeutral;
 			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09+PitchNeutral;
 			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
@@ -169,8 +128,8 @@ void FixedWingControl(void)
 			servo_roll = servo_roll>45?45:servo_roll;
 			servo_roll = servo_roll<-45?-45:servo_roll;
 			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
-			servo_pitch = servo_pitch>30?30:servo_pitch;
-			servo_pitch = servo_pitch<-30?-30:servo_pitch;
+			servo_pitch = servo_pitch>45?45:servo_pitch;
+			servo_pitch = servo_pitch<-45?-45:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
 			ServoSet(ServoChannel_5,servo_roll);
 			ServoSet(ServoChannel_2,servo_pitch);
@@ -178,6 +137,33 @@ void FixedWingControl(void)
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
 			ServoSet(ServoChannel_4,expected_yaw);
 			ServoSet(ServoChannel_7,expected_yaw);
+			break;
+		}
+		case FMU_Height:
+		{
+			//滚转与俯仰角期望值
+			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
+			expected_pitch = Kp_height*(expected_height-GNSSData.alt);
+			//限制俯仰角上下限
+			expected_pitch = expected_pitch>20?20:expected_pitch;
+			expected_pitch = expected_pitch<-20?-20:expected_pitch;
+			//计算俯仰角误差积分
+			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
+      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
+      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
+			//计算舵机角度
+			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
+			servo_roll = servo_roll>30?30:servo_roll;
+			servo_roll = servo_roll<-30?-30:servo_roll;
+			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
+			servo_pitch = servo_pitch>25?25:servo_pitch;
+			servo_pitch = servo_pitch<-25?-25:servo_pitch;
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
 			break;
 		}
 	}

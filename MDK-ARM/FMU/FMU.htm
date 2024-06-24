@@ -3,9 +3,9 @@
 <title>Static Call Graph - [FMU\FMU.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image FMU\FMU.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jun 20 17:41:11 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Jun 24 21:20:09 2024
 <BR><P>
-<H3>Maximum Stack Usage =        536 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        576 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 FMUControlCalculation &rArr; FixedWingControl &rArr; f_printf &rArr; putc_bfd &rArr;  putc_bfd (Cycle)
 <P>
@@ -1362,7 +1362,7 @@ Global Symbols
 
 <P><STRONG><a name="[2cd]"></a>FATFS_LinkDriverEx</STRONG> (Thumb, 68 bytes, Stack size 4 bytes, ff_gen_drv.o(i.FATFS_LinkDriverEx), UNUSED)
 
-<P><STRONG><a name="[a4]"></a>FMUCheck</STRONG> (Thumb, 84 bytes, Stack size 0 bytes, taskinit.o(i.FMUCheck))
+<P><STRONG><a name="[a4]"></a>FMUCheck</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, taskinit.o(i.FMUCheck))
 <BR><BR>[Stack]<UL><LI>Max Depth = 320 + Unknown Stack Size
 <LI>Call Chain = FMUCheck &rArr; GNSSDataConvert &rArr; GPS_Analysis &rArr; NMEA_GPRMC_Analysis &rArr; __hardfp_pow &rArr; sqrt &rArr; __set_errno
 </UL>
@@ -1376,7 +1376,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> taskinit.o(i.TaskCreate)
 </UL>
 <P><STRONG><a name="[a5]"></a>FMUControlCalculation</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, taskinit.o(i.FMUControlCalculation))
-<BR><BR>[Stack]<UL><LI>Max Depth = 536 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 576 + Unknown Stack Size
 <LI>Call Chain = FMUControlCalculation &rArr; FixedWingControl &rArr; f_printf &rArr; putc_bfd &rArr;  putc_bfd (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
@@ -1406,8 +1406,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ControlStart
 </UL>
 
-<P><STRONG><a name="[123]"></a>FixedWingControl</STRONG> (Thumb, 814 bytes, Stack size 144 bytes, control.o(i.FixedWingControl))
-<BR><BR>[Stack]<UL><LI>Max Depth = 528 + Unknown Stack Size
+<P><STRONG><a name="[123]"></a>FixedWingControl</STRONG> (Thumb, 958 bytes, Stack size 184 bytes, control.o(i.FixedWingControl))
+<BR><BR>[Stack]<UL><LI>Max Depth = 568 + Unknown Stack Size
 <LI>Call Chain = FixedWingControl &rArr; f_printf &rArr; putc_bfd &rArr;  putc_bfd (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ServoSet
@@ -2402,7 +2402,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IMUReceive
 </UL>
 
-<P><STRONG><a name="[a7]"></a>IMUReceive</STRONG> (Thumb, 92 bytes, Stack size 8 bytes, taskinit.o(i.IMUReceive))
+<P><STRONG><a name="[a7]"></a>IMUReceive</STRONG> (Thumb, 94 bytes, Stack size 8 bytes, taskinit.o(i.IMUReceive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = IMUReceive &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
@@ -2977,8 +2977,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[aa]"></a>TeleportTransmit</STRONG> (Thumb, 224 bytes, Stack size 96 bytes, taskinit.o(i.TeleportTransmit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 248 + Unknown Stack Size
+<P><STRONG><a name="[aa]"></a>TeleportTransmit</STRONG> (Thumb, 216 bytes, Stack size 104 bytes, taskinit.o(i.TeleportTransmit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 256 + Unknown Stack Size
 <LI>Call Chain = TeleportTransmit &rArr; InfoPrint &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
