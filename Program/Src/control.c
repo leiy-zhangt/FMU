@@ -46,8 +46,8 @@ void ControlStop(void)//飞控结束工作
 
 void ServoSet(ServoChannel channel,double angle)//
 {
-	uint8_t ServoDirection[8] = {1,1,0,1,1,0,0,0};
-	int16_t ServoOffset[8] = {0,-55,0,50,0,20,80,0};
+	uint8_t ServoDirection[8] = {1,1,0,0,1,0,0,0};
+	int16_t ServoOffset[8] = {0,0,0,50,0,20,80,0};
 	int16_t angle_int16;
 	switch(channel)
 	{
@@ -102,7 +102,7 @@ void FixedWingControl(void)
 		{
 			//第一组舵机
 			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
-			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.03;
+			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09;
 			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
 			ServoSet(ServoChannel_1,expected_roll);
 			ServoSet(ServoChannel_5,expected_roll);
@@ -117,7 +117,7 @@ void FixedWingControl(void)
 		{
 			//滚转与俯仰角期望值 0.06为30°
 			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
-			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.03;
+			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09;
 			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;      
 			//计算舵机角度
 			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
@@ -169,12 +169,12 @@ void FixedWingControl(void)
 			servo_roll = servo_roll>45?45:servo_roll;
 			servo_roll = servo_roll<-45?-45:servo_roll;
 			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
-			servo_pitch = servo_pitch>15?15:servo_pitch;
-			servo_pitch = servo_pitch<-15?-15:servo_pitch;
+			servo_pitch = servo_pitch>30?30:servo_pitch;
+			servo_pitch = servo_pitch<-30?-30:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
 			ServoSet(ServoChannel_5,servo_roll);
-			ServoSet(ServoChannel_2,servo_pitch+5);
-			ServoSet(ServoChannel_6,servo_pitch+5);
+			ServoSet(ServoChannel_2,servo_pitch);
+			ServoSet(ServoChannel_6,servo_pitch);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
 			ServoSet(ServoChannel_4,expected_yaw);
 			ServoSet(ServoChannel_7,expected_yaw);
@@ -192,9 +192,9 @@ void FixedWingControl(void)
 	else sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f h: %0.2f ",\
 		"GNSS NOFIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,expected_height);
 	f_printf(&SDFile,(char *)StorageBuff);
-	if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s expect_p:%0.4f expect_r:%0.4f expect_y:%0.4f expect_t:%u servo_p:%0.4f servo_y:%0.4f\n","Receiver OK!",\
+	if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s mode: %u expect_p: %0.4f expect_r: %0.4f expect_y: %0.4f expect_t: %u servo_p: %0.4f servo_y: %0.4f\n","Receiver OK!",ReceiverChannel[5],\
 		expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],servo_pitch,servo_roll);
-	else sprintf((char *)StorageBuff,"%s expect_p:%0.4f expect_r:%0.4f expect_y:%0.4f expect_t:%u servo_p:%0.4f servo_y:%0.4f\n","Receiver ERR!",\
+	else sprintf((char *)StorageBuff,"%s mode: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u servo_p: %0.4f servo_y: %0.4f\n","Receiver ERR!",ReceiverChannel[5],\
 		expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],servo_pitch,servo_roll);
 	f_printf(&SDFile,(char *)StorageBuff);
 }

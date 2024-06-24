@@ -57,8 +57,8 @@ void ReceiverSolution(void)
 			ControlStop();
 		}
 		expected_roll = (ReceiverChannel[0]-1500)*0.09;
-		expected_pitch = (ReceiverChannel[1]-1500)*0.04;
-		expected_yaw = (ReceiverChannel[3]-1500)*0.04;
+		expected_pitch = (ReceiverChannel[1]-1500)*0.09;
+		expected_yaw = (ReceiverChannel[3]-1500)*0.09;
 		//滚转角输出
 		ServoSet(ServoChannel_1,expected_roll);
 		ServoSet(ServoChannel_5,expected_roll);
