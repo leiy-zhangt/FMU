@@ -20,7 +20,8 @@ typedef enum
 {
 	FMU_Manual,
 	FMU_Stable,
-	FMU_Height
+	FMU_Height,
+	FMU_Return
 }FMUControlModeSelect;
 
 extern SemaphoreHandle_t ControlSemaphore;//控制率计算二值信号量

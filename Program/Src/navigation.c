@@ -3,12 +3,17 @@
 #include "control.h"
 #include "imu.h"
 #include "stdio.h"
+#include "gnss.h"
 
 uint8_t GNSSUpdate;
+uint8_t FMUReturnFlag = 0;//无人机返航标志
+FMURrturnDirection ReturnDire;//自动返回航向
 
 NavigationDataStruct NevigationInitData;
 NavigationDataStruct NevigationLastData;
 NavigationDataStruct NevigationData;
+
+
 
 void NevigationSolution(void)
 {
@@ -55,5 +60,32 @@ double Distance2Lon(double px_1,double px_2) //东向距离转换为经度
 double Distance2Lat(double py_1,double py_2) //北向距离转换为纬度
 {
 	return (py_1-py_2)*0.000008983111;
+}
+
+FMURrturnDirection FMUReturnJudge(void)
+{
+	double dx,dy,distance,V_angle,R_angle,Diff_angle;
+	if(FMUReturnFlag == 0)
+	{
+		distance = sqrt(pow(Lon2Distance(GNSSData.lon,GNSSData.lon_Init),2)+pow(Lat2Distance(GNSSData.lat,GNSSData.lat_Init),2));
+		if(distance > FMUReturnDistance)
+		{
+			FMUReturnFlag = 1;
+		}
+	}
+	else
+	{
+		R_angle = atan2(Lat2Distance(GNSSData.lat_Init,GNSSData.lat),Lon2Distance(GNSSData.lon_Init,GNSSData.lon))*57.3; 
+		V_angle = IMUData.yaw;
+		R_angle = R_angle<0?360+R_angle:R_angle;
+		V_angle = V_angle<0?360+V_angle:V_angle;
+		Diff_angle = V_angle - R_angle;
+		Diff_angle = Diff_angle>180?Diff_angle-360:Diff_angle;
+		Diff_angle = Diff_angle<-180?360+Diff_angle:Diff_angle;
+		if(Diff_angle<20) FMUReturnFlag = 0;
+		if(Diff_angle>0) return Return_TurnLeft;
+		else return Return_TurnRight;
+	}
+	return Return_NOTurn;
 }
 

@@ -6,6 +6,7 @@
 #include "gnss.h"
 #include "receiver.h"
 #include "taskinit.h"
+#include "navigation.h"
 
 SemaphoreHandle_t ControlSemaphore=NULL;//控制率二值信号量
 BaseType_t ControlHigherTaskSwitch;
@@ -96,6 +97,8 @@ void ServoSet(ServoChannel channel,double angle)//
 
 void FixedWingControl(void)
 {
+	ReturnDire = FMUReturnJudge();
+	if(FMUReturnFlag)	FMUControlMode = FMU_Return;
 	switch(FMUControlMode)
 	{
 		case FMU_Manual:
@@ -143,7 +146,36 @@ void FixedWingControl(void)
 		{
 			//滚转与俯仰角期望值
 			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
-			expected_pitch = Kp_height*(expected_height-GNSSData.alt);
+			expected_pitch = Kp_height*(expected_height-IMUData.height);
+			//限制俯仰角上下限
+			expected_pitch = expected_pitch>20?20:expected_pitch;
+			expected_pitch = expected_pitch<-20?-20:expected_pitch;
+			//计算俯仰角误差积分
+			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
+      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
+      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
+			//计算舵机角度
+			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
+			servo_roll = servo_roll>30?30:servo_roll;
+			servo_roll = servo_roll<-30?-30:servo_roll;
+			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
+			servo_pitch = servo_pitch>25?25:servo_pitch;
+			servo_pitch = servo_pitch<-25?-25:servo_pitch;
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
+			break;
+		}
+		case FMU_Return:
+		{
+			//滚转与俯仰角期望值
+			if(ReturnDire == Return_TurnLeft) expected_roll = -FMUReturnRoll;
+			else expected_roll = FMUReturnRoll;
+			expected_height = IMUData.height_Init+FMUReturnHeight;
+			expected_pitch = Kp_height*(expected_height-IMUData.height);
 			//限制俯仰角上下限
 			expected_pitch = expected_pitch>20?20:expected_pitch;
 			expected_pitch = expected_pitch<-20?-20:expected_pitch;
