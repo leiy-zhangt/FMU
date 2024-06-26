@@ -100,6 +100,9 @@ void FMUCheck(void *pvParameters)
 		{
 			InfoPrint(PrintChannel,"GNSS is ready!\r\n");
 			GNSSData.alt_Init = GNSSData.alt;
+			GNSSData.lat_Init = GNSSData.lat;
+			GNSSData.lon_Init = GNSSData.lon;
+			
 			xEventGroupSetBits(FMUCheckEvent,0xFF);
 			vTaskSuspend(NULL);
 		}
@@ -208,11 +211,15 @@ void IMUReceive(void *pvParameters)
 	HAL_UART_Receive_DMA(&huart2,IMUReceiveBuff,55);
 	__HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);
 	//初始化IMU高度
-	xSemaphoreTake(IMUSemaphore,portMAX_DELAY);
-	IMURet = IMUDataConvert(IMUFifoBuff);
-	if(IMURet == IMU_OK)
+	while(1)
 	{
-		IMUData.height_Init = IMUData.height;
+		xSemaphoreTake(IMUSemaphore,portMAX_DELAY);
+		IMURet = IMUDataConvert(IMUFifoBuff);
+		if(IMURet == IMU_OK)
+		{
+			IMUData.height_Init = IMUData.height;
+			break;
+		}
 	}
 	while(1)
 	{
@@ -325,8 +332,11 @@ void TeleportTransmit(void *pvParameters)
 			case FMU_Height:
 				sprintf(ControlMode,"Height");
 				break;
+			case FMU_Return:
+				sprintf(ControlMode,"Return");
+				break;
 		}
-		sprintf(SendBuff,"%s  p:%0.2f  r:%0.2f  y:%0.2f  h:%0.2f  lat:%0.8f  lon:%0.8f  s:%0.2f  v:%0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,GNSSData.alt - GNSSData.alt_Init,GNSSData.lat,GNSSData.lon,GNSSData.velocity,voltage);
+		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(1000);
 	}

@@ -85,3 +85,4 @@ fmu\control.o: ../Program/Inc/taskinit.h
 fmu\control.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\string.h
 fmu\control.o: ../Program/Inc/printf.h
 fmu\control.o: ../Program/Inc/teleport.h
+fmu\control.o: ../Program/Inc/navigation.h

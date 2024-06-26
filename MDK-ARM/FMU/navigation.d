@@ -1,11 +1,5 @@
 fmu\navigation.o: ..\Program\Src\navigation.c
 fmu\navigation.o: ../Program/Inc/navigation.h
-fmu\navigation.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\math.h
-fmu\navigation.o: ../Program/Inc/control.h
-fmu\navigation.o: ../FATFS/App/fatfs.h
-fmu\navigation.o: ../Middlewares/Third_Party/FatFs/src/ff.h
-fmu\navigation.o: ../Middlewares/Third_Party/FatFs/src/integer.h
-fmu\navigation.o: ../FATFS/Target/ffconf.h
 fmu\navigation.o: ../Core/Inc/main.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
 fmu\navigation.o: ../Core/Inc/stm32h7xx_hal_conf.h
@@ -23,6 +17,7 @@ fmu\navigation.o: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 fmu\navigation.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+fmu\navigation.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\math.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio_ex.h
@@ -51,6 +46,11 @@ fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
+fmu\navigation.o: ../Middlewares/Third_Party/FatFs/src/integer.h
+fmu\navigation.o: ../Program/Inc/control.h
+fmu\navigation.o: ../FATFS/App/fatfs.h
+fmu\navigation.o: ../Middlewares/Third_Party/FatFs/src/ff.h
+fmu\navigation.o: ../FATFS/Target/ffconf.h
 fmu\navigation.o: ../FATFS/Target/bsp_driver_sd.h
 fmu\navigation.o: ../FATFS/Target/fatfs_platform.h
 fmu\navigation.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
@@ -74,3 +74,5 @@ fmu\navigation.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os
 fmu\navigation.o: ../Program/Inc/imu.h
 fmu\navigation.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\navigation.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+fmu\navigation.o: ../Program/Inc/gnss.h
+fmu\navigation.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
