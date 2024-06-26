@@ -97,8 +97,8 @@ void ServoSet(ServoChannel channel,double angle)//
 
 void FixedWingControl(void)
 {
-	ReturnDire = FMUReturnJudge();
-	if(FMUReturnFlag)	FMUControlMode = FMU_Return;
+//	ReturnDire = FMUReturnJudge();
+//	if(FMUReturnFlag)	FMUControlMode = FMU_Return;
 	switch(FMUControlMode)
 	{
 		case FMU_Manual:

@@ -97,7 +97,7 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	tran_int16 = (((int16_t)point[7])<<8|(int16_t)point[6]);
 	IMUData.quaternion[3] = (double)tran_int16*0.000030517578125;
 	//进行旋转变换，得到有安装角下的数据
-	IMURotationTransform(IMU_NO_Rotation);
+	IMURotationTransform(IMU_Roll_180);
 //	printf("%0.4f  %0.4f  %0.4f  ",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z);
 //	printf("%0.4f  %0.4f  %0.4f  ",IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
 //	printf("%0.4f  %0.4f  %0.4f  ",IMUData.pitch,IMUData.roll,IMUData.yaw);
