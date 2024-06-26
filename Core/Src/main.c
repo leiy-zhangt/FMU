@@ -223,7 +223,7 @@ int main(void)
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-//  osKernelStart();
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
 
@@ -1343,7 +1343,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(SPI2_IO_GPIO_Port, SPI2_IO_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(S_EN_GPIO_Port, S_EN_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(S_EN_GPIO_Port, S_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, ADXL_CS_Pin|ADXL_INT_Pin, GPIO_PIN_SET);
