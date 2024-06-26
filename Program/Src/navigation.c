@@ -65,9 +65,9 @@ double Distance2Lat(double py_1,double py_2) //北向距离转换为纬度
 FMURrturnDirection FMUReturnJudge(void)
 {
 	double dx,dy,distance,V_angle,R_angle,Diff_angle;
+	distance = sqrt(pow(Lon2Distance(GNSSData.lon,GNSSData.lon_Init),2)+pow(Lat2Distance(GNSSData.lat,GNSSData.lat_Init),2));
 	if(FMUReturnFlag == 0)
 	{
-		distance = sqrt(pow(Lon2Distance(GNSSData.lon,GNSSData.lon_Init),2)+pow(Lat2Distance(GNSSData.lat,GNSSData.lat_Init),2));
 		if(distance > FMUReturnDistance)
 		{
 			FMUReturnFlag = 1;
@@ -82,7 +82,14 @@ FMURrturnDirection FMUReturnJudge(void)
 		Diff_angle = V_angle - R_angle;
 		Diff_angle = Diff_angle>180?Diff_angle-360:Diff_angle;
 		Diff_angle = Diff_angle<-180?360+Diff_angle:Diff_angle;
-		if(Diff_angle<20) FMUReturnFlag = 0;
+		if(Diff_angle<20) 
+		{
+			if(distance<FMUReturnDistance) 
+			{
+				FMUReturnFlag = 0;
+				return Return_NOTurn;
+			}
+		}
 		if(Diff_angle>0) return Return_TurnLeft;
 		else return Return_TurnRight;
 	}

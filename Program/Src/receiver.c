@@ -92,7 +92,7 @@ void ReceiverSolution(void)
 		FMUControlMode = FMU_Height;
 		if(FMUControlModePrevious != FMU_Height) 
     {
-      expected_height = GNSSData.alt;
+      expected_height = IMUData.height;
       integtal_pitch = 0;
     }
 	}
@@ -118,7 +118,6 @@ void ReceiverSolution(void)
 	{
 			vTaskResume(TeleportTransmit_TCB);
 	}
-	
 	//复制通道内容
 	FMUControlModePrevious = FMUControlMode;
 	memcpy(ReceiverChannelPrevious,ReceiverChannel,sizeof(ReceiverChannel));
