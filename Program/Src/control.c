@@ -48,7 +48,7 @@ void ControlStop(void)//飞控结束工作
 void ServoSet(ServoChannel channel,double angle)//
 {
 	uint8_t ServoDirection[8] = {1,1,0,0,1,0,0,0};
-	int16_t ServoOffset[8] = {0,0,0,50,0,20,80,0};
+	int16_t ServoOffset[8] = {0,120,0,0,0,20,80,0};
 	int16_t angle_int16;
 	switch(channel)
 	{
@@ -97,8 +97,8 @@ void ServoSet(ServoChannel channel,double angle)//
 
 void FixedWingControl(void)
 {
-	ReturnDire = FMUReturnJudge();
-	if(FMUReturnFlag)	FMUControlMode = FMU_Return;
+//	ReturnDire = FMUReturnJudge();
+//	if(FMUReturnFlag)	FMUControlMode = FMU_Return;
 	switch(FMUControlMode)
 	{
 		case FMU_Manual:
@@ -159,8 +159,8 @@ void FixedWingControl(void)
 			servo_roll = servo_roll>30?30:servo_roll;
 			servo_roll = servo_roll<-30?-30:servo_roll;
 			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
-			servo_pitch = servo_pitch>25?25:servo_pitch;
-			servo_pitch = servo_pitch<-25?-25:servo_pitch;
+			servo_pitch = servo_pitch>45?45:servo_pitch;
+			servo_pitch = servo_pitch<-45?-45:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
 			ServoSet(ServoChannel_2,servo_pitch);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
@@ -169,35 +169,35 @@ void FixedWingControl(void)
 			ServoSet(ServoChannel_2,servo_pitch);
 			break;
 		}
-		case FMU_Return:
-		{
-			//滚转与俯仰角期望值
-			if(ReturnDire == Return_TurnLeft) expected_roll = -FMUReturnRoll;
-			else expected_roll = FMUReturnRoll;
-			expected_height = IMUData.height_Init+FMUReturnHeight;
-			expected_pitch = Kp_height*(expected_height-IMUData.height);
-			//限制俯仰角上下限
-			expected_pitch = expected_pitch>20?20:expected_pitch;
-			expected_pitch = expected_pitch<-20?-20:expected_pitch;
-			//计算俯仰角误差积分
-			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
-      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
-      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
-			//计算舵机角度
-			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
-			servo_roll = servo_roll>30?30:servo_roll;
-			servo_roll = servo_roll<-30?-30:servo_roll;
-			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
-			servo_pitch = servo_pitch>25?25:servo_pitch;
-			servo_pitch = servo_pitch<-25?-25:servo_pitch;
-			ServoSet(ServoChannel_1,servo_roll);
-			ServoSet(ServoChannel_2,servo_pitch);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
-			ServoSet(ServoChannel_1,servo_roll);
-			ServoSet(ServoChannel_2,servo_pitch);
-			break;
-		}
+//		case FMU_Return:
+//		{
+//			//滚转与俯仰角期望值
+//			if(ReturnDire == Return_TurnLeft) expected_roll = -FMUReturnRoll;
+//			else expected_roll = FMUReturnRoll;
+//			expected_height = IMUData.height_Init+FMUReturnHeight;
+//			expected_pitch = Kp_height*(expected_height-IMUData.height);
+//			//限制俯仰角上下限
+//			expected_pitch = expected_pitch>20?20:expected_pitch;
+//			expected_pitch = expected_pitch<-20?-20:expected_pitch;
+//			//计算俯仰角误差积分
+//			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
+//      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
+//      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
+//			//计算舵机角度
+//			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
+//			servo_roll = servo_roll>30?30:servo_roll;
+//			servo_roll = servo_roll<-30?-30:servo_roll;
+//			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
+//			servo_pitch = servo_pitch>25?25:servo_pitch;
+//			servo_pitch = servo_pitch<-25?-25:servo_pitch;
+//			ServoSet(ServoChannel_1,servo_roll);
+//			ServoSet(ServoChannel_2,servo_pitch);
+//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
+//			ServoSet(ServoChannel_1,servo_roll);
+//			ServoSet(ServoChannel_2,servo_pitch);
+//			break;
+//		}
 	}
 	//飞行参数保存，保存内容为:time IMUStatus ax ay az gx gy gz pitch roll yaw pre height GNSSStatus lon lat alt velocity v_e v_n ReceiverStatus ch[1-8] chout[1-8]
 	if(IMURet == IMU_OK) sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",\

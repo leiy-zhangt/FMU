@@ -22,12 +22,31 @@ Dialog DLL:      TCM.DLL V1.42.0.0
  
 <h2>Project:</h2>
 D:\Program\FMU\MDK-ARM\FMU.uvprojx
-Project File Date:  06/20/2024
+Project File Date:  06/26/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Program Files\Keil\ARM\ARMCC\Bin'
 Build target 'FMU'
-"FMU\FMU.axf" - 0 Error(s), 0 Warning(s).
+compiling taskinit.c...
+..\Program\Src\taskinit.c(327): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
+  				sprintf(ControlMode,"Manual");
+..\Program\Src\taskinit.c(330): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
+  				sprintf(ControlMode,"Stable");
+..\Program\Src\taskinit.c(333): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
+  				sprintf(ControlMode,"Height");
+..\Program\Src\taskinit.c(336): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
+  				sprintf(ControlMode,"Return");
+..\Program\Src\taskinit.c(339): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *__restrict__"
+  		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
+..\Program\Src\taskinit.c(340): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "char *"
+  		InfoPrint(PrintChannel,SendBuff);
+..\Program\Src\taskinit.c(310): warning:  #550-D: variable "current"  was set but never used
+  	double voltage,current;
+..\Program\Src\taskinit.c: 7 warnings, 0 errors
+linking...
+Program Size: Code=73868 RO-data=177056 RW-data=476 ZI-data=37068  
+FromELF: creating hex file...
+"FMU\FMU.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -50,7 +69,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.4.0
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:06
 </pre>
 </body>
 </html>

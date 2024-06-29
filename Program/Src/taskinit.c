@@ -336,7 +336,7 @@ void TeleportTransmit(void *pvParameters)
 				sprintf(ControlMode,"Return");
 				break;
 		}
-		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
+		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(1000);
 	}
