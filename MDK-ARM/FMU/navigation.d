@@ -47,7 +47,7 @@ fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
 fmu\navigation.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
 fmu\navigation.o: ../Middlewares/Third_Party/FatFs/src/integer.h
-fmu\navigation.o: ../Program/Inc/control.h
+fmu\navigation.o: ../Program/Inc/imu.h
 fmu\navigation.o: ../FATFS/App/fatfs.h
 fmu\navigation.o: ../Middlewares/Third_Party/FatFs/src/ff.h
 fmu\navigation.o: ../FATFS/Target/ffconf.h
@@ -71,7 +71,7 @@ fmu\navigation.o: ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h
 fmu\navigation.o: ../Middlewares/Third_Party/FatFs/src/diskio.h
 fmu\navigation.o: ../FATFS/Target/sd_diskio.h
 fmu\navigation.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-fmu\navigation.o: ../Program/Inc/imu.h
+fmu\navigation.o: ../Program/Inc/control.h
 fmu\navigation.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\navigation.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 fmu\navigation.o: ../Program/Inc/gnss.h

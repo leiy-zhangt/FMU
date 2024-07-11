@@ -38,7 +38,7 @@ ReceiverStatus ReceiverDataConvert(uint8_t *ReceiverBuff)
 		ReceiverChannel[15] = ((uint16_t)((ReceiverBuff[21]&0xe0)>>5))|(((uint16_t)ReceiverBuff[22])<<3);
 		for(n=0;n<16;n++)
 		{
-			ReceiverChannel[n] = (ReceiverChannel[n]-352)*0.744+1000;
+			ReceiverChannel[n] = (ReceiverChannel[n]-256)*0.6788867+1000;
 		}
 		return Receiver_OK;
 	}

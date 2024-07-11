@@ -2,10 +2,15 @@
 #define __navigation_h
 
 #include "main.h"
+#include "imu.h"
 
 #define FMUReturnDistance 500
 #define FMUReturnHeight 100
 #define FMUReturnRoll 20
+
+#define AttiCoe 0.99	//姿态融合权重
+#define AttiDt 0.005	//姿态融合步长
+
 
 typedef struct
 {
@@ -26,7 +31,11 @@ typedef enum
 extern uint8_t GNSSUpdate;
 extern uint8_t FMUReturnFlag;//无人机返航标志
 extern FMURrturnDirection ReturnDire;//自动返回航向
+extern IMUDateStruct	NevAttitudeData;//滤波后的姿态
 
+void NevigayionSolutinInit(void);
+void AttitudeSolution(double *pitch,double *roll,double *yaw,double gyr_x,double gyr_y,double gyr_z);  //对角速度进行处理，得到弧度值形式的姿态角
+	
 void NevigationSolution(void);
 	
 double Lon2Distance(double lon_1,double lon_2); //lon1-lon2的距离
