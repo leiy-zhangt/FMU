@@ -42,7 +42,7 @@ void TaskCreate(void)
 	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
 	//Create IMUReceive
-	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",256,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
+	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",192,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
 	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
 	//Create GNSSReceive
@@ -58,9 +58,9 @@ void TaskCreate(void)
 	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 	//Create AirSpeedMeasure
-//	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
-//	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
+	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
+	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
 	//Start
 	vTaskStartScheduler();
 	while(1) ;
@@ -217,6 +217,7 @@ void IMUReceive(void *pvParameters)
 		IMURet = IMUDataConvert(IMUFifoBuff);
 		if(IMURet == IMU_OK)
 		{
+			NevigayionSolutinInit();
 			IMUData.height_Init = IMUData.height;
 			break;
 		}
@@ -227,9 +228,20 @@ void IMUReceive(void *pvParameters)
 		IMURet = IMUDataConvert(IMUFifoBuff);
 		if(IMURet == IMU_OK)
 		{
+			AttitudeSolution(&(NevAttitudeData.pitch),&(NevAttitudeData.roll),&(NevAttitudeData.yaw),IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
+//			NevAttitudeData.gyr_x = IMUData.gyr_x;
+//			NevAttitudeData.gyr_y = IMUData.gyr_y;
+//			NevAttitudeData.gyr_z = IMUData.gyr_z;
+			if(IMUData.acc_x*IMUData.acc_x+IMUData.acc_y*IMUData.acc_y+IMUData.acc_z*IMUData.acc_z < 15*15)
+			{
+				NevAttitudeData.pitch = AttiCoe*NevAttitudeData.pitch+(1-AttiCoe)*IMUData.pitch;
+				NevAttitudeData.roll = AttiCoe*NevAttitudeData.roll+(1-AttiCoe)*IMUData.roll;
+				NevAttitudeData.yaw = AttiCoe*NevAttitudeData.yaw+(1-AttiCoe)*IMUData.yaw;
+			}
 //			printf("%0.4f  %0.4f  %0.4f  ",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z);
 //			printf("%0.4f  %0.4f  %0.4f  ",IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
 //			printf("%0.4f  %0.4f  %0.4f  ",IMUData.pitch,IMUData.roll,IMUData.yaw);
+//			printf("%0.4f  %0.4f  %0.4f  \r\n",NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw);
 //			printf("%0.4f  %0.4f  ",IMUData.pressure,IMUData.height);
 //			printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);
 			//体坐标系到惯性坐标系
@@ -336,7 +348,7 @@ void TeleportTransmit(void *pvParameters)
 				sprintf(ControlMode,"Return");
 				break;
 		}
-		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
+		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(1000);
 	}

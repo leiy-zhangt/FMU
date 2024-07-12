@@ -13,6 +13,110 @@ NavigationDataStruct NevigationInitData;
 NavigationDataStruct NevigationLastData;
 NavigationDataStruct NevigationData;
 
+IMUDateStruct	NevAttitudeData;
+
+
+void AttitudeSolution(double *pitch,double *roll,double *yaw,double gyr_x,double gyr_y,double gyr_z)  //对角速度进行处理，得到弧度值形式的姿态角
+{
+  double w[3],dq[4],q[4],q_norm,dt=AttiDt;
+	double p,r,y;//姿态角
+	double T_11,T_21,T_31,T_12,T_22,T_32,T_13,T_23,T_33;//转换矩阵
+  w[0] = gyr_x * 0.017452;
+  w[1] = gyr_y * 0.017452;
+  w[2] = gyr_z * 0.017452;
+	p = (*pitch) * 0.017452;
+	r = (*roll) * 0.017452;
+	y = (*yaw) * 0.017452;
+	T_11 = cos(r)*cos(y)-sin(r)*sin(p)*sin(y);
+  T_21 = cos(r)*sin(y)+sin(r)*sin(p)*cos(y);
+  T_31 = -sin(r)*cos(p);
+  T_12 = -cos(p)*sin(y);
+  T_22 = cos(p)*cos(y);
+  T_32 = sin(p);
+  T_13 = sin(r)*cos(y)+cos(r)*sin(p)*sin(y);
+  T_23 = sin(r)*sin(y)-cos(r)*sin(p)*cos(y);
+  T_33 = cos(r)*cos(p);
+	q[0] = 0.5*sqrt(1+T_11+T_22+T_33);
+  q[1] = 0.5*sqrt(1+T_11-T_22-T_33);
+  q[2] = 0.5*sqrt(1-T_11+T_22-T_33);
+  q[3] = 0.5*sqrt(1-T_11-T_22+T_33);
+	if((T_32 - T_23)<0) q[1] = -q[1];
+  if((T_13 - T_31)<0) q[2] = -q[2];
+  if((T_21 - T_12)<0) q[3] = -q[3];
+	dq[0] = 0.5*(-w[0]*q[1]-w[1]*q[2]-w[2]*q[3]);
+  dq[1] = 0.5*(w[0]*q[0]+w[2]*q[2]-w[1]*q[3]);
+  dq[2] = 0.5*(w[1]*q[0]-w[2]*q[1]+w[0]*q[3]);
+  dq[3] = 0.5*(w[2]*q[0]+w[1]*q[1]-w[0]*q[2]);
+  q[0] = q[0] + dq[0]*dt;
+  q[1] = q[1] + dq[1]*dt;
+  q[2] = q[2] + dq[2]*dt;
+  q[3] = q[3] + dq[3]*dt;
+  q_norm = sqrt(q[0]*q[0]+q[1]*q[1]+q[2]*q[2]+q[3]*q[3]);
+  q[0] = q[0]/q_norm;
+  q[1] = q[1]/q_norm;
+  q[2] = q[2]/q_norm;
+  q[3] = q[3]/q_norm;
+//  p = asin(2*(q[0]*q[1]+q[2]*q[3]))*57.3;//初始矩阵俯仰角
+//  y = atan2(-2*(q[1]*q[2]-q[0]*q[3]),(pow(q[0],2)-pow(q[1],2)+pow(q[2],2)-pow(q[3],2)))*57.3;//初始矩阵偏航角
+//	r = atan2(-2*(q[1]*q[3]-q[0]*q[2]),pow(q[0],2)-pow(q[1],2)-pow(q[2],2)+pow(q[3],2))*57.3;//初始矩阵滚转角
+//	if(r<-90) 
+//	{
+//		r = 180 + r;
+//		//俯仰角转换
+//		if(p>0) p=180-p;
+//		else p=-180-p;
+//		//滚转角转换
+//		if(y>0) y=y-180;
+//		else y=180+y;
+//	}
+//	else if(r>90) 
+//	{
+//		r = r - 180;
+//		//俯仰角转换
+//		if(p>0) p=180-p;
+//		else p=-180-p;
+//		//滚转角转换
+//		if(y>0) y=y-180;
+//		else y=180+y;
+//	}
+//	*pitch = p;
+//	*roll = r;
+//	*yaw = y;
+
+	(*pitch) = asin(2*(q[0]*q[1]+q[2]*q[3]))*57.3;//初始矩阵俯仰角
+  (*yaw) = atan2(-2*(q[1]*q[2]-q[0]*q[3]),(pow(q[0],2)-pow(q[1],2)+pow(q[2],2)-pow(q[3],2)))*57.3;//初始矩阵偏航角
+	(*roll) = atan2(-2*(q[1]*q[3]-q[0]*q[2]),pow(q[0],2)-pow(q[1],2)-pow(q[2],2)+pow(q[3],2))*57.3;//初始矩阵滚转角
+	if((*roll)<-90) 
+	{
+		(*roll) = 180 + (*roll);
+		//俯仰角转换
+		if((*pitch)>0) (*pitch)=180-(*pitch);
+		else (*pitch)=-180-(*pitch);
+		//滚转角转换
+		if((*yaw)>0) (*yaw)=(*yaw)-180;
+		else (*yaw)=180+(*yaw);
+	}
+	else if((*roll)>90) 
+	{
+		(*roll) = (*roll) - 180;
+		//俯仰角转换
+		if((*pitch)>0) (*pitch)=180-(*pitch);
+		else (*pitch)=-180-(*pitch);
+		//滚转角转换
+		if((*yaw)>0) (*yaw)=(*yaw)-180;
+		else (*yaw)=180+(*yaw);
+	}
+}
+
+void NevigayionSolutinInit(void)
+{
+	NevAttitudeData.pitch = IMUData.pitch;
+	NevAttitudeData.roll = IMUData.roll;
+	NevAttitudeData.yaw = IMUData.yaw;
+//	NevAttitudeData.gyr_x = IMUData.gyr_x;
+//	NevAttitudeData.gyr_y = IMUData.gyr_y;
+//	NevAttitudeData.gyr_z = IMUData.gyr_z;
+}
 
 
 void NevigationSolution(void)
@@ -95,4 +199,7 @@ FMURrturnDirection FMUReturnJudge(void)
 	}
 	return Return_NOTurn;
 }
+
+
+
 

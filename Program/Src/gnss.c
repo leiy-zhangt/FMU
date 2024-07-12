@@ -70,11 +70,11 @@ GNSSStatus GNSSDataConvert(uint8_t *DataBuff)
 		GNSSData.lat = GNSS_msg.latitude;
 		GNSSData.lon = GNSS_msg.longitude;
 		GNSSData.alt = GNSS_msg.altitude;
-		GNSSData.angle = GNSS_msg.angle*0.0174532922222222;
+		GNSSData.angle = GNSS_msg.angle;
 		velocity = GNSS_msg.speed*0.2777777777777778;
 		GNSSData.velocity = velocity;
-		GNSSData.velocity_n = velocity*cos(GNSSData.angle);
-		GNSSData.velocity_e = velocity*sin(GNSSData.angle);
+		GNSSData.velocity_n = velocity*cos(GNSSData.angle*0.0174532922222222);
+		GNSSData.velocity_e = velocity*sin(GNSSData.angle*0.0174532922222222);
 		return GNSS_FIX;
 	}
 	else
