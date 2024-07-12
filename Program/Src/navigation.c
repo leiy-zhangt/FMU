@@ -113,9 +113,9 @@ void NevigayionSolutinInit(void)
 	NevAttitudeData.pitch = IMUData.pitch;
 	NevAttitudeData.roll = IMUData.roll;
 	NevAttitudeData.yaw = IMUData.yaw;
-	NevAttitudeData.gyr_x = IMUData.gyr_x;
-	NevAttitudeData.gyr_y = IMUData.gyr_y;
-	NevAttitudeData.gyr_z = IMUData.gyr_z;
+//	NevAttitudeData.gyr_x = IMUData.gyr_x;
+//	NevAttitudeData.gyr_y = IMUData.gyr_y;
+//	NevAttitudeData.gyr_z = IMUData.gyr_z;
 }
 
 

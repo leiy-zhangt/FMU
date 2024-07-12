@@ -1,7 +1,7 @@
 %%
 %姿态计算程序测试
-clear;
-clc;
+% clear;
+% clc;
 %%
 %导入数据
 close all
@@ -48,7 +48,7 @@ close all;
 starttime = 0;
 tq=zeros(1,4);
 [tpitch(1) troll(1) tyaw(1) tq(1,:)] = euler2q([atti_pitch(starttime+1) atti_roll(starttime+1) atti_yaw(starttime+1)],[0 0 0]);
-for i=1:8280
+for i=1:1000
      [tpitch(i+1) troll(i+1) tyaw(i+1) tq(i+1,:)] = euler2q([tpitch(i) troll(i) tyaw(i)],[gx(starttime+i) gy(starttime+i) gz(starttime+i)]);
 end
 figure(1)

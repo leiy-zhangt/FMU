@@ -97,27 +97,23 @@ void ReceiverSolution(void)
     }
 	}
 	//控制数传数据返回
-	if(ReceiverChannel[6]<1400) 
-	{
-		if(ReceiverChannelPrevious[6]>1450)
-		{
-			memcpy(ReceiverChannelNeutral,ReceiverChannel,sizeof(ReceiverChannel));
-//			PitchNeutral = IMUData.pitch;
-//			RollNeutral = IMUData.roll;
-			if(eTaskGetState(TeleportTransmit_TCB) != eSuspended) vTaskSuspend(TeleportTransmit_TCB);
-		}
-	}
-	else if(ReceiverChannel[6]>1600) 
-	{
-		if(ReceiverChannelPrevious[6]<1550)
-		{
-			if(eTaskGetState(TeleportTransmit_TCB) == eSuspended) vTaskResume(TeleportTransmit_TCB);
-		}
-	}
-	if(FMUControlModePrevious!=FMUControlMode)
-	{
-			vTaskResume(TeleportTransmit_TCB);
-	}
+//	if(ReceiverChannel[6]<1400) 
+//	{
+//		if(ReceiverChannelPrevious[6]>1450)
+//		{
+//			memcpy(ReceiverChannelNeutral,ReceiverChannel,sizeof(ReceiverChannel));
+////			PitchNeutral = IMUData.pitch;
+////			RollNeutral = IMUData.roll;
+////			if(eTaskGetState(TeleportTransmit_TCB) != eSuspended) vTaskSuspend(TeleportTransmit_TCB);
+//		}
+//	}
+//	else if(ReceiverChannel[6]>1600) 
+//	{
+//		if(ReceiverChannelPrevious[6]<1550)
+//		{
+//			if(eTaskGetState(TeleportTransmit_TCB) == eSuspended) vTaskResume(TeleportTransmit_TCB);
+//		}
+//	}
 	//复制通道内容
 	FMUControlModePrevious = FMUControlMode;
 	memcpy(ReceiverChannelPrevious,ReceiverChannel,sizeof(ReceiverChannel));

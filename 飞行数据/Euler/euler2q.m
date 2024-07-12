@@ -1,6 +1,9 @@
 function [pitch roll yaw q] = euler2q(euler,gyr)
 %EULER2Q 将角速度转换为欧拉角
 %   将当前的角速度转换到姿态角，返回值为俯仰，滚转，偏航
+    q = zeros(4,1);
+    w = zeros(3,1);
+    dq = zeros(4,1);
     pitch = euler(1)/57.3;
     roll = euler(2)/57.3;
     yaw = euler(3)/57.3;
