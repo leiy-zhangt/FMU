@@ -26,41 +26,41 @@ void TaskCreate(void)
 	if(LEDTwink_Ret == pdPASS) InfoPrint(PrintChannel,"LEDTwink creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"LEDTwink creat failed!\r\n");
 	//Create FMUCheck
-	FMUCheck_Ret = xTaskCreate((TaskFunction_t)FMUCheck,"FMUCheck",128,(void *)1,FMUCheck_Prio,(TaskHandle_t *)(&FMUCheck_TCB));
-	if(FMUCheck_Ret == pdPASS) InfoPrint(PrintChannel,"FMUCheck creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"FMUCheck creat failed!\r\n");
-	//Create FMUControlCalculation
-	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
-	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
-	//Create TaskMonitor
-//	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
-//	if(TaskMonitor_Ret == pdPASS) InfoPrint(PrintChannel,"TaskMonitor creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"TaskMonitor creat failed!\r\n");
-	//Create SDWrite
-	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
-	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
+//	FMUCheck_Ret = xTaskCreate((TaskFunction_t)FMUCheck,"FMUCheck",128,(void *)1,FMUCheck_Prio,(TaskHandle_t *)(&FMUCheck_TCB));
+//	if(FMUCheck_Ret == pdPASS) InfoPrint(PrintChannel,"FMUCheck creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"FMUCheck creat failed!\r\n");
+//	//Create FMUControlCalculation
+//	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
+//	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
+//	//Create TaskMonitor
+////	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
+////	if(TaskMonitor_Ret == pdPASS) InfoPrint(PrintChannel,"TaskMonitor creat successfully!\r\n");
+////	else InfoPrint(PrintChannel,"TaskMonitor creat failed!\r\n");
+//	//Create SDWrite
+//	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
+//	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
 	//Create IMUReceive
 	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",192,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
 	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
 	//Create GNSSReceive
-	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
-	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
-	//Create ReceiverReceive
-	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
-	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
-	//Create TeleportTransmit
-	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
-	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
-	//Create AirSpeedMeasure
-	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
-	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
+//	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
+//	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
+//	//Create ReceiverReceive
+//	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
+//	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
+//	//Create TeleportTransmit
+//	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
+//	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
+//	//Create AirSpeedMeasure
+//	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
+//	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
 	//Start
 	vTaskStartScheduler();
 	while(1) ;
@@ -228,20 +228,10 @@ void IMUReceive(void *pvParameters)
 		IMURet = IMUDataConvert(IMUFifoBuff);
 		if(IMURet == IMU_OK)
 		{
-			AttitudeSolution(&(NevAttitudeData.pitch),&(NevAttitudeData.roll),&(NevAttitudeData.yaw),IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
-//			NevAttitudeData.gyr_x = IMUData.gyr_x;
-//			NevAttitudeData.gyr_y = IMUData.gyr_y;
-//			NevAttitudeData.gyr_z = IMUData.gyr_z;
-			if(IMUData.acc_x*IMUData.acc_x+IMUData.acc_y*IMUData.acc_y+IMUData.acc_z*IMUData.acc_z < 15*15)
-			{
-				NevAttitudeData.pitch = AttiCoe*NevAttitudeData.pitch+(1-AttiCoe)*IMUData.pitch;
-				NevAttitudeData.roll = AttiCoe*NevAttitudeData.roll+(1-AttiCoe)*IMUData.roll;
-				NevAttitudeData.yaw = AttiCoe*NevAttitudeData.yaw+(1-AttiCoe)*IMUData.yaw;
-			}
-//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z);
-//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
-//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.pitch,IMUData.roll,IMUData.yaw);
-//			printf("%0.4f  %0.4f  %0.4f  \r\n",NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw);
+//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.tran_acc_x,IMUData.tran_acc_y,IMUData.tran_acc_z);
+//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.tran_gyr_x,IMUData.tran_gyr_y,IMUData.tran_gyr_z);
+//			printf("%0.4f  %0.4f  %0.4f  ",IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw);
+//			printf("%0.4f  %0.4f  %0.4f\r\n",NevAttitudeData.tran_pitch,NevAttitudeData.tran_roll,NevAttitudeData.tran_yaw);
 //			printf("%0.4f  %0.4f  ",IMUData.pressure,IMUData.height);
 //			printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);
 			//体坐标系到惯性坐标系
@@ -343,6 +333,9 @@ void TeleportTransmit(void *pvParameters)
 				break;
 			case FMU_Height:
 				sprintf(ControlMode,"Height");
+				break;
+			case FMU_Path:
+				sprintf(ControlMode,"Path");
 				break;
 			case FMU_Return:
 				sprintf(ControlMode,"Return");

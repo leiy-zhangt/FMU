@@ -31,6 +31,7 @@
 #include "control.h"
 #include "ms5525.h"
 #include "airspeed.h"
+#include "guide.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -234,15 +235,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		ServoSet(ServoChannel_1,0);
-		ServoSet(ServoChannel_2,0);
-		ServoSet(ServoChannel_3,0);
-		ServoSet(ServoChannel_4,0);
-		ServoSet(ServoChannel_5,0);
-		ServoSet(ServoChannel_6,0);
-		ServoSet(ServoChannel_7,0);
-		ServoSet(ServoChannel_8,0);
-		HAL_Delay(1000000);
+//		ServoSet(ServoChannel_1,0);
+//		ServoSet(ServoChannel_2,0);
+//		ServoSet(ServoChannel_3,0);
+//		ServoSet(ServoChannel_4,0);
+//		ServoSet(ServoChannel_5,0);
+//		ServoSet(ServoChannel_6,0);
+//		ServoSet(ServoChannel_7,0);
+//		ServoSet(ServoChannel_8,0);
+//		HAL_Delay(1000000);
 //		ServoSet(ServoChannel_1,20);
 //		ServoSet(ServoChannel_2,20);
 //		ServoSet(ServoChannel_3,20);
@@ -265,7 +266,8 @@ int main(void)
 //			if(MS5525_Ret == MS5525_OK) printf("pre:%f  tem:%f  pre:%f  tem:%f\r\n",MS5525_StaticData.pre,MS5525_StaticData.temp,MS5525_TotalData.pre,MS5525_TotalData.temp);
 //			HAL_Delay(100000);
 //		}
-  }
+//路径测试程序
+	}
   /* USER CODE END 3 */
 }
 
@@ -281,7 +283,6 @@ void SystemClock_Config(void)
   /** Supply configuration update enable
   */
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
-
   /** Configure the main internal regulator output voltage
   */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
@@ -1349,11 +1350,11 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, ADXL_CS_Pin|ADXL_INT_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, TELEM2_IO1_Pin|TELEM2_IO2_Pin|BAT3_Pin|TRIGGER_Pin
-                          |TELEM3_IO2_Pin|TELEM3_IO1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, TELEM2_IO1_Pin|TELEM2_IO2_Pin|BAT3_Pin|TELEM3_IO2_Pin
+                          |TELEM3_IO1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(BAT4_GPIO_Port, BAT4_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOB, BAT4_Pin|TRIGGER_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, BAT2_Pin|BAT1_Pin|TELEM1_IO2_Pin|TELEM1_IO1_Pin, GPIO_PIN_RESET);

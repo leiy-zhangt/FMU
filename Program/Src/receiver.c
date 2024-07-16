@@ -3,6 +3,7 @@
 #include "tf.h"
 #include "control.h"
 #include "taskinit.h"
+#include "guide.h"
 
 uint8_t ReceiverReceiveBuff[25];//Receiver接收缓存数组
 uint8_t ReceiverFifoBuff[25];//Receiver数据处理数组，缓存数组接收数据后保存至处理数组中
@@ -80,22 +81,48 @@ void ReceiverSolution(void)
 			ControlStart();
 		}
 	}
+	
 	//控制飞控飞行模式
-	if(ReceiverChannel[5]<1400) FMUControlMode = FMU_Manual;
-	else if(ReceiverChannel[5]<1600) 
+	if(ReceiverChannel[5]<1400)
 	{
-		FMUControlMode = FMU_Stable;
-		if(FMUControlModePrevious != FMU_Stable) integtal_pitch = 0;
+		if(ReceiverChannel[6]<1400) FMUControlMode = FMU_Manual;
+		else if(ReceiverChannel[6]<1600) 
+		{
+			FMUControlMode = FMU_Stable;
+			if(FMUControlModePrevious != FMU_Stable) integtal_pitch = 0;
+		}
+		else 
+		{
+			FMUControlMode = FMU_Height;
+			if(FMUControlModePrevious != FMU_Height) 
+			{
+				expected_height = IMUData.height;
+				integtal_pitch = 0;
+			}
+		}
 	}
-	else 
+//	else if(ReceiverChannel[5]<1600)
+	else
 	{
-		FMUControlMode = FMU_Height;
-		if(FMUControlModePrevious != FMU_Height) 
-    {
-      expected_height = IMUData.height;
-      integtal_pitch = 0;
-    }
+		FMUControlMode = FMU_Path;
+		if(FMUControlModePrevious != FMU_Path)
+		{
+			GuideInitPos.posx = GNSSData.lon;
+			GuideInitPos.posy = GNSSData.lat;
+			expected_height = IMUData.height;
+			*PathChangeJudge = 1;
+			*PathInte = 0;
+			integtal_pitch = 0;
+		}
 	}
+	//进行遥控器归中校准
+	if(ReceiverChannel[7]<1400) ;
+	else if(ReceiverChannelPrevious[7]<1400)
+	{
+		memcpy(ReceiverChannelNeutral,ReceiverChannel,sizeof(ReceiverChannel));
+	}
+	
+	
 	//控制数传数据返回
 //	if(ReceiverChannel[6]<1400) 
 //	{

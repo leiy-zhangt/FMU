@@ -71,3 +71,4 @@ fmu\imu.o: ../Middlewares/Third_Party/FatFs/src/diskio.h
 fmu\imu.o: ../FATFS/Target/sd_diskio.h
 fmu\imu.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\imu.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+fmu\imu.o: ../Program/Inc/navigation.h

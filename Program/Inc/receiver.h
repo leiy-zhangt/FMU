@@ -4,6 +4,9 @@
 #include "fatfs.h"
 #include "cmsis_os.h"
 
+#define ReceiverChannelMin 
+#define ReceiverChannelMax 
+
 
 typedef enum
 {
