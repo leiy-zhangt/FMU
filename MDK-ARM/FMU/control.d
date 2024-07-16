@@ -86,3 +86,15 @@ fmu\control.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\string.h
 fmu\control.o: ../Program/Inc/printf.h
 fmu\control.o: ../Program/Inc/teleport.h
 fmu\control.o: ../Program/Inc/navigation.h
+fmu\control.o: ../Guide/Inc/guide.h
+fmu\control.o: ../Guide/Inc/tmwtypes.h
+fmu\control.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\limits.h
+fmu\control.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\float.h
+fmu\control.o: ../Guide/Inc/point_line_gap.h
+fmu\control.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+fmu\control.o: ../Guide/Inc/rtwtypes.h
+fmu\control.o: ../Guide/Inc/control_roll_types.h
+fmu\control.o: ../Guide/Inc/path_follow.h
+fmu\control.o: ../Guide/Inc/guidence_roll.h
+fmu\control.o: ../Guide/Inc/control_roll.h
+fmu\control.o: ../Guide/Inc/judge_curve_change.h

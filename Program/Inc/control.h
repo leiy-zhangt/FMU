@@ -21,6 +21,7 @@ typedef enum
 	FMU_Manual,
 	FMU_Stable,
 	FMU_Height,
+	FMU_Path,
 	FMU_Return
 }FMUControlModeSelect;
 

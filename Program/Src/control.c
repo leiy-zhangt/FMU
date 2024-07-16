@@ -8,6 +8,7 @@
 #include "taskinit.h"
 #include "navigation.h"
 #include "math.h"
+#include "guide.h"
 
 SemaphoreHandle_t ControlSemaphore=NULL;//控制率二值信号量
 BaseType_t ControlHigherTaskSwitch;
@@ -139,13 +140,6 @@ void FixedWingControl(void)
 			servo_pitch = Kp_pitch*(expected_pitch-NevAttitudeData.pitch)-Kd_pitch*NevAttitudeData.gyr_x+Ki_pitch*integtal_pitch;
 			servo_pitch = servo_pitch>45?45:servo_pitch;
 			servo_pitch = servo_pitch<-45?-45:servo_pitch;
-			ServoSet(ServoChannel_1,servo_roll);
-			ServoSet(ServoChannel_5,servo_roll);
-			ServoSet(ServoChannel_2,servo_pitch);
-			ServoSet(ServoChannel_6,servo_pitch);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-			ServoSet(ServoChannel_4,expected_yaw);
-			ServoSet(ServoChannel_7,expected_yaw);
 			break;
 		}
 		case FMU_Height:
@@ -168,13 +162,51 @@ void FixedWingControl(void)
 			servo_pitch = servo_pitch>45?45:servo_pitch;
 			servo_pitch = servo_pitch<-45?-45:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_5,servo_roll);
 			ServoSet(ServoChannel_2,servo_pitch);
+			ServoSet(ServoChannel_6,servo_pitch);
 			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
-			ServoSet(ServoChannel_1,servo_roll);
-			ServoSet(ServoChannel_2,servo_pitch);
+			ServoSet(ServoChannel_4,expected_yaw);
+			ServoSet(ServoChannel_7,expected_yaw);
 			break;
 		}
+		case FMU_Path:
+		{
+			//路径计算参数
+			GuidePe = Lon2Distance(GNSSData.lon,GuideInitPos.posx);
+			GuidePn = Lat2Distance(GNSSData.lat,GuideInitPos.posy);
+			GuideAngle = GNSSData.angle;
+			if(GuideAngle<=180) GuideAngle = -GuideAngle*0.017452;
+			else GuideAngle = (360 - GuideAngle)*0.017452;
+			//滚转与俯仰角期望值
+			expected_roll = guidence_roll(GuidePe,GuidePn,GuideAngle,PathInte,PathChangeJudge)*57.3;
+			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(NevAttitudeData.roll)*0.5;
+			//限制滚转角、俯仰角上下限
+			expected_roll = expected_roll>30?30:expected_roll;
+			expected_roll = expected_roll<-30?-30:expected_roll;
+			expected_pitch = expected_pitch>30?30:expected_pitch;
+			expected_pitch = expected_pitch<-30?-30:expected_pitch;
+			//计算俯仰角误差积分
+			integtal_pitch = integtal_pitch+(expected_pitch-NevAttitudeData.pitch)*ControlDt;
+      integtal_pitch = integtal_pitch>20?20:integtal_pitch;
+      integtal_pitch = integtal_pitch<-20?-20:integtal_pitch;
+			//计算舵机角度
+			servo_roll = Kp_roll*(expected_roll-NevAttitudeData.roll)-Kd_roll*IMUData.gyr_y;
+			servo_roll = servo_roll>30?30:servo_roll;
+			servo_roll = servo_roll<-30?-30:servo_roll;
+			servo_pitch = Kp_pitch*(expected_pitch-NevAttitudeData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
+			servo_pitch = servo_pitch>45?45:servo_pitch;
+			servo_pitch = servo_pitch<-45?-45:servo_pitch;
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_5,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
+			ServoSet(ServoChannel_6,servo_pitch);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+			ServoSet(ServoChannel_4,expected_yaw);
+			ServoSet(ServoChannel_7,expected_yaw);
+		}
+		case FMU_Return:
+			break;
 //		case FMU_Return:
 //		{
 //			//滚转与俯仰角期望值
@@ -205,7 +237,7 @@ void FixedWingControl(void)
 //			break;
 //		}
 	}
-	//飞行参数保存，保存内容为:time IMUStatus ax ay az gx gy gz pitch roll yaw pre height GNSSStatus lon lat alt velocity v_e v_n ReceiverStatus ch[1-8] chout[1-8]
+	//飞行参数保存
 	if(IMURet == IMU_OK) sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",\
 		ControlTime,"IMU OK!",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height);
 	else sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",
@@ -216,16 +248,13 @@ void FixedWingControl(void)
 	else sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f amgle: %0.2f ",\
 		"GNSS NOFIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle);
 	f_printf(&SDFile,(char *)StorageBuff);
-	if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s mode: %u expect_p: %0.4f expect_r: %0.4f expect_y: %0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver OK!",ReceiverChannel[5],\
+	if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y: %0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver OK!",ReceiverChannel[5],ReceiverChannel[6],\
 		expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
-	else sprintf((char *)StorageBuff,"%s mode: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver ERR!",ReceiverChannel[5],\
+	else sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver ERR!",ReceiverChannel[5],ReceiverChannel[6],\
 		expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
 	f_printf(&SDFile,(char *)StorageBuff);
 	sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f\n",NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw);
 	f_printf(&SDFile,(char *)StorageBuff);
 }
-
-
-
 
 

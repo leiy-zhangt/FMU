@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../FATFS/Target;../FATFS/App;../Middlewares/Third_Party/FatFs/src;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Program/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../FATFS/Target;../FATFS/App;../Middlewares/Third_Party/FatFs/src;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Program/Inc;../Guide/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2199,6 +2199,56 @@
               <FileName>ms5525.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Program\Src\ms5525.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Guide</GroupName>
+          <Files>
+            <File>
+              <FileName>control_roll.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\control_roll.c</FilePath>
+            </File>
+            <File>
+              <FileName>guidence_roll.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\guidence_roll.c</FilePath>
+            </File>
+            <File>
+              <FileName>judge_curve_change.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\judge_curve_change.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_follow.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\path_follow.c</FilePath>
+            </File>
+            <File>
+              <FileName>point_line_gap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\point_line_gap.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_nonfinite.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\rt_nonfinite.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtGetInf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\rtGetInf.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtGetNaN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\rtGetNaN.c</FilePath>
+            </File>
+            <File>
+              <FileName>guide.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\guide.c</FilePath>
             </File>
           </Files>
         </Group>

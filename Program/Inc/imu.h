@@ -6,9 +6,9 @@
 
 typedef struct
 {
-	double acc_x,acc_y,acc_z;
-	double gyr_x,gyr_y,gyr_z;
-	double pitch,roll,yaw;
+	double acc_x,acc_y,acc_z,tran_acc_x,tran_acc_y,tran_acc_z;
+	double gyr_x,gyr_y,gyr_z,tran_gyr_x,tran_gyr_y,tran_gyr_z;
+	double pitch,roll,yaw,tran_pitch,tran_roll,tran_yaw;
 	double pressure,height;
 	double temperature;
 	double quaternion[4];

@@ -85,3 +85,15 @@ fmu\receiver.o: ../Program/Inc/gnss.h
 fmu\receiver.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\receiver.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\string.h
 fmu\receiver.o: ../Program/Inc/printf.h
+fmu\receiver.o: ../Guide/Inc/guide.h
+fmu\receiver.o: ../Guide/Inc/tmwtypes.h
+fmu\receiver.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\limits.h
+fmu\receiver.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\float.h
+fmu\receiver.o: ../Guide/Inc/point_line_gap.h
+fmu\receiver.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+fmu\receiver.o: ../Guide/Inc/rtwtypes.h
+fmu\receiver.o: ../Guide/Inc/control_roll_types.h
+fmu\receiver.o: ../Guide/Inc/path_follow.h
+fmu\receiver.o: ../Guide/Inc/guidence_roll.h
+fmu\receiver.o: ../Guide/Inc/control_roll.h
+fmu\receiver.o: ../Guide/Inc/judge_curve_change.h

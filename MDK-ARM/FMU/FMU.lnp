@@ -65,6 +65,15 @@
 "fmu\navigation.o"
 "fmu\airspeed.o"
 "fmu\ms5525.o"
+"fmu\control_roll.o"
+"fmu\guidence_roll.o"
+"fmu\judge_curve_change.o"
+"fmu\path_follow.o"
+"fmu\point_line_gap.o"
+"fmu\rt_nonfinite.o"
+"fmu\rtgetinf.o"
+"fmu\rtgetnan.o"
+"fmu\guide.o"
 --strict --scatter "FMU\FMU.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -1,6 +1,7 @@
 #include "main.h"
 #include "imu.h"
 #include "stdio.h"
+#include "navigation.h"
 
 uint8_t IMUReceiveBuff[60];//IMU接收缓存数组
 uint8_t IMUFifoBuff[60];//IMU数据处理数组，缓存数组接收数据后保存至处理数组中
@@ -96,13 +97,17 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	IMUData.quaternion[2] = (double)tran_int16*0.000030517578125;
 	tran_int16 = (((int16_t)point[7])<<8|(int16_t)point[6]);
 	IMUData.quaternion[3] = (double)tran_int16*0.000030517578125;
+	//使用互补滤波对姿态进行补偿
+	AttitudeSolution(&(NevAttitudeData.pitch),&(NevAttitudeData.roll),&(NevAttitudeData.yaw),IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
+	if(IMUData.acc_x*IMUData.acc_x+IMUData.acc_y*IMUData.acc_y+IMUData.acc_z*IMUData.acc_z < 15*15)
+	{
+		NevAttitudeData.pitch = AttiCoe*NevAttitudeData.pitch+(1-AttiCoe)*IMUData.pitch;
+		NevAttitudeData.roll = AttiCoe*NevAttitudeData.roll+(1-AttiCoe)*IMUData.roll;
+		NevAttitudeData.yaw = AttiCoe*NevAttitudeData.yaw+(1-AttiCoe)*IMUData.yaw;
+	}
 	//进行旋转变换，得到有安装角下的数据
 	IMURotationTransform(IMU_NO_Rotation);
-//	printf("%0.4f  %0.4f  %0.4f  ",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z);
-//	printf("%0.4f  %0.4f  %0.4f  ",IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
-//	printf("%0.4f  %0.4f  %0.4f  ",IMUData.pitch,IMUData.roll,IMUData.yaw);
-//	printf("%0.4f  %0.4f  ",IMUData.pressure,IMUData.height);
-//	printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);
+//	IMURotationTransform(IMU_Roll_180);
 	return IMU_OK;
 }
 
@@ -112,16 +117,37 @@ void IMURotationTransform(IMU_RotationDirection direction)
 	switch(direction)
 	{
 		case IMU_NO_Rotation:
+			IMUData.tran_pitch = IMUData.pitch;
+			IMUData.tran_roll = IMUData.roll;
+			IMUData.tran_yaw = IMUData.yaw;
+			IMUData.tran_acc_x = IMUData.acc_x;
+			IMUData.tran_acc_y = IMUData.acc_y;
+			IMUData.tran_acc_z = IMUData.acc_z;
+			IMUData.tran_gyr_x = IMUData.gyr_x;
+			IMUData.tran_gyr_y = IMUData.gyr_y;
+			IMUData.tran_gyr_z = IMUData.gyr_z;
+			NevAttitudeData.tran_pitch = NevAttitudeData.pitch;
+			NevAttitudeData.tran_roll = NevAttitudeData.roll;
+			NevAttitudeData.tran_yaw = NevAttitudeData.yaw;
 			break;
 		case IMU_Roll_180:
 			//修正后的俯仰角,俯仰角加负号
-			IMUData.pitch = 180 - IMUData.pitch;
-			IMUData.pitch = IMUData.pitch>180?IMUData.pitch-360:IMUData.pitch;
-			IMUData.roll = -IMUData.roll;
-			IMUData.acc_x = -IMUData.acc_x;
-			IMUData.acc_z = -IMUData.acc_z;
-			IMUData.gyr_x = -IMUData.gyr_x;
-			IMUData.gyr_z = -IMUData.gyr_z;
+			IMUData.tran_pitch = 180 - IMUData.pitch;
+			IMUData.tran_pitch = IMUData.tran_pitch>180?IMUData.tran_pitch-360:IMUData.tran_pitch;
+			IMUData.tran_roll = -IMUData.roll;
+			if(IMUData.yaw > 0) IMUData.tran_yaw = IMUData.yaw - 180;
+			else if(IMUData.yaw < 0)IMUData.tran_yaw = IMUData.yaw + 180;
+			IMUData.tran_acc_x = -IMUData.acc_x;
+			IMUData.tran_acc_y = IMUData.acc_y;
+			IMUData.tran_acc_z = -IMUData.acc_z;
+			IMUData.tran_gyr_x = -IMUData.gyr_x;
+			IMUData.tran_gyr_y = IMUData.gyr_y;
+			IMUData.tran_gyr_z = -IMUData.gyr_z;
+			NevAttitudeData.tran_pitch = 180 - NevAttitudeData.pitch;
+			NevAttitudeData.tran_pitch = NevAttitudeData.tran_pitch>180?NevAttitudeData.tran_pitch-360:NevAttitudeData.tran_pitch;
+			NevAttitudeData.tran_roll = -NevAttitudeData.roll;
+			if(NevAttitudeData.yaw > 0) NevAttitudeData.tran_yaw = NevAttitudeData.yaw - 180;
+			else if(NevAttitudeData.yaw < 0)NevAttitudeData.tran_yaw = NevAttitudeData.yaw + 180;
 			break;
 	}
 }
