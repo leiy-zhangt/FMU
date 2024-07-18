@@ -97,7 +97,7 @@ void ReceiverSolution(void)
 			if(FMUControlModePrevious != FMU_Height) 
 			{
 				expected_height = IMUData.height;
-				integtal_pitch = 0;
+//				integtal_pitch = 0;
 			}
 		}
 	}
@@ -112,7 +112,7 @@ void ReceiverSolution(void)
 			expected_height = IMUData.height;
 			*PathChangeJudge = 1;
 			*PathInte = 0;
-			integtal_pitch = 0;
+//			integtal_pitch = 0;
 		}
 	}
 	//进行遥控器归中校准

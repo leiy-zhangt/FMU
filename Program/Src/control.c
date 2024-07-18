@@ -21,7 +21,7 @@ const double	Kp_height=4;//高度控制率参数
 //const double Kp_roll=2,Kd_roll=0.2,Kp_pitch=0,Kd_pitch=0,Ki_pitch = 0.5,Kp_yaw=1.5,Kd_yaw=0.1,Kp_height=2;//姿态控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
-double integtal_pitch;//俯仰角误差积分
+double integtal_pitch=0;//俯仰角误差积分
 double PitchNeutral=0,RollNeutral=0;//姿态角中立位置
 
 FMUControlModeSelect FMUControlMode = FMU_Manual;//飞控工作模式选择
@@ -107,7 +107,6 @@ void FixedWingControl(void)
 	{
 		case FMU_Manual:
 		{
-			//第一组舵机
 			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
 			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09;
 			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
@@ -140,6 +139,13 @@ void FixedWingControl(void)
 			servo_pitch = Kp_pitch*(expected_pitch-NevAttitudeData.pitch)-Kd_pitch*NevAttitudeData.gyr_x+Ki_pitch*integtal_pitch;
 			servo_pitch = servo_pitch>45?45:servo_pitch;
 			servo_pitch = servo_pitch<-45?-45:servo_pitch;
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_5,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
+			ServoSet(ServoChannel_6,servo_pitch);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+			ServoSet(ServoChannel_4,expected_yaw);
+			ServoSet(ServoChannel_7,expected_yaw);
 			break;
 		}
 		case FMU_Height:
