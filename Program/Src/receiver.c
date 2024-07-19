@@ -110,8 +110,8 @@ void ReceiverSolution(void)
 			GuideInitPos.posx = GNSSData.lon;
 			GuideInitPos.posy = GNSSData.lat;
 			expected_height = IMUData.height;
-			*PathChangeJudge = 1;
-			*PathInte = 0;
+			PathChangeJudge = 1;
+			PathInte = 0;
 //			integtal_pitch = 0;
 		}
 	}

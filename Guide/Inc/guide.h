@@ -14,8 +14,8 @@ typedef struct
 }GuidePositionStruct;
 
 extern GuidePositionStruct GuideInitPos;//路径起点
-extern double *PathChangeJudge;//路径切换判断
-extern double *PathInte;//路径控制积分
+extern int PathChangeJudge;//路径切换判断
+extern double PathInte;//路径控制积分
 extern double GuidePe,GuidePn,GuideAngle;
 
 #endif

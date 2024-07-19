@@ -22,7 +22,7 @@ const double	Kp_height=4;//高度控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
 double integtal_pitch=0;//俯仰角误差积分
-double PitchNeutral=0,RollNeutral=0;//姿态角中立位置
+double PitchNeutral=5,RollNeutral=0;//姿态角中立位置
 
 FMUControlModeSelect FMUControlMode = FMU_Manual;//飞控工作模式选择
 FMUControlModeSelect FMUControlModePrevious = FMU_Manual;
@@ -185,8 +185,9 @@ void FixedWingControl(void)
 			if(GuideAngle<=180) GuideAngle = -GuideAngle*0.017452;
 			else GuideAngle = (360 - GuideAngle)*0.017452;
 			//滚转与俯仰角期望值
-			expected_roll = guidence_roll(GuidePe,GuidePn,GuideAngle,PathInte,PathChangeJudge)*57.3;
-			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(NevAttitudeData.roll)*0.5;
+			expected_roll = guidence_roll(GuidePe,GuidePn,GuideAngle,&PathInte,&PathChangeJudge)*57.3;
+//			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(NevAttitudeData.roll)*0.5;
+			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09+PitchNeutral;
 			//限制滚转角、俯仰角上下限
 			expected_roll = expected_roll>30?30:expected_roll;
 			expected_roll = expected_roll<-30?-30:expected_roll;
@@ -202,7 +203,6 @@ void FixedWingControl(void)
 			servo_roll = servo_roll<-30?-30:servo_roll;
 			servo_pitch = Kp_pitch*(expected_pitch-NevAttitudeData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
 			servo_pitch = servo_pitch>45?45:servo_pitch;
-			servo_pitch = servo_pitch<-45?-45:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
 			ServoSet(ServoChannel_5,servo_roll);
 			ServoSet(ServoChannel_2,servo_pitch);
@@ -259,7 +259,9 @@ void FixedWingControl(void)
 	else sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver ERR!",ReceiverChannel[5],ReceiverChannel[6],\
 		expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
 	f_printf(&SDFile,(char *)StorageBuff);
-	sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f\n",NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw);
+	sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f ",NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw);
+	f_printf(&SDFile,(char *)StorageBuff);
+	sprintf((char *)StorageBuff,"lon0: %0.10f lat0: %0.10f pe: %0.4f pn: %0.4f judge: %d inte: %0.2f psi: %0.4f\n",GuideInitPos.posx,GuideInitPos.posy,GuidePe,GuidePn,PathChangeJudge,PathInte,GuideAngle);
 	f_printf(&SDFile,(char *)StorageBuff);
 }
 

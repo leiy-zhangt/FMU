@@ -16,7 +16,7 @@
 
 /* Function Declarations */
 extern double guidence_roll(double p_e, double p_n, double phiv, double *I_roll,
-  double *judge);
+  int *judge);
 
 #endif
 

@@ -5,6 +5,7 @@
 #include "teleport.h"
 #include "ms5525.h"
 #include "airspeed.h"
+#include "guide.h"
 
 
 EventGroupHandle_t FMUCheckEvent; 
@@ -326,23 +327,24 @@ void TeleportTransmit(void *pvParameters)
 		switch(FMUControlMode)
 		{
 			case FMU_Manual:
-				sprintf(ControlMode,"Manual");
+				sprintf((char*)ControlMode,"Manual");
 				break;
 			case FMU_Stable:
-				sprintf(ControlMode,"Stable");
+				sprintf((char*)ControlMode,"Stable");
 				break;
 			case FMU_Height:
-				sprintf(ControlMode,"Height");
+				sprintf((char*)ControlMode,"Height");
 				break;
 			case FMU_Path:
-				sprintf(ControlMode,"Path");
+				sprintf((char*)ControlMode,"Path");
 				break;
 			case FMU_Return:
-				sprintf(ControlMode,"Return");
+				sprintf((char*)ControlMode,"Return");
 				break;
 		}
-		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
-		InfoPrint(PrintChannel,SendBuff);
+//		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
+		sprintf((char*)SendBuff,"%s lon: %0.8f lat: %0.8f v: %0.2f lon0: %0.8f lat0: %0.8f j: %d i:%0.4f\r\n",ControlMode,GNSSData.lon,GNSSData.lat,GNSSData.velocity,GuideInitPos.posx,GuideInitPos.posy,PathChangeJudge,PathInte);
+		InfoPrint(PrintChannel,(char*)SendBuff);
 		vTaskDelay(1000);
 	}
 }

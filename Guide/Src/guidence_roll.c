@@ -23,8 +23,7 @@
  *                double *judge
  * Return Type  : double
  */
-double guidence_roll(double p_e, double p_n, double phiv, double *I_roll, double
-                     *judge)
+double guidence_roll(double p_e, double p_n, double phiv, double *I_roll, int *judge)
 {
   int judge_tmp;
   int i0;
@@ -41,8 +40,8 @@ double guidence_roll(double p_e, double p_n, double phiv, double *I_roll, double
   dphi = judge_curve_change(p_e, p_n, curve);
   if (!(dphi != 0.0)) {
     (*judge)++;
-    if (*judge == 5.0) {
-      *judge = 1.0;
+    if (*judge == 5) {
+      *judge = 1;
     }
   }
 
