@@ -194,7 +194,7 @@ int main(void)
 	ServoSet(ServoChannel_6,0);
 	ServoSet(ServoChannel_7,0);
 	ServoSet(ServoChannel_8,0);
-	TaskCreate();//创建任务并启动调度器
+//	TaskCreate();//创建任务并启动调度器
 
   /* USER CODE END 2 */
 
@@ -235,6 +235,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		double e = 2.718;
+		HAL_UART_Transmit(&huart1,(uint8_t *)(&e),sizeof(double),0xFFFF);
+		HAL_Delay(1000000);
 //		ServoSet(ServoChannel_1,0);
 //		ServoSet(ServoChannel_2,0);
 //		ServoSet(ServoChannel_3,0);

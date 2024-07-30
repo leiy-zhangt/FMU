@@ -179,18 +179,19 @@ void FixedWingControl(void)
 		case FMU_Path:
 		{
 			//路径计算参数
-			GuidePe = Lon2Distance(GNSSData.lon,GuideInitPos.posx);
+			GuidePe = Lon2Distance(GNSSData.lon,GuideInitPos.posx)*0.8281;
 			GuidePn = Lat2Distance(GNSSData.lat,GuideInitPos.posy);
 			GuideAngle = GNSSData.angle;
 			if(GuideAngle<=180) GuideAngle = -GuideAngle*0.017452;
 			else GuideAngle = (360 - GuideAngle)*0.017452;
-			//滚转与俯仰角期望值
+			//滚转与俯仰角期望
+//			PathInte = 0;
 			expected_roll = guidence_roll(GuidePe,GuidePn,GuideAngle,&PathInte,&PathChangeJudge)*57.3;
-//			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(NevAttitudeData.roll)*0.5;
-			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09+PitchNeutral;
+			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(NevAttitudeData.roll)*0.5;
+//			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09+PitchNeutral;
 			//限制滚转角、俯仰角上下限
-			expected_roll = expected_roll>30?30:expected_roll;
-			expected_roll = expected_roll<-30?-30:expected_roll;
+			expected_roll = expected_roll>20?20:expected_roll;
+			expected_roll = expected_roll<-20?-20:expected_roll;
 			expected_pitch = expected_pitch>30?30:expected_pitch;
 			expected_pitch = expected_pitch<-30?-30:expected_pitch;
 			//计算俯仰角误差积分
@@ -199,8 +200,8 @@ void FixedWingControl(void)
       integtal_pitch = integtal_pitch<-20?-20:integtal_pitch;
 			//计算舵机角度
 			servo_roll = Kp_roll*(expected_roll-NevAttitudeData.roll)-Kd_roll*IMUData.gyr_y;
-			servo_roll = servo_roll>30?30:servo_roll;
-			servo_roll = servo_roll<-30?-30:servo_roll;
+			servo_roll = servo_roll>25?25:servo_roll;
+			servo_roll = servo_roll<-25?-25:servo_roll;
 			servo_pitch = Kp_pitch*(expected_pitch-NevAttitudeData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
 			servo_pitch = servo_pitch>45?45:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
