@@ -253,19 +253,6 @@ int main(void)
 //		ServoSet(ServoChannel_7,20);
 //		ServoSet(ServoChannel_8,20);
 //		HAL_Delay(1000000);
-//		MS5525_Reset(0x76);
-//		MS5525_Reset(0x77);
-//		MS5525_Calibration(0x76,&MS5525_StaticData);
-//		MS5525_Calibration(0x77,&MS5525_TotalData);
-//		while(1)
-//		{
-//			MS5525_Ret = MS5525_Measure();
-//			MS5525_Converse(&MS5525_StaticData);
-//			MS5525_Converse(&MS5525_TotalData);
-//			HAL_GPIO_TogglePin(SIGNAL_GPIO_Port,SIGNAL_Pin);
-//			if(MS5525_Ret == MS5525_OK) printf("pre:%f  tem:%f  pre:%f  tem:%f\r\n",MS5525_StaticData.pre,MS5525_StaticData.temp,MS5525_TotalData.pre,MS5525_TotalData.temp);
-//			HAL_Delay(100000);
-//		}
 //路径测试程序
 	}
   /* USER CODE END 3 */

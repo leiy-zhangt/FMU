@@ -2325,10 +2325,8 @@ Section Cross References
     taskinit.o(i.TaskMonitor) refers to tasks.o(i.vTaskDelay) for vTaskDelay
     taskinit.o(i.TaskMonitor) refers to tasks.o(i.vTaskGetRunTimeStats) for vTaskGetRunTimeStats
     taskinit.o(i.TeleportTransmit) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
-    taskinit.o(i.TeleportTransmit) refers to _printf_d.o(.ARM.Collect$$_printf_percent$$00000009) for _printf_d
     taskinit.o(i.TeleportTransmit) refers to _printf_f.o(.ARM.Collect$$_printf_percent$$00000003) for _printf_f
     taskinit.o(i.TeleportTransmit) refers to _printf_s.o(.ARM.Collect$$_printf_percent$$00000014) for _printf_s
-    taskinit.o(i.TeleportTransmit) refers to _printf_dec.o(.text) for _printf_int_dec
     taskinit.o(i.TeleportTransmit) refers to printf1.o(x$fpl$printf1) for _printf_fp_dec
     taskinit.o(i.TeleportTransmit) refers to _printf_str.o(.text) for _printf_str
     taskinit.o(i.TeleportTransmit) refers to event_groups.o(i.xEventGroupWaitBits) for xEventGroupWaitBits
@@ -2341,10 +2339,9 @@ Section Cross References
     taskinit.o(i.TeleportTransmit) refers to tasks.o(i.vTaskDelay) for vTaskDelay
     taskinit.o(i.TeleportTransmit) refers to taskinit.o(.data) for .data
     taskinit.o(i.TeleportTransmit) refers to control.o(.data) for FMUControlMode
-    taskinit.o(i.TeleportTransmit) refers to guide.o(.data) for PathInte
-    taskinit.o(i.TeleportTransmit) refers to guide.o(.data) for PathChangeJudge
-    taskinit.o(i.TeleportTransmit) refers to guide.o(.bss) for GuideInitPos
+    taskinit.o(i.TeleportTransmit) refers to imu.o(.bss) for IMUData
     taskinit.o(i.TeleportTransmit) refers to gnss.o(.bss) for GNSSData
+    taskinit.o(i.TeleportTransmit) refers to navigation.o(.bss) for NevAttitudeData
     taskinit.o(i.TeleportTransmit) refers to teleport.o(.data) for PrintChannel
     taskinit.o(i.TeleportTransmit) refers to main.o(.bss) for hadc3
     taskinit.o(i.TeleportTransmit) refers to taskinit.o(.conststring) for .conststring
@@ -4043,8 +4040,8 @@ Removing Unused input sections from the image.
     Removing taskinit.o(i.SDWrite), (180 bytes).
     Removing taskinit.o(i.TaskCreate), (1244 bytes).
     Removing taskinit.o(i.TaskMonitor), (148 bytes).
-    Removing taskinit.o(i.TeleportTransmit), (292 bytes).
-    Removing taskinit.o(.conststring), (74 bytes).
+    Removing taskinit.o(i.TeleportTransmit), (384 bytes).
+    Removing taskinit.o(.conststring), (167 bytes).
     Removing taskinit.o(.data), (116 bytes).
     Removing taskinit.o(.data), (4 bytes).
     Removing taskinit.o(.data), (4 bytes).
@@ -4066,7 +4063,7 @@ Removing Unused input sections from the image.
     Removing teleport.o(.revsh_text), (4 bytes).
     Removing teleport.o(.rrx_text), (6 bytes).
     Removing teleport.o(i.InfoPrint), (56 bytes).
-    Removing teleport.o(.bss), (100 bytes).
+    Removing teleport.o(.bss), (800 bytes).
     Removing teleport.o(.data), (4 bytes).
     Removing teleport.o(.data), (1 bytes).
     Removing gnss.o(.rev16_text), (4 bytes).
@@ -4187,7 +4184,7 @@ Removing Unused input sections from the image.
     Removing guide.o(.data), (8 bytes).
     Removing guide.o(.data), (8 bytes).
 
-1233 unused section(s) (total 293391 bytes) removed from the image.
+1233 unused section(s) (total 294276 bytes) removed from the image.
 
 ==============================================================================
 

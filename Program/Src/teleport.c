@@ -7,7 +7,7 @@ UART_HandleTypeDef *TeleHandle = &huart8;
 
 PrintChannelSelect PrintChannel = TeleChannel;
 
-uint8_t SendBuff[100];
+uint8_t SendBuff[800];
 
 void InfoPrint(PrintChannelSelect PrintChannel,char * info)//调试接口数据输出
 {

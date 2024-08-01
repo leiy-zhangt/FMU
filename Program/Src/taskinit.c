@@ -342,10 +342,11 @@ void TeleportTransmit(void *pvParameters)
 				sprintf((char*)ControlMode,"Return");
 				break;
 		}
-//		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
-		sprintf((char*)SendBuff,"%s lon: %0.8f lat: %0.8f v: %0.2f lon0: %0.8f lat0: %0.8f j: %d i:%0.4f\r\n",ControlMode,GNSSData.lon,GNSSData.lat,GNSSData.velocity,GuideInitPos.posx,GuideInitPos.posy,PathChangeJudge,PathInte);
+		sprintf((char*)SendBuff,"%s ax: %0.2f ay: %0.2f az: %0.2f p: %0.2f r: %0.2f y: %0.2f ve: %0.2f vn: %0.2f angle: %0.2f lon: %0.8f lat: %0.8f alt: %0.2f h: %0.2f m: %0.2f j: %0.2f vol: %0.2f \r\n",\
+		ControlMode,IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle,\
+		GNSSData.lon,GNSSData.lat,GNSSData.alt,IMUData.height - IMUData.height_Init,1.0,1.0,voltage);
 		InfoPrint(PrintChannel,(char*)SendBuff);
-		vTaskDelay(1000);
+		vTaskDelay(500);
 	}
 }
 
