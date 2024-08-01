@@ -21,6 +21,7 @@ void TaskCreate(void)
 	IMUSemaphore = xSemaphoreCreateBinary();
 	GNSSSemaphore = xSemaphoreCreateBinary();
 	ControlSemaphore = xSemaphoreCreateBinary();
+	TeleSemaphore = xSemaphoreCreateBinary();
 	//Create LEDTwink
 	LEDTwink_Ret = xTaskCreate((TaskFunction_t)LEDTwink,"LEDTwink",32,(void *)1,LEDTwink_Prio,(TaskHandle_t *)(&LEDTwink_TCB));
 	if(LEDTwink_Ret == pdPASS) InfoPrint(PrintChannel,"LEDTwink creat successfully!\r\n");
@@ -57,6 +58,10 @@ void TaskCreate(void)
 //	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
 //	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
+	//Create TeleportReceive
+	TeleportReceive_Ret = xTaskCreate((TaskFunction_t)TeleportReceive,"TeleportReceive",196,(void *)1,TeleportReceive_Prio,(TaskHandle_t *)(&TeleportReceive_TCB));
+	if(TeleportReceive_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportReceive creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"TeleportReceive creat failed!\r\n");
 //	//Create AirSpeedMeasure
 //	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
 //	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
@@ -311,7 +316,7 @@ void TeleportTransmit(void *pvParameters)
 	uint32_t voltage_uint32,current_uint32;
 	double voltage,current;
 	uint8_t ControlMode[10];
-	xEventGroupWaitBits(FMUCheckEvent,0x04,pdFALSE,pdTRUE,portMAX_DELAY);
+	xEventGroupWaitBits(FMUCheckEvent,0x08,pdFALSE,pdTRUE,portMAX_DELAY);
 	while(1)
 	{
 		HAL_ADC_Start(&hadc3);
@@ -346,6 +351,43 @@ void TeleportTransmit(void *pvParameters)
 		vTaskDelay(1000);
 	}
 }
+
+//TeleportReceive函数声明
+BaseType_t TeleportReceive_Ret;
+UBaseType_t TeleportReceive_Prio=10;
+TaskHandle_t TeleportReceive_TCB;
+
+void TeleportReceive(void *pvParameters)
+{
+	static double TeleReceverData[80];
+	uint16_t len,check,checkflag,i;
+	xEventGroupWaitBits(FMUCheckEvent,0x04,pdFALSE,pdTRUE,portMAX_DELAY);
+	HAL_UART_Receive_DMA(&huart8,ReceiverReceiveBuff,1024);
+	__HAL_UART_ENABLE_IT(&huart8,UART_IT_IDLE);
+	while(1)
+	{
+		xSemaphoreTake(TeleSemaphore,portMAX_DELAY);
+		len = *(TeleReceiveBuff+1); 
+		check = 0;
+		for(i=0;i<len-2;i++)
+		{
+			check = check + TeleReceiveBuff[i];
+		}
+		checkflag = *(TeleReceiveBuff+len-3);
+		if((TeleReceiveBuff[0] == 'B')&&(TeleReceiveBuff[len-1] == 'E')&&(check == checkflag))
+		{
+			memcpy(TeleReceverData,TeleReceiveBuff+3,len-6);
+			sprintf(SendBuff,"Path update success !");
+			InfoPrint(PrintChannel,SendBuff);
+		}
+		else
+		{
+			sprintf(SendBuff,"Path update failed !");
+			InfoPrint(PrintChannel,SendBuff);
+		}
+	}
+}
+
 
 //AirSpeedMeasure函数声明
 BaseType_t AirSpeedMeasure_Ret;

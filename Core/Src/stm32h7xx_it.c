@@ -29,6 +29,7 @@
 #include "gnss.h"
 #include "receiver.h"
 #include "control.h"
+#include "teleport.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,6 +69,7 @@ extern TIM_HandleTypeDef htim7;
 extern DMA_HandleTypeDef hdma_uart4_rx;
 extern DMA_HandleTypeDef hdma_uart5_rx;
 extern DMA_HandleTypeDef hdma_uart8_tx;
+extern DMA_HandleTypeDef hdma_uart8_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart3_rx;
@@ -417,6 +419,20 @@ void TIM7_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles DMA2 stream0 global interrupt.
+  */
+void DMA2_Stream0_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
+
+  /* USER CODE END DMA2_Stream0_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_uart8_rx);
+  /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
+
+  /* USER CODE END DMA2_Stream0_IRQn 1 */
+}
+
+/**
   * @brief This function handles USART6 global interrupt.
   */
 void USART6_IRQHandler(void)
@@ -426,7 +442,7 @@ void USART6_IRQHandler(void)
   /* USER CODE END USART6_IRQn 0 */
   HAL_UART_IRQHandler(&huart6);
   /* USER CODE BEGIN USART6_IRQn 1 */
-	if(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_IDLE)==SET)
+	if(__HAL_UART_GET_FLAG(&huart6,UART_FLAG_IDLE)==SET)
 	{
 		__HAL_UART_CLEAR_IDLEFLAG(&huart6);
 		HAL_UART_AbortReceive(&huart6);
@@ -449,11 +465,18 @@ void USART6_IRQHandler(void)
 void UART8_IRQHandler(void)
 {
   /* USER CODE BEGIN UART8_IRQn 0 */
-
+	
   /* USER CODE END UART8_IRQn 0 */
   HAL_UART_IRQHandler(&huart8);
   /* USER CODE BEGIN UART8_IRQn 1 */
-
+	if(__HAL_UART_GET_FLAG(&huart8,UART_FLAG_IDLE)==SET)
+	{
+		__HAL_UART_CLEAR_IDLEFLAG(&huart8);
+		HAL_UART_AbortReceive(&huart8);
+		HAL_UART_Receive_DMA(&huart8,TeleReceiveBuff,1024);		
+		xSemaphoreGiveFromISR(TeleSemaphore,&TeleHigherTaskSwitch);
+		portYIELD_FROM_ISR(TeleHigherTaskSwitch);
+	}
   /* USER CODE END UART8_IRQn 1 */
 }
 
@@ -463,7 +486,7 @@ void UART8_IRQHandler(void)
 void TIM17_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM17_IRQn 0 */
-
+	
   /* USER CODE END TIM17_IRQn 0 */
   HAL_TIM_IRQHandler(&htim17);
   /* USER CODE BEGIN TIM17_IRQn 1 */

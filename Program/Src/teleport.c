@@ -3,9 +3,15 @@
 #include "printf.h"
 #include "stdio.h"
 
+//Teloport接收缓存数组
+uint8_t TeleReceiveBuff[1024];
+//Teloport接收端口
 UART_HandleTypeDef *TeleHandle = &huart8;
-
+//Teloport发送模式
 PrintChannelSelect PrintChannel = TeleChannel;
+//Teloport中断切换标志
+SemaphoreHandle_t TeleSemaphore;
+BaseType_t TeleHigherTaskSwitch;
 
 uint8_t SendBuff[100];
 

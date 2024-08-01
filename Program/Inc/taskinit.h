@@ -88,6 +88,13 @@ extern TaskHandle_t TeleportTransmit_TCB;
 
 void TeleportTransmit(void *pvParameters);
 
+//TeleportReceive
+extern BaseType_t TeleportReceive_Ret;
+extern UBaseType_t TeleportReceive_Prio;
+extern TaskHandle_t TeleportReceive_TCB;
+
+void TeleportReceive(void *pvParameters);
+
 //AirSpeedMeasure
 extern BaseType_t AirSpeedMeasure_Ret;
 extern UBaseType_t AirSpeedMeasure_Prio;
