@@ -43,9 +43,9 @@ void TaskCreate(void)
 //	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
 	//Create IMUReceive
-	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",192,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
-	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
+//	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",192,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
+//	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
 	//Create GNSSReceive
 //	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
 //	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
@@ -54,7 +54,7 @@ void TaskCreate(void)
 //	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
 //	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
-//	//Create TeleportTransmit
+	//Create TeleportTransmit
 //	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
 //	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
@@ -316,7 +316,7 @@ void TeleportTransmit(void *pvParameters)
 	uint32_t voltage_uint32,current_uint32;
 	double voltage,current;
 	uint8_t ControlMode[10];
-	xEventGroupWaitBits(FMUCheckEvent,0x08,pdFALSE,pdTRUE,portMAX_DELAY);
+//	xEventGroupWaitBits(FMUCheckEvent,0x08,pdFALSE,pdTRUE,portMAX_DELAY);
 	while(1)
 	{
 		HAL_ADC_Start(&hadc3);
@@ -346,9 +346,14 @@ void TeleportTransmit(void *pvParameters)
 				sprintf(ControlMode,"Return");
 				break;
 		}
-		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
+//		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
+//		sprintf((char*)SendBuff,"%s ax: %0.2f ay: %0.2f az: %0.2f p: %0.2f r: %0.2f y: %0.2f ve: %0.2f vn: %0.2f angle: %0.2f lon: %0.8f lat: %0.8f alt: %0.2f h: %0.2f m: %0.2f j: %0.2f vol: %0.2f \r\n",\
+//		ControlMode,IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle,\
+//		GNSSData.lon,GNSSData.lat,GNSSData.alt,IMUData.height - IMUData.height_Init,1.0,1.0,voltage);
+		sprintf((char*)SendBuff,"%s ax: %0.2f ay: %0.2f az: %0.2f p: %0.2f r: %0.2f y: %0.2f ve: %0.2f vn: %0.2f angle: %0.2f lon: %0.8f lat: %0.8f alt: %0.2f h: %0.2f m: %0.2f j: %0.2f vol: %0.2f \r\n",\
+		"Send",1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0);
 		InfoPrint(PrintChannel,SendBuff);
-		vTaskDelay(1000);
+		vTaskDelay(500);
 	}
 }
 
@@ -360,31 +365,58 @@ TaskHandle_t TeleportReceive_TCB;
 void TeleportReceive(void *pvParameters)
 {
 	static double TeleReceverData[80];
-	uint16_t len,check,checkflag,i;
-	xEventGroupWaitBits(FMUCheckEvent,0x04,pdFALSE,pdTRUE,portMAX_DELAY);
-	HAL_UART_Receive_DMA(&huart8,ReceiverReceiveBuff,1024);
+	static uint16_t len,check,checkflag,i;
+	uint16_t *uint16_addr;
+//	xEventGroupWaitBits(FMUCheckEvent,0x04,pdFALSE,pdTRUE,portMAX_DELAY);
+	memset(TeleReceiveBuff,0,1024);
+	TeleRecAddr = TeleReceiveBuff;
+	__HAL_UART_CLEAR_IDLEFLAG(&huart8);
+	HAL_UART_Receive_DMA(&huart8,TeleRecAddr,512);
 	__HAL_UART_ENABLE_IT(&huart8,UART_IT_IDLE);
 	while(1)
 	{
 		xSemaphoreTake(TeleSemaphore,portMAX_DELAY);
-		len = *(TeleReceiveBuff+1); 
-		check = 0;
-		for(i=0;i<len-2;i++)
+		if(TeleReceiveBuff[0] == 'B')
 		{
-			check = check + TeleReceiveBuff[i];
-		}
-		checkflag = *(TeleReceiveBuff+len-3);
-		if((TeleReceiveBuff[0] == 'B')&&(TeleReceiveBuff[len-1] == 'E')&&(check == checkflag))
-		{
-			memcpy(TeleReceverData,TeleReceiveBuff+3,len-6);
-			sprintf(SendBuff,"Path update success !");
-			InfoPrint(PrintChannel,SendBuff);
+			uint16_addr = TeleReceiveBuff+1;
+			len = *uint16_addr;
+			if(TeleReceiveBuff[len-1] != 0)
+			{
+				HAL_UART_AbortReceive(&huart8);
+				TeleRecAddr = TeleReceiveBuff;
+				HAL_UART_Receive_DMA(&huart8,TeleRecAddr,512);
+				check = 0;
+				for(i=0;i<len-3;i++)
+				{
+					check = check + TeleReceiveBuff[i];
+				}
+				uint16_addr = TeleReceiveBuff + len - 3;
+				checkflag = *uint16_addr;				
+				if((TeleReceiveBuff[len-1] == 'E')&&(checkflag == check))
+				{
+					TeleRecAddr = TeleReceiveBuff;
+					memcpy(TeleReceverData,TeleReceiveBuff+3,len-6);
+					memset(TeleReceiveBuff,0,1024);
+					sprintf(SendBuff,"Path update success !\r\n");
+					InfoPrint(PrintChannel,SendBuff);
+				}
+				else
+				{
+					TeleRecAddr = TeleReceiveBuff;
+					memset(TeleReceiveBuff,0,1024);
+					sprintf(SendBuff,"Path update failed !\r\n");
+					InfoPrint(PrintChannel,SendBuff);
+				}
+			}
 		}
 		else
 		{
-			sprintf(SendBuff,"Path update failed !");
-			InfoPrint(PrintChannel,SendBuff);
+			HAL_UART_AbortReceive(&huart8);
+			TeleRecAddr = TeleReceiveBuff;
+			HAL_UART_Receive_DMA(&huart8,TeleRecAddr,512);
+			memset(TeleReceiveBuff,0,1024);
 		}
+		
 	}
 }
 

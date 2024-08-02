@@ -10,6 +10,9 @@ extern UART_HandleTypeDef *	TeleHandle;
 
 extern SemaphoreHandle_t TeleSemaphore;
 extern BaseType_t TeleHigherTaskSwitch;
+//接收内容拼接处理
+extern uint16_t TeleRecLen;
+extern uint8_t *TeleRecAddr;
 
 typedef enum
 {

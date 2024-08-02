@@ -446,8 +446,8 @@ void USART6_IRQHandler(void)
 	{
 		__HAL_UART_CLEAR_IDLEFLAG(&huart6);
 		HAL_UART_AbortReceive(&huart6);
-		len = __HAL_DMA_GET_COUNTER(&hdma_usart6_rx);
-		GNSSReceiveBuff[1024 - len] = 0;
+		len = 1024 - __HAL_DMA_GET_COUNTER(&hdma_usart6_rx);
+		GNSSReceiveBuff[len] = 0;
 		memcpy(GNSSFifoBuff,GNSSReceiveBuff,1024);
 //			printf("%s",GNSSFifoBuff);
 //			printf("%d\r\n",len);
@@ -473,7 +473,10 @@ void UART8_IRQHandler(void)
 	{
 		__HAL_UART_CLEAR_IDLEFLAG(&huart8);
 		HAL_UART_AbortReceive(&huart8);
-		HAL_UART_Receive_DMA(&huart8,TeleReceiveBuff,1024);		
+		TeleRecLen = __HAL_DMA_GET_COUNTER(&hdma_uart8_rx);
+		TeleRecLen = 512 - TeleRecLen;
+		TeleRecAddr = TeleRecAddr + TeleRecLen;
+		HAL_UART_Receive_DMA(&huart8,TeleRecAddr,512);
 		xSemaphoreGiveFromISR(TeleSemaphore,&TeleHigherTaskSwitch);
 		portYIELD_FROM_ISR(TeleHigherTaskSwitch);
 	}

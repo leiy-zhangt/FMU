@@ -12,8 +12,11 @@ PrintChannelSelect PrintChannel = TeleChannel;
 //Teloport中断切换标志
 SemaphoreHandle_t TeleSemaphore;
 BaseType_t TeleHigherTaskSwitch;
+//接收内容拼接处理
+uint16_t TeleRecLen;
+uint8_t *TeleRecAddr;
 
-uint8_t SendBuff[100];
+uint8_t SendBuff[1024];
 
 void InfoPrint(PrintChannelSelect PrintChannel,char * info)//调试接口数据输出
 {
