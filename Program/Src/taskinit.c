@@ -55,9 +55,9 @@ void TaskCreate(void)
 //	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
 //	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
 	//Create TeleportTransmit
-//	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
-//	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
+	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
+	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
+	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 	//Create TeleportReceive
 	TeleportReceive_Ret = xTaskCreate((TaskFunction_t)TeleportReceive,"TeleportReceive",196,(void *)1,TeleportReceive_Prio,(TaskHandle_t *)(&TeleportReceive_TCB));
 	if(TeleportReceive_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportReceive creat successfully!\r\n");
