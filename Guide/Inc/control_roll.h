@@ -2,7 +2,7 @@
  * File: control_roll.h
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 10-Jul-2024 11:04:54
+ * C/C++ source code generated on  : 29-Jul-2024 11:36:07
  */
 
 #ifndef CONTROL_ROLL_H
@@ -12,10 +12,10 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include "rtwtypes.h"
-#include "control_roll_types.h"
+#include "guidence_plane_types.h"
 
 /* Function Declarations */
-extern double control_roll(double dphi, double *b_I);
+extern double control_roll(const double X[6], double dphi, double *b_I);
 
 #endif
 

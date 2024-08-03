@@ -93,8 +93,10 @@ fmu\receiver.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\float.h
 fmu\receiver.o: ../Guide/Inc/point_line_gap.h
 fmu\receiver.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 fmu\receiver.o: ../Guide/Inc/rtwtypes.h
-fmu\receiver.o: ../Guide/Inc/control_roll_types.h
+fmu\receiver.o: ../Guide/Inc/guidence_plane_types.h
 fmu\receiver.o: ../Guide/Inc/path_follow.h
-fmu\receiver.o: ../Guide/Inc/guidence_roll.h
+fmu\receiver.o: ../Guide/Inc/guidence_plane.h
 fmu\receiver.o: ../Guide/Inc/control_roll.h
 fmu\receiver.o: ../Guide/Inc/judge_curve_change.h
+fmu\receiver.o: ../Guide/Inc/latlon_to_meter.h
+fmu\receiver.o: ../Guide/Inc/latlon_to_meter_types.h

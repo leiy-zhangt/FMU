@@ -15,6 +15,7 @@ BaseType_t TeleHigherTaskSwitch;
 //接收内容拼接处理
 uint16_t TeleRecLen;
 uint8_t *TeleRecAddr;
+double TeleReceverData[80];
 
 uint8_t SendBuff[1024];
 

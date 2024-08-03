@@ -89,3 +89,17 @@ fmu\taskinit.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 fmu\taskinit.o: ../Program/Inc/navigation.h
 fmu\taskinit.o: ../Program/Inc/ms5525.h
 fmu\taskinit.o: ../Program/Inc/airspeed.h
+fmu\taskinit.o: ../Guide/Inc/guide.h
+fmu\taskinit.o: ../Guide/Inc/tmwtypes.h
+fmu\taskinit.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\limits.h
+fmu\taskinit.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\float.h
+fmu\taskinit.o: ../Guide/Inc/point_line_gap.h
+fmu\taskinit.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
+fmu\taskinit.o: ../Guide/Inc/rtwtypes.h
+fmu\taskinit.o: ../Guide/Inc/guidence_plane_types.h
+fmu\taskinit.o: ../Guide/Inc/path_follow.h
+fmu\taskinit.o: ../Guide/Inc/guidence_plane.h
+fmu\taskinit.o: ../Guide/Inc/control_roll.h
+fmu\taskinit.o: ../Guide/Inc/judge_curve_change.h
+fmu\taskinit.o: ../Guide/Inc/latlon_to_meter.h
+fmu\taskinit.o: ../Guide/Inc/latlon_to_meter_types.h

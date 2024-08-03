@@ -85,6 +85,8 @@ void ReceiverSolution(void)
 	//控制飞控飞行模式
 	if(ReceiverChannel[5]<1400)
 	{
+		//制导切换标志位
+		guideswitch = 0;
 		if(ReceiverChannel[6]<1400) FMUControlMode = FMU_Manual;
 		else if(ReceiverChannel[6]<1600) 
 		{
@@ -97,7 +99,6 @@ void ReceiverSolution(void)
 			if(FMUControlModePrevious != FMU_Height) 
 			{
 				expected_height = IMUData.height;
-				integtal_pitch = 0;
 			}
 		}
 	}
@@ -107,12 +108,9 @@ void ReceiverSolution(void)
 		FMUControlMode = FMU_Path;
 		if(FMUControlModePrevious != FMU_Path)
 		{
-			GuideInitPos.posx = GNSSData.lon;
-			GuideInitPos.posy = GNSSData.lat;
+			I_roll = 0;
 			expected_height = IMUData.height;
-			*PathChangeJudge = 1;
-			*PathInte = 0;
-			integtal_pitch = 0;
+			guideswitch = 1;
 		}
 	}
 	//进行遥控器归中校准
@@ -122,25 +120,6 @@ void ReceiverSolution(void)
 		memcpy(ReceiverChannelNeutral,ReceiverChannel,sizeof(ReceiverChannel));
 	}
 	
-	
-	//控制数传数据返回
-//	if(ReceiverChannel[6]<1400) 
-//	{
-//		if(ReceiverChannelPrevious[6]>1450)
-//		{
-//			memcpy(ReceiverChannelNeutral,ReceiverChannel,sizeof(ReceiverChannel));
-////			PitchNeutral = IMUData.pitch;
-////			RollNeutral = IMUData.roll;
-////			if(eTaskGetState(TeleportTransmit_TCB) != eSuspended) vTaskSuspend(TeleportTransmit_TCB);
-//		}
-//	}
-//	else if(ReceiverChannel[6]>1600) 
-//	{
-//		if(ReceiverChannelPrevious[6]<1550)
-//		{
-//			if(eTaskGetState(TeleportTransmit_TCB) == eSuspended) vTaskResume(TeleportTransmit_TCB);
-//		}
-//	}
 	//复制通道内容
 	FMUControlModePrevious = FMUControlMode;
 	memcpy(ReceiverChannelPrevious,ReceiverChannel,sizeof(ReceiverChannel));

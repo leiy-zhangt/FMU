@@ -7,8 +7,9 @@ fmu\control_roll.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\limits.h
 fmu\control_roll.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\float.h
 fmu\control_roll.o: ../Guide/Inc/control_roll.h
 fmu\control_roll.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
-fmu\control_roll.o: ../Guide/Inc/control_roll_types.h
-fmu\control_roll.o: ../Guide/Inc/guidence_roll.h
+fmu\control_roll.o: ../Guide/Inc/guidence_plane_types.h
+fmu\control_roll.o: ../Guide/Inc/guidence_plane.h
 fmu\control_roll.o: ../Guide/Inc/judge_curve_change.h
 fmu\control_roll.o: ../Guide/Inc/path_follow.h
+fmu\control_roll.o: ../Guide/Inc/point_curve_gap.h
 fmu\control_roll.o: ../Guide/Inc/point_line_gap.h

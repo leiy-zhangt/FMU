@@ -95,8 +95,10 @@ fmu\main.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\float.h
 fmu\main.o: ../Guide/Inc/point_line_gap.h
 fmu\main.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 fmu\main.o: ../Guide/Inc/rtwtypes.h
-fmu\main.o: ../Guide/Inc/control_roll_types.h
+fmu\main.o: ../Guide/Inc/guidence_plane_types.h
 fmu\main.o: ../Guide/Inc/path_follow.h
-fmu\main.o: ../Guide/Inc/guidence_roll.h
+fmu\main.o: ../Guide/Inc/guidence_plane.h
 fmu\main.o: ../Guide/Inc/control_roll.h
 fmu\main.o: ../Guide/Inc/judge_curve_change.h
+fmu\main.o: ../Guide/Inc/latlon_to_meter.h
+fmu\main.o: ../Guide/Inc/latlon_to_meter_types.h

@@ -7,11 +7,14 @@ fmu\guide.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stddef.h
 fmu\guide.o: ../Guide/Inc/point_line_gap.h
 fmu\guide.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 fmu\guide.o: ../Guide/Inc/rtwtypes.h
-fmu\guide.o: ../Guide/Inc/control_roll_types.h
+fmu\guide.o: ../Guide/Inc/guidence_plane_types.h
 fmu\guide.o: ../Guide/Inc/path_follow.h
-fmu\guide.o: ../Guide/Inc/guidence_roll.h
+fmu\guide.o: ../Guide/Inc/guidence_plane.h
 fmu\guide.o: ../Guide/Inc/control_roll.h
 fmu\guide.o: ../Guide/Inc/judge_curve_change.h
+fmu\guide.o: ../Guide/Inc/latlon_to_meter.h
+fmu\guide.o: ../Guide/Inc/latlon_to_meter_types.h
+fmu\guide.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdio.h
 fmu\guide.o: ../Program/Inc/navigation.h
 fmu\guide.o: ../Core/Inc/main.h
 fmu\guide.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
@@ -82,4 +85,6 @@ fmu\guide.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 fmu\guide.o: ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h
 fmu\guide.o: ../Middlewares/Third_Party/FatFs/src/diskio.h
 fmu\guide.o: ../FATFS/Target/sd_diskio.h
+fmu\guide.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+fmu\guide.o: ../Program/Inc/gnss.h
 fmu\guide.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h

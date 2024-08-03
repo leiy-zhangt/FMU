@@ -9,6 +9,7 @@
 #include "navigation.h"
 #include "math.h"
 #include "guide.h"
+#include "teleport.h"
 
 SemaphoreHandle_t ControlSemaphore=NULL;//控制率二值信号量
 BaseType_t ControlHigherTaskSwitch;
@@ -18,7 +19,6 @@ const double ControlDt = 0.01;//飞控控制时间间隔
 
 const double Kp_roll=2,Kd_roll=0.2,Kp_pitch=3,Kd_pitch=0.5,Ki_pitch = 1,Kp_yaw=1.5,Kd_yaw=0.1;//姿态控制参数
 const double	Kp_height=4;//高度控制率参数
-//const double Kp_roll=2,Kd_roll=0.2,Kp_pitch=0,Kd_pitch=0,Ki_pitch = 0.5,Kp_yaw=1.5,Kd_yaw=0.1,Kp_height=2;//姿态控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
 double integtal_pitch;//俯仰角误差积分
@@ -173,13 +173,14 @@ void FixedWingControl(void)
 		case FMU_Path:
 		{
 			//路径计算参数
-			GuidePe = Lon2Distance(GNSSData.lon,GuideInitPos.posx);
-			GuidePn = Lat2Distance(GNSSData.lat,GuideInitPos.posy);
-			GuideAngle = GNSSData.angle;
-			if(GuideAngle<=180) GuideAngle = -GuideAngle*0.017452;
-			else GuideAngle = (360 - GuideAngle)*0.017452;
+			latlon_to_meter(GNSSData.lat,GNSSData.lon,GNSSData.lat_Init,GNSSData.lon_Init,X+3,X+5);
+			X[0] = GNSSData.velocity_n;
+			X[1] = 0;
+			X[2] = GNSSData.velocity_e;
+			X[4] = IMUData.height - IMUData.height_Init;
 			//滚转与俯仰角期望值
-			expected_roll = guidence_roll(GuidePe,GuidePn,GuideAngle,PathInte,PathChangeJudge)*57.3;
+			guidence_plane(X,TeleReceverData+2,curve_size,&I_roll,&num_curve,&mode_return,&num_return,&curve_return_data,curve_return_size,&expected_roll,&judge_arrive);
+			expected_roll = expected_roll*57.3;
 			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(NevAttitudeData.roll)*0.5;
 			//限制滚转角、俯仰角上下限
 			expected_roll = expected_roll>30?30:expected_roll;
@@ -253,7 +254,7 @@ void FixedWingControl(void)
 	else sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver ERR!",ReceiverChannel[5],ReceiverChannel[6],\
 		expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
 	f_printf(&SDFile,(char *)StorageBuff);
-	sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f\n",NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw);
+	sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f ",NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw);
 	f_printf(&SDFile,(char *)StorageBuff);
 }
 

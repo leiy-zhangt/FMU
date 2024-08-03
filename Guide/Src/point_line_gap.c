@@ -2,116 +2,64 @@
  * File: point_line_gap.c
  *
  * MATLAB Coder version            : 4.1
- * C/C++ source code generated on  : 10-Jul-2024 11:04:54
+ * C/C++ source code generated on  : 29-Jul-2024 11:36:07
  */
 
 /* Include Files */
 #include <math.h>
-#include "rt_defines.h"
 #include "rt_nonfinite.h"
 #include "control_roll.h"
-#include "guidence_roll.h"
+#include "guidence_plane.h"
 #include "judge_curve_change.h"
 #include "path_follow.h"
+#include "point_curve_gap.h"
 #include "point_line_gap.h"
-
-/* Function Declarations */
-static double rt_atan2d_snf(double u0, double u1);
+#include "norm.h"
+#include "guidence_plane_rtwutil.h"
 
 /* Function Definitions */
 
 /*
- * Arguments    : double u0
- *                double u1
- * Return Type  : double
- */
-static double rt_atan2d_snf(double u0, double u1)
-{
-  double y;
-  int b_u0;
-  int b_u1;
-  if (rtIsNaN(u0) || rtIsNaN(u1)) {
-    y = rtNaN;
-  } else if (rtIsInf(u0) && rtIsInf(u1)) {
-    if (u0 > 0.0) {
-      b_u0 = 1;
-    } else {
-      b_u0 = -1;
-    }
-
-    if (u1 > 0.0) {
-      b_u1 = 1;
-    } else {
-      b_u1 = -1;
-    }
-
-    y = atan2(b_u0, b_u1);
-  } else if (u1 == 0.0) {
-    if (u0 > 0.0) {
-      y = RT_PI / 2.0;
-    } else if (u0 < 0.0) {
-      y = -(RT_PI / 2.0);
-    } else {
-      y = 0.0;
-    }
-  } else {
-    y = atan2(u0, u1);
-  }
-
-  return y;
-}
-
-/*
- * Arguments    : double p_e
- *                double p_n
- *                double phiv
+ * Arguments    : const double X[6]
  *                const double curve[8]
  * Return Type  : double
  */
-double point_line_gap(double p_e, double p_n, double phiv, const double curve[8])
+double point_line_gap(const double X[6], const double curve[8])
 {
-  double scale;
-  double absxk;
-  double t;
-  double y;
-  scale = 3.3121686421112381E-170;
-  absxk = fabs(curve[3]);
-  if (absxk > 3.3121686421112381E-170) {
-    y = 1.0;
-    scale = absxk;
-  } else {
-    t = absxk / 3.3121686421112381E-170;
-    y = t * t;
+  double b_curve[2];
+  double q[3];
+  double phi_q;
+  double r;
+  b_curve[0] = curve[3];
+  b_curve[1] = curve[4];
+  q[0] = curve[3];
+  q[1] = c_norm(b_curve) * tan(curve[7]);
+  q[2] = curve[4];
+  phi_q = b_norm(q);
+  q[0] = curve[3] / phi_q;
+  q[1] /= phi_q;
+  q[2] = curve[4] / phi_q;
+
+  /* æœŸæœ›-å®žé™… */
+  /*      ddh=norm([v_e,v_n])*tan(curve(8))-v_h; */
+  /*      dL=dot(ep,n); */
+  phi_q = -rt_atan2d_snf(curve[3], curve[4]);
+  r = rt_atan2d_snf(X[2], X[0]);
+
+  /* é˜²æ­¢å‡ºçŽ°â€œæŽ‰å¤´â€æƒ…å†µ */
+  while (phi_q - (-r) > 3.1415926535897931) {
+    phi_q -= 6.2831853071795862;
   }
 
-  absxk = fabs(curve[4]);
-  if (absxk > scale) {
-    t = scale / absxk;
-    y = 1.0 + y * t * t;
-    scale = absxk;
-  } else {
-    t = absxk / scale;
-    y += t * t;
+  while (phi_q - (-r) < -3.1415926535897931) {
+    phi_q += 6.2831853071795862;
   }
 
-  y = scale * sqrt(y);
-  t = curve[3] / y;
-  scale = curve[4] / y;
-
-  /*      phiv=-atan2(v_e,v_n); */
-  /* ·ÀÖ¹³öÏÖ¡°µôÍ·¡±Çé¿ö */
-  for (absxk = -rt_atan2d_snf(curve[3], curve[4]); absxk - phiv >
-       3.1415926535897931; absxk -= 6.2831853071795862) {
-  }
-
-  while (absxk - phiv < -3.1415926535897931) {
-    absxk += 6.2831853071795862;
-  }
-
-  /* µ±Ç°Î»ÖÃÆÚÍûÆ«º½½Ç */
-  /* ÆÚÍû-Êµ¼Ê */
-  return (absxk + atan(0.05 * ((p_e - curve[1]) * (0.0 * t + scale) + (p_n -
-             curve[2]) * (-t + 0.0 * scale)))) - phiv;
+  /* å½“å‰ä½ç½®æœŸæœ›åèˆªè§’ */
+  /* æœŸæœ›-å®žé™… */
+  return (phi_q + atan(0.05 * (((X[5] - curve[1]) * (q[1] * 0.0 - (-q[2])) + (X
+              [4] - X[4]) * (q[2] * 0.0 - q[0] * 0.0)) + (X[3] - curve[2]) *
+            (-q[0] - q[1] * 0.0)))) - (-r);
 }
 
 /*

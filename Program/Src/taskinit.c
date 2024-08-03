@@ -5,6 +5,7 @@
 #include "teleport.h"
 #include "ms5525.h"
 #include "airspeed.h"
+#include "guide.h"
 
 
 EventGroupHandle_t FMUCheckEvent; 
@@ -107,7 +108,6 @@ void FMUCheck(void *pvParameters)
 			GNSSData.alt_Init = GNSSData.alt;
 			GNSSData.lat_Init = GNSSData.lat;
 			GNSSData.lon_Init = GNSSData.lon;
-			
 			xEventGroupSetBits(FMUCheckEvent,0xFF);
 			vTaskSuspend(NULL);
 		}
@@ -347,11 +347,9 @@ void TeleportTransmit(void *pvParameters)
 				break;
 		}
 //		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
-//		sprintf((char*)SendBuff,"%s ax: %0.2f ay: %0.2f az: %0.2f p: %0.2f r: %0.2f y: %0.2f ve: %0.2f vn: %0.2f angle: %0.2f lon: %0.8f lat: %0.8f alt: %0.2f h: %0.2f m: %0.2f j: %0.2f vol: %0.2f \r\n",\
-//		ControlMode,IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle,\
-//		GNSSData.lon,GNSSData.lat,GNSSData.alt,IMUData.height - IMUData.height_Init,1.0,1.0,voltage);
-		sprintf((char*)SendBuff,"%s ax: %0.2f ay: %0.2f az: %0.2f p: %0.2f r: %0.2f y: %0.2f ve: %0.2f vn: %0.2f angle: %0.2f lon: %0.8f lat: %0.8f alt: %0.2f h: %0.2f m: %0.2f j: %0.2f vol: %0.2f \r\n",\
-		"Send",1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0);
+		sprintf((char*)SendBuff,"%s ax: %0.2f ay: %0.2f az: %0.2f p: %0.2f r: %0.2f y: %0.2f ve: %0.2f vn: %0.2f angle: %0.2f lon: %0.8f lat: %0.8f alt: %0.2f h: %0.2f m: %0.2f j: %0.2f vol: %0.2f gsw: %0.2f \r\n",\
+		ControlMode,IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,NevAttitudeData.pitch,NevAttitudeData.roll,NevAttitudeData.yaw,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle,\
+		GNSSData.lon,GNSSData.lat,GNSSData.alt,IMUData.height - IMUData.height_Init,1.0,1.0,voltage,guideswitch);
 		InfoPrint(PrintChannel,SendBuff);
 		vTaskDelay(500);
 	}
@@ -364,7 +362,6 @@ TaskHandle_t TeleportReceive_TCB;
 
 void TeleportReceive(void *pvParameters)
 {
-	static double TeleReceverData[80];
 	static uint16_t len,check,checkflag,i;
 	uint16_t *uint16_addr;
 //	xEventGroupWaitBits(FMUCheckEvent,0x04,pdFALSE,pdTRUE,portMAX_DELAY);
@@ -396,6 +393,9 @@ void TeleportReceive(void *pvParameters)
 				{
 					TeleRecAddr = TeleReceiveBuff;
 					memcpy(TeleReceverData,TeleReceiveBuff+3,len-6);
+					curve_size[0] = round(TeleReceverData[0]);
+					curve_size[1] = round(TeleReceverData[1]);
+					num_curve = 1;
 					memset(TeleReceiveBuff,0,1024);
 					sprintf(SendBuff,"Path update success !\r\n");
 					InfoPrint(PrintChannel,SendBuff);
@@ -416,7 +416,6 @@ void TeleportReceive(void *pvParameters)
 			HAL_UART_Receive_DMA(&huart8,TeleRecAddr,512);
 			memset(TeleReceiveBuff,0,1024);
 		}
-		
 	}
 }
 

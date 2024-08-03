@@ -2211,9 +2211,19 @@
               <FilePath>..\Guide\Src\control_roll.c</FilePath>
             </File>
             <File>
-              <FileName>guidence_roll.c</FileName>
+              <FileName>guide.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Guide\Src\guidence_roll.c</FilePath>
+              <FilePath>..\Guide\Src\guide.c</FilePath>
+            </File>
+            <File>
+              <FileName>guidence_plane.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\guidence_plane.c</FilePath>
+            </File>
+            <File>
+              <FileName>guidence_plane_rtwutil.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\guidence_plane_rtwutil.c</FilePath>
             </File>
             <File>
               <FileName>judge_curve_change.c</FileName>
@@ -2221,9 +2231,24 @@
               <FilePath>..\Guide\Src\judge_curve_change.c</FilePath>
             </File>
             <File>
+              <FileName>latlon_to_meter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\latlon_to_meter.c</FilePath>
+            </File>
+            <File>
+              <FileName>norm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\norm.c</FilePath>
+            </File>
+            <File>
               <FileName>path_follow.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Guide\Src\path_follow.c</FilePath>
+            </File>
+            <File>
+              <FileName>point_curve_gap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Guide\Src\point_curve_gap.c</FilePath>
             </File>
             <File>
               <FileName>point_line_gap.c</FileName>
@@ -2244,11 +2269,6 @@
               <FileName>rtGetNaN.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Guide\Src\rtGetNaN.c</FilePath>
-            </File>
-            <File>
-              <FileName>guide.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Guide\Src\guide.c</FilePath>
             </File>
           </Files>
         </Group>
