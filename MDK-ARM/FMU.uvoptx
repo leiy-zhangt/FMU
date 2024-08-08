@@ -158,22 +158,27 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>TeleReceiveBuff,0x10</ItemText>
+          <ItemText>IMUData</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>TeleRecLen,0x0A</ItemText>
+          <ItemText>NevAttitudeData</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>TeleRecAddr</ItemText>
+          <ItemText>r</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>TeleReceverData</ItemText>
+          <ItemText>p</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>r</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

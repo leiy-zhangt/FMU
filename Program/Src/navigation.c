@@ -15,12 +15,14 @@ NavigationDataStruct NevigationData;
 
 IMUDateStruct	NevAttitudeData;
 
+double p,r,y;//姿态角
+
 
 void AttitudeSolution(double *pitch,double *roll,double *yaw,double gyr_x,double gyr_y,double gyr_z)  //对角速度进行处理，得到弧度值形式的姿态角
 {
   double w[3],dq[4],q[4],q_norm,dt=AttiDt;
-	double p,r,y;//姿态角
 	double T_11,T_21,T_31,T_12,T_22,T_32,T_13,T_23,T_33;//转换矩阵
+	double acc_norm;
   w[0] = gyr_x * 0.017452;
   w[1] = gyr_y * 0.017452;
   w[2] = gyr_z * 0.017452;
@@ -56,63 +58,45 @@ void AttitudeSolution(double *pitch,double *roll,double *yaw,double gyr_x,double
   q[1] = q[1]/q_norm;
   q[2] = q[2]/q_norm;
   q[3] = q[3]/q_norm;
-//  p = asin(2*(q[0]*q[1]+q[2]*q[3]))*57.3;//初始矩阵俯仰角
-//  y = atan2(-2*(q[1]*q[2]-q[0]*q[3]),(pow(q[0],2)-pow(q[1],2)+pow(q[2],2)-pow(q[3],2)))*57.3;//初始矩阵偏航角
-//	r = atan2(-2*(q[1]*q[3]-q[0]*q[2]),pow(q[0],2)-pow(q[1],2)-pow(q[2],2)+pow(q[3],2))*57.3;//初始矩阵滚转角
-//	if(r<-90) 
-//	{
-//		r = 180 + r;
-//		//俯仰角转换
-//		if(p>0) p=180-p;
-//		else p=-180-p;
-//		//滚转角转换
-//		if(y>0) y=y-180;
-//		else y=180+y;
-//	}
-//	else if(r>90) 
-//	{
-//		r = r - 180;
-//		//俯仰角转换
-//		if(p>0) p=180-p;
-//		else p=-180-p;
-//		//滚转角转换
-//		if(y>0) y=y-180;
-//		else y=180+y;
-//	}
-//	*pitch = p;
-//	*roll = r;
-//	*yaw = y;
-
-	(*pitch) = asin(2*(q[0]*q[1]+q[2]*q[3]))*57.3;//初始矩阵俯仰角
-  (*yaw) = atan2(-2*(q[1]*q[2]-q[0]*q[3]),(pow(q[0],2)-pow(q[1],2)+pow(q[2],2)-pow(q[3],2)))*57.3;//初始矩阵偏航角
-	(*roll) = atan2(-2*(q[1]*q[3]-q[0]*q[2]),pow(q[0],2)-pow(q[1],2)-pow(q[2],2)+pow(q[3],2))*57.3;//初始矩阵滚转角
-	if((*roll)<-90) 
+  p = asin(2*(q[0]*q[1]+q[2]*q[3]))*57.3;//初始矩阵俯仰角
+  y = atan2(-2*(q[1]*q[2]-q[0]*q[3]),(pow(q[0],2)-pow(q[1],2)+pow(q[2],2)-pow(q[3],2)))*57.3;//初始矩阵偏航角
+	r = atan2(-2*(q[1]*q[3]-q[0]*q[2]),pow(q[0],2)-pow(q[1],2)-pow(q[2],2)+pow(q[3],2))*57.3;//初始矩阵滚转角
+	acc_norm = sqrt(pow(IMUData.tran_acc_x,2)+pow(IMUData.tran_acc_y,2)+pow(IMUData.tran_acc_z,2));
+  if((acc_norm>9)&&(acc_norm<11))
+  {
+    p = asin(IMUData.tran_acc_y/acc_norm)*57.3*0.02 + p*0.98;
+    r = atan2(-IMUData.tran_acc_x,IMUData.tran_acc_z)*57.3*0.02 + r*0.98;
+  }
+	if(r>90.0)
 	{
-		(*roll) = 180 + (*roll);
+		r = -(180.0-r);
 		//俯仰角转换
-		if((*pitch)>0) (*pitch)=180-(*pitch);
-		else (*pitch)=-180-(*pitch);
+		if(p>0) p=180-p;
+		else p=-180-p;
 		//滚转角转换
-		if((*yaw)>0) (*yaw)=(*yaw)-180;
-		else (*yaw)=180+(*yaw);
+		if(y>0) y=y-180;
+		else y=180+y;
 	}
-	else if((*roll)>90) 
+	else if(r<-90)
 	{
-		(*roll) = (*roll) - 180;
-		//俯仰角转换
-		if((*pitch)>0) (*pitch)=180-(*pitch);
-		else (*pitch)=-180-(*pitch);
+		r = 180.0 + r;
+		if(p>0) p=180-p;
+		else p=-180-p;
 		//滚转角转换
-		if((*yaw)>0) (*yaw)=(*yaw)-180;
-		else (*yaw)=180+(*yaw);
+		if(y>0) y=y-180;
+		else y=180+y;
 	}
+	y = 0.98*y+0.02*IMUData.tran_yaw;
+	*pitch = p;
+	*roll = r;
+	*yaw = y;
 }
 
 void NevigayionSolutinInit(void)
 {
-	NevAttitudeData.pitch = IMUData.pitch;
-	NevAttitudeData.roll = IMUData.roll;
-	NevAttitudeData.yaw = IMUData.yaw;
+	NevAttitudeData.pitch = IMUData.tran_pitch;
+	NevAttitudeData.roll = IMUData.tran_roll;
+	NevAttitudeData.yaw = IMUData.tran_yaw;
 }
 
 

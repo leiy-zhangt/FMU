@@ -237,15 +237,15 @@ int main(void)
 
 		
     /* USER CODE BEGIN 3 */
-//		ServoSet(ServoChannel_1,0);
-//		ServoSet(ServoChannel_2,0);
-//		ServoSet(ServoChannel_3,0);
-//		ServoSet(ServoChannel_4,0);
-//		ServoSet(ServoChannel_5,0);
-//		ServoSet(ServoChannel_6,0);
-//		ServoSet(ServoChannel_7,0);
-//		ServoSet(ServoChannel_8,0);
-//		HAL_Delay(1000000);
+		ServoSet(ServoChannel_1,0);
+		ServoSet(ServoChannel_2,0);
+		ServoSet(ServoChannel_3,0);
+		ServoSet(ServoChannel_4,0);
+		ServoSet(ServoChannel_5,0);
+		ServoSet(ServoChannel_6,0);
+		ServoSet(ServoChannel_7,0);
+		ServoSet(ServoChannel_8,0);
+		HAL_Delay(3000000);
 //		ServoSet(ServoChannel_1,20);
 //		ServoSet(ServoChannel_2,20);
 //		ServoSet(ServoChannel_3,20);
@@ -254,7 +254,7 @@ int main(void)
 //		ServoSet(ServoChannel_6,20);
 //		ServoSet(ServoChannel_7,20);
 //		ServoSet(ServoChannel_8,20);
-//		HAL_Delay(1000000);
+		HAL_Delay(1000000);
 //		MS5525_Reset(0x76);
 //		MS5525_Reset(0x77);
 //		MS5525_Calibration(0x76,&MS5525_StaticData);
