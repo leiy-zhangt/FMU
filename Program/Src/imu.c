@@ -97,17 +97,27 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	IMUData.quaternion[2] = (double)tran_int16*0.000030517578125;
 	tran_int16 = (((int16_t)point[7])<<8|(int16_t)point[6]);
 	IMUData.quaternion[3] = (double)tran_int16*0.000030517578125;
-	//使用互补滤波对姿态进行补偿
-	AttitudeSolution(&(NevAttitudeData.pitch),&(NevAttitudeData.roll),&(NevAttitudeData.yaw),IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z);
-	if(IMUData.acc_x*IMUData.acc_x+IMUData.acc_y*IMUData.acc_y+IMUData.acc_z*IMUData.acc_z < 15*15)
-	{
-		NevAttitudeData.pitch = AttiCoe*NevAttitudeData.pitch+(1-AttiCoe)*IMUData.pitch;
-		NevAttitudeData.roll = AttiCoe*NevAttitudeData.roll+(1-AttiCoe)*IMUData.roll;
-		NevAttitudeData.yaw = AttiCoe*NevAttitudeData.yaw+(1-AttiCoe)*IMUData.yaw;
-	}
 	//进行旋转变换，得到有安装角下的数据
-	IMURotationTransform(IMU_NO_Rotation);
-//	IMURotationTransform(IMU_Roll_180);
+//	IMURotationTransform(IMU_NO_Rotation);
+	IMURotationTransform(IMU_Roll_180);
+	//使用互补滤波对姿态进行补偿
+	AttitudeSolution(&(NevAttitudeData.pitch),&(NevAttitudeData.roll),&(NevAttitudeData.yaw),IMUData.tran_gyr_x,IMUData.tran_gyr_y,IMUData.tran_gyr_z);
+//	if(IMUData.acc_x*IMUData.acc_x+IMUData.acc_y*IMUData.acc_y+IMUData.acc_z*IMUData.acc_z < 15*15)
+//	{
+//		double AngleErr;
+//		AngleErr = IMUData.pitch - NevAttitudeData.pitch;//取值范围为-360~360
+//		AngleErr = AngleErr>350?AngleErr-360:AngleErr;
+//		AngleErr = AngleErr<-350?AngleErr+360:AngleErr;
+//		NevAttitudeData.pitch = NevAttitudeData.pitch+AttiCoe*AngleErr;
+//		AngleErr = IMUData.roll - NevAttitudeData.roll;//取值范围为-180~180
+//		AngleErr = AngleErr>175?AngleErr-180:AngleErr;
+//		AngleErr = AngleErr<-175?AngleErr+180:AngleErr;
+//		NevAttitudeData.roll = NevAttitudeData.roll+AttiCoe*AngleErr;
+//		AngleErr = IMUData.yaw - NevAttitudeData.yaw  ;//取值范围为-360~360
+//		AngleErr = AngleErr>350?AngleErr-360:AngleErr;
+//		AngleErr = AngleErr<-350?AngleErr+360:AngleErr;
+//		NevAttitudeData.yaw = NevAttitudeData.yaw+AttiCoe*AngleErr;
+//	}
 	return IMU_OK;
 }
 
@@ -116,8 +126,10 @@ void IMURotationTransform(IMU_RotationDirection direction)
 {
 	switch(direction)
 	{
-		case IMU_NO_Rotation:
+		case IMU_NO_Rotation: 
 			IMUData.tran_pitch = IMUData.pitch;
+			//对IMU滚转角进行修正
+			if((IMUData.pitch>90)||(IMUData.pitch<-90)) IMUData.roll = -IMUData.roll;
 			IMUData.tran_roll = IMUData.roll;
 			IMUData.tran_yaw = IMUData.yaw;
 			IMUData.tran_acc_x = IMUData.acc_x;
@@ -126,14 +138,16 @@ void IMURotationTransform(IMU_RotationDirection direction)
 			IMUData.tran_gyr_x = IMUData.gyr_x;
 			IMUData.tran_gyr_y = IMUData.gyr_y;
 			IMUData.tran_gyr_z = IMUData.gyr_z;
-			NevAttitudeData.tran_pitch = NevAttitudeData.pitch;
-			NevAttitudeData.tran_roll = NevAttitudeData.roll;
-			NevAttitudeData.tran_yaw = NevAttitudeData.yaw;
+//			NevAttitudeData.tran_pitch = NevAttitudeData.pitch;
+//			NevAttitudeData.tran_roll = NevAttitudeData.roll;
+//			NevAttitudeData.tran_yaw = NevAttitudeData.yaw;
 			break;
 		case IMU_Roll_180:
 			//修正后的俯仰角,俯仰角加负号
 			IMUData.tran_pitch = 180 - IMUData.pitch;
 			IMUData.tran_pitch = IMUData.tran_pitch>180?IMUData.tran_pitch-360:IMUData.tran_pitch;
+			//对IMU滚转角进行修正
+			if((IMUData.tran_pitch>90)||(IMUData.tran_pitch<-90)) IMUData.roll = -IMUData.roll;
 			IMUData.tran_roll = -IMUData.roll;
 			if(IMUData.yaw > 0) IMUData.tran_yaw = IMUData.yaw - 180;
 			else if(IMUData.yaw < 0)IMUData.tran_yaw = IMUData.yaw + 180;
@@ -143,11 +157,11 @@ void IMURotationTransform(IMU_RotationDirection direction)
 			IMUData.tran_gyr_x = -IMUData.gyr_x;
 			IMUData.tran_gyr_y = IMUData.gyr_y;
 			IMUData.tran_gyr_z = -IMUData.gyr_z;
-			NevAttitudeData.tran_pitch = 180 - NevAttitudeData.pitch;
-			NevAttitudeData.tran_pitch = NevAttitudeData.tran_pitch>180?NevAttitudeData.tran_pitch-360:NevAttitudeData.tran_pitch;
-			NevAttitudeData.tran_roll = -NevAttitudeData.roll;
-			if(NevAttitudeData.yaw > 0) NevAttitudeData.tran_yaw = NevAttitudeData.yaw - 180;
-			else if(NevAttitudeData.yaw < 0)NevAttitudeData.tran_yaw = NevAttitudeData.yaw + 180;
+//			NevAttitudeData.tran_pitch = 180 - NevAttitudeData.pitch;
+//			NevAttitudeData.tran_pitch = NevAttitudeData.tran_pitch>180?NevAttitudeData.tran_pitch-360:NevAttitudeData.tran_pitch;
+//			NevAttitudeData.tran_roll = -NevAttitudeData.roll;
+//			if(NevAttitudeData.yaw > 0) NevAttitudeData.tran_yaw = NevAttitudeData.yaw - 180;
+//			else if(NevAttitudeData.yaw < 0)NevAttitudeData.tran_yaw = NevAttitudeData.yaw + 180;
 			break;
 	}
 }

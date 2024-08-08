@@ -1,6 +1,6 @@
 fmu\airspeed.o: ..\Program\Src\airspeed.c
 fmu\airspeed.o: ../Program/Inc/airspeed.h
-fmu\airspeed.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\math.h
+fmu\airspeed.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 fmu\airspeed.o: ../Program/Inc/ms5525.h
 fmu\airspeed.o: ../Core/Inc/main.h
 fmu\airspeed.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
@@ -10,7 +10,7 @@ fmu\airspeed.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h
 fmu\airspeed.o: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h
 fmu\airspeed.o: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h743xx.h
 fmu\airspeed.o: ../Drivers/CMSIS/Include/core_cm7.h
-fmu\airspeed.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+fmu\airspeed.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 fmu\airspeed.o: ../Drivers/CMSIS/Include/cmsis_version.h
 fmu\airspeed.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 fmu\airspeed.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -18,7 +18,7 @@ fmu\airspeed.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 fmu\airspeed.o: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h
 fmu\airspeed.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
 fmu\airspeed.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-fmu\airspeed.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+fmu\airspeed.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 fmu\airspeed.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h
 fmu\airspeed.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h
 fmu\airspeed.o: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio_ex.h

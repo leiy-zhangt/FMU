@@ -8,7 +8,7 @@
 #define FMUReturnHeight 100
 #define FMUReturnRoll 20
 
-#define AttiCoe 0.99	//姿态融合权重
+#define AttiCoe 0.01	//姿态融合权重
 #define AttiDt 0.005	//姿态融合步长
 
 
