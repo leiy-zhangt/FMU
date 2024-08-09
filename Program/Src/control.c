@@ -23,7 +23,7 @@ const double	Kp_height=4;//高度控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
 double integtal_pitch;//俯仰角误差积分
-double PitchNeutral=-30,RollNeutral=0;//姿态角中立位置
+double PitchNeutral=-20,RollNeutral=0;//姿态角中立位置
 
 FMUControlModeSelect FMUControlMode = FMU_Manual;//飞控工作模式选择
 FMUControlModeSelect FMUControlModePrevious = FMU_Manual;
