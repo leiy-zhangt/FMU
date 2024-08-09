@@ -13,7 +13,7 @@ NavigationDataStruct NevigationInitData;
 NavigationDataStruct NevigationLastData;
 NavigationDataStruct NevigationData;
 
-IMUDateStruct	NevAttitudeData;
+IMUDateStruct	NavAttitudeData;
 
 double p,r,y;//姿态角
 
@@ -62,14 +62,18 @@ void AttitudeSolution(double *pitch,double *roll,double *yaw,double gyr_x,double
   y = atan2(-2*(q[1]*q[2]-q[0]*q[3]),(pow(q[0],2)-pow(q[1],2)+pow(q[2],2)-pow(q[3],2)))*57.3;//初始矩阵偏航角
 	r = atan2(-2*(q[1]*q[3]-q[0]*q[2]),pow(q[0],2)-pow(q[1],2)-pow(q[2],2)+pow(q[3],2))*57.3;//初始矩阵滚转角
 	//对加速度进行低通滤波
-	NevAttitudeData.tran_acc_x = NevAttitudeData.tran_acc_x*0.95 + IMUData.tran_acc_x*0.05;
-	NevAttitudeData.tran_acc_y = NevAttitudeData.tran_acc_y*0.95 + IMUData.tran_acc_y*0.05;
-	NevAttitudeData.tran_acc_z = NevAttitudeData.tran_acc_z*0.95 + IMUData.tran_acc_z*0.05;
-	acc_norm = sqrt(pow(NevAttitudeData.tran_acc_x,2)+pow(NevAttitudeData.tran_acc_y,2)+pow(NevAttitudeData.tran_acc_z,2));
+	NavAttitudeData.acc_x = NavAttitudeData.acc_x*0.95 + IMUData.tran_acc_x*0.05;
+	NavAttitudeData.acc_y = NavAttitudeData.acc_x*0.95 + IMUData.tran_acc_y*0.05;
+	NavAttitudeData.acc_z = NavAttitudeData.acc_x*0.95 + IMUData.tran_acc_z*0.05;
+	//对陀螺仪进行低通滤波
+	NavAttitudeData.gyr_x = NavAttitudeData.gyr_x*0.95 + IMUData.tran_gyr_x*0.05;
+	NavAttitudeData.gyr_y = NavAttitudeData.gyr_y*0.95 + IMUData.tran_gyr_y*0.05;
+	NavAttitudeData.gyr_z = NavAttitudeData.gyr_z*0.95 + IMUData.tran_gyr_z*0.05;
+	acc_norm = sqrt(pow(NavAttitudeData.tran_acc_x,2)+pow(NavAttitudeData.tran_acc_y,2)+pow(NavAttitudeData.tran_acc_z,2));
   if((acc_norm>9)&&(acc_norm<11))
   {
-    p = asin(NevAttitudeData.tran_acc_y/acc_norm)*57.3*0.02 + p*0.98;
-    r = atan2(-NevAttitudeData.tran_acc_x,NevAttitudeData.tran_acc_z)*57.3*0.02 + r*0.98;
+    p = asin(NavAttitudeData.tran_acc_y/acc_norm)*57.3*0.02 + p*0.98;
+    r = atan2(-NavAttitudeData.tran_acc_x,NavAttitudeData.tran_acc_z)*57.3*0.02 + r*0.98;
   }
 	if(r>90.0)
 	{
@@ -98,12 +102,15 @@ void AttitudeSolution(double *pitch,double *roll,double *yaw,double gyr_x,double
 
 void NevigayionSolutinInit(void)
 {
-	NevAttitudeData.pitch = IMUData.tran_pitch;
-	NevAttitudeData.roll = IMUData.tran_roll;
-	NevAttitudeData.yaw = IMUData.tran_yaw;
-	NevAttitudeData.tran_acc_x = IMUData.tran_acc_x;
-	NevAttitudeData.tran_acc_y = IMUData.tran_acc_y;
-	NevAttitudeData.tran_acc_z = IMUData.tran_acc_z;
+	NavAttitudeData.pitch = IMUData.tran_pitch;
+	NavAttitudeData.roll = IMUData.tran_roll;
+	NavAttitudeData.yaw = IMUData.tran_yaw;
+	NavAttitudeData.acc_x = IMUData.tran_acc_x;
+	NavAttitudeData.acc_y = IMUData.tran_acc_y;
+	NavAttitudeData.acc_z = IMUData.tran_acc_z;
+	NavAttitudeData.gyr_x = IMUData.tran_gyr_x;
+	NavAttitudeData.gyr_y = IMUData.tran_gyr_y;
+	NavAttitudeData.gyr_z = IMUData.tran_gyr_z;
 }
 
 
