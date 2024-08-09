@@ -212,7 +212,7 @@ TaskHandle_t IMUReceive_TCB;
 
 void IMUReceive(void *pvParameters)
 {
-	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
+//	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	HAL_UART_Receive_DMA(&huart2,IMUReceiveBuff,55);
 	__HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);
 	//初始化IMU高度
@@ -238,7 +238,7 @@ void IMUReceive(void *pvParameters)
 //			printf("%0.4f  %0.4f  %0.4f  \r\n",IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw);
 //			printf("%0.4f  %0.4f  %0.4f\r\n",NavAttitudeData.tran_pitch,NavAttitudeData.tran_roll,NavAttitudeData.tran_yaw);
 //			printf("p=%0.4f,r=%0.4f,y=%0.4f,sp=%0.4f,sr=%0.4f,sy=%0.4f\r\n",IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw,NavAttitudeData.tran_pitch,NavAttitudeData.tran_roll,NavAttitudeData.tran_yaw);
-//			printf("p=%0.4f,r=%0.4f,y=%0.4f,sp=%0.4f,sr=%0.4f,sy=%0.4f\r\n",IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw,NavAttitudeData.pitch,NavAttitudeData.roll,NavAttitudeData.yaw);
+			printf("p=%0.4f,r=%0.4f,y=%0.4f,sp=%0.4f,sr=%0.4f,sy=%0.4f\r\n",IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw,NavAttitudeData.pitch,NavAttitudeData.roll,NavAttitudeData.yaw);
 //			printf("p=%0.4f,r=%0.4f,y=%0.4f,sp=%0.4f,sr=%0.4f,sy=%0.4f\r\n",IMUData.pitch,IMUData.roll,IMUData.yaw,NavAttitudeData.pitch,NavAttitudeData.roll,NavAttitudeData.yaw);
 //			printf("%0.4f  %0.4f  ",IMUData.pressure,IMUData.height);
 //			printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);

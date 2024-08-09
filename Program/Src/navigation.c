@@ -63,17 +63,17 @@ void AttitudeSolution(double *pitch,double *roll,double *yaw,double gyr_x,double
 	r = atan2(-2*(q[1]*q[3]-q[0]*q[2]),pow(q[0],2)-pow(q[1],2)-pow(q[2],2)+pow(q[3],2))*57.3;//初始矩阵滚转角
 	//对加速度进行低通滤波
 	NavAttitudeData.acc_x = NavAttitudeData.acc_x*0.95 + IMUData.tran_acc_x*0.05;
-	NavAttitudeData.acc_y = NavAttitudeData.acc_x*0.95 + IMUData.tran_acc_y*0.05;
-	NavAttitudeData.acc_z = NavAttitudeData.acc_x*0.95 + IMUData.tran_acc_z*0.05;
+	NavAttitudeData.acc_y = NavAttitudeData.acc_y*0.95 + IMUData.tran_acc_y*0.05;
+	NavAttitudeData.acc_z = NavAttitudeData.acc_z*0.95 + IMUData.tran_acc_z*0.05;
 	//对陀螺仪进行低通滤波
 	NavAttitudeData.gyr_x = NavAttitudeData.gyr_x*0.95 + IMUData.tran_gyr_x*0.05;
 	NavAttitudeData.gyr_y = NavAttitudeData.gyr_y*0.95 + IMUData.tran_gyr_y*0.05;
 	NavAttitudeData.gyr_z = NavAttitudeData.gyr_z*0.95 + IMUData.tran_gyr_z*0.05;
-	acc_norm = sqrt(pow(NavAttitudeData.tran_acc_x,2)+pow(NavAttitudeData.tran_acc_y,2)+pow(NavAttitudeData.tran_acc_z,2));
+	acc_norm = sqrt(pow(NavAttitudeData.acc_x,2)+pow(NavAttitudeData.acc_y,2)+pow(NavAttitudeData.acc_z,2));
   if((acc_norm>9)&&(acc_norm<11))
   {
-    p = asin(NavAttitudeData.tran_acc_y/acc_norm)*57.3*0.02 + p*0.98;
-    r = atan2(-NavAttitudeData.tran_acc_x,NavAttitudeData.tran_acc_z)*57.3*0.02 + r*0.98;
+    p = asin(NavAttitudeData.acc_y/acc_norm)*57.3*0.02 + p*0.98;
+    r = atan2(-NavAttitudeData.acc_x,NavAttitudeData.acc_z)*57.3*0.02 + r*0.98;
   }
 	if(r>90.0)
 	{

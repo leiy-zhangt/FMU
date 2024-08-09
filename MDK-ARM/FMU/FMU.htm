@@ -3,7 +3,7 @@
 <title>Static Call Graph - [FMU\FMU.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image FMU\FMU.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Aug 09 19:43:04 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Aug 09 23:07:04 2024
 <BR><P>
 <H3>Maximum Stack Usage =        936 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -806,6 +806,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_file
 </UL>
 <BR>[Called By]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InfoPrint
+<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IMUReceive
 </UL>
 
 <P><STRONG><a name="[d4]"></a>__2sprintf</STRONG> (Thumb, 34 bytes, Stack size 32 bytes, noretval__2sprintf.o(.text))
@@ -1186,8 +1187,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_Start
 </UL>
 
-<P><STRONG><a name="[102]"></a>AttitudeSolution</STRONG> (Thumb, 1552 bytes, Stack size 240 bytes, navigation.o(i.AttitudeSolution))
-<BR><BR>[Stack]<UL><LI>Max Depth = 464<LI>Call Chain = AttitudeSolution &rArr; __hardfp_pow &rArr; sqrt &rArr; __set_errno
+<P><STRONG><a name="[102]"></a>AttitudeSolution</STRONG> (Thumb, 1556 bytes, Stack size 168 bytes, navigation.o(i.AttitudeSolution))
+<BR><BR>[Stack]<UL><LI>Max Depth = 392<LI>Call Chain = AttitudeSolution &rArr; __hardfp_pow &rArr; sqrt &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
 <LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
@@ -2420,7 +2421,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h743xx.o(RESET)
 </UL>
 <P><STRONG><a name="[1b8]"></a>IMUDataConvert</STRONG> (Thumb, 536 bytes, Stack size 16 bytes, imu.o(i.IMUDataConvert))
-<BR><BR>[Stack]<UL><LI>Max Depth = 480<LI>Call Chain = IMUDataConvert &rArr; AttitudeSolution &rArr; __hardfp_pow &rArr; sqrt &rArr; __set_errno
+<BR><BR>[Stack]<UL><LI>Max Depth = 408<LI>Call Chain = IMUDataConvert &rArr; AttitudeSolution &rArr; __hardfp_pow &rArr; sqrt &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AttitudeSolution
 <LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IMURotationTransform
@@ -2428,14 +2429,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IMUReceive
 </UL>
 
-<P><STRONG><a name="[a7]"></a>IMUReceive</STRONG> (Thumb, 98 bytes, Stack size 8 bytes, taskinit.o(i.IMUReceive))
-<BR><BR>[Stack]<UL><LI>Max Depth = 488<LI>Call Chain = IMUReceive &rArr; IMUDataConvert &rArr; AttitudeSolution &rArr; __hardfp_pow &rArr; sqrt &rArr; __set_errno
+<P><STRONG><a name="[a7]"></a>IMUReceive</STRONG> (Thumb, 146 bytes, Stack size 40 bytes, taskinit.o(i.IMUReceive))
+<BR><BR>[Stack]<UL><LI>Max Depth = 448 + Unknown Stack Size
+<LI>Call Chain = IMUReceive &rArr; IMUDataConvert &rArr; AttitudeSolution &rArr; __hardfp_pow &rArr; sqrt &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
 <LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_DMA
-<LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xEventGroupWaitBits
 <LI><a href="#[1ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NevigayionSolutinInit
 <LI><a href="#[1b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IMUDataConvert
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> taskinit.o(i.TaskCreate)
 </UL>
@@ -4163,7 +4165,6 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SDWrite
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReceiverReceive
-<LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IMUReceive
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GNSSReceive
 <LI><a href="#[a5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FMUControlCalculation
 </UL>
