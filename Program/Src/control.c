@@ -17,12 +17,13 @@ BaseType_t ControlHigherTaskSwitch;
 double ControlTime;//飞控运行时间
 const double ControlDt = 0.01;//飞控控制时间间隔
 
-const double Kp_roll=2,Kd_roll=0.2,Kp_pitch=3,Kd_pitch=0.5,Ki_pitch = 1,Kp_yaw=1.5,Kd_yaw=0.1;//姿态控制参数
+//const double Kp_roll=2,Kd_roll=0.2,Kp_pitch=3,Kd_pitch=0.5,Ki_pitch = 1,Kp_yaw=1.5,Kd_yaw=0.1;//姿态控制参数
+const double Kp_roll=2,Kd_roll=0.2,Kp_pitch=3,Kd_pitch=0.1,Ki_pitch = 1,Kp_yaw=1.5,Kd_yaw=0.1;//姿态控制参数
 const double	Kp_height=4;//高度控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
 double integtal_pitch;//俯仰角误差积分
-double PitchNeutral=-10,RollNeutral=0;//姿态角中立位置
+double PitchNeutral=-30,RollNeutral=0;//姿态角中立位置
 
 FMUControlModeSelect FMUControlMode = FMU_Manual;//飞控工作模式选择
 FMUControlModeSelect FMUControlModePrevious = FMU_Manual;
@@ -139,8 +140,8 @@ void FixedWingControl(void)
 		case FMU_Stable:
 		{
 			//滚转与俯仰角期望值 0.09为45°
-			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09+RollNeutral;
-			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09+PitchNeutral;
+			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.06+RollNeutral;
+			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.06+PitchNeutral;
 			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
 			//计算俯仰角误差积分
 			integtal_pitch = integtal_pitch+(expected_pitch-pitch)*ControlDt;
