@@ -98,8 +98,8 @@ IMUStatus IMUDataConvert(uint8_t *DataBuff)
 	tran_int16 = (((int16_t)point[7])<<8|(int16_t)point[6]);
 	IMUData.quaternion[3] = (double)tran_int16*0.000030517578125;
 	//进行旋转变换，得到有安装角下的数据
-	IMURotationTransform(IMU_NO_Rotation);
-//	IMURotationTransform(IMU_Roll_180);
+//	IMURotationTransform(IMU_NO_Rotation);
+	IMURotationTransform(IMU_Roll_180);
 	//使用互补滤波对姿态进行补偿
 	AttitudeSolution(&(NavAttitudeData.pitch),&(NavAttitudeData.roll),&(NavAttitudeData.yaw),IMUData.tran_gyr_x,IMUData.tran_gyr_y,IMUData.tran_gyr_z);
 //	if(IMUData.acc_x*IMUData.acc_x+IMUData.acc_y*IMUData.acc_y+IMUData.acc_z*IMUData.acc_z < 15*15)
