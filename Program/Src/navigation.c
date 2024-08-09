@@ -61,11 +61,15 @@ void AttitudeSolution(double *pitch,double *roll,double *yaw,double gyr_x,double
   p = asin(2*(q[0]*q[1]+q[2]*q[3]))*57.3;//初始矩阵俯仰角
   y = atan2(-2*(q[1]*q[2]-q[0]*q[3]),(pow(q[0],2)-pow(q[1],2)+pow(q[2],2)-pow(q[3],2)))*57.3;//初始矩阵偏航角
 	r = atan2(-2*(q[1]*q[3]-q[0]*q[2]),pow(q[0],2)-pow(q[1],2)-pow(q[2],2)+pow(q[3],2))*57.3;//初始矩阵滚转角
-	acc_norm = sqrt(pow(IMUData.tran_acc_x,2)+pow(IMUData.tran_acc_y,2)+pow(IMUData.tran_acc_z,2));
+	//对加速度进行低通滤波
+	NevAttitudeData.tran_acc_x = NevAttitudeData.tran_acc_x*0.95 + IMUData.tran_acc_x*0.05;
+	NevAttitudeData.tran_acc_y = NevAttitudeData.tran_acc_y*0.95 + IMUData.tran_acc_y*0.05;
+	NevAttitudeData.tran_acc_z = NevAttitudeData.tran_acc_z*0.95 + IMUData.tran_acc_z*0.05;
+	acc_norm = sqrt(pow(NevAttitudeData.tran_acc_x,2)+pow(NevAttitudeData.tran_acc_y,2)+pow(NevAttitudeData.tran_acc_z,2));
   if((acc_norm>9)&&(acc_norm<11))
   {
-    p = asin(IMUData.tran_acc_y/acc_norm)*57.3*0.02 + p*0.98;
-    r = atan2(-IMUData.tran_acc_x,IMUData.tran_acc_z)*57.3*0.02 + r*0.98;
+    p = asin(NevAttitudeData.tran_acc_y/acc_norm)*57.3*0.02 + p*0.98;
+    r = atan2(-NevAttitudeData.tran_acc_x,NevAttitudeData.tran_acc_z)*57.3*0.02 + r*0.98;
   }
 	if(r>90.0)
 	{
@@ -97,6 +101,9 @@ void NevigayionSolutinInit(void)
 	NevAttitudeData.pitch = IMUData.tran_pitch;
 	NevAttitudeData.roll = IMUData.tran_roll;
 	NevAttitudeData.yaw = IMUData.tran_yaw;
+	NevAttitudeData.tran_acc_x = IMUData.tran_acc_x;
+	NevAttitudeData.tran_acc_y = IMUData.tran_acc_y;
+	NevAttitudeData.tran_acc_z = IMUData.tran_acc_z;
 }
 
 
