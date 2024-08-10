@@ -76,8 +76,6 @@ void ReceiverSolution(void)
 	{
 		if(ReceiverChannelPrevious[4]<1550)
 		{
-			PitchNeutral=0;
-			RollNeutral=0;
 			ControlStart();
 		}
 	}
