@@ -230,7 +230,7 @@ TaskHandle_t IMUReceive_TCB;
 
 void IMUReceive(void *pvParameters)
 {
-//	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
+	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	HAL_UART_Receive_DMA(&huart2,IMUReceiveBuff,55);
 	__HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);
 	//初始化IMU高度
