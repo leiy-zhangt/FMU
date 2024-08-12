@@ -89,7 +89,11 @@ void ReceiverSolution(void)
 		else if(ReceiverChannel[6]<1600) 
 		{
 			FMUControlMode = FMU_Stable;
-			if(FMUControlModePrevious != FMU_Stable) integtal_pitch = 0;
+			if(FMUControlModePrevious != FMU_Stable) 
+			{
+				integtal_pitch = 0;
+				integtal_roll = 0;
+			}
 		}
 		else 
 		{

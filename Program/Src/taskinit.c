@@ -95,8 +95,8 @@ void FMUCheck(void *pvParameters)
 {
 	xEventGroupClearBits(FMUCheckEvent,0xFFFF);
 	//调试时使用禁用GPS
-//	xEventGroupSetBits(FMUCheckEvent,0xFF);
-//	vTaskSuspend(NULL);
+	xEventGroupSetBits(FMUCheckEvent,0xFF);
+	vTaskSuspend(NULL);
 	//
 	while(1)
 	{
@@ -171,6 +171,7 @@ TaskHandle_t SDWrite_TCB;
 
 void SDWrite(void *pvParameters)
 {
+	uint8_t num = 0;
 	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	SDRet = f_mount(&SDFatFS,SDPath,1);
 	if(SDRet != FR_OK)
@@ -202,23 +203,41 @@ void SDWrite(void *pvParameters)
 	while(1)
 	{
 			//飞行参数保存
+//		if(IMURet == IMU_OK) sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",\
+//			ControlTime,"IMU OK!",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height);
+//		else sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",
+//			ControlTime,"IMU ERR!",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height);
+//		f_printf(&SDFile,(char *)StorageBuff);
+//		if(GNSSRet == GNSS_FIX) sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f angle: %0.2f ",\
+//			"GNSS FIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle);
+//		else sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f amgle: %0.2f ",\
+//			"GNSS NOFIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle);
+//		f_printf(&SDFile,(char *)StorageBuff);
+//		if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y: %0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver OK!",ReceiverChannel[5],ReceiverChannel[6],\
+//			expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
+//		else sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver ERR!",ReceiverChannel[5],ReceiverChannel[6],\
+//			expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
+//		f_printf(&SDFile,(char *)StorageBuff);
+//		sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f ",NavAttitudeData.tran_pitch,NavAttitudeData.tran_roll,NavAttitudeData.tran_yaw);
+//		f_printf(&SDFile,(char *)StorageBuff);
 		if(IMURet == IMU_OK) sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",\
-			ControlTime,"IMU OK!",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height);
+			ControlTime,"IMU OK!",IMUData.tran_acc_x,IMUData.tran_acc_y,IMUData.tran_acc_z,IMUData.tran_gyr_x,IMUData.tran_gyr_y,IMUData.tran_gyr_z,IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw,IMUData.pressure,IMUData.height);
 		else sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",
-			ControlTime,"IMU ERR!",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height);
-		f_printf(&SDFile,(char *)StorageBuff);
-		if(GNSSRet == GNSS_FIX) sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f angle: %0.2f ",\
-			"GNSS FIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle);
-		else sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f amgle: %0.2f ",\
-			"GNSS NOFIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle);
+			ControlTime,"IMU ERR!",IMUData.tran_acc_x,IMUData.tran_acc_y,IMUData.tran_acc_z,IMUData.tran_gyr_x,IMUData.tran_gyr_y,IMUData.tran_gyr_z,IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw,IMUData.pressure,IMUData.height);
 		f_printf(&SDFile,(char *)StorageBuff);
 		if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y: %0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver OK!",ReceiverChannel[5],ReceiverChannel[6],\
 			expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
 		else sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver ERR!",ReceiverChannel[5],ReceiverChannel[6],\
 			expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
 		f_printf(&SDFile,(char *)StorageBuff);
-		sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f ",NavAttitudeData.tran_pitch,NavAttitudeData.tran_roll,NavAttitudeData.tran_yaw);
+		sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f\n",NavAttitudeData.pitch,NavAttitudeData.roll,NavAttitudeData.yaw);
 		f_printf(&SDFile,(char *)StorageBuff);
+		num++;
+		if(num == 10)
+		{
+			f_sync(&SDFile);
+			num = 0;
+		}
 		vTaskDelay(100);
 	}
 }

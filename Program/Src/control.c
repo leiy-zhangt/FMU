@@ -17,23 +17,23 @@ BaseType_t ControlHigherTaskSwitch;
 double ControlTime;//飞控运行时间
 const double ControlDt = 0.01;//飞控控制时间间隔
 
-const double Kp_roll=1,Kd_roll=0.2,Kp_pitch=2,Kd_pitch=0.1,Ki_pitch = 1,Kp_yaw=1.5,Kd_yaw=0.1;//姿态控制参数
-//const double Kp_roll=1,Kd_roll=0.2,Kp_pitch=0.5,Kd_pitch=0.1,Ki_pitch = 0.3,Kp_yaw=1.5,Kd_yaw=0.1;//姿态控制参数
+//const double Kp_roll=2,Kd_roll=0.1,Ki_roll = 0.5,Kp_pitch=2,Kd_pitch=0.0,Ki_pitch = 0.5,Kp_yaw=1.5,Kd_yaw=0.1;//姿态控制参数
+const double Kp_roll=1,Kd_roll=0.2,Kp_pitch=0.5,Kd_pitch=0.0,Ki_pitch = 0.3,Kp_yaw=1.5,Kd_yaw=0.1;//姿态控制参数
 const double	Kp_height=3;//高度控制率参数
 double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 double servo_roll,servo_pitch,servo_yaw;//对应通道角度
-double integtal_pitch;//俯仰角误差积分
-double PitchNeutral=-10,RollNeutral=0;//姿态角中立位置
+double integtal_pitch,integtal_roll;//俯仰角误差积分
+double PitchNeutral=3,RollNeutral=0;//姿态角中立位置
 FMUControlModeSelect FMUControlMode = FMU_Manual;//飞控工作模式选择
 FMUControlModeSelect FMUControlModePrevious = FMU_Manual;
 
 void ControlStart(void)//飞控开始工作初始化
 {
 	__HAL_TIM_SET_COUNTER(&htim6,0);
-//	FileCreate();
+	FileCreate();
 	ControlTime = 0;
 	HAL_TIM_Base_Start_IT(&htim6);
-//	vTaskResume(SDWrite_TCB);
+	vTaskResume(SDWrite_TCB);
 }
 
 void ControlUpdata(void)//飞控参数更新
@@ -46,19 +46,19 @@ void ControlUpdata(void)//飞控参数更新
 void ControlStop(void)//飞控结束工作
 {
 	HAL_TIM_Base_Stop_IT(&htim6);
-//	vTaskSuspend(SDWrite_TCB);
-//	FileClose();
+	vTaskSuspend(SDWrite_TCB);
+	FileClose();
 }
 
 
 void ServoSet(ServoChannel channel,double angle)//
 {
 	//电滑舵机参数
-//	uint8_t ServoDirection[8] = {1,1,0,1,1,0,0,0};
-//	int16_t ServoOffset[8] = {0,20,0,15,0,120,0,0};
+	uint8_t ServoDirection[8] = {1,1,0,1,1,0,0,0};
+	int16_t ServoOffset[8] = {0,-20,0,100,0,-90,0,0};
 	//漫游者舵机参数
-	uint8_t ServoDirection[8] = {0,1,0,0,1,0,0,0};
-	int16_t ServoOffset[8] = {0,100,0,0,0,120,0,0};
+//	uint8_t ServoDirection[8] = {0,1,0,0,1,0,0,0};
+//	int16_t ServoOffset[8] = {0,100,0,0,0,120,0,0};
 	int16_t angle_int16;
 	switch(channel)
 	{
@@ -120,90 +120,12 @@ void FixedWingControl(void)
 	double gz = NavAttitudeData.gyr_z;
 	switch(FMUControlMode)
 	{
-//		case FMU_Manual:
-//		{
-//			//第一组舵机
-//			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
-//			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.03;
-//			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.015;
-//			servo_roll = expected_roll;
-//			servo_pitch = expected_pitch;
-//			servo_yaw = expected_yaw;
-//			ServoSet(ServoChannel_1,servo_roll);
-//			ServoSet(ServoChannel_5,servo_roll);
-//			ServoSet(ServoChannel_2,servo_pitch);
-//			ServoSet(ServoChannel_6,servo_pitch);
-//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-//			ServoSet(ServoChannel_4,servo_yaw);
-//			ServoSet(ServoChannel_7,servo_yaw);
-//			break;
-//		}
-//		case FMU_Stable:
-//		{
-//			//滚转与俯仰角期望值 0.09为45°
-//			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09+RollNeutral;
-//			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.06+PitchNeutral;
-//			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.015;
-//			//计算俯仰角误差积分
-//			integtal_pitch = integtal_pitch+(expected_pitch-pitch)*ControlDt;
-//      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
-//      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
-//			//计算舵机角度
-////			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*IMUData.tran_gyr_y;
-//			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*gy;
-//			servo_roll = servo_roll>45?45:servo_roll;
-//			servo_roll = servo_roll<-45?-45:servo_roll;
-////			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*IMUData.tran_gyr_x+Ki_pitch*integtal_pitch;
-//			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*gx+Ki_pitch*integtal_pitch;
-//			servo_pitch = servo_pitch>16?16:servo_pitch;
-//			servo_pitch = servo_pitch<-16?-16:servo_pitch;
-//			servo_yaw = expected_yaw;
-//			ServoSet(ServoChannel_1,servo_roll);
-//			ServoSet(ServoChannel_5,servo_roll);
-//			ServoSet(ServoChannel_2,servo_pitch);
-//			ServoSet(ServoChannel_6,servo_pitch);
-//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-//			ServoSet(ServoChannel_4,servo_yaw);
-//			ServoSet(ServoChannel_7,servo_yaw);
-//			break;
-//		}
-//		case FMU_Height:
-//		{
-//			//滚转与俯仰角期望值
-//			expected_height = expected_height + ((ReceiverChannel[1]-ReceiverChannelNeutral[1]))*3.0/50000.0;
-//			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
-//			expected_pitch = Kp_height*(expected_height-IMUData.height)+PitchNeutral+fabs(IMUData.roll)*0.3;
-//			//限制俯仰角上下限
-//			expected_pitch = expected_pitch>30?30:expected_pitch;
-//			expected_pitch = expected_pitch<-30?-30:expected_pitch;
-//			//计算俯仰角误差积分
-//			integtal_pitch = integtal_pitch+(expected_pitch-pitch)*ControlDt;
-//      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
-//      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
-//			//计算舵机角度
-////			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*IMUData.tran_gyr_y;
-//			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*gy;
-//			servo_roll = servo_roll>30?30:servo_roll;
-//			servo_roll = servo_roll<-30?-30:servo_roll;
-////			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*IMUData.tran_gyr_x+Ki_pitch*integtal_pitch;
-//			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*gx+Ki_pitch*integtal_pitch;
-//			servo_pitch = servo_pitch>16?16:servo_pitch;
-//			servo_pitch = servo_pitch<-16?-16:servo_pitch;
-//			ServoSet(ServoChannel_1,servo_roll);
-//			ServoSet(ServoChannel_5,servo_roll);
-//			ServoSet(ServoChannel_2,servo_pitch);
-//			ServoSet(ServoChannel_6,servo_pitch);
-//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-//			ServoSet(ServoChannel_4,expected_yaw);
-//			ServoSet(ServoChannel_7,expected_yaw);
-//			break;
-//		}
-	case FMU_Manual:
-	{
+		case FMU_Manual:
+		{
 			//第一组舵机
 			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
-			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09;
-			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.06;
+			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.03;
+			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.015;
 			servo_roll = expected_roll;
 			servo_pitch = expected_pitch;
 			servo_yaw = expected_yaw;
@@ -219,9 +141,9 @@ void FixedWingControl(void)
 		case FMU_Stable:
 		{
 			//滚转与俯仰角期望值 0.09为45°
-			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.06+RollNeutral;
+			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09+RollNeutral;
 			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.06+PitchNeutral;
-			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
+			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.015;
 			//计算俯仰角误差积分
 			integtal_pitch = integtal_pitch+(expected_pitch-pitch)*ControlDt;
       integtal_pitch = integtal_pitch>10?10:integtal_pitch;
@@ -233,8 +155,8 @@ void FixedWingControl(void)
 			servo_roll = servo_roll<-45?-45:servo_roll;
 //			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*IMUData.tran_gyr_x+Ki_pitch*integtal_pitch;
 			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*gx+Ki_pitch*integtal_pitch;
-			servo_pitch = servo_pitch>45?45:servo_pitch;
-			servo_pitch = servo_pitch<-45?-45:servo_pitch;
+			servo_pitch = servo_pitch>16?16:servo_pitch;
+			servo_pitch = servo_pitch<-16?-16:servo_pitch;
 			servo_yaw = expected_yaw;
 			ServoSet(ServoChannel_1,servo_roll);
 			ServoSet(ServoChannel_5,servo_roll);
@@ -250,14 +172,14 @@ void FixedWingControl(void)
 			//滚转与俯仰角期望值
 			expected_height = expected_height + ((ReceiverChannel[1]-ReceiverChannelNeutral[1]))*3.0/50000.0;
 			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
-			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(IMUData.roll)*0.5;
+			expected_pitch = Kp_height*(expected_height-IMUData.height)+PitchNeutral+fabs(IMUData.roll)*0.3;
 			//限制俯仰角上下限
 			expected_pitch = expected_pitch>30?30:expected_pitch;
 			expected_pitch = expected_pitch<-30?-30:expected_pitch;
 			//计算俯仰角误差积分
 			integtal_pitch = integtal_pitch+(expected_pitch-pitch)*ControlDt;
-      integtal_pitch = integtal_pitch>20?20:integtal_pitch;
-      integtal_pitch = integtal_pitch<-20?-20:integtal_pitch;
+      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
+      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
 			//计算舵机角度
 //			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*IMUData.tran_gyr_y;
 			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*gy;
@@ -265,8 +187,8 @@ void FixedWingControl(void)
 			servo_roll = servo_roll<-30?-30:servo_roll;
 //			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*IMUData.tran_gyr_x+Ki_pitch*integtal_pitch;
 			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*gx+Ki_pitch*integtal_pitch;
-			servo_pitch = servo_pitch>30?30:servo_pitch;
-			servo_pitch = servo_pitch<-30?-30:servo_pitch;
+			servo_pitch = servo_pitch>16?16:servo_pitch;
+			servo_pitch = servo_pitch<-16?-16:servo_pitch;
 			ServoSet(ServoChannel_1,servo_roll);
 			ServoSet(ServoChannel_5,servo_roll);
 			ServoSet(ServoChannel_2,servo_pitch);
@@ -276,73 +198,157 @@ void FixedWingControl(void)
 			ServoSet(ServoChannel_7,expected_yaw);
 			break;
 		}
-		case FMU_Path:
-		{
-			//路径计算参数
-			latlon_to_meter(GNSSData.lat,GNSSData.lon,GNSSData.lat_Init,GNSSData.lon_Init,X+3,X+5);
-			X[0] = GNSSData.velocity_n;
-			X[1] = 0;
-			X[2] = GNSSData.velocity_e;
-			X[4] = IMUData.height - IMUData.height_Init;
-			//滚转与俯仰角期望值
-			guidence_plane(X,TeleReceverData+2,curve_size,&I_roll,&num_curve,&mode_return,&num_return,&curve_return_data,curve_return_size,&expected_roll,&judge_arrive);
-			expected_roll = expected_roll*57.3;
-			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(IMUData.roll)*0.5;
-			//限制滚转角、俯仰角上下限
-			expected_roll = expected_roll>30?30:expected_roll;
-			expected_roll = expected_roll<-30?-30:expected_roll;
-			expected_pitch = expected_pitch>30?30:expected_pitch;
-			expected_pitch = expected_pitch<-30?-30:expected_pitch;
-			//计算俯仰角误差积分
-			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
-      integtal_pitch = integtal_pitch>20?20:integtal_pitch;
-      integtal_pitch = integtal_pitch<-20?-20:integtal_pitch;
-			//计算舵机角度
-			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
-			servo_roll = servo_roll>30?30:servo_roll;
-			servo_roll = servo_roll<-30?-30:servo_roll;
-			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
-			servo_pitch = servo_pitch>45?45:servo_pitch;
-			servo_pitch = servo_pitch<-45?-45:servo_pitch;
-			ServoSet(ServoChannel_1,servo_roll);
-			ServoSet(ServoChannel_5,servo_roll);
-			ServoSet(ServoChannel_2,servo_pitch);
-			ServoSet(ServoChannel_6,servo_pitch);
-			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-			ServoSet(ServoChannel_4,expected_yaw);
-			ServoSet(ServoChannel_7,expected_yaw);
-		}
-		case FMU_Return:
-			break;
-//		case FMU_Return:
+//	case FMU_Manual:
+//	{
+//			//第一组舵机
+//			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
+//			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.09;
+//			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.06;
+//			servo_roll = expected_roll;
+//			servo_pitch = expected_pitch;
+//			servo_yaw = expected_yaw;
+//			ServoSet(ServoChannel_1,servo_roll);
+//			ServoSet(ServoChannel_5,servo_roll);
+//			ServoSet(ServoChannel_2,servo_pitch);
+//			ServoSet(ServoChannel_6,servo_pitch);
+//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+//			ServoSet(ServoChannel_4,servo_yaw);
+//			ServoSet(ServoChannel_7,servo_yaw);
+//			break;
+//		}
+//		case FMU_Stable:
 //		{
-//			//滚转与俯仰角期望值
-//			if(ReturnDire == Return_TurnLeft) expected_roll = -FMUReturnRoll;
-//			else expected_roll = FMUReturnRoll;
-//			expected_height = IMUData.height_Init+FMUReturnHeight;
-//			expected_pitch = Kp_height*(expected_height-IMUData.height);
-//			//限制俯仰角上下限
-//			expected_pitch = expected_pitch>20?20:expected_pitch;
-//			expected_pitch = expected_pitch<-20?-20:expected_pitch;
-//			//计算俯仰角误差积分
-//			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
+//			//滚转与俯仰角期望值 0.09为45°
+//			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.06+RollNeutral;
+//			expected_pitch = (ReceiverChannel[1]-ReceiverChannelNeutral[1])*0.06+PitchNeutral;
+//			expected_yaw = (ReceiverChannel[3]-ReceiverChannelNeutral[3])*0.045;
+//			//计算俯仰角与滚转角误差积分
+//			integtal_pitch = integtal_pitch+(expected_pitch-pitch)*ControlDt;
 //      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
 //      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
+//			integtal_roll = integtal_roll+(expected_roll-roll)*ControlDt;
+//			integtal_roll = integtal_roll>10?10:integtal_roll;
+//			integtal_roll = integtal_roll<-10?-10:integtal_roll;
+//			//计算舵机角度
+//			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*IMUData.tran_gyr_y;
+//			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*gy+Ki_roll*integtal_roll;
+//			servo_roll = servo_roll>45?45:servo_roll;
+//			servo_roll = servo_roll<-45?-45:servo_roll;
+//			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*IMUData.tran_gyr_x+Ki_pitch*integtal_pitch;
+//			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*gx+Ki_pitch*integtal_pitch;
+//			servo_pitch = servo_pitch>45?45:servo_pitch;
+//			servo_pitch = servo_pitch<-45?-45:servo_pitch;
+//			servo_yaw = expected_yaw;
+//			ServoSet(ServoChannel_1,servo_roll);
+//			ServoSet(ServoChannel_5,servo_roll);
+//			ServoSet(ServoChannel_2,servo_pitch);
+//			ServoSet(ServoChannel_6,servo_pitch);
+//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+//			ServoSet(ServoChannel_4,servo_yaw);
+//			ServoSet(ServoChannel_7,servo_yaw);
+//			break;
+//		}
+//		case FMU_Height:
+//		{
+//			//滚转与俯仰角期望值
+//			expected_height = expected_height + ((ReceiverChannel[1]-ReceiverChannelNeutral[1]))*3.0/50000.0;
+//			expected_roll = (ReceiverChannel[0]-ReceiverChannelNeutral[0])*0.09;
+//			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(IMUData.roll)*0.5;
+//			//限制俯仰角上下限
+//			expected_pitch = expected_pitch>30?30:expected_pitch;
+//			expected_pitch = expected_pitch<-30?-30:expected_pitch;
+//			//计算俯仰角误差积分
+//			integtal_pitch = integtal_pitch+(expected_pitch-pitch)*ControlDt;
+//      integtal_pitch = integtal_pitch>20?20:integtal_pitch;
+//      integtal_pitch = integtal_pitch<-20?-20:integtal_pitch;
+//			integtal_roll = integtal_roll+(expected_roll-roll)*ControlDt;
+//			integtal_roll = integtal_roll>15?15:integtal_roll;
+//			integtal_roll = integtal_roll<-15?-15:integtal_roll;
+//			//计算舵机角度
+//			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*IMUData.tran_gyr_y;
+//			servo_roll = Kp_roll*(expected_roll-roll)-Kd_roll*gy+Ki_roll*integtal_roll;
+//			servo_roll = servo_roll>45?45:servo_roll;
+//			servo_roll = servo_roll<-45?-45:servo_roll;
+//			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*IMUData.tran_gyr_x+Ki_pitch*integtal_pitch;
+//			servo_pitch = Kp_pitch*(expected_pitch-pitch)-Kd_pitch*gx+Ki_pitch*integtal_pitch;
+//			servo_pitch = servo_pitch>30?30:servo_pitch;
+//			servo_pitch = servo_pitch<-30?-30:servo_pitch;
+//			ServoSet(ServoChannel_1,servo_roll);
+//			ServoSet(ServoChannel_5,servo_roll);
+//			ServoSet(ServoChannel_2,servo_pitch);
+//			ServoSet(ServoChannel_6,servo_pitch);
+//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+//			ServoSet(ServoChannel_4,expected_yaw);
+//			ServoSet(ServoChannel_7,expected_yaw);
+//			break;
+//		}
+//		case FMU_Path:
+//		{
+//			//路径计算参数
+//			latlon_to_meter(GNSSData.lat,GNSSData.lon,GNSSData.lat_Init,GNSSData.lon_Init,X+3,X+5);
+//			X[0] = GNSSData.velocity_n;
+//			X[1] = 0;
+//			X[2] = GNSSData.velocity_e;
+//			X[4] = IMUData.height - IMUData.height_Init;
+//			//滚转与俯仰角期望值
+//			guidence_plane(X,TeleReceverData+2,curve_size,&I_roll,&num_curve,&mode_return,&num_return,&curve_return_data,curve_return_size,&expected_roll,&judge_arrive);
+//			expected_roll = expected_roll*57.3;
+//			expected_pitch = Kp_height*(expected_height-IMUData.height)+5+fabs(IMUData.roll)*0.5;
+//			//限制滚转角、俯仰角上下限
+//			expected_roll = expected_roll>30?30:expected_roll;
+//			expected_roll = expected_roll<-30?-30:expected_roll;
+//			expected_pitch = expected_pitch>30?30:expected_pitch;
+//			expected_pitch = expected_pitch<-30?-30:expected_pitch;
+//			//计算俯仰角误差积分
+//			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
+//      integtal_pitch = integtal_pitch>20?20:integtal_pitch;
+//      integtal_pitch = integtal_pitch<-20?-20:integtal_pitch;
 //			//计算舵机角度
 //			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
 //			servo_roll = servo_roll>30?30:servo_roll;
 //			servo_roll = servo_roll<-30?-30:servo_roll;
 //			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
-//			servo_pitch = servo_pitch>25?25:servo_pitch;
-//			servo_pitch = servo_pitch<-25?-25:servo_pitch;
+//			servo_pitch = servo_pitch>45?45:servo_pitch;
+//			servo_pitch = servo_pitch<-45?-45:servo_pitch;
 //			ServoSet(ServoChannel_1,servo_roll);
+//			ServoSet(ServoChannel_5,servo_roll);
 //			ServoSet(ServoChannel_2,servo_pitch);
+//			ServoSet(ServoChannel_6,servo_pitch);
 //			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
-//			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
-//			ServoSet(ServoChannel_1,servo_roll);
-//			ServoSet(ServoChannel_2,servo_pitch);
-//			break;
+//			ServoSet(ServoChannel_4,expected_yaw);
+//			ServoSet(ServoChannel_7,expected_yaw);
 //		}
+//		case FMU_Return:
+//			break;
+		case FMU_Return:
+		{
+			//滚转与俯仰角期望值
+			if(ReturnDire == Return_TurnLeft) expected_roll = -FMUReturnRoll;
+			else expected_roll = FMUReturnRoll;
+			expected_height = IMUData.height_Init+FMUReturnHeight;
+			expected_pitch = Kp_height*(expected_height-IMUData.height);
+			//限制俯仰角上下限
+			expected_pitch = expected_pitch>20?20:expected_pitch;
+			expected_pitch = expected_pitch<-20?-20:expected_pitch;
+			//计算俯仰角误差积分
+			integtal_pitch = integtal_pitch+(expected_pitch-IMUData.pitch)*ControlDt;
+      integtal_pitch = integtal_pitch>10?10:integtal_pitch;
+      integtal_pitch = integtal_pitch<-10?-10:integtal_pitch;
+			//计算舵机角度
+			servo_roll = Kp_roll*(expected_roll-IMUData.roll)-Kd_roll*IMUData.gyr_y;
+			servo_roll = servo_roll>30?30:servo_roll;
+			servo_roll = servo_roll<-30?-30:servo_roll;
+			servo_pitch = Kp_pitch*(expected_pitch-IMUData.pitch)-Kd_pitch*IMUData.gyr_x+Ki_pitch*integtal_pitch;
+			servo_pitch = servo_pitch>25?25:servo_pitch;
+			servo_pitch = servo_pitch<-25?-25:servo_pitch;
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,ReceiverChannel[2]);
+			__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,ReceiverChannel[3]);
+			ServoSet(ServoChannel_1,servo_roll);
+			ServoSet(ServoChannel_2,servo_pitch);
+			break;
+		}
 	}
 }
 
