@@ -32,9 +32,9 @@ void TaskCreate(void)
 	if(FMUCheck_Ret == pdPASS) InfoPrint(PrintChannel,"FMUCheck creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"FMUCheck creat failed!\r\n");
 //	//Create FMUControlCalculation
-	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
-	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
+//	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
+//	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
 	//Create TaskMonitor
 //	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
 //	if(TaskMonitor_Ret == pdPASS) InfoPrint(PrintChannel,"TaskMonitor creat successfully!\r\n");
@@ -44,21 +44,21 @@ void TaskCreate(void)
 	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
 	//Create IMUReceive
-	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",192,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
-	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
+//	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",192,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
+//	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
 	//Create GNSSReceive
 	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
 	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
 	//Create ReceiverReceive
-	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
-	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
+//	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
+//	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
 	//Create TeleportTransmit
-	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
-	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
+//	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
+//	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
+//	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
 //	//Create TeleportReceive
 //	TeleportReceive_Ret = xTaskCreate((TaskFunction_t)TeleportReceive,"TeleportReceive",196,(void *)1,TeleportReceive_Prio,(TaskHandle_t *)(&TeleportReceive_TCB));
 //	if(TeleportReceive_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportReceive creat successfully!\r\n");
@@ -277,6 +277,10 @@ TaskHandle_t GNSSReceive_TCB;
 
 void GNSSReceive(void *pvParameters)
 {
+	uint8_t WindAsk[8] = {0x01,0x03,0x00,0x00,0x00,0x02,0xC4,0x0B};
+	uint8_t WindBuff[7];
+	float WindSpeed;
+	uint16_t WindDirection;
 	GNSSInit();//初始化GNSS串口波特率
 	HAL_UART_Receive_DMA(GNSSHandle,GNSSReceiveBuff,1024);
 	__HAL_UART_ENABLE_IT(GNSSHandle,UART_IT_IDLE);
@@ -287,7 +291,10 @@ void GNSSReceive(void *pvParameters)
 		GNSSRet = GNSSDataConvert(GNSSFifoBuff);
 		if(GNSSRet == GNSS_FIX)
 		{
-	
+			HAL_UART_Transmit(&huart4,WindAsk,8,0xFF);
+			HAL_UART_Receive(&huart4,WindBuff,7,0xFFFF);
+			WindSpeed = (((uint16_t)(WindBuff[3])<<8)|WindBuff[4])/100.0;
+			WindDirection = ((uint16_t)(WindBuff[5])<<8)|WindBuff[6];
 		}
 		else 
 		{

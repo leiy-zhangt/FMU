@@ -1,13 +1,13 @@
 fmu\norm.o: ..\Guide\Src\norm.c
-fmu\norm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+fmu\norm.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\math.h
 fmu\norm.o: ../Guide/Inc/rt_nonfinite.h
-fmu\norm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+fmu\norm.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stddef.h
 fmu\norm.o: ../Guide/Inc/rtwtypes.h
 fmu\norm.o: ../Guide/Inc/tmwtypes.h
-fmu\norm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
-fmu\norm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\float.h
+fmu\norm.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\limits.h
+fmu\norm.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\float.h
 fmu\norm.o: ../Guide/Inc/control_roll.h
-fmu\norm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+fmu\norm.o: C:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdlib.h
 fmu\norm.o: ../Guide/Inc/guidence_plane_types.h
 fmu\norm.o: ../Guide/Inc/guidence_plane.h
 fmu\norm.o: ../Guide/Inc/judge_curve_change.h
