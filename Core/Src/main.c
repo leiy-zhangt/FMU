@@ -225,7 +225,7 @@ int main(void)
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
-//  osKernelStart();
+  osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
 
@@ -235,7 +235,6 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-		
     /* USER CODE BEGIN 3 */
 		ServoSet(ServoChannel_1,0);
 		ServoSet(ServoChannel_2,0);

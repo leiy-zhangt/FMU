@@ -31,8 +31,8 @@ extern BaseType_t ControlHigherTaskSwitch;
 extern double ControlTime;
 extern const double ControlDt;
 
-extern const double Kp_roll,Kd_roll,Kp_pitch,Kd_pitch,Ki_pitch,Kp_yaw,Kd_yaw;//姿态控制参数
-extern const double	Kp_height;//高度控制率参数
+extern double Kp_roll,Kd_roll,Kp_pitch,Kd_pitch,Ki_pitch,Kp_yaw,Kd_yaw;//姿态控制参数
+extern double	Kp_height;//高度控制率参数
 extern double expected_roll,expected_pitch,expected_yaw,expected_height;//各通道期望值
 extern double servo_roll,servo_pitch,servo_yaw;//对应通道角度
 extern double integtal_pitch,integtal_roll;//俯仰角误差积分

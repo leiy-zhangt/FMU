@@ -64,7 +64,7 @@ unsigned long getRunTimeCounterValue(void);
 __weak void configureTimerForRunTimeStats(void)
 {
 	FreeRTOSRunTimeTicks = 0;
-	HAL_TIM_Base_Start_IT(&htim7);//�?启RunTime统计时钟;
+//	HAL_TIM_Base_Start_IT(&htim7);//�?启RunTime统计时钟;
 }
 
 __weak unsigned long getRunTimeCounterValue(void)
