@@ -5,7 +5,6 @@
 #include "teleport.h"
 #include "ms5525.h"
 #include "airspeed.h"
-#include "guide.h"
 
 
 EventGroupHandle_t FMUCheckEvent; 
@@ -27,46 +26,10 @@ void TaskCreate(void)
 	LEDTwink_Ret = xTaskCreate((TaskFunction_t)LEDTwink,"LEDTwink",32,(void *)1,LEDTwink_Prio,(TaskHandle_t *)(&LEDTwink_TCB));
 	if(LEDTwink_Ret == pdPASS) InfoPrint(PrintChannel,"LEDTwink creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"LEDTwink creat failed!\r\n");
-	//Create FMUCheck
-	FMUCheck_Ret = xTaskCreate((TaskFunction_t)FMUCheck,"FMUCheck",128,(void *)1,FMUCheck_Prio,(TaskHandle_t *)(&FMUCheck_TCB));
-	if(FMUCheck_Ret == pdPASS) InfoPrint(PrintChannel,"FMUCheck creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"FMUCheck creat failed!\r\n");
-//	//Create FMUControlCalculation
-	FMUControlCalculation_Ret = xTaskCreate((TaskFunction_t)FMUControlCalculation,"FMUControlCalculation",256,(void *)1,FMUControlCalculation_Prio,(TaskHandle_t *)(&FMUControlCalculation_TCB));
-	if(FMUControlCalculation_Ret == pdPASS) InfoPrint(PrintChannel,"FMUControlCalculation creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"FMUControlCalculation creat failed!\r\n");
-	//Create TaskMonitor
-//	TaskMonitor_Ret = xTaskCreate((TaskFunction_t)TaskMonitor,"TaskMonitor",256,(void *)1,TaskMonitor_Prio,(TaskHandle_t *)(&TaskMonitor_TCB));
-//	if(TaskMonitor_Ret == pdPASS) InfoPrint(PrintChannel,"TaskMonitor creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"TaskMonitor creat failed!\r\n");
-//	//Create SDWrite
-	SDWrite_Ret = xTaskCreate((TaskFunction_t)SDWrite,"SDWrite",200,(void *)1,SDWrite_Prio,(TaskHandle_t *)(&SDWrite_TCB));
-	if(SDWrite_Ret == pdPASS) InfoPrint(PrintChannel,"SDWrite creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"SDWrite creat failed!\r\n");
 	//Create IMUReceive
 	IMUReceive_Ret = xTaskCreate((TaskFunction_t)IMUReceive,"IMUReceive",192,(void *)1,IMUReceive_Prio,(TaskHandle_t *)(&IMUReceive_TCB));
 	if(IMUReceive_Ret == pdPASS) InfoPrint(PrintChannel,"IMUReceive creat successfully!\r\n");
 	else InfoPrint(PrintChannel,"IMUReceive creat failed!\r\n");
-	//Create GNSSReceive
-	GNSSReceive_Ret = xTaskCreate((TaskFunction_t)GNSSReceive,"GNSSReceive",196,(void *)1,GNSSReceive_Prio,(TaskHandle_t *)(&GNSSReceive_TCB));
-	if(GNSSReceive_Ret == pdPASS) InfoPrint(PrintChannel,"GNSSReceive creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"GNSSReceive creat failed!\r\n");
-	//Create ReceiverReceive
-	ReceiverReceive_Ret = xTaskCreate((TaskFunction_t)ReceiverReceive,"ReceiverReceive",256,(void *)1,ReceiverReceive_Prio,(TaskHandle_t *)(&ReceiverReceive_TCB));
-	if(ReceiverReceive_Ret == pdPASS) InfoPrint(PrintChannel,"ReceiverReceive creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"ReceiverReceive creat failed!\r\n");
-	//Create TeleportTransmit
-	TeleportTransmit_Ret = xTaskCreate((TaskFunction_t)TeleportTransmit,"TeleportTransmit",196,(void *)1,TeleportTransmit_Prio,(TaskHandle_t *)(&TeleportTransmit_TCB));
-	if(TeleportTransmit_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportTransmit creat successfully!\r\n");
-	else InfoPrint(PrintChannel,"TeleportTransmit creat failed!\r\n");
-//	//Create TeleportReceive
-//	TeleportReceive_Ret = xTaskCreate((TaskFunction_t)TeleportReceive,"TeleportReceive",196,(void *)1,TeleportReceive_Prio,(TaskHandle_t *)(&TeleportReceive_TCB));
-//	if(TeleportReceive_Ret == pdPASS) InfoPrint(PrintChannel,"TeleportReceive creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"TeleportReceive creat failed!\r\n");
-//	//Create AirSpeedMeasure
-//	AirSpeedMeasure_Ret = xTaskCreate((TaskFunction_t)AirSpeedMeasure,"AirSpeedMeasure",256,(void *)1,AirSpeedMeasure_Prio,(TaskHandle_t *)(&AirSpeedMeasure_TCB));
-//	if(AirSpeedMeasure_Ret == pdPASS) InfoPrint(PrintChannel,"AirSpeedMeasure creat successfully!\r\n");
-//	else InfoPrint(PrintChannel,"AirSpeedMeasure creat failed!\r\n");
 	//Start
 	vTaskStartScheduler();
 	while(1) ;
@@ -86,162 +49,6 @@ void LEDTwink(void *pvParameters)
 	}
 }
 
-//FMUCheck函数声明
-BaseType_t FMUCheck_Ret;
-UBaseType_t FMUCheck_Prio=30;
-TaskHandle_t FMUCheck_TCB;
-
-void FMUCheck(void *pvParameters)
-{
-	xEventGroupClearBits(FMUCheckEvent,0xFFFF);
-	//调试时使用禁用GPS
-//	xEventGroupSetBits(FMUCheckEvent,0xFF);
-//	vTaskSuspend(NULL);
-	//
-	while(1)
-	{
-		xSemaphoreTake(GNSSSemaphore,portMAX_DELAY);
-		GNSSRet = GNSSDataConvert(GNSSFifoBuff);
-		if(GNSSRet == GNSS_FIX) 
-		{
-			InfoPrint(PrintChannel,"GNSS is ready!\r\n");
-			GNSSData.alt_Init = GNSSData.alt;
-			GNSSData.lat_Init = GNSSData.lat;
-			GNSSData.lon_Init = GNSSData.lon;
-			xEventGroupSetBits(FMUCheckEvent,0xFF);
-			vTaskSuspend(NULL);
-		}
-		else
-		{
-			InfoPrint(PrintChannel,"GNSS is preparing!\r\n");
-		}
-	}
-}
-
-//FMUControlCalculation函数声明
-BaseType_t FMUControlCalculation_Ret;
-UBaseType_t FMUControlCalculation_Prio=28;
-TaskHandle_t FMUControlCalculation_TCB;
-
-void FMUControlCalculation(void *pvParameters)
-{
-	xEventGroupWaitBits(FMUCheckEvent,0x08,pdFALSE,pdTRUE,portMAX_DELAY);
-	while(1)
-	{
-		xSemaphoreTake(ControlSemaphore,portMAX_DELAY);
-//		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_SET);
-//		NevigationSolution();
-		FixedWingControl();
-//		HAL_GPIO_WritePin(TRIGGER_GPIO_Port,TRIGGER_Pin,GPIO_PIN_RESET);
-	}
-}
-
-//TaskMonitor函数声明
-BaseType_t TaskMonitor_Ret;
-UBaseType_t TaskMonitor_Prio=30;
-TaskHandle_t TaskMonitor_TCB;
-
-void TaskMonitor(void *pvParameters)
-{
-	char InfoBuffer[600];
-//	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
-	while(1)
-	{
-		taskENTER_CRITICAL();
-		vTaskList(InfoBuffer);
-		InfoPrint(DebugChannel,"---------------------------------------------\r\n");
-		InfoPrint(DebugChannel,InfoBuffer);
-		InfoPrint(DebugChannel,"---------------------------------------------\r\n");
-		taskEXIT_CRITICAL();
-		vTaskDelay(5000);
-		taskENTER_CRITICAL();
-		vTaskGetRunTimeStats(InfoBuffer);
-		InfoPrint(DebugChannel,"---------------------------------------------\r\n");
-		InfoPrint(DebugChannel,InfoBuffer);
-		InfoPrint(DebugChannel,"---------------------------------------------\r\n");
-		taskEXIT_CRITICAL();
-		vTaskDelay(5000);
-	}
-}
-
-//SDwrite函数声明
-BaseType_t SDWrite_Ret;
-UBaseType_t SDWrite_Prio=12;
-TaskHandle_t SDWrite_TCB;
-
-void SDWrite(void *pvParameters)
-{
-	uint8_t num = 0;
-	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
-	SDRet = f_mount(&SDFatFS,SDPath,1);
-	if(SDRet != FR_OK)
-	{
-		switch(SDRet)
-		{
-			case FR_NO_FILESYSTEM:
-				SDRet = f_mkfs(SDPath,FM_FAT32,0,work,_MAX_SS);
-				if(SDRet==FR_OK) 
-				{
-					SDRet = f_mount(&SDFatFS,SDPath,1);
-					if(SDRet == FR_OK) InfoPrint(PrintChannel,"TF mount successfully!\r\n");
-					else InfoPrint(PrintChannel,"TF mount successfully!\r\n");
-				}
-				break;
-			default:
-				InfoPrint(PrintChannel,"TF mount failed!\r\n");
-				while(1) ;
-		}
-	}
-	else if(SDRet == FR_OK) 
-	{
-		InfoPrint(PrintChannel,"TF mount successfully!\r\n");
-//		f_open(&SDFile,"TF test.txt",FA_WRITE|FA_CREATE_ALWAYS);
-//		f_printf(&SDFile,"TF write test!\n");
-//		f_close(&SDFile);
-	}
-	vTaskSuspend(NULL);
-	while(1)
-	{
-			//飞行参数保存
-//		if(IMURet == IMU_OK) sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",\
-//			ControlTime,"IMU OK!",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height);
-//		else sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",
-//			ControlTime,"IMU ERR!",IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,IMUData.gyr_x,IMUData.gyr_y,IMUData.gyr_z,IMUData.pitch,IMUData.roll,IMUData.yaw,IMUData.pressure,IMUData.height);
-//		f_printf(&SDFile,(char *)StorageBuff);
-//		if(GNSSRet == GNSS_FIX) sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f angle: %0.2f ",\
-//			"GNSS FIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle);
-//		else sprintf((char *)StorageBuff,"%s lon: %0.10f lat: %0.10f h: %0.2f v: %0.2f v_e: %0.2f v_n: %0.2f amgle: %0.2f ",\
-//			"GNSS NOFIX!",GNSSData.lon,GNSSData.lat,GNSSData.alt,GNSSData.velocity,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle);
-//		f_printf(&SDFile,(char *)StorageBuff);
-//		if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y: %0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver OK!",ReceiverChannel[5],ReceiverChannel[6],\
-//			expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
-//		else sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver ERR!",ReceiverChannel[5],ReceiverChannel[6],\
-//			expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
-//		f_printf(&SDFile,(char *)StorageBuff);
-//		sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f ",NavAttitudeData.tran_pitch,NavAttitudeData.tran_roll,NavAttitudeData.tran_yaw);
-//		f_printf(&SDFile,(char *)StorageBuff);
-		if(IMURet == IMU_OK) sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",\
-			ControlTime,"IMU OK!",IMUData.tran_acc_x,IMUData.tran_acc_y,IMUData.tran_acc_z,IMUData.tran_gyr_x,IMUData.tran_gyr_y,IMUData.tran_gyr_z,IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw,IMUData.pressure,IMUData.height);
-		else sprintf((char *)StorageBuff,"time: %0.2f %s ax: %0.2f ay: %0.2f az: %0.2f gx: %0.2f gy: %0.2f gz: %0.2f p: %0.2f r: %0.2f y: %0.2f pre: %0.2f h: %0.2f ",
-			ControlTime,"IMU ERR!",IMUData.tran_acc_x,IMUData.tran_acc_y,IMUData.tran_acc_z,IMUData.tran_gyr_x,IMUData.tran_gyr_y,IMUData.tran_gyr_z,IMUData.tran_pitch,IMUData.tran_roll,IMUData.tran_yaw,IMUData.pressure,IMUData.height);
-		f_printf(&SDFile,(char *)StorageBuff);
-		if(ReceiverRet == Receiver_OK) sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y: %0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver OK!",ReceiverChannel[5],ReceiverChannel[6],\
-			expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
-		else sprintf((char *)StorageBuff,"%s mode1: %u mode2: %u expect_p: %0.4f expect_r: %0.4f expect_y:%0.4f expect_t: %u expect_height: %0.2f servo_p: %0.4f servo_r: %0.4f servo_y: %0.4f ","Receiver ERR!",ReceiverChannel[5],ReceiverChannel[6],\
-			expected_pitch,expected_roll,expected_yaw,ReceiverChannel[2],expected_height,servo_pitch,servo_roll,servo_yaw);
-		f_printf(&SDFile,(char *)StorageBuff);
-		sprintf((char *)StorageBuff,"sp: %0.2f sr: %0.2f sy: %0.2f\n",NavAttitudeData.pitch,NavAttitudeData.roll,NavAttitudeData.yaw);
-		f_printf(&SDFile,(char *)StorageBuff);
-		num++;
-		if(num == 10)
-		{
-			f_sync(&SDFile);
-			num = 0;
-		}
-		vTaskDelay(100);
-	}
-}
-
 //IMUReceive函数声明
 BaseType_t IMUReceive_Ret;
 UBaseType_t IMUReceive_Prio=23;
@@ -249,21 +56,8 @@ TaskHandle_t IMUReceive_TCB;
 
 void IMUReceive(void *pvParameters)
 {
-	xEventGroupWaitBits(FMUCheckEvent,0x10,pdFALSE,pdTRUE,portMAX_DELAY);
 	HAL_UART_Receive_DMA(&huart2,IMUReceiveBuff,55);
 	__HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);
-	//初始化IMU高度
-	while(1)
-	{
-		xSemaphoreTake(IMUSemaphore,portMAX_DELAY);
-		IMURet = IMUDataConvert(IMUFifoBuff);
-		if(IMURet == IMU_OK)
-		{
-			NevigayionSolutinInit();
-			IMUData.height_Init = IMUData.height;
-			break;
-		}
-	}
 	while(1)
 	{
 		xSemaphoreTake(IMUSemaphore,portMAX_DELAY);
@@ -281,6 +75,7 @@ void IMUReceive(void *pvParameters)
 //			printf("%0.4f  %0.4f  %0.4f  %0.4f\r\n",IMUData.quaternion[0],IMUData.quaternion[1],IMUData.quaternion[2],IMUData.quaternion[3]);
 			//体坐标系到惯性坐标系
 //			printf("%0.4f  %0.4f  %0.4f  %0.4f  %0.4f  %0.4f\r\n",a_e,a_n,a_u,p_e,p_n,p_u);
+			ModelRocketControl();
 		}
 		else 
 		{
@@ -288,197 +83,3 @@ void IMUReceive(void *pvParameters)
 		}
 	}
 }
-
-//GNSSReceive函数声明
-BaseType_t GNSSReceive_Ret;
-UBaseType_t GNSSReceive_Prio=17;
-TaskHandle_t GNSSReceive_TCB;
-
-void GNSSReceive(void *pvParameters)
-{
-	GNSSInit();//初始化GNSS串口波特率
-	HAL_UART_Receive_DMA(GNSSHandle,GNSSReceiveBuff,1024);
-	__HAL_UART_ENABLE_IT(GNSSHandle,UART_IT_IDLE);
-	xEventGroupWaitBits(FMUCheckEvent,0x02,pdFALSE,pdTRUE,portMAX_DELAY);
-	while(1)
-	{
-		xSemaphoreTake(GNSSSemaphore,1500);
-		GNSSRet = GNSSDataConvert(GNSSFifoBuff);
-		if(GNSSRet == GNSS_FIX)
-		{
-	
-		}
-		else 
-		{
-//			InfoPrint(PrintChannel,"GNSS error!\r\n");
-		}
-	}
-}
-
-//ReceiverReceive函数声明
-BaseType_t ReceiverReceive_Ret;
-UBaseType_t ReceiverReceive_Prio=26;
-TaskHandle_t ReceiverReceive_TCB;
-
-void ReceiverReceive(void *pvParameters)
-{
-	HAL_UART_Receive_DMA(&huart5,ReceiverReceiveBuff,25);
-	__HAL_UART_ENABLE_IT(&huart5,UART_IT_IDLE);
-	xEventGroupWaitBits(FMUCheckEvent,0x04,pdFALSE,pdTRUE,portMAX_DELAY);
-	while(1)
-	{
-		xSemaphoreTake(ReceiverSemaphore,100);
-//		xSemaphoreTake(ReceiverSemaphore,portMAX_DELAY);
-		ReceiverRet = ReceiverDataConvert(ReceiverFifoBuff);
-		if(ReceiverRet == Receiver_OK)
-		{
-			ReceiverSolution();
-//			printf("%d  %d  %d  %d  %d  %d  %d  %d\r\n",ReceiverChannel[0],ReceiverChannel[1],ReceiverChannel[2],ReceiverChannel[3],ReceiverChannel[4],ReceiverChannel[5],ReceiverChannel[6],ReceiverChannel[7]);
-		}
-		else if(ReceiverRet == Receiver_ERR)
-		{
-//			InfoPrint(DebugChannel,"Receiver err!\r\n");
-		}
-		else if(ReceiverRet == Receiver_NOSignal)
-		{
-//			InfoPrint(DebugChannel,"Receiver no signal!\r\n");
-		}
-	}
-}
-
-//TeleportTransmit函数声明
-BaseType_t TeleportTransmit_Ret;
-UBaseType_t TeleportTransmit_Prio=10;
-TaskHandle_t TeleportTransmit_TCB;
-
-void TeleportTransmit(void *pvParameters)
-{
-	uint32_t voltage_uint32,current_uint32;
-	double voltage,current;
-	uint8_t ControlMode[10];
-//	xEventGroupWaitBits(FMUCheckEvent,0x08,pdFALSE,pdTRUE,portMAX_DELAY);
-	while(1)
-	{
-		HAL_ADC_Start(&hadc3);
-		HAL_ADC_PollForConversion(&hadc3,0x10);
-		current_uint32 = HAL_ADC_GetValue(&hadc3);
-		HAL_ADC_Start(&hadc3);
-		HAL_ADC_PollForConversion(&hadc3,0x10);
-		voltage_uint32 = HAL_ADC_GetValue(&hadc3);
-		voltage = voltage_uint32*0.00042802;
-		current = current_uint32*0.00005355;
-		HAL_ADC_Stop(&hadc3);
-		switch(FMUControlMode)
-		{
-			case FMU_Manual:
-				sprintf(ControlMode,"Manual");
-				break;
-			case FMU_Stable:
-				sprintf(ControlMode,"Stable");
-				break;
-			case FMU_Height:
-				sprintf(ControlMode,"Height");
-				break;
-			case FMU_Path:
-				sprintf(ControlMode,"Path");
-				break;
-			case FMU_Return:
-				sprintf(ControlMode,"Return");
-				break;
-		}
-//		sprintf(SendBuff,"%s p: %0.2f r: %0.2f y: %0.2f h_e: %0.2f h: %0.2f lon: %0.8f lat: %0.8f s: %0.2f v: %0.2f\r\n",ControlMode,NavAttitudeData.pitch,NavAttitudeData.roll,NavAttitudeData.yaw,expected_height,IMUData.height - IMUData.height_Init,GNSSData.lon,GNSSData.lat,GNSSData.velocity,voltage);
-		sprintf((char*)SendBuff,"%s ax: %0.2f ay: %0.2f az: %0.2f p: %0.2f r: %0.2f y: %0.2f ve: %0.2f vn: %0.2f angle: %0.2f lon: %0.8f lat: %0.8f alt: %0.2f h: %0.2f m: %0.2f j: %0.2f vol: %0.2f gsw: %0.2f \r\n",\
-		ControlMode,IMUData.acc_x,IMUData.acc_y,IMUData.acc_z,NavAttitudeData.pitch,NavAttitudeData.roll,NavAttitudeData.yaw,GNSSData.velocity_e,GNSSData.velocity_n,GNSSData.angle,\
-		GNSSData.lon,GNSSData.lat,GNSSData.alt,IMUData.height - IMUData.height_Init,1.0,1.0,voltage,guideswitch);
-		InfoPrint(PrintChannel,SendBuff);
-		vTaskDelay(500);
-	}
-}
-
-//TeleportReceive函数声明
-BaseType_t TeleportReceive_Ret;
-UBaseType_t TeleportReceive_Prio=10;
-TaskHandle_t TeleportReceive_TCB;
-
-void TeleportReceive(void *pvParameters)
-{
-	static uint16_t len,check,checkflag,i;
-	uint16_t *uint16_addr;
-//	xEventGroupWaitBits(FMUCheckEvent,0x04,pdFALSE,pdTRUE,portMAX_DELAY);
-	memset(TeleReceiveBuff,0,1024);
-	TeleRecAddr = TeleReceiveBuff;
-	__HAL_UART_CLEAR_IDLEFLAG(&huart8);
-	HAL_UART_Receive_DMA(&huart8,TeleRecAddr,512);
-	__HAL_UART_ENABLE_IT(&huart8,UART_IT_IDLE);
-	while(1)
-	{
-		xSemaphoreTake(TeleSemaphore,portMAX_DELAY);
-		if(TeleReceiveBuff[0] == 'B')
-		{
-			uint16_addr = TeleReceiveBuff+1;
-			len = *uint16_addr;
-			if(TeleReceiveBuff[len-1] != 0)
-			{
-				HAL_UART_AbortReceive(&huart8);
-				TeleRecAddr = TeleReceiveBuff;
-				HAL_UART_Receive_DMA(&huart8,TeleRecAddr,512);
-				check = 0;
-				for(i=0;i<len-3;i++)
-				{
-					check = check + TeleReceiveBuff[i];
-				}
-				uint16_addr = TeleReceiveBuff + len - 3;
-				checkflag = *uint16_addr;				
-				if((TeleReceiveBuff[len-1] == 'E')&&(checkflag == check))
-				{
-					TeleRecAddr = TeleReceiveBuff;
-					memcpy(TeleReceverData,TeleReceiveBuff+3,len-6);
-					curve_size[0] = round(TeleReceverData[0]);
-					curve_size[1] = round(TeleReceverData[1]);
-					num_curve = 1;
-					memset(TeleReceiveBuff,0,1024);
-					sprintf(SendBuff,"Path update success !\r\n");
-					InfoPrint(PrintChannel,SendBuff);
-				}
-				else
-				{
-					TeleRecAddr = TeleReceiveBuff;
-					memset(TeleReceiveBuff,0,1024);
-					sprintf(SendBuff,"Path update failed !\r\n");
-					InfoPrint(PrintChannel,SendBuff);
-				}
-			}
-		}
-		else
-		{
-			HAL_UART_AbortReceive(&huart8);
-			TeleRecAddr = TeleReceiveBuff;
-			HAL_UART_Receive_DMA(&huart8,TeleRecAddr,512);
-			memset(TeleReceiveBuff,0,1024);
-		}
-	}
-}
-
-
-//AirSpeedMeasure函数声明
-BaseType_t AirSpeedMeasure_Ret;
-UBaseType_t AirSpeedMeasure_Prio=12;
-TaskHandle_t AirSpeedMeasure_TCB;
-
-void AirSpeedMeasure(void *pvParameters)
-{
-	AirSpeedCalibration();
-	while(1)
-	{
-		MS5525_Ret = AirSpeedGet();
-		DiffPressure = (MS5525_TotalData.pre - MS5525_TotalData.pre_init) - (MS5525_StaticData.pre - MS5525_StaticData.pre_init);
-		DiffPressure = DiffPressure>0?DiffPressure:0;
-		AirSpeedData.AirSpeed = calc_IAS_corrected(0,0,DiffPressure,MS5525_StaticData.pre,MS5525_StaticData.temp);
-		if(MS5525_Ret == MS5525_OK)
-		{
-			printf("%0.4f  %0.4f\r\n",DiffPressure,AirSpeedData.AirSpeed);
-		}
-		vTaskDelay(1000);
-	}
-}
-

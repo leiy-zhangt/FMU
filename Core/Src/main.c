@@ -30,8 +30,6 @@
 #include "imu.h"
 #include "control.h"
 #include "ms5525.h"
-#include "airspeed.h"
-#include "guide.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

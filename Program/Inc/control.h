@@ -46,6 +46,6 @@ extern FMUControlModeSelect FMUControlMode;
 extern FMUControlModeSelect FMUControlModePrevious;
 
 void ServoSet(ServoChannel channel,double angle);
-void FixedWingControl(void);
+void ModelRocketControl(void);
 
 #endif
